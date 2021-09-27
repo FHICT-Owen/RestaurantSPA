@@ -6,7 +6,7 @@ import reportWebVitals from "./reportWebVitals";
 ReactDOM.render(
   <Auth0Provider
     domain="dev-cgiwratest.eu.auth0.com"
-    clientId="RrNB9ybZ08Tp8AcU8TLm6n4jBKSEruQW"
+    clientId="blMDZQYfALM467fVxACsMUlLZWnQgq3O"
     redirectUri={window.location.origin}
   >
     <App />
