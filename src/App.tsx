@@ -1,11 +1,11 @@
 import Auth from "./components/Auth";
-import Dishes from "./components/Dishes";
+import DishList from "./components/DishList";
 
 export default function App() {
   return (
-    <div>
+    <>
       <Auth />
-      <Dishes />
-    </div>
+      <DishList />
+    </>
   );
 }
