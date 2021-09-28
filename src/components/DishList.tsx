@@ -16,7 +16,6 @@ export default function DishList() {
 
   async function getDishes() {
     setDishes(dishes = (await axios.get(`${process.env.REACT_APP_MENU}/v1/dish`)).data)
-    console.log(dishes)
   }
 
   useEffect(() => {
@@ -24,9 +23,8 @@ export default function DishList() {
   }, [])
 
   function createDishList() {
-    let x = dishes
-    if(x === undefined) return <li></li>
-    else return x.map((dish: IDish, index) => (
+    if(dishes === undefined) return <li></li>
+    else return dishes.map((dish: IDish, index) => (
       <Dish 
         key={index}
         name={dish.name} 
