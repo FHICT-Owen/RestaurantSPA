@@ -6,7 +6,7 @@ interface IDish {
   id: number
   name: String
   description: String
-  image: any
+  image: Buffer
 }
 
 export default function DishList() {
@@ -16,6 +16,7 @@ export default function DishList() {
 
   async function getDishes() {
     setDishes(dishes = (await axios.get(`${process.env.REACT_APP_MENU}/v1/dish`)).data)
+    console.log(dishes)
   }
 
   useEffect(() => {

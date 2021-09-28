@@ -4,7 +4,7 @@ export default function Dish(props: any) {
       <div className="container menu-card">
         <div className="menu-item">
           <div>
-            <img className="menu-image" src={props.image} alt="menu-item-1"/>
+            <img className="menu-image" src={"data:image/png;base64," + props.image} alt="menu-item-1"/>
           </div>
           <div className="menu-text">
             <h5>{props.name}</h5>
