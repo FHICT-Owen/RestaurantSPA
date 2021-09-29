@@ -1,13 +1,7 @@
 import {useEffect, useState} from 'react';
 import axios from "axios";
+import {IDish} from "../types"
 import Dish from "./Dish"
-
-interface IDish {
-  id: number
-  name: String
-  description: String
-  image: Buffer
-}
 
 export default function DishList() {
   
