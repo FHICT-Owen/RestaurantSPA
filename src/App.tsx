@@ -1,13 +1,13 @@
-import Auth from "./components/Auth";
+import AuthButton from "./components/AuthButton";
 import DishList from "./components/DishList";
 import Dialog from "./components/Dialog";
 
 export default function App() {
   return (
     <>
-      <Auth />
+      <AuthButton />
       <Dialog />
       <DishList />
     </>
-  );
+  )
 }
