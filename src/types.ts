@@ -1,6 +1,6 @@
 export interface IDish {
 	id: number
-	name: String
-	description: String
+	name: string
+	description: string
 	image: number[]
 }
