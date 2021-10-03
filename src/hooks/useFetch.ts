@@ -8,7 +8,7 @@ export function useFetch<T>(url: string) {
 	useEffect(() => {
 		setState({data: null, loading: true})
 		axios.get(url)
-			.then((result) => setState({ data: result.data, loading: false}))
+			.then(result => setState({ data: result.data, loading: false}))
 			.catch(() => setState({ data: null, loading: false}))
 	}, [])
 

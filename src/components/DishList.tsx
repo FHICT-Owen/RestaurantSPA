@@ -1,31 +1,24 @@
-import {useEffect, useState} from 'react';
-import axios from "axios";
-import {IDish} from "../types"
+import { useFetch } from '../hooks/useFetch';
+import { IDish } from "../types"
 import Dish from "./Dish"
 
 export default function DishList() {
-  
-  let [dishes, setDishes] = useState<IDish[]>()
-  const [, setLoaded] = useState(false)
 
-  async function getDishes() {
-    setDishes(dishes = (await axios.get(`${process.env.REACT_APP_MENU}/v1/dish`)).data)
-  }
-
-  useEffect(() => {
-    getDishes().then(() => setLoaded(true))
-  }, [])
+  const {data: dishes, loading} = useFetch<IDish[]>(`${process.env.REACT_APP_MENU}/v1/dish`)
 
   function createDishList() {
-    if(dishes === undefined) return <li></li>
-    else return dishes.map((dish: IDish, index) => (
-      <Dish 
-        key={index}
-        name={dish.name} 
-        description={dish.description} 
-        image={dish.image} />
+    if (loading) return <li>loading...</li>
+    else {
+      if(dishes === null) return <li>no dishes found</li>
+      else return dishes.map((dish) => (
+        <Dish 
+          id={dish.id}
+          name={dish.name} 
+          description={dish.description} 
+          image={dish.image} />
+        )
       )
-    )
+    }
   }
 
   return <ul>{createDishList()}</ul>
