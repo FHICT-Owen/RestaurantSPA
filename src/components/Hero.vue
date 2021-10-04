@@ -14,9 +14,8 @@
 
 <script lang="ts">
 import store from '@/store'
-import { defineComponent } from 'vue'
 
-export default defineComponent({
+export default ({
   computed: {
     count(): number {
       return store.state.count
