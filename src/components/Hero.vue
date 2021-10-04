@@ -13,20 +13,19 @@
 </template>
 
 <script lang="ts">
-import store from '@/store';
+import store from '@/store'
+import { defineComponent } from 'vue'
 
-export default {
-  name: "Hero",
-  data() {
-    return {
-      count: 0
+export default defineComponent({
+  computed: {
+    count(): number {
+      return store.state.count
     }
   },
   methods: {
     increment () {
       store.dispatch('increment')
-      this.count = store.state.count
-    }
-  },
-};
+    },
+  }
+})
 </script>

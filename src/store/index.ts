@@ -8,7 +8,7 @@ export default createStore({
 	  increment: state => state.count += 1
   },
   actions: {
-	increment: ({commit}) => commit('increment')
+	  increment: ({commit}) => commit('increment')
   },
   modules: {
   }
