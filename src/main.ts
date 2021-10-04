@@ -6,6 +6,7 @@ import {Auth0} from "@/auth";
 import { library } from "@fortawesome/fontawesome-svg-core";
 import { faLink, faUser, faPowerOff } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/vue-fontawesome";
+import store from "./store";
 
 async function init() {
     const AuthPlugin = await Auth0.init({
@@ -25,6 +26,7 @@ async function init() {
     library.add(faLink, faUser, faPowerOff);
     app
         .use(AuthPlugin)
+        .use(store)
         .use(router)
         .component("font-awesome-icon", FontAwesomeIcon)
         .mount('#app');

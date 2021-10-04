@@ -8,11 +8,25 @@
         href="https://vuejs.org"
       >Vue.js</a>
     </p>
+    <button @click="increment">increment: count {{count}}</button>
   </div>
 </template>
 
-<script>
+<script lang="ts">
+import store from '@/store';
+
 export default {
-  name: "Hero"
+  name: "Hero",
+  data() {
+    return {
+      count: 0
+    }
+  },
+  methods: {
+    increment () {
+      store.dispatch('increment')
+      this.count = store.state.count
+    }
+  },
 };
 </script>
