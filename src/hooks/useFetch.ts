@@ -1,7 +1,7 @@
 import { useEffect, useRef, useState } from "react";
 import axios from "axios";
 
-export function useFetch<T>(url: string) {
+export function UseFetch<T>(url: string) {
 	const [state, setState] = useState<{data: T | null, loading: boolean}>({ data: null, loading: true})
 	const stateRef = useRef(() => {})
 

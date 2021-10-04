@@ -2,17 +2,16 @@ import AddDishButton from "./components/AddDishButton";
 import AuthButton from "./components/auth/AuthButton";
 import Dialog from "./components/Dialog";
 import DishList from "./components/DishList";
-import { ToggleProvider } from "./components/Provider";
+import { AppProvider } from "./context";
 
 export default function App() {
+
   return (
-    <>
-      <ToggleProvider>
-        <AddDishButton />
-        <Dialog />
-        <DishList />
-      </ToggleProvider>
+    <AppProvider>
       <AuthButton />
-    </>
+      <AddDishButton />
+      <Dialog />
+      <DishList />
+    </AppProvider>
   )
 }

@@ -1,42 +1,59 @@
-import { useState } from 'react'
+import { useContext, useEffect } from 'react'
+import { AppContext } from '../context';
 import { useForm } from '../hooks/useForm';
 import { IDish } from "../types"
 import axios from 'axios'
 import "./Dialog.css"
-import { useToggle } from './Provider';
+import { Types } from '../reducers';
+import { convertFileToNumberArray } from '../utils';
 
 export default function Dialog() {
 
-	const [values, handleOnChange] = useForm<{name: string, description: string}>({name: '', description: ''})
-	const [image, setImage] = useState<number[]>([])
-	let [dish, setDish] = useState<IDish>({id: 0, name: "", description: "", image: []})
+	const [values, handleOnChange] = useForm<{
+		name: string, 
+		description: string, 
+		image: File
+	}>({name: '', description: '', image: File.prototype})
 
-	const context = useToggle()
+	const { state } = useContext(AppContext);
 
-	const updateImageInput = (e: any) => {
-		var files: FileList = e.target.files
-		files[0].arrayBuffer().then((result) => setImage([...new Uint8Array(result)]))
-	}
+	let dish: IDish = {id: 0, name: "", description: "", image: []}
 
-	function switchButtons(showAdd: boolean) {
-		return showAdd ?
-			<button onClick={
+	useEffect(() => {
+		console.log('render')
+	}, [state.dialog.isOpen])
+
+	function switchButtons(showAdd: Types) {
+		if (showAdd === Types.Add) {
+			return <button onClick={
 				async () => {
-					setDish(dish = {id: 0, name: values.name, description: values.description, image: image})
-					await axios.post(`${process.env.REACT_APP_MENU}/v1/dish`, dish)
+					const image = await convertFileToNumberArray(values.image)
+					dish = {id: 0, name: values.name, description: values.description, image: image}
+					await axios.post(`${process.env.REACT_APP_MENU}/v1/dish/`, dish)
+					// dispatch({type: Types.Fetch})
 				}
 			}>Add</button>
-		:
-			<button onClick={
+		} else {
+
+			/////
+			///// TODO: make sure that the dialog rerenders and input values are set correctly
+			/////  (useEffect) might work
+
+			dish.id = state.dialog.dish.id
+			dish.name = values.name
+			dish.description = values.description
+			return <button onClick={
 				async () => {
-					setDish(dish = {id: 0, name: values.name, description: values.description, image: image})
-					await axios.put(`${process.env.REACT_APP_MENU}/v1/dish`, dish)
+					const image = await convertFileToNumberArray(values.image)
+					dish.image = image
+					await axios.put(`${process.env.REACT_APP_MENU}/v1/dish/${state.dialog.dish.id}`, dish)
 				}
 			}>Edit</button>
+		}
 	}
 
 	return (
-		<dialog className="Dialog" open={context.state.isOpen}>
+		<dialog className="Dialog" open={state.dialog.isOpen}>
 			<input 
 				className="Input"
 				name="name"
@@ -53,9 +70,9 @@ export default function Dialog() {
 				type="file" 
 				className="FileUpload"
 				name="image"
-				onChange={updateImageInput}
+				onChange={handleOnChange}
 			/>
-			{switchButtons(context.state.isAdd)}
+			{switchButtons(state.dialog.currentDialogType)}
 		</dialog>
 	)
 }

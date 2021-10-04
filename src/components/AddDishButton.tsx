@@ -1,17 +1,10 @@
-// import { ActionKind } from "../types"
-import { useToggle } from "./Provider"
-
-// export default function AddDishButton() {
-
-// 	// const {dispatch} = useToggle()
-// 	return (
-// 		<button onClick={()=>{dispatch({type: ActionKind.add, payload: {id: 0, name: "", description: "", image: []}})}}>Add</button>
-// 	)
-// }
+import { useContext } from "react";
+import { AppContext } from "../context"
+import { Types } from "../reducers"
 
 export default function AddDishButton() {
 
-	const {dispatch} = useToggle()
+	const { dispatch } = useContext(AppContext);
 
-	return <button onClick={()=> dispatch({type: 'add'})}>Add</button>
+	return <button onClick={()=> dispatch({type: Types.Add})}>Add</button>
 }
