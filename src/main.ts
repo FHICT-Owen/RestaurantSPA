@@ -16,9 +16,9 @@ async function init() {
                     : window.location.pathname,
             )
         },
-        clientId: process.env.VUE_APP_AUTH0_CLIENT_KEY,
-        domain: process.env.VUE_APP_AUTH0_DOMAIN,
-        audience: process.env.VUE_APP_AUTH0_AUDIENCE,
+        clientId: process.env.local.VUE_APP_AUTH0_CLIENT_KEY,
+        domain: process.env.local.VUE_APP_AUTH0_DOMAIN,
+        audience: process.env.local.VUE_APP_AUTH0_AUDIENCE,
         redirectUri: window.location.origin,
     });
     const app = createApp(App);
