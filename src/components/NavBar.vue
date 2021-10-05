@@ -128,20 +128,18 @@ export default {
   inject: ["Auth"],
   methods: {
     login() {
-      this.Auth.loginWithRedirect();
+      this.Auth.loginWithRedirect()
     },
     logout() {
-      this.Auth.logout();
-      this.$router.push({ path: "/" });
-    },
+      this.Auth.logout()
+      this.$router.push({ path: "/" })
+    }
   },
   setup() {
-    const auth = inject("Auth");
-    return {
-      ...auth,
-    };
-  },
-};
+    const auth = inject("Auth")
+    return { ...auth }
+  }
+}
 </script>
 
 <style>

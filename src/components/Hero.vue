@@ -23,13 +23,11 @@ export default {
   inject: ["Auth"],
   components: {
     ButtonOption,
-    ButtonComp,
+    ButtonComp
   },
   setup() {
     const auth = inject("Auth");
-    return {
-      ...auth
-    };
-  },
-};
+    return { ...auth }
+  }
+}
 </script>

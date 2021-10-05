@@ -14,7 +14,7 @@ export default ({
   methods: {
     increment () {
       store.dispatch('incrementOption')
-    },
+    }
   }
 })
 </script>

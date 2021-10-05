@@ -17,22 +17,20 @@
   </div>
 </template>
 
-<script>
-
+<script lang="ts">
+import NavBar from './components/NavBar.vue';
+import Error from './components/Error.vue';
 import store from '@/store'
-import NavBar from "./components/NavBar";
-import Error from "./components/Error";
 
 export default {
-  
-  async mounted(){
-      await store.dispatch('getAllCategories'),
-      await store.dispatch('getAllDishes')
-  },
-
+  name: 'App',
   components: {
     NavBar,
     Error
+  },
+  async mounted(){
+    await store.dispatch('getAllCategories'),
+    await store.dispatch('getAllDishes')
   }
-};
+}
 </script>

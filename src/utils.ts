@@ -3,6 +3,5 @@ export function convertNumberArrayToImageUrl(image: number[]): string {
 }
 
 export async function convertFileToNumberArray(image: File): Promise<number[]> {
-    console.log(image)
     return image.arrayBuffer().then(result => ([...new Uint8Array(result)]))
 }

@@ -1,7 +1,7 @@
-import {createApp} from "vue";
+import { createApp } from "vue";
 import App from "./App.vue";
 import router from "./router";
-import {Auth0} from "@/auth";
+import { Auth0 } from "@/auth";
 
 import { library } from "@fortawesome/fontawesome-svg-core";
 import { faLink, faUser, faPowerOff } from "@fortawesome/free-solid-svg-icons";

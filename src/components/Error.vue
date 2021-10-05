@@ -9,13 +9,13 @@
 
 <script>
 export default {
-    name:     "Error",
-    inject:   ['Auth'],
-    computed: {
-        msg() {
-            return this.Auth.error;
-        }
+  name:     "Error",
+  inject:   ['Auth'],
+  computed: {
+    msg() {
+      return this.Auth.error
     }
-};
+  }
+}
 </script>
 
