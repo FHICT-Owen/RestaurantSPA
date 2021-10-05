@@ -3,6 +3,12 @@
 
 name: Deploy to Firebase Hosting on PR
 'on': pull_request
+env:
+  VUE_APP_NAME: DMA
+  VUE_APP_API_URL: /api
+  VUE_APP_AUTH0_CLIENT_KEY: ${{secrets.AUTH0_CLIENT_KEY}}
+  VUE_APP_AUTH0_DOMAIN: ${{secrets.AUTH0_DOMAIN}}
+  VUE_APP_AUTH0_AUDIENCE: ${{secrets.AUTH0_AUDIENCE}}
 jobs:
   build_and_preview:
     if: '${{ github.event.pull_request.head.repo.full_name == github.repository }}'
