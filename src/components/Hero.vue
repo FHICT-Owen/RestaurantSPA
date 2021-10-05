@@ -13,7 +13,7 @@
   </div>
 </template>
 
-<script>
+<script lang="ts">
 import ButtonOption from './ButtonOptionApi.vue'
 import ButtonComp from './ButtonCompositionApi.vue'
 
