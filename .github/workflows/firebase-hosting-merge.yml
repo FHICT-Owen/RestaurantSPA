@@ -18,3 +18,9 @@ jobs:
           firebaseServiceAccount: '${{ secrets.FIREBASE_SERVICE_ACCOUNT_MENUSPA_49182 }}'
           channelId: live
           projectId: menuspa-49182
+        env: 
+          VUE_APP_NAME: 'DMA'
+          VUE_APP_API_URL: '/api'
+          VUE_APP_AUTH0_DOMAIN: '${{ secrets.AUTH0_DOMAIN }}'
+          VUE_APP_AUTH0_AUDIENCE: ''
+          VUE_APP_AUTH0_CLIENT_KEY: '${{ secrets.AUTH0_CLIENT_KEY }}'      
