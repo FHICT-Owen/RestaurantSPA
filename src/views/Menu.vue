@@ -3,7 +3,8 @@
     <div class="mb-5">
       <h1>Menu</h1>
       <ul>
-        <li v-for="category of categories" :key="category.id">{{categories}}</li>
+        <li>{{categories}}</li>
+        <li>{{dishes}}</li>
       </ul>
     </div>    
   </div>
@@ -17,7 +18,9 @@ export default {
     setup() {
       
     let categories = computed(() => store.state.categories)
-    return { categories }
+
+    let dishes = computed(() => store.state.dishes)
+    return { categories, dishes }
 	}
 };
 </script>

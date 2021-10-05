@@ -1,14 +1,17 @@
 import { createStore } from 'vuex'
 import categoryDataService from '@/services/CategoryDataService'
+import dishDataService from '@/services/DishDataService'
 
 export default createStore({
   state: {
     categories: [] as Category[],
+    dishes: [] as Dish[],
 	  countOption: 0,
     countComp: 0
   },
   mutations: {
     setCategories: (state, categories) => state.categories = categories,
+    setDishes: (state, dishes) => state.dishes = dishes,
 	  incrementOption: state => state.countOption += 1,
 	  incrementComp: state => state.countComp += 1
   },
@@ -16,6 +19,10 @@ export default createStore({
     async getAllCategories ({commit}) {
       const categories = await categoryDataService.getAllCategories()
       return commit('setCategories', categories)
+  },
+  async getAllDishes ({commit}) {
+    const dishes = await dishDataService.getAllDishes()
+    return commit('setDishes', dishes)
   },
 	  incrementOption: ({commit}) => commit('incrementOption'),
 	  incrementComp: ({commit}) => commit('incrementComp')

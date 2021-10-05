@@ -26,7 +26,8 @@ import Error from "./components/Error";
 export default {
   
   async mounted(){
-      await store.dispatch('getAllCategories')
+      await store.dispatch('getAllCategories'),
+      await store.dispatch('getAllDishes')
   },
 
   components: {
