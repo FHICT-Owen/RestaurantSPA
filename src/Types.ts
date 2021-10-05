@@ -5,5 +5,6 @@ interface Category {
 interface Dish {
     id:number,
     name:string,
-    description:string
+    description:string,
+    image:number[]
 }
