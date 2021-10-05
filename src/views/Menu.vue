@@ -3,7 +3,9 @@
     <div class="mb-5">
       <h1>Menu</h1>
       <ul>
-        <li>{{categories}}</li>
+        <Category :category="category" v-for="category of categories" :key="category.id" />
+      </ul>
+      <ul>
         <li>{{dishes}}</li>
       </ul>
     </div>    
@@ -13,6 +15,7 @@
 <script>
 import store from '@/store'
 import { computed } from 'vue'
+import Category from '../components/Category.vue'
 
 export default {
     setup() {
@@ -21,6 +24,9 @@ export default {
 
     let dishes = computed(() => store.state.dishes)
     return { categories, dishes }
-	}
+	},
+  components:{
+    Category
+    }
 };
 </script>
