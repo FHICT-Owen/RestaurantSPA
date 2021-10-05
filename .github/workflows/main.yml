@@ -1,0 +1,19 @@
+name: Build Vue
+on:
+  # Triggers the workflow on push or pull request events but only for the develop branch
+  push:
+    branches: [ develop ]
+  pull_request:
+    branches: [ develop ]
+jobs:
+  build_vue:
+    runs-on: ubuntu-latest
+    name: Build Vue
+    steps:
+    - uses: actions/checkout@v2
+    - id: Build-Vue
+      uses: xRealNeon/VuePagesAction@1.0.0
+      with:
+        username: 'OwendB1'
+        reponame: 'MenuSPA'
+        token: ${{ secrets.GITHUB_TOKEN }} # Leave this line unchanged
