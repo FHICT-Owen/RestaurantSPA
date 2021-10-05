@@ -18,10 +18,17 @@
 </template>
 
 <script>
+
+import store from '@/store'
 import NavBar from "./components/NavBar";
 import Error from "./components/Error";
 
 export default {
+  
+  async mounted(){
+      await store.dispatch('getAllCategories')
+  },
+
   components: {
     NavBar,
     Error
