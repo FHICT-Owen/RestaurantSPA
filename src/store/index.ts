@@ -2,13 +2,16 @@ import { createStore } from 'vuex'
 
 export default createStore({
   state: {
-	  count: 0
+	  countOption: 0,
+    countComp: 0
   },
   mutations: {
-	  increment: state => state.count += 1
+	  incrementOption: state => state.countOption += 1,
+	  incrementComp: state => state.countComp += 1
   },
   actions: {
-	  increment: ({commit}) => commit('increment')
+	  incrementOption: ({commit}) => commit('incrementOption'),
+	  incrementComp: ({commit}) => commit('incrementComp')
   },
   modules: {
   }

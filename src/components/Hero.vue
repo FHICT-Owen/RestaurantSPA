@@ -8,23 +8,19 @@
         href="https://vuejs.org"
       >Vue.js</a>
     </p>
-    <button @click="increment">increment: count {{count}}</button>
+    <ButtonOption />
+    <ButtonComp />
   </div>
 </template>
 
-<script lang="ts">
-import store from '@/store'
+<script>
+import ButtonOption from './ButtonOptionApi.vue'
+import ButtonComp from './ButtonCompositionApi.vue'
 
 export default ({
-  computed: {
-    count(): number {
-      return store.state.count
-    }
-  },
-  methods: {
-    increment () {
-      store.dispatch('increment')
-    },
+  components: {
+    ButtonOption,
+    ButtonComp
   }
 })
 </script>
