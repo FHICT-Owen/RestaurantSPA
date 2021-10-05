@@ -8,19 +8,10 @@
         href="https://vuejs.org"
       >Vue.js</a>
     </p>
-    <ButtonOption />
-    <ButtonComp />
   </div>
 </template>
 
 <script lang="ts">
-import ButtonOption from './ButtonOptionApi.vue'
-import ButtonComp from './ButtonCompositionApi.vue'
 
-export default ({
-  components: {
-    ButtonOption,
-    ButtonComp
-  }
-})
+export default ({})
 </script>
