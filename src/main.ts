@@ -11,7 +11,7 @@ import store from "./store";
 const functions = require('firebase-functions');
 
 async function init() {
-  if(process.env == null) {
+  if (process.env.VUE_APP_AUTH0_CLIENT_KEY == null) {
     const AuthPlugin = await Auth0.init({
       onRedirectCallback: (appState) => {
         router.push(
