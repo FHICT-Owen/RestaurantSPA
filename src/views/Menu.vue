@@ -37,8 +37,8 @@ export default {
 <style>
 @font-face {
   font-family: SF Pro Display;
-    src: url("../fonts/SFPRODISPLAYREGULAR.OTF");
-  }
+  src: url("../fonts/SFPRODISPLAYREGULAR.OTF");
+}
 
 .food-card {
   position: relative;
