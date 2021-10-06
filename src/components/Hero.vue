@@ -15,18 +15,18 @@
 </template>
 
 <script>
-import ButtonOption from "./ButtonOptionApi.vue";
-import ButtonComp from "./ButtonCompositionApi.vue";
-import { inject } from "vue";
+import ButtonOption from './ButtonOptionApi.vue'
+import ButtonComp from './ButtonCompositionApi.vue'
+import { inject } from 'vue'
 
 export default {
-  inject: ["Auth"],
+  inject: ['Auth'],
   components: {
     ButtonOption,
     ButtonComp
   },
-  setup() {
-    const auth = inject("Auth");
+  setup () {
+    const auth = inject('Auth')
     return { ...auth }
   }
 }

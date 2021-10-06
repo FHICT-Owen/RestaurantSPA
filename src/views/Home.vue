@@ -7,11 +7,11 @@
 </template>
 
 <script lang="ts">
-import Hero from "../components/Hero.vue";
-import HomeContent from "../components/HomeContent.vue";
+import Hero from '../components/Hero.vue'
+import HomeContent from '../components/HomeContent.vue'
 
 export default {
-  name: "Home",
+  name: 'Home',
   components: {
     Hero,
     HomeContent

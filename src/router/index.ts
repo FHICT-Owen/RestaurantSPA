@@ -1,34 +1,34 @@
-import { createRouter, createWebHistory, RouteRecordRaw } from "vue-router";
-import Home from "../views/Home.vue";
-import Profile from "../views/Profile.vue";
-import ExternalApi from "../views/ExternalApi.vue";
-import Menu from "../views/Menu.vue";
+import { createRouter, createWebHistory, RouteRecordRaw } from 'vue-router'
+import Home from '../views/Home.vue'
+import Profile from '../views/Profile.vue'
+import ExternalApi from '../views/ExternalApi.vue'
+import Menu from '../views/Menu.vue'
 
-import { Auth0 } from "@/auth";
+import { Auth0 } from '@/auth'
 
 const routes: Array<RouteRecordRaw> = [
   {
-    path: "/",
-    name: "home",
+    path: '/',
+    name: 'home',
     component: Home
   },
   {
-    path: "/profile",
-    name: "profile",
+    path: '/profile',
+    name: 'profile',
     component: Profile,
     beforeEnter: Auth0.routeGuard
   },
   {
-    path: "/external-api",
+    path: '/external-api',
     component: ExternalApi,
     beforeEnter: Auth0.routeGuard
   },
   {
-    path: "/menu/",
-    name: "menu",
+    path: '/menu/',
+    name: 'menu',
     component: Menu,
     beforeEnter: Auth0.routeGuard
-  },
+  }
 ]
 
 const router = createRouter({

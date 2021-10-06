@@ -20,7 +20,7 @@ export default ({
   props: {
     dish: {} as Dish
   },
-  setup(props: { dish: Dish }) {
+  setup (props: { dish: Dish }) {
     const image = convertNumberArrayToImageUrl(props.dish.image)
     return { image }
   }

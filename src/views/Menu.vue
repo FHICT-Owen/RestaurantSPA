@@ -10,7 +10,7 @@
       <ul>
         <Dish v-for="dish of dishes" :key="dish.id" :dish="dish" />
       </ul>
-    </div>    
+    </div>
   </div>
 </template>
 
@@ -22,15 +22,15 @@ import { ref } from 'vue'
 
 export default {
   name: 'Menu',
-  components:{
+  components: {
     Category,
     Dish
   },
-  setup() {
+  setup () {
     const categories = ref(store.state.categories)
     const dishes = ref(store.state.dishes)
-    return {categories, dishes}
-	}
+    return { categories, dishes }
+  }
 }
 </script>
 
@@ -52,7 +52,7 @@ export default {
   right: 0%;
   top: 0%;
   bottom: 0%;
-  
+
   background: #FFFFFF;
   box-shadow: -1px 1px 4px 1px rgba(0, 0, 0, 0.1);
   border-radius: 25px;
@@ -75,7 +75,7 @@ export default {
 
   color: #000000;
 }
-  
+
 .menu-image {
   position: absolute;
   left: 1.43%;
@@ -86,7 +86,7 @@ export default {
   mix-blend-mode: normal;
   border-radius: 22px;
 }
-  
+
 .description-frame{
   position: absolute;
   left: 32%;
@@ -101,13 +101,13 @@ export default {
   height: 48px;
   left: 0px;
   top: 0px;
-  
+
   font-family: SF Pro Display;
   font-style: normal;
   font-weight: 500;
   font-size: 13px;
   line-height: 16px;
-  
+
   color: #9F9F9F;
 }
 

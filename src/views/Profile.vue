@@ -21,12 +21,12 @@
 </template>
 
 <script>
-import { inject } from 'vue';
+import { inject } from 'vue'
 
 export default {
-  name: "Profile",
-  setup() {
-    const auth = inject("Auth");
+  name: 'Profile',
+  setup () {
+    const auth = inject('Auth')
     return { ...auth }
   }
 }
