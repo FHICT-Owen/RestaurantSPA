@@ -7,4 +7,8 @@ export default class DishDataService {
     const result = await axios.get(`${this.API_URL}/dish/`)
     return result.data
   }
+
+  public static async createDish (dish: Dish) {
+    await axios.post(`${this.API_URL}/dish/`, dish)
+  }
 }
