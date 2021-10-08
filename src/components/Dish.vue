@@ -23,7 +23,7 @@ export default ({
   },
   setup (props: { dish: Dish }) {
     function openEditDialog() {
-      store.dispatch("toggleIsOpen")
+      store.dispatch("toggleIsOpen", [true, props.dish])
     }
     const image = convertNumberArrayToImageUrl(props.dish.image)
     return { openEditDialog, image }

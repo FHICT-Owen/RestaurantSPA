@@ -7,13 +7,15 @@ export default createStore({
     categories: [] as Category[],
     dishes: [] as Dish[],
     isOpen: false,
+    isEditDialog: false,
+    currentDish: {} as Dish,
     countOption: 0,
     countComp: 0
   },
   mutations: {
     setCategories: (state, categories) => { state.categories = categories },
     setDishes: (state, dishes) => { state.dishes = dishes },
-    toggleIsOpen: (state) => { state.isOpen = !state.isOpen },
+    toggleIsOpen: (state, payload: [boolean, Dish]) => { state.isOpen = !state.isOpen, state.isEditDialog = payload[0], state.currentDish = payload[1]},
     createNewDish: (state) => { state.isOpen = !state.isOpen },
     incrementOption: state => state.countOption++,
     incrementComp: state => state.countComp++
@@ -32,9 +34,17 @@ export default createStore({
       await categoryDataService.createCategory(category)
     },
 
-    toggleIsOpen: ({ commit }) => commit('toggleIsOpen'),
+    toggleIsOpen: ({ commit }, payload) => {
+      console.log(payload);
+      return commit('toggleIsOpen', payload)
+    },
     async createNewDish ({ commit }, dish: Dish) {
       await dishDataService.createDish(dish)
+      return commit('toggleIsOpen')
+    },
+    async editDish({ commit }, dish: Dish) {
+      console.log(dish)
+      await dishDataService.editDish(dish)
       return commit('toggleIsOpen')
     },
     incrementOption: ({ commit }) => commit('incrementOption'),

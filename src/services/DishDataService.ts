@@ -12,7 +12,7 @@ export default class DishDataService {
     await axios.post(`${this.API_URL}/dish/`, dish)
   }
 
-  public static async updateDish(dishId: number, dish: Dish) {
-    const result = await axios.put(`${this.API_URL}/dish/${dishId}`, dish) 
+  public static async editDish(dish: Dish) {
+    const result = await axios.put(`${this.API_URL}/dish/${dish.id}`, dish) 
   }
 }
