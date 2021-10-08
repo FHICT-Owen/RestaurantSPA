@@ -24,6 +24,9 @@ export default createStore({
       const dishes = await dishDataService.getAllDishes()
       return commit('setDishes', dishes)
     },
+    // async addNewCategory ({commit}, category:Category) {
+    //   const addNewCategory = await categoryDataService.addNewCategory(category)
+    // },
     incrementOption: ({ commit }) => commit('incrementOption'),
     incrementComp: ({ commit }) => commit('incrementComp')
   },

@@ -8,9 +8,9 @@ export default class CategoryDataService {
     return result.data
   }
 
-  // public async addNewCategory(outcome: Category): Promise<void> {
-  //     const result = await axios.post(`${this.API_URL}/outcome/, outcome`)
-  //     return result.data;
+  // public static async addNewCategory(category: Category): Promise<void> {
+  //   const result = await axios.post(`${this.API_URL}/categories/, category`)
+  //   return result.data
   // }
 
   // public async deleteAllCategory(): Promise<void> {

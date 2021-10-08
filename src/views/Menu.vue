@@ -3,6 +3,10 @@
     <div class="mb-5">
       <h1>Menu</h1>
       <h2>Categories</h2>
+      <form @submit.prevent="addNewCategory">
+        <input v-model="newCategory" name="newCategory">
+        <button class="btn btn-primary rounded">Add</button>
+      </form>
       <ul>
         <Category v-for="category of categories" :key="category.id" :category="category" />
       </ul>
@@ -29,6 +33,7 @@ export default {
   setup () {
     const categories = ref(store.state.categories)
     const dishes = ref(store.state.dishes)
+
     return { categories, dishes }
   }
 }
