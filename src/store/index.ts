@@ -6,12 +6,15 @@ export default createStore({
   state: {
     categories: [] as Category[],
     dishes: [] as Dish[],
+    isOpen: false,
     countOption: 0,
     countComp: 0
   },
   mutations: {
     setCategories: (state, categories) => { state.categories = categories },
     setDishes: (state, dishes) => { state.dishes = dishes },
+    toggleIsOpen: (state) => { state.isOpen = !state.isOpen },
+    createNewDish: (state) => { state.isOpen = !state.isOpen },
     incrementOption: state => state.countOption++,
     incrementComp: state => state.countComp++
   },
@@ -27,6 +30,11 @@ export default createStore({
     // async addNewCategory ({commit}, category:Category) {
     //   const addNewCategory = await categoryDataService.addNewCategory(category)
     // },
+    toggleIsOpen: ({ commit }) => commit('toggleIsOpen'),
+    async createNewDish ({ commit }, dish: Dish) {
+      await dishDataService.createDish(dish)
+      return commit('toggleIsOpen')
+    },
     incrementOption: ({ commit }) => commit('incrementOption'),
     incrementComp: ({ commit }) => commit('incrementComp')
   },

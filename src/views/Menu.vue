@@ -11,30 +11,35 @@
         <Category v-for="category of categories" :key="category.id" :category="category" />
       </ul>
       <h2>Dishes</h2>
+      <button @click="toggleDialog">add</button>
       <ul>
         <Dish v-for="dish of dishes" :key="dish.id" :dish="dish" />
       </ul>
     </div>
+    <Dialog v-show="isOpen" />
   </div>
 </template>
 
 <script lang="ts">
 import Category from '../components/Category.vue'
 import Dish from '../components/Dish.vue'
+import Dialog from '../components/Dialog.vue'
 import store from '@/store'
-import { ref } from 'vue'
+import { computed, ref } from 'vue'
 
 export default {
   name: 'Menu',
   components: {
     Category,
-    Dish
+    Dish,
+    Dialog
   },
   setup () {
     const categories = ref(store.state.categories)
-    const dishes = ref(store.state.dishes)
-
-    return { categories, dishes }
+    const dishes = computed(() => store.state.dishes)
+    const toggleDialog = () => store.dispatch('toggleIsOpen')
+    const isOpen = computed(() => store.state.isOpen)
+    return { categories, dishes, toggleDialog, isOpen }
   }
 }
 </script>
