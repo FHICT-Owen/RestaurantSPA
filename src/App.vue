@@ -18,8 +18,8 @@
 </template>
 
 <script lang="ts">
-import NavBar from './components/NavBar.vue';
-import Error from './components/Error.vue';
+import NavBar from './components/NavBar.vue'
+import Error from './components/Error.vue'
 import store from '@/store'
 
 export default {
@@ -28,8 +28,8 @@ export default {
     NavBar,
     Error
   },
-  async mounted(){
-    await store.dispatch('getAllCategories'),
+  async mounted () {
+    await store.dispatch('getAllCategories')
     await store.dispatch('getAllDishes')
   }
 }

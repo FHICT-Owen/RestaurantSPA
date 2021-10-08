@@ -7,22 +7,14 @@
 </template>
 
 <script lang="ts">
-import Hero from "../components/Hero.vue";
-import HomeContent from "../components/HomeContent.vue";
+import Hero from '../components/Hero.vue'
+import HomeContent from '../components/HomeContent.vue'
 
 export default {
-  name: "Home",
+  name: 'Home',
   components: {
     Hero,
     HomeContent
   }
 }
 </script>
-
-<style lang="scss" scoped>
-.next-steps {
-  .fa-link {
-    margin-right: 5px;
-  }
-}
-</style>

@@ -21,28 +21,28 @@
 </template>
 
 <script>
-import axios from "axios";
+import axios from 'axios'
 
 export default {
-  name: "Api",
-  data() {
+  name: 'Api',
+  data () {
     return {
       apiMessage: null,
       executed: false
     }
   },
-  inject:  ['Auth'],
+  inject: ['Auth'],
   methods: {
-    async callApi() {
-      const accessToken = await this.Auth.getTokenSilently();
+    async callApi () {
+      const accessToken = await this.Auth.getTokenSilently()
       try {
-        const {data} = await axios.get("http://localhost:5000/api/claims", {
+        const { data } = await axios.get('http://localhost:5000/api/claims', {
           headers: {
             Authorization: `Bearer ${accessToken}`
           }
         })
-        this.apiMessage = data;
-        this.executed   = true;
+        this.apiMessage = data
+        this.executed = true
       } catch (e) {
         this.apiMessage = `Error: the server responded with '${e.response.status}: ${e.response.statusText}'`
       }

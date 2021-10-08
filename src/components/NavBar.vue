@@ -121,22 +121,22 @@
 </template>
 
 <script>
-import { inject } from "vue";
+import { inject } from 'vue'
 
 export default {
-  name: "NavBar",
-  inject: ["Auth"],
+  name: 'NavBar',
+  inject: ['Auth'],
   methods: {
-    login() {
+    login () {
       this.Auth.loginWithRedirect()
     },
-    logout() {
+    logout () {
       this.Auth.logout()
-      this.$router.push({ path: "/" })
+      this.$router.push({ path: '/' })
     }
   },
-  setup() {
-    const auth = inject("Auth")
+  setup () {
+    const auth = inject('Auth')
     return { ...auth }
   }
 }

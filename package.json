@@ -6,32 +6,74 @@
     "serve": "vue-cli-service serve --port 3000",
     "build": "vue-cli-service build"
   },
+  "eslintConfig": {
+    "env": {
+      "browser": true,
+      "es2021": true
+    },
+    "extends": [
+      "plugin:vue/essential"
+    ],
+    "parserOptions": {
+      "ecmaVersion": 12,
+      "parser": "@typescript-eslint/parser",
+      "sourceType": "module"
+    },
+    "plugins": [
+      "vue",
+      "@typescript-eslint"
+    ],
+    "rules": {
+      "indent": ["error", 2],
+      "no-multi-spaces": ["error"],
+      "quotes": ["error", "single"],
+      "semi": ["error", "never"]
+    }
+  },
+  "browserslist": {
+    "production": [
+      ">0.2%",
+      "not dead",
+      "not op_mini all"
+    ],
+    "development": [
+      "last 1 chrome version",
+      "last 1 firefox version",
+      "last 1 safari version"
+    ]
+  },
   "dependencies": {
-    "@auth0/auth0-spa-js": "^1.13.6",
+    "@auth0/auth0-spa-js": "^1.18.0",
     "@fortawesome/fontawesome-svg-core": "^1.2.32",
     "@fortawesome/free-solid-svg-icons": "^5.15.1",
     "@fortawesome/vue-fontawesome": "3.0.0-3",
-    "axios": "^0.21.1",
-    "core-js": "^3.6.5",
+    "axios": "^0.22.0",
+    "core-js": "^3.18.2",
     "element-plus": "^1.0.2-beta.28",
     "firebase-admin": "^9.12.0",
     "firebase-functions": "^3.15.7",
+    "register-service-worker": "^1.7.1",
     "vue": "^3.0.0",
     "vue-router": "^4.0.0-0",
     "vuex": "^4.0.0-0"
   },
   "devDependencies": {
-    "@vue/cli-plugin-babel": "~4.5.0",
-    "@vue/cli-plugin-router": "~4.5.0",
-    "@vue/cli-plugin-typescript": "~4.5.0",
-    "@vue/cli-plugin-vuex": "~4.5.0",
-    "@vue/cli-service": "~4.5.0",
+    "@typescript-eslint/eslint-plugin": "^4.33.0",
+    "@typescript-eslint/parser": "^4.33.0",
+    "@vue/cli-plugin-babel": "~4.5.13",
+    "@vue/cli-plugin-pwa": "~4.5.0",
+    "@vue/cli-plugin-router": "~4.5.13",
+    "@vue/cli-plugin-typescript": "~4.5.13",
+    "@vue/cli-plugin-vuex": "~4.5.13",
+    "@vue/cli-service": "~4.5.13",
     "@vue/compiler-sfc": "^3.0.0",
-    "sass": "^1.32.7",
-    "sass-loader": "7.3.1",
-    "stylus": "^0.54.7",
-    "stylus-loader": "^3.0.2",
-    "typescript": "~3.9.3",
+    "eslint": "^7.32.0",
+    "eslint-config-standard": "^16.0.3",
+    "eslint-plugin-import": "^2.24.2",
+    "eslint-plugin-node": "^11.1.0",
+    "eslint-plugin-promise": "^5.1.0",
+    "eslint-plugin-vue": "^7.19.0",
+    "typescript": "~4.4.3",
     "vue-cli-plugin-element-plus": "~0.0.13"
   }
 }
