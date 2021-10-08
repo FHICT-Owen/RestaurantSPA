@@ -5,18 +5,18 @@
       <h2>Categories</h2>
       <form @submit.prevent="createCategory">
         <input v-model="name">
-        <button class="btn btn-primary rounded">Add</button>
+        <button class="btn btn-primary rounded">New category</button>
       </form>
       <ul>
         <Category v-for="category of categories" :key="category.id" :category="category" />
       </ul>
       <h2>Dishes</h2>
-      <button @click="toggleDialog">add</button>
+      <button class="btn btn-primary rounded" @click="toggleDialog">New dish</button>
       <ul>
         <Dish v-for="dish of dishes" :key="dish.id" :dish="dish" />
       </ul>
     </div>
-    <Dialog v-show="isOpen" />
+    <Dialog v-show="isOpen" :key="isOpen" />
   </div>
 </template>
 
@@ -37,15 +37,18 @@ export default {
   setup () {  
     const categories = computed(() => store.state.categories)
     const dishes = computed(() => store.state.dishes)
-    const toggleDialog = () => store.dispatch('toggleIsOpen')
     const isOpen = computed(() => store.state.isOpen)
+    const toggleDialog = () => { 
+      store.dispatch('toggleDialog', false) 
+      store.dispatch('setCurrentDish', {})
+    }
 
     let name = ref('')
     const createCategory = () => {
       store.dispatch('createNewCategory', {id: 0, name: name.value})
       store.dispatch('getAllCategories')
     }
-    return { name, categories, dishes, toggleDialog, isOpen, createCategory }
+    return { categories, dishes, isOpen, toggleDialog, name, createCategory }
   }
 }
 </script>
