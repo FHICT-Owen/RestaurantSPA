@@ -7,13 +7,19 @@ export default createStore({
     categories: [] as Category[],
     dishes: [] as Dish[],
     isOpen: false,
+    isEditDialog: false,
+    currentDish: {} as Dish,
     countOption: 0,
     countComp: 0
   },
   mutations: {
     setCategories: (state, categories) => { state.categories = categories },
     setDishes: (state, dishes) => { state.dishes = dishes },
-    toggleIsOpen: (state) => { state.isOpen = !state.isOpen },
+    toggleDialog: (state, payload) => { 
+      state.isOpen = !state.isOpen, 
+      state.isEditDialog = payload
+    },
+    setCurrentDish: (state, payload) => {state.currentDish = payload},
     createNewDish: (state) => { state.isOpen = !state.isOpen },
     incrementOption: state => state.countOption++,
     incrementComp: state => state.countComp++
@@ -28,15 +34,22 @@ export default createStore({
       return commit('setDishes', dishes)
     },
 
-    async createNewCategory ({commit}, category:Category) {
+    async createNewCategory ({commit}, category: Category) {
       await categoryDataService.createCategory(category)
     },
-
-    toggleIsOpen: ({ commit }) => commit('toggleIsOpen'),
-    async createNewDish ({ commit }, dish: Dish) {
+    async createNewDish ({commit}, dish: Dish) {
       await dishDataService.createDish(dish)
-      return commit('toggleIsOpen')
+      return commit('toggleDialog')
     },
+
+    async editDish({commit}, dish: Dish) {
+      await dishDataService.editDish(dish)
+      return commit('toggleDialog')
+    },
+
+    toggleDialog: ({commit}, payload) => commit('toggleDialog', payload),
+    setCurrentDish: ({commit}, payload) => commit('setCurrentDish', payload),
+    
     incrementOption: ({ commit }) => commit('incrementOption'),
     incrementComp: ({ commit }) => commit('incrementComp')
   },
