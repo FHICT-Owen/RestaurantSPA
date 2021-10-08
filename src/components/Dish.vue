@@ -8,12 +8,13 @@
       <div className="description-frame">
         <p className="menu-description">{{dish.description}}</p>
       </div>
-      <div className="plus-icon"></div>
+      <div className="plus-icon" @click="openEditDialog"></div>
     </div>
   </div>
 </template>
 
 <script lang="ts">
+import store from '@/store'
 import { convertNumberArrayToImageUrl } from '../utils'
 
 export default ({
@@ -21,8 +22,11 @@ export default ({
     dish: {} as Dish
   },
   setup (props: { dish: Dish }) {
+    function openEditDialog() {
+      store.dispatch("toggleIsOpen")
+    }
     const image = convertNumberArrayToImageUrl(props.dish.image)
-    return { image }
+    return { openEditDialog, image }
   }
 })
 </script>
