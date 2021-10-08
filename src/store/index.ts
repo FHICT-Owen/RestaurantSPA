@@ -27,9 +27,11 @@ export default createStore({
       const dishes = await dishDataService.getAllDishes()
       return commit('setDishes', dishes)
     },
-    // async addNewCategory ({commit}, category:Category) {
-    //   const addNewCategory = await categoryDataService.addNewCategory(category)
-    // },
+
+    async createNewCategory ({commit}, category:Category) {
+      await categoryDataService.createCategory(category)
+    },
+
     toggleIsOpen: ({ commit }) => commit('toggleIsOpen'),
     async createNewDish ({ commit }, dish: Dish) {
       await dishDataService.createDish(dish)
