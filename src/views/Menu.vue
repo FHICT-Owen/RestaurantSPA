@@ -3,8 +3,8 @@
     <div class="mb-5">
       <h1>Menu</h1>
       <h2>Categories</h2>
-      <form @submit.prevent="addNewCategory">
-        <input v-model="newCategory" name="newCategory">
+      <form @submit.prevent="createCategory">
+        <input v-model="name">
         <button class="btn btn-primary rounded">Add</button>
       </form>
       <ul>
@@ -34,12 +34,18 @@ export default {
     Dish,
     Dialog
   },
-  setup () {
-    const categories = ref(store.state.categories)
+  setup () {  
+    const categories = computed(() => store.state.categories)
     const dishes = computed(() => store.state.dishes)
     const toggleDialog = () => store.dispatch('toggleIsOpen')
     const isOpen = computed(() => store.state.isOpen)
-    return { categories, dishes, toggleDialog, isOpen }
+
+    let name = ref('')
+    const createCategory = () => {
+      store.dispatch('createNewCategory', {id: 0, name: name.value})
+      store.dispatch('getAllCategories')
+    }
+    return { name, categories, dishes, toggleDialog, isOpen, createCategory }
   }
 }
 </script>
