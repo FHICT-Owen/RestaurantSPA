@@ -4,7 +4,7 @@
     <textarea class="TextArea" v-model="description" />
     <input type="file" class="FileUpload" @change="handleFileChange($event)" />
     <span v-if="isEdit"> 
-      <button @click="deleteDish">delete</button>
+      <button class="DeleteButton" @click="deleteDish">delete</button>
       <button  @click="editDish">edit</button>
     </span>
     <button v-else @click="createDish">create</button>
@@ -20,7 +20,7 @@ export default ({
   setup() {
     let name = ref('')
     let description = ref('')
-    let image= ref([0])
+    let image = ref([0])
     const isEdit = computed(() => store.state.isEditDialog)
 
     if(isEdit) {
@@ -44,7 +44,7 @@ export default ({
     }
 
     const handleFileChange = async (e: any) => {
-      store.state.currentDish.image = await convertFileToNumberArray(e.target.files[0])
+      image.value = await convertFileToNumberArray(e.target.files[0])
     }
 
     return { name, description, isEdit, createDish, handleFileChange, editDish }
