@@ -7,14 +7,14 @@ import store from '@/store'
 import { computed } from 'vue'
 
 export default ({
-	setup() {
-		let count = computed(() => store.state.countComp)
+  setup () {
+    const count = computed(() => store.state.countComp)
 
-		const increment = () => {
-			store.dispatch('incrementComp')
-		}
+    const increment = () => {
+      store.dispatch('incrementComp')
+    }
 
-		return { count, increment }
-	}
+    return { count, increment }
+  }
 })
 </script>
