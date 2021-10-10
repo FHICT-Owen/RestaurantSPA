@@ -50,4 +50,8 @@ export default {
   background: rgb(30, 210, 60);
   transform: translate(-50%, -50%);
 }
+
+:root {
+  --primary-color: #FFA825;
+}
 </style>
