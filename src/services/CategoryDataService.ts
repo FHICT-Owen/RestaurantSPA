@@ -15,15 +15,16 @@ export default class CategoryDataService {
       .catch(() => store.dispatch('showPopUp', 'Error occurred'))
   }
 
+  public static async editCategory(category: Category) {
+    console.log(category)
+    await axios.put(`${this.API_URL}/categories/${category.id}`, category)
+      .then(() => store.dispatch('showPopUp', `${category.name} successfully updated!`))
+      .catch(() => store.dispatch('showPopUp', 'Error occurred'))
+  }
+
   public static async deleteCategory(category: Category) {
     await axios.delete(`${this.API_URL}/categories/${category.id}`)
       .then(() => store.dispatch('showPopUp', `${category.name} successfully deleted!`))
       .catch(() => store.dispatch('showPopUp', 'Error occurred'))
-  }
-
-  public static async editCategory(category: Category) {
-    await axios.put(`${this.API_URL}/outcome/, outcome`)
-      .then(() => store.dispatch('showPopUp', `${category.name} successfully updated!`))
-      .catch(() => store.dispatch('showPopUp', 'Error occurred'))
-  }
+  } 
 }
