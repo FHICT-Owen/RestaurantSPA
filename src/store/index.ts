@@ -9,9 +9,7 @@ export default createStore({
     isOpen: false,
     isEditDialog: false,
     currentDish: {} as Dish,
-    popUpIsOpen: false,
-    popUpText: '...',
-    
+    popUps: [] as PopUp[],
     countOption: 0,
     countComp: 0
   },
@@ -24,12 +22,15 @@ export default createStore({
     },
     setCurrentDish: (state, payload) => {state.currentDish = payload},
     createNewDish: (state) => { state.isOpen = !state.isOpen },
-    showPopUp: (state, payload) => {
-      state.popUpIsOpen = !state.popUpIsOpen,
-      state.popUpText = payload,
-      setTimeout(() => {state.popUpIsOpen = !state.popUpIsOpen}, 3000)
-    },
-    
+    // showPopUp: (state, payload) => {
+    //   console.log(payload)
+    //   state.popUps.push(payload)
+    //   console.log(state.popUps.length)
+    //   setTimeout(() => 10000)
+    //   const i = state.popUps.indexOf(payload)
+    //   state.popUps.splice(i, 1)
+    //   console.log(state.popUps)
+    // },
     incrementOption: state => state.countOption++,
     incrementComp: state => state.countComp++
   },
@@ -69,7 +70,7 @@ export default createStore({
 
     toggleDialog: ({commit}, payload) => commit('toggleDialog', payload),
     setCurrentDish: ({commit}, payload) => commit('setCurrentDish', payload),
-    showPopUp: ({commit}, payload) => commit('showPopUp', payload),
+    // showPopUp: ({commit}, payload) => commit('showPopUp', payload),
 
     incrementOption: ({ commit }) => commit('incrementOption'),
     incrementComp: ({ commit }) => commit('incrementComp')
