@@ -1,3 +1,4 @@
+import store from '@/store'
 import axios from 'axios'
 
 export default class CategoryDataService {
@@ -10,18 +11,19 @@ export default class CategoryDataService {
 
   public static async createCategory (category: Category) {
     await axios.post(`${this.API_URL}/categories/`, category)
+      .then(() => store.dispatch('showPopUp', `${category.name} successfully added!`))
+      .catch(() => store.dispatch('showPopUp', 'Error occurred'))
   }
 
-  // public async deleteAllCategory(): Promise<void> {
-  //     await axios.delete(`${this.API_URL}/outcome/`)
-  // }
+  public static async deleteCategory(category: Category) {
+    await axios.delete(`${this.API_URL}/categories/${category.id}`)
+      .then(() => store.dispatch('showPopUp', `${category.name} successfully deleted!`))
+      .catch(() => store.dispatch('showPopUp', 'Error occurred'))
+  }
 
-  // public async deleteCategoryById(id: number): Promise<void> {
-  //     await axios.delete(`${this.API_URL}/outcome/${id}`)
-  // }
-
-  // public async updateCategory(outcome: Category): Promise<void> {
-  //     const result = await axios.put(`${this.API_URL}/outcome/, outcome`)
-  //     return result.data;
-  // }
+  public static async editCategory(category: Category) {
+    await axios.put(`${this.API_URL}/outcome/, outcome`)
+      .then(() => store.dispatch('showPopUp', `${category.name} successfully updated!`))
+      .catch(() => store.dispatch('showPopUp', 'Error occurred'))
+  }
 }

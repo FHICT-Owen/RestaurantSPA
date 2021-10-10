@@ -56,7 +56,12 @@ export default ({
     }
 
     function deleteDish() {
-      store.dispatch('deleteDish', store.state.currentDish.id).then(() => {
+      store.dispatch('deleteDish', {
+        id: store.state.currentDish.id, 
+        name: name.value, 
+        description: description.value, 
+        image: image.value
+      }).then(() => {
         store.dispatch('getAllDishes')
       })
     }

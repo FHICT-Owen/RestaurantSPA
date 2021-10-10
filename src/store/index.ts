@@ -9,6 +9,8 @@ export default createStore({
     isOpen: false,
     isEditDialog: false,
     currentDish: {} as Dish,
+    popUpIsOpen: false,
+    popUpText: '...',
     countOption: 0,
     countComp: 0
   },
@@ -21,6 +23,11 @@ export default createStore({
     },
     setCurrentDish: (state, payload) => {state.currentDish = payload},
     createNewDish: (state) => { state.isOpen = !state.isOpen },
+    showPopUp: (state, payload) => {
+      state.popUpIsOpen = !state.popUpIsOpen,
+      state.popUpText = payload,
+      setTimeout(() => {state.popUpIsOpen = !state.popUpIsOpen}, 3000)
+    },
     incrementOption: state => state.countOption++,
     incrementComp: state => state.countComp++
   },
@@ -46,14 +53,21 @@ export default createStore({
       await dishDataService.editDish(dish)
       return commit('toggleDialog')
     },
+    async editCategory({commit}, category: Category) {
+      await categoryDataService.editCategory(category)
+    },
 
-    async deleteDish({commit}, id: number) {
-      await dishDataService.deleteDish(id)
+    async deleteDish({commit}, dish: Dish) {
+      await dishDataService.deleteDish(dish)
       return commit('toggleDialog')
+    },
+    async deleteCategory({commit}, category: Category) {
+      await categoryDataService.deleteCategory(category)
     },
 
     toggleDialog: ({commit}, payload) => commit('toggleDialog', payload),
     setCurrentDish: ({commit}, payload) => commit('setCurrentDish', payload),
+    showPopUp: ({commit}, payload) => commit('showPopUp', payload),
     
     incrementOption: ({ commit }) => commit('incrementOption'),
     incrementComp: ({ commit }) => commit('incrementComp')

@@ -45,8 +45,9 @@ export default {
 
     let name = ref('')
     const createCategory = () => {
-      store.dispatch('createNewCategory', {id: 0, name: name.value})
-      store.dispatch('getAllCategories')
+      store.dispatch('createNewCategory', {id: 0, name: name.value}).then(() => {
+        store.dispatch('getAllCategories')
+      })
     }
     return { categories, dishes, isOpen, toggleDialog, name, createCategory }
   }
