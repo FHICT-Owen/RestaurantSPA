@@ -8,7 +8,7 @@ name: Deploy to Firebase Hosting on merge
       - production
 env:
   VUE_APP_NAME: DMA
-  VUE_APP_API_URL: /api
+  VUE_APP_API_URL: https://menumcs.herokuapp.com/api/v1
   VUE_APP_AUTH0_CLIENT_KEY: ${{secrets.AUTH0_CLIENT_KEY}}
   VUE_APP_AUTH0_DOMAIN: ${{secrets.AUTH0_DOMAIN}}
   VUE_APP_AUTH0_AUDIENCE: ${{secrets.AUTH0_AUDIENCE}}
