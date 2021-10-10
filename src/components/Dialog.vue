@@ -5,7 +5,7 @@
     <input type="file" class="FileUpload" @change="handleFileChange($event)" />
     <span v-if="isEdit"> 
       <button class="DeleteButton" @click="deleteDish">delete</button>
-      <button  @click="editDish">edit</button>
+      <button @click="editDish">edit</button>
     </span>
     <button v-else @click="createDish">create</button>
   </dialog>
@@ -58,7 +58,6 @@ export default ({
     function deleteDish() {
       store.dispatch('deleteDish', store.state.currentDish.id).then(() => {
         store.dispatch('getAllDishes')
-
       })
     }
 
