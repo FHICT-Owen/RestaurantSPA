@@ -10,3 +10,8 @@ interface Dish {
     image: number[],
     category: string
 }
+
+interface PopUp {
+    text: string
+    isError: boolean
+}
