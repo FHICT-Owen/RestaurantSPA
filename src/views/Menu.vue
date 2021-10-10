@@ -48,6 +48,7 @@ export default {
       store.dispatch('createNewCategory', {id: 0, name: name.value}).then(() => {
         store.dispatch('getAllCategories')
       })
+      name.value = ''
     }
     return { categories, dishes, isOpen, toggleDialog, name, createCategory }
   }
