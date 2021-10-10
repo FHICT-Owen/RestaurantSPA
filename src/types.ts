@@ -7,5 +7,6 @@ interface Dish {
     id: number,
     name: string,
     description: string,
-    image: number[]
+    image: number[],
+    category: string
 }

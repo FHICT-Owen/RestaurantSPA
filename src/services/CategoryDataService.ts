@@ -16,7 +16,6 @@ export default class CategoryDataService {
   }
 
   public static async editCategory(category: Category) {
-    console.log(category)
     await axios.put(`${this.API_URL}/categories/${category.id}`, category)
       .then(() => store.dispatch('showPopUp', `${category.name} successfully updated!`))
       .catch(() => store.dispatch('showPopUp', 'Error occurred'))

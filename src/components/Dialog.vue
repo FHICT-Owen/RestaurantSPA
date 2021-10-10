@@ -3,11 +3,19 @@
     <input class="Input" v-model="name" />
     <textarea class="TextArea" v-model="description" />
     <input type="file" class="FileUpload" @change="handleFileChange($event)" />
-    <span v-if="isEdit"> 
+    <span v-if="isEdit">
+      <select v-model="category">
+        <option v-for="category of categories" :key="category.id">{{category.name}}</option>
+      </select>
       <button class="DeleteButton" @click="deleteDish">delete</button>
       <button @click="editDish">edit</button>
     </span>
-    <button v-else @click="createDish">create</button>
+    <span v-else>
+      <button @click="createDish">create</button>
+      <select v-model="category">
+        <option v-for="category of categories" :key="category.id">{{category.name}}</option>
+      </select>
+    </span>
   </dialog>
 </template>
 
@@ -21,16 +29,20 @@ export default ({
     let name = ref('')
     let description = ref('')
     let image = ref([0])
+    let category = ref('')
+    const categories = computed(() => store.state.categories)
     const isEdit = computed(() => store.state.isEditDialog)
 
     if(isEdit) {
       name.value = store.state.currentDish.name
       description.value = store.state.currentDish.description
       image.value = store.state.currentDish.image
+      category.value = store.state.currentDish.category
     } else {
       name.value = ''
       description.value = ''
       image.value = [0]
+      category.value = ''
     }
 
     const createDish = () => {
@@ -38,7 +50,8 @@ export default ({
         id: 0, 
         name: name.value, 
         description: description.value, 
-        image: image.value
+        image: image.value,
+        category: category.value
       }).then(() => {
         store.dispatch('getAllDishes')
       })
@@ -49,7 +62,8 @@ export default ({
         id: store.state.currentDish.id, 
         name: name.value, 
         description: description.value, 
-        image: image.value
+        image: image.value,
+        category: category.value
       }).then(() => {
         store.dispatch('getAllDishes')
       })
@@ -60,7 +74,8 @@ export default ({
         id: store.state.currentDish.id, 
         name: name.value, 
         description: description.value, 
-        image: image.value
+        image: image.value,
+        category: category.value
       }).then(() => {
         store.dispatch('getAllDishes')
       })
@@ -70,7 +85,7 @@ export default ({
       image.value = await convertFileToNumberArray(e.target.files[0])
     }
 
-    return { name, description, isEdit, createDish, handleFileChange, editDish, deleteDish }
+    return { name, description, category, categories, isEdit, createDish, handleFileChange, editDish, deleteDish }
   },
 })
 </script>
