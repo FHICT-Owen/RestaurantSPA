@@ -15,4 +15,8 @@ export default class DishDataService {
   public static async editDish(dish: Dish) {
     const result = await axios.put(`${this.API_URL}/dish/${dish.id}`, dish) 
   }
+
+  public static async deleteDish(id: number) {
+    const result = await axios.delete(`${this.API_URL}/dish/${id}`) 
+  }
 }

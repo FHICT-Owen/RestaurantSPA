@@ -34,20 +34,39 @@ export default ({
     }
 
     const createDish = () => {
-      store.dispatch('createNewDish', {id: 0, name: name.value, description: description.value, image: image.value})
-      store.dispatch('getAllDishes')
+      store.dispatch('createNewDish', {
+        id: 0, 
+        name: name.value, 
+        description: description.value, 
+        image: image.value
+      }).then(() => {
+        store.dispatch('getAllDishes')
+      })
     }
 
     function editDish() {
-      store.dispatch('editDish', {id: store.state.currentDish.id, name: name.value, description: description.value, image: image.value})
-      store.dispatch('getAllDishes')
+      store.dispatch('editDish', {
+        id: store.state.currentDish.id, 
+        name: name.value, 
+        description: description.value, 
+        image: image.value
+      }).then(() => {
+        store.dispatch('getAllDishes')
+      })
+    }
+
+    function deleteDish() {
+      store.dispatch('deleteDish', store.state.currentDish.id).then(() => {
+        store.dispatch('getAllDishes')
+
+      })
     }
 
     const handleFileChange = async (e: any) => {
       image.value = await convertFileToNumberArray(e.target.files[0])
     }
 
-    return { name, description, isEdit, createDish, handleFileChange, editDish }
+    return { name, description, isEdit, createDish, handleFileChange, editDish, deleteDish }
   },
 })
 </script>

@@ -13,8 +13,8 @@ export default createStore({
     countComp: 0
   },
   mutations: {
-    setCategories: (state, categories) => { state.categories = categories },
-    setDishes: (state, dishes) => { state.dishes = dishes },
+    getAllCategories: (state, categories) => { state.categories = categories },
+    getAllDishes: (state, dishes) => { state.dishes = dishes },
     toggleDialog: (state, payload) => { 
       state.isOpen = !state.isOpen, 
       state.isEditDialog = payload
@@ -27,11 +27,11 @@ export default createStore({
   actions: {
     async getAllCategories ({ commit }) {
       const categories = await categoryDataService.getAllCategories()
-      return commit('setCategories', categories)
+      return commit('getAllCategories', categories)
     },
     async getAllDishes ({ commit }) {
       const dishes = await dishDataService.getAllDishes()
-      return commit('setDishes', dishes)
+      return commit('getAllDishes', dishes)
     },
 
     async createNewCategory ({commit}, category: Category) {
@@ -44,6 +44,11 @@ export default createStore({
 
     async editDish({commit}, dish: Dish) {
       await dishDataService.editDish(dish)
+      return commit('toggleDialog')
+    },
+
+    async deleteDish({commit}, id: number) {
+      await dishDataService.deleteDish(id)
       return commit('toggleDialog')
     },
 
