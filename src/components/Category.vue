@@ -8,15 +8,13 @@
 
 <script lang="ts">
 import store from '@/store'
-import { computed, ref } from 'vue'
+import { ref } from 'vue'
 
 export default ({
   props: {
     category: {} as Category
   },
   setup(props: {category: Category}) {
-    
-    // const isEditMode = computed(() => store.state.toggleCategoryInput)
     let isEditMode = ref(false)
     let name = ref('')
     function deleteCategory() {

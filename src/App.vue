@@ -22,7 +22,7 @@
 import NavBar from './components/NavBar.vue'
 import Error from './components/Error.vue'
 import store from '@/store'
-import { computed } from 'vue'
+import { computed, onMounted } from 'vue'
 
 export default {
   name: 'App',
@@ -33,12 +33,12 @@ export default {
   setup() {
     const popUpIsOpen = computed(() => store.state.popUpIsOpen)
     const popUpText = computed(() => store.state.popUpText)
+    onMounted(() => {
+      store.dispatch('getAllCategories')
+      store.dispatch('getAllDishes')
+    })
     return { popUpIsOpen, popUpText }
   },
-  async mounted () {
-    await store.dispatch('getAllCategories')
-    await store.dispatch('getAllDishes')
-  }
 }
 </script>
 

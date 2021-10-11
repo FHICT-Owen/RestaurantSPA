@@ -23,7 +23,7 @@ export default ({
     dish: {} as Dish
   },
   setup (props: { dish: Dish }) {
-    const image = computed(() => convertNumberArrayToImageUrl(props.dish.image))
+    const image = computed(() => convertNumberArrayToImageUrl(props.dish.image)) // this is probably very expensive
     function openEditDialog() {
       store.dispatch('toggleDialog', true)
       store.dispatch('setCurrentDish', props.dish)
@@ -32,7 +32,6 @@ export default ({
   }
 })
 </script>
-
 
 <style>
 @font-face {
