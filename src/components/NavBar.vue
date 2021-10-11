@@ -21,11 +21,6 @@
               <router-link to="/" class="nav-link">Home</router-link>
             </li>
             <li class="nav-item" v-if="isAuthenticated">
-              <router-link to="/external-api" class="nav-link"
-                >External API</router-link
-              >
-            </li>
-            <li class="nav-item" v-if="isAuthenticated">
               <router-link to="/menu" class="nav-link">Menu</router-link>
             </li>
           </ul>
