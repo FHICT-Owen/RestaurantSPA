@@ -152,6 +152,7 @@ export default {
 
 .ImageContainer {
   width: 330px;
+  margin-top: 2.86%;
   /* background: url("https://picsum.photos/200/300"), #000000; */
   mix-blend-mode: normal;
   border-radius: 29px;
