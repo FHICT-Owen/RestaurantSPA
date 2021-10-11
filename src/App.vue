@@ -25,7 +25,7 @@ import NavBar from './components/NavBar.vue'
 import Error from './components/Error.vue'
 import PopUp from './components/PopUp.vue'
 import store from '@/store'
-import { computed } from 'vue'
+import { computed, onMounted } from 'vue'
 
 export default {
   name: 'App',
@@ -36,12 +36,12 @@ export default {
   },
   setup() {
     const popUps = computed(() => store.state.popUps)
+    onMounted(() => {
+      store.dispatch('getAllCategories')
+      store.dispatch('getAllDishes')
+    })
     return { popUps }
   },
-  async mounted () {
-    await store.dispatch('getAllCategories')
-    await store.dispatch('getAllDishes')
-  }
 }
 </script>
 
@@ -52,4 +52,9 @@ export default {
   left: 80%;
   transform: translate(-50%, -50%);
 }
+
+:root {
+  --primary-color: #FFA825;
+}
 </style>
+
