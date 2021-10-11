@@ -1,4 +1,4 @@
-import store from '@/store'
+import { showPopUp } from '@/utils'
 import axios from 'axios'
 
 export default class CategoryDataService {
@@ -11,19 +11,19 @@ export default class CategoryDataService {
 
   public static async createCategory (category: Category) {
     await axios.post(`${this.API_URL}/categories/`, category)
-      .then(() => store.dispatch('showPopUp', `${category.name} successfully added!`))
-      .catch(() => store.dispatch('showPopUp', 'Error occurred'))
+      .then(() => showPopUp(category.name, 'added', false))
+      .catch(() => showPopUp(category.name, 'added', true))
   }
 
   public static async editCategory(category: Category) {
     await axios.put(`${this.API_URL}/categories/${category.id}`, category)
-      .then(() => store.dispatch('showPopUp', `${category.name} successfully updated!`))
-      .catch(() => store.dispatch('showPopUp', 'Error occurred'))
+      .then(() => showPopUp(category.name, 'updated', false))
+      .catch(() => showPopUp(category.name, 'updated', true))
   }
 
   public static async deleteCategory(category: Category) {
     await axios.delete(`${this.API_URL}/categories/${category.id}`)
-      .then(() => store.dispatch('showPopUp', `${category.name} successfully deleted!`))
-      .catch(() => store.dispatch('showPopUp', 'Error occurred'))
+      .then(() => showPopUp(category.name, 'deleted', false))
+      .catch(() => showPopUp(category.name, 'deleted', true))
   } 
 }

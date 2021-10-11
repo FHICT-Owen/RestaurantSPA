@@ -1,4 +1,4 @@
-import store from '@/store'
+import { showPopUp } from '@/utils'
 import axios from 'axios'
 
 export default class DishDataService {
@@ -11,19 +11,19 @@ export default class DishDataService {
 
   public static async createDish(dish: Dish) {
     await axios.post(`${this.API_URL}/dish/`, dish)
-      .then(() => store.dispatch('showPopUp', `${dish.name} successfully added!`))
-      .catch(() =>store.dispatch('showPopUp', 'Error occurred'))
+      .then(() => showPopUp(dish.name, 'added', false))
+      .catch(() => showPopUp(dish.name, 'added', true))
   }
 
   public static async editDish(dish: Dish) {
     await axios.put(`${this.API_URL}/dish/${dish.id}`, dish)
-      .then(() => store.dispatch('showPopUp', `${dish.name} successfully updated!`))
-      .catch(() =>store.dispatch('showPopUp', 'Error occurred'))
+      .then(() => showPopUp(dish.name, 'updated', false))
+      .catch(() => showPopUp(dish.name, 'updated', true))
   }
 
   public static async deleteDish(dish: Dish) {
     await axios.delete(`${this.API_URL}/dish/${dish.id}`)
-      .then(() => store.dispatch('showPopUp', `${dish.name} successfully deleted!`))
-      .catch(() =>store.dispatch('showPopUp', 'Error occurred'))
+      .then(() => showPopUp(dish.name, 'deleted', false))
+      .catch(() => showPopUp(dish.name, 'deleted', true))
   }
 }
