@@ -1,7 +1,7 @@
 <template>
   <div class="DialogCard">
     <dialog class="Dialog" open>
-      <div class="ImageContainer" style="background-image: url('https://picsum.photos/200/300')">
+      <div class="ImageContainer" :style="{background: selectedImage}">
         <label class="ChooseImage" for="FileUpload">
           Choose Image...
         </label>
@@ -9,8 +9,7 @@
         type="file"
         id="FileUpload"
         @change="handleFileChange($event)"
-      />
-      </div>
+      ></div>
       <input class="Input" v-model="name" />
       <textarea class="TextArea" v-model="description" />
       
@@ -36,35 +35,36 @@
 </template>
 
 <script lang="ts">
-import store from "@/store";
-import { convertFileToNumberArray, convertNumberArrayToImageUrl } from "@/utils";
-import { computed, ref } from "vue";
+import store from '@/store'
+import { convertFileToNumberArray, convertNumberArrayToImageUrl } from '@/utils'
+import { computed, ref } from 'vue'
 
 export default {
   setup() {
-    let name = ref("");
-    let description = ref("");
-    let image = ref([0]);
-    let selectedImage = ref('');
-    let category = ref("");
-    const categories = computed(() => store.state.categories);
-    const isEdit = computed(() => store.state.isEditDialog);
+    let name = ref('')
+    let description = ref('')
+    let image = ref([0])
+    let selectedImage = ref('')
+    let category = ref('')
+    const categories = computed(() => store.state.categories)
+    const isEdit = computed(() => store.state.isEditDialog)
 
     if (isEdit) {
-      name.value = store.state.currentDish.name;
-      description.value = store.state.currentDish.description;
-      image.value = store.state.currentDish.image;
-      category.value = store.state.currentDish.category;
+      name.value = store.state.currentDish.name
+      description.value = store.state.currentDish.description
+      image.value = store.state.currentDish.image
+      selectedImage.value = convertNumberArrayToImageUrl(store.state.currentDish.image)
+      category.value = store.state.currentDish.category
     } else {
-      name.value = "";
-      description.value = "";
-      image.value = [0];
-      category.value = "";
+      name.value = ''
+      description.value = ''
+      image.value = [0]
+      category.value = ''
     }
 
     const createDish = () => {
       store
-        .dispatch("createNewDish", {
+        .dispatch('createNewDish', {
           id: 0,
           name: name.value,
           description: description.value,
@@ -72,13 +72,13 @@ export default {
           category: category.value,
         })
         .then(() => {
-          store.dispatch("getAllDishes");
-        });
-    };
+          store.dispatch('getAllDishes')
+        })
+    }
 
     function editDish() {
       store
-        .dispatch("editDish", {
+        .dispatch('editDish', {
           id: store.state.currentDish.id,
           name: name.value,
           description: description.value,
@@ -86,13 +86,13 @@ export default {
           category: category.value,
         })
         .then(() => {
-          store.dispatch("getAllDishes");
-        });
+          store.dispatch('getAllDishes')
+        })
     }
 
     function deleteDish() {
       store
-        .dispatch("deleteDish", {
+        .dispatch('deleteDish', {
           id: store.state.currentDish.id,
           name: name.value,
           description: description.value,
@@ -100,16 +100,14 @@ export default {
           category: category.value,
         })
         .then(() => {
-          store.dispatch("getAllDishes");
-        });
+          store.dispatch('getAllDishes')
+        })
     }
 
     const handleFileChange = async (e: any) => {
-      console.log(URL.createObjectURL(e.target.files[0]));
-      image.value = await convertFileToNumberArray(e.target.files[0]);
-      console.log(image);
-      selectedImage.value = URL.createObjectURL(e.target.files[0]);
-    };
+      image.value = await convertFileToNumberArray(e.target.files[0])
+      selectedImage.value = `url("${URL.createObjectURL(e.target.files[0])}")`
+    }
 
     return {
       name,
@@ -122,17 +120,19 @@ export default {
       editDish,
       deleteDish,
       selectedImage
-    };
+    }
   },
-};
+}
 </script>
 
 
 <style>
 .DialogCard {
-  transform: translateY(-50%);
-
-  position: relative;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  position: fixed;
+  /* position: relative; */
   width: 350px;
   height: 466px;
   border-radius: 40px;
