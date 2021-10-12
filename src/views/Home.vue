@@ -1,17 +1,18 @@
 <template>
-  <div>
-  </div>
+  <Menu/>
 </template>
 
 <script lang="ts">
-import Hero from '../components/Hero.vue'
-import HomeContent from '../components/HomeContent.vue'
+import Menu from '../components/Menu.vue'
+import { computed, ref } from 'vue'
+import store from '@/store'
+
 
 export default {
   name: 'Home',
   components: {
-    Hero,
-    HomeContent
-  }
+    Menu,
+  },
 }
+
 </script>
