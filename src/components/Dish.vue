@@ -1,7 +1,7 @@
 <template>
   <div class="food-card">
     <div class="menu-card">
-      <div class="menu-image" :style="{ background: image }"></div>
+      <div class="menu-image" :style="{ background: convertNumberArrayToImageUrl(image) }"></div>
       <div class="menu-title">
         <h5>{{dish.name}}</h5>
       </div>
@@ -23,12 +23,12 @@ export default ({
     dish: {} as Dish
   },
   setup (props: { dish: Dish }) {
-    const image = computed(() => convertNumberArrayToImageUrl(props.dish.image)) // this is probably very expensive
+    const image = computed(() => store.state.currentDish.image) // this is probably very expensive
     function openEditDialog() {
       store.dispatch('toggleDialog', true)
       store.dispatch('setCurrentDish', props.dish)
     }
-    return { openEditDialog, image }
+    return { openEditDialog, image, convertNumberArrayToImageUrl}
   }
 })
 </script>
@@ -43,6 +43,7 @@ export default ({
   position: relative;
   width: 350px;
   height: 100px;
+  margin-top: 10px;
 }
 
 .menu-card {
@@ -117,7 +118,7 @@ export default ({
   top: 31%;
   bottom: 34%;
 
-  background: url(../assets/pencil.png);
+  background: url(../assets/plus.png);
 }
 
 .plus-icon:hover > .overlay {
