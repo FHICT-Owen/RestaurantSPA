@@ -41,9 +41,14 @@ export default ({
 
 .food-card {
   position: relative;
-  width: 350px;
   height: 100px;
   margin-top: 10px;
+}
+
+@media only screen and (max-width: 400px) {
+  .food-card {
+    width: 100%;
+  }
 }
 
 .menu-card {
@@ -119,6 +124,7 @@ export default ({
   bottom: 34%;
 
   background: url(../assets/plus.png);
+  background-repeat: no-repeat;
 }
 
 .plus-icon:hover > .overlay {

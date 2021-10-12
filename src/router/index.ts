@@ -9,17 +9,20 @@ const routes: Array<RouteRecordRaw> = [
   {
     path: '/',
     name: 'home',
+    meta: {requiresNavBar: false},
     component: Home
   },
   {
     path: '/profile',
     name: 'profile',
+    meta: {requiresNavBar: true},
     component: Profile,
     beforeEnter: Auth0.routeGuard
   },
   {
     path: '/menu',
     name: 'menu',
+    meta: {requiresNavBar: true},
     component: Menu,
     beforeEnter: Auth0.routeGuard
   }

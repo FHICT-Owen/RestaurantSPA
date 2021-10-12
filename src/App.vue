@@ -1,5 +1,5 @@
 <template>
-  <div id="app" class="d-flex flex-column h-100">
+  <div v-if="$route.meta.requiresNavBar" id="app" class="d-flex flex-column h-100">
     <nav-bar />
     <div class="container flex-grow-1">
       <error />
@@ -10,6 +10,9 @@
         </ul>
       </div>
     </div>
+  </div>
+  <div v-else id="app">
+    <router-view />
   </div>
 </template>
 
