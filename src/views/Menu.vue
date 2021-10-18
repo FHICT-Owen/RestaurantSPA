@@ -25,10 +25,7 @@ export default {
     const auth = inject<any>('Auth') //TODO: define type for auth
     let costumerMenuIsOpen = ref(false)
 
-    const toggleMenu = () => {
-      console.log(costumerMenuIsOpen.value)
-      costumerMenuIsOpen.value = !costumerMenuIsOpen.value
-    }
+    const toggleMenu = () => costumerMenuIsOpen.value = !costumerMenuIsOpen.value
 
     return { ...auth, costumerMenuIsOpen, toggleMenu }
   }

@@ -19,11 +19,11 @@
             {{ category.name }}
           </option>
         </select>
-        <button class="DeleteButton" @click="deleteDish">delete</button>
-        <button @click="editDish">edit</button>
+        <div class="DeleteButton" @click="deleteDish">Delete</div>
+        <div class="SaveButton" @click="editDish">Save</div>
       </span>
       <span v-else>
-        <button @click="createDish">create</button>
+        <button @click="createDish">Create</button>
         <select v-model="category">
           <option v-for="category of categories" :key="category.id">
             {{ category.name }}
@@ -35,9 +35,9 @@
 </template>
 
 <script lang="ts">
+import { computed, ref } from 'vue'
 import store from '@/store'
 import { toBase64URL } from '@/utils'
-import { computed, ref } from 'vue'
 
 export default {
   setup() {
@@ -134,7 +134,7 @@ export default {
   position: fixed;
   /* position: relative; */
   width: 350px;
-  height: 466px;
+  height: 607px;
   border-radius: 40px;
   background: #ffffff;
   box-shadow: inset 0px 0px 4px 1px rgba(0, 0, 0, 0.25);
@@ -186,6 +186,44 @@ export default {
 }
 
 .ChooseImage:hover {
+  cursor: pointer;
+}
+
+.DeleteButton {
+  width: min-content;
+  padding: 2%;
+  background: #FF0000;
+  border-radius: 32px;
+  font-family: SF Pro Display;
+  font-style: normal;
+  font-weight: 600;
+  font-size: 16px;
+  line-height: 16px;
+  align-items: center;
+  text-align: center;
+
+  color: #FFFFFF;
+}
+.DeleteButton:hover {
+  cursor: pointer;
+}
+
+.SaveButton {
+  width: min-content;
+  padding: 2%;
+  font-family: SF Pro Display;
+  font-style: italic;
+  font-weight: 600;
+  font-size: 16px;
+  line-height: 16px;
+  align-items: center;
+  text-align: center;
+  border: 2.5px solid #FFA825;
+  border-radius: 32px;
+
+  color: #FFA825;
+}
+.SaveButton:hover {
   cursor: pointer;
 }
 
