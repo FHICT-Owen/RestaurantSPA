@@ -31,10 +31,6 @@ export default ({
 </script>
 
 <style>
-@font-face {
-  font-family: SF Pro Display;
-  src: url("../fonts/SFPRODISPLAYREGULAR.OTF");
-}
 
 .food-card {
   position: relative;
@@ -62,7 +58,7 @@ export default ({
   top: 9%;
   bottom: 71%;
 
-  font-family: SF Pro Display;
+  
   font-style: normal;
   font-weight: 500;
   font-size: 18px;
@@ -99,7 +95,7 @@ export default ({
   left: 0px;
   top: 0px;
 
-  font-family: SF Pro Display;
+  
   font-style: normal;
   font-weight: 500;
   font-size: 13px;
