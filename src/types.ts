@@ -1,14 +1,14 @@
 interface Category {
-    id: number
+    id: number,
     name: string
 }
 
 interface Dish {
-    id: number
-    name: string
-    description: string
+    id: number,
+    name: string,
+    description: string,
+    image: string,
     category: string
-    image: string
 }
 
 interface PopUp {
