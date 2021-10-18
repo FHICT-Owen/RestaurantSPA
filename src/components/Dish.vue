@@ -1,7 +1,7 @@
 <template>
   <div class="food-card">
     <div class="menu-card">
-      <div class="menu-image" :style="{ background: convertNumberArrayToImageUrl(image) }"></div>
+      <div class="menu-image" :style="{ background: image }"></div>
       <div class="menu-title">
         <h5>{{dish.name}}</h5>
       </div>
@@ -15,8 +15,7 @@
 
 <script lang="ts">
 import store from '@/store'
-import { computed, ref } from 'vue'
-import { convertNumberArrayToImageUrl } from '../utils'
+import { computed } from 'vue'
 
 export default ({
   props: {
@@ -28,7 +27,7 @@ export default ({
       store.dispatch('toggleDialog', true)
       store.dispatch('setCurrentDish', props.dish)
     }
-    return { openEditDialog, image, convertNumberArrayToImageUrl}
+    return { openEditDialog, image}
   }
 })
 </script>

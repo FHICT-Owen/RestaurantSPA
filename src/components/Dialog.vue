@@ -36,14 +36,14 @@
 
 <script lang="ts">
 import store from '@/store'
-import { convertFileToNumberArray, convertNumberArrayToImageUrl } from '@/utils'
+import { toBase64URL } from '@/utils'
 import { computed, ref } from 'vue'
 
 export default {
   setup() {
     let name = ref('')
     let description = ref('')
-    let image = ref([0])
+    let image = ref('')
     let selectedImage = ref('')
     let category = ref('')
     const categories = computed(() => store.state.categories)
@@ -53,12 +53,12 @@ export default {
       name.value = store.state.currentDish.name
       description.value = store.state.currentDish.description
       image.value = store.state.currentDish.image
-      selectedImage.value = convertNumberArrayToImageUrl(store.state.currentDish.image)
+      selectedImage.value = store.state.currentDish.image
       category.value = store.state.currentDish.category
     } else {
       name.value = ''
       description.value = ''
-      image.value = [0]
+      image.value = ''
       category.value = ''
     }
 
@@ -105,7 +105,7 @@ export default {
     }
 
     const handleFileChange = async (e: any) => {
-      image.value = await convertFileToNumberArray(e.target.files[0])
+      await toBase64URL(e.target.files[0]).then(data => image.value = data as string)
       selectedImage.value = `url("${URL.createObjectURL(e.target.files[0])}")`
     }
 

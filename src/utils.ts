@@ -1,12 +1,11 @@
 import store from './store'
 
-export function convertNumberArrayToImageUrl (image: number[]): string {
-  return `url("data:image/jpeg;base64,${btoa(String.fromCharCode(...new Uint8Array(image)))}")`
-}
-
-export async function convertFileToNumberArray (image: File): Promise<number[]> {
-  return image.arrayBuffer().then(result => ([...new Uint8Array(result)]))
-}
+export const toBase64URL = (file: File) => new Promise((resolve, reject) => {
+  const reader = new FileReader()
+  reader.readAsDataURL(file)
+  reader.onload = () => resolve(`url("${reader.result}")`)
+  reader.onerror = error => reject(error)
+})
 
 export function showPopUp(name: string, callType: string, isError: boolean) {
   store.state.popUps.push({text: isError ? 'Error occurred' : `${name} successfully ${callType}!`, isError: isError})
