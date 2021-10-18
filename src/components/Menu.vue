@@ -17,52 +17,42 @@
 </template>
 
 <script lang="ts">
-  import Category from '../components/Category.vue'
-  import Dish from '../components/Dish.vue'
+import { computed, onMounted } from 'vue'
+import store from '@/store'
 
+import Category from '../components/Category.vue'
+import Dish from '../components/Dish.vue'
 
-  import store from '@/store'
-  import {
-    computed,
-    onMounted,
-    ref
-  } from 'vue'
+export default {
+  name: 'Menu',
+  components: {
+    Category,
+    Dish,
+  },
+  setup() {
+    const categories = computed(() => store.state.categories)
+    const dishes = computed(() => store.state.dishes)
 
-  export default {
-    name: 'Menu',
-    components: {
-      Category,
-      Dish,
-    },
-    setup() {
-      const categories = computed(() => store.state.categories)
-      const dishes = computed(() => store.state.dishes)
+    onMounted(() =>{
+      let navbar = document.getElementById('navbar')
+      window.addEventListener('scroll', () => manageStickyNav(navbar))
+    })
 
-      onMounted(() =>{
-        var navbar = document.getElementById("navbar");
-        if(!!navbar)
-        var sticky = navbar.offsetTop;
-        window.addEventListener('scroll', () => manageStickyNav(navbar,sticky));
-      })
-      return {
-        categories,
-        dishes
-      }
+    return {
+      categories,
+      dishes
     }
   }
-
-function manageStickyNav(navbar:any,sticky:any) {
-  if(!!navbar)
-  {
-    if (window.pageYOffset >= sticky) {
-      navbar.classList.add("sticky")
-    } 
-    else {
-      navbar.classList.remove("sticky");
-    }
-  }
-  
 }
+
+const manageStickyNav = (navbar: HTMLElement | null) => {
+  if(navbar != null) {
+    console.log(window.pageYOffset, navbar.offsetTop)
+    window.pageYOffset >= navbar.offsetTop ? 
+      navbar.classList.add('sticky') : navbar.classList.remove('sticky')
+  }
+}
+
 </script>
 
 <style>
@@ -109,9 +99,9 @@ function manageStickyNav(navbar:any,sticky:any) {
 
 /* The sticky class is added to the navbar with JS when it reaches its scroll position */
 .sticky {
-  position: fixed;
+  position: -webkit-sticky;
+  position: sticky;
   top: 0;
-  width: 100%;
 }
 
 /* Add some top padding to the page content to prevent sudden quick movement (as the navigation bar gets a new position at the top of the page (position:fixed and top:0) */

@@ -1,7 +1,7 @@
 <template>
   <div>
-    <hero />
-    <hr />
+    <!-- <hero /> -->
+    <!-- <hr /> -->
     <!-- <qrcodescanner /> -->
     <Menu />
   </div>
