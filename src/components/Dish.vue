@@ -1,7 +1,7 @@
 <template>
   <div class="food-card">
     <div class="menu-card">
-      <div class="menu-image" :style="{ background: image }"></div>
+      <div class="menu-image" :style="{ background: dish.image }"></div>
       <div class="menu-title">
         <h5>{{dish.name}}</h5>
       </div>
@@ -15,19 +15,17 @@
 
 <script lang="ts">
 import store from '@/store'
-import { computed } from 'vue'
 
 export default ({
   props: {
     dish: {} as Dish
   },
   setup (props: { dish: Dish }) {
-    const image = computed(() => store.state.currentDish.image) // this is probably very expensive
     function openEditDialog() {
       store.dispatch('toggleDialog', true)
       store.dispatch('setCurrentDish', props.dish)
     }
-    return { openEditDialog, image}
+    return { openEditDialog}
   }
 })
 </script>
