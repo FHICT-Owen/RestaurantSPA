@@ -1,16 +1,16 @@
 <template>
   <div>
-    <!-- <qrcodescanner /> -->
+    <qrcodescanner />
   </div>
 </template>
 
 <script>
-// import Qrcodescanner from '../components/Qrcodescanner.vue'
+import Qrcodescanner from '../components/Qrcodescanner.vue'
 
 export default {
   name: 'Home',
   components: {
-    // Qrcodescanner
+    Qrcodescanner
   }
 }
 </script>

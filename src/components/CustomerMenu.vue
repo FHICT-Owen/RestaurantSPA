@@ -4,7 +4,7 @@
       <div id="navbar">
         <a v-for="category in categories" :key="category.id" :href="`#${category.name}`">{{category.name}}</a>
       </div>
-    <div class="menu-content">
+    <div class="menu-content container">
       <div v-for="category in categories" :key="category.id">
         <h2>{{category.name}}</h2>
         <a :id="category.name" class="anchor"></a>
@@ -74,8 +74,7 @@ export default {
 #navbar {
   overflow: hidden;
   background-color: #efefef;
-  margin-left: -15px;
-  width: 110%;
+  width: 100%;
   z-index: 999;
 }
 

@@ -116,6 +116,8 @@ export default ({
   bottom: 34%;
 
   background: url(../assets/plus.png);
+  background-repeat: no-repeat;
+
 }
 
 .plus-icon:hover > .overlay {
