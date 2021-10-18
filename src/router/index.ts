@@ -12,15 +12,14 @@ const routes: Array<RouteRecordRaw> = [
     component: Home
   },
   {
-    path: '/profile',
-    name: 'profile',
-    component: Profile,
-    beforeEnter: Auth0.routeGuard
-  },
-  {
     path: '/menu',
     name: 'menu',
     component: Menu,
+  },
+  {
+    path: '/profile',
+    name: 'profile',
+    component: Profile,
     beforeEnter: Auth0.routeGuard
   }
 ]

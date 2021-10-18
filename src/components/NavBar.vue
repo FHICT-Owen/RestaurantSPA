@@ -20,7 +20,7 @@
             <li class="nav-item">
               <router-link to="/" class="nav-link">Home</router-link>
             </li>
-            <li class="nav-item" v-if="isAuthenticated">
+            <li class="nav-item">
               <router-link to="/menu" class="nav-link">Menu</router-link>
             </li>
           </ul>

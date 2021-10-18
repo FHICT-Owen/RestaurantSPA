@@ -20,18 +20,25 @@
 import { computed, onMounted } from 'vue'
 import store from '@/store'
 
-import Category from '../components/Category.vue'
+// import Category from '../components/Category.vue'
 import Dish from '../components/Dish.vue'
 
 export default {
-  name: 'Menu',
+  name: 'CostumerMenu',
   components: {
-    Category,
+    // Category,
     Dish,
   },
   setup() {
     const categories = computed(() => store.state.categories)
     const dishes = computed(() => store.state.dishes)
+
+    const manageStickyNav = (navbar: HTMLElement | null) => {
+      if(navbar != null) {
+        window.pageYOffset >= navbar.offsetTop ? 
+          navbar.classList.add('sticky') : navbar.classList.remove('sticky')
+      }
+    }
 
     onMounted(() =>{
       let navbar = document.getElementById('navbar')
@@ -44,15 +51,6 @@ export default {
     }
   }
 }
-
-const manageStickyNav = (navbar: HTMLElement | null) => {
-  if(navbar != null) {
-    console.log(window.pageYOffset, navbar.offsetTop)
-    window.pageYOffset >= navbar.offsetTop ? 
-      navbar.classList.add('sticky') : navbar.classList.remove('sticky')
-  }
-}
-
 </script>
 
 <style>
