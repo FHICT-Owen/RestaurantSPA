@@ -1,35 +1,44 @@
 <template>
-  <div class="DialogCard">
-    <dialog class="Dialog" open>
-      <div class="ImageContainer" :style="{background: selectedImage}">
-        <label class="ChooseImage" for="FileUpload">
-          Choose Image...
+  <div class="top-1/4 left-1/2 fixed">
+    <dialog class="shadow-lg rounded-3xl flex-col w-96" open>
+      <div class="w-56 h-56 flex justify-end rounded-3xl bg-gray-100" :style="{background: selectedImage}">
+        <label 
+          class="text-yellow-400 rounded-3xl p-2 border-2 border-yellow-400 mb-1 mr-1 bg-white y-6 self-end text-center" 
+          style="cursor: pointer" 
+          for="FileUpload">
+            Choose Image...
         </label>
         <input
-        type="file"
-        id="FileUpload"
-        @change="handleFileChange($event)"
-      ></div>
-      <input class="Input" v-model="name" />
-      <textarea class="TextArea" v-model="description" />
-      
-      <span v-if="isEdit">
-        <select v-model="category">
-          <option v-for="category of categories" :key="category.id">
-            {{ category.name }}
-          </option>
-        </select>
-        <div class="DeleteButton" @click="deleteDish">Delete</div>
-        <div class="SaveButton" @click="editDish">Save</div>
-      </span>
-      <span v-else>
-        <button @click="createDish">Create</button>
-        <select v-model="category">
-          <option v-for="category of categories" :key="category.id">
-            {{ category.name }}
-          </option>
-        </select>
-      </span>
+          type="file"
+          id="FileUpload"
+          style="display: none"
+          @change="handleFileChange($event)">
+      </div>
+      <input v-model="name" />
+      <textarea class="resize-none" v-model="description" />
+      <select 
+        class="text-yellow-400 rounded-3xl p-2 border-2 border-yellow-400 mb-1 mr-1 bg-white y-6 self-end text-center" 
+        style="cursor: pointer" 
+        v-model="category">
+        <option v-for="category of categories" :key="category.id">
+          {{ category.name }}
+        </option>
+      </select>
+      <button 
+        class="text-white rounded-3xl p-2 bg-red-500 hover:bg-red-600" 
+        @click="deleteDish">
+          Delete
+      </button>
+      <button v-if="isEdit" 
+        class="text-yellow-400 rounded-3xl p-2 border-2 border-yellow-400 hover:bg-gray-200" 
+        @click="editDish">
+          Save
+      </button>
+      <button v-else 
+        class="text-yellow-400 rounded-3xl p-2 border-2 border-yellow-400 hover:bg-gray-200" 
+        @click="createDish">
+          Save
+      </button>
     </dialog>
   </div>
 </template>
@@ -124,111 +133,3 @@ export default {
   },
 }
 </script>
-
-
-<style>
-.DialogCard {
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  position: fixed;
-  /* position: relative; */
-  width: 350px;
-  height: 607px;
-  border-radius: 40px;
-  background: #ffffff;
-  box-shadow: inset 0px 0px 4px 1px rgba(0, 0, 0, 0.25);
-}
-
-.Dialog {
-  /* Change to center page */
-  padding: 0;
-  width: 330px;
-  display: flex;
-  flex-direction: column;
-  border-radius: 40px;
-  border-style: none;
-}
-
-.ImageContainer {
-  width: 330px;
-  margin-top: 2.86%;
-  /* background: url("https://picsum.photos/200/300"), #000000; */
-  mix-blend-mode: normal;
-  border-radius: 29px;
-  height: 330px;
-  justify-content: flex-end;
-  display: flex;
-}
-
-.Input {
-  border-style: none;
-}
-
-.TextArea {
-  /* width: 100%; */
-  height: 50%;
-  resize: none;
-  border-style: none;
-}
-
-.ChooseImage {
-  justify-self: flex-end;
-  align-self: flex-end;
-  color: var(--primary-color);
-  background-color: white;
-  border-style: solid;
-  border-radius: 40px;
-  border-width: 0.2em;
-  padding: 2px 8px;
-  margin-bottom: 0.4rem;
-  margin-right: 0.5rem;
-}
-
-.ChooseImage:hover {
-  cursor: pointer;
-}
-
-.DeleteButton {
-  width: min-content;
-  padding: 2%;
-  background: #FF0000;
-  border-radius: 32px;
-  font-family: SF Pro Display;
-  font-style: normal;
-  font-weight: 600;
-  font-size: 16px;
-  line-height: 16px;
-  align-items: center;
-  text-align: center;
-
-  color: #FFFFFF;
-}
-.DeleteButton:hover {
-  cursor: pointer;
-}
-
-.SaveButton {
-  width: min-content;
-  padding: 2%;
-  font-family: SF Pro Display;
-  font-style: italic;
-  font-weight: 600;
-  font-size: 16px;
-  line-height: 16px;
-  align-items: center;
-  text-align: center;
-  border: 2.5px solid #FFA825;
-  border-radius: 32px;
-
-  color: #FFA825;
-}
-.SaveButton:hover {
-  cursor: pointer;
-}
-
-#FileUpload {
-  /* width: 100%; */
-  display: none;
-}
-</style>
