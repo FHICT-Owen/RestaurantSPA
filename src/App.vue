@@ -34,7 +34,7 @@ export default {
       store.dispatch('getAllDishes')
     })
     return { popUps }
-  },
+  }
 }
 </script>
 
@@ -50,4 +50,3 @@ export default {
   --primary-color: #FFA825;
 }
 </style>
-
