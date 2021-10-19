@@ -34,12 +34,12 @@ export default ({
 
 .food-card {
   position: relative;
-  width: 350px;
   height: 100px;
   margin-top: 10px;
 }
 
 .menu-card {
+  display: flex;
   position: absolute;
   left: 0%;
   right: 0%;
@@ -116,14 +116,14 @@ export default ({
 
 }
 
-.plus-icon:hover > .overlay {
+/* .plus-icon:hover > .overlay {
   width:100%;
   height:100%;
   position:absolute;
   background-color:#000;
   opacity:0.1;
   border-radius:30px;
-}
+} */
 
 li {
   list-style: none;
