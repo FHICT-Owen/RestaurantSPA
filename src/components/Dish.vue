@@ -75,6 +75,8 @@ export default ({
   right: 72.86%;
   top: 5%;
   bottom: 5%;
+  width: 90px;
+  height: 90px;
   background-size: cover!important;
   mix-blend-mode: normal;
   border-radius: 22px;
