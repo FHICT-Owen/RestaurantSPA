@@ -14,7 +14,7 @@
             >
           </div>
           <div class="col-md-2">
-            <input v-model="keyword" class="searchNav" placeholder="Search for your favorite dish..." />
+            <input v-model="keyword" class="searchNav" placeholder="Search for your dish..." />
           </div>
         </div>
       </div>
@@ -24,7 +24,6 @@
       <div class="row">
         <div class="col-md-2"></div>
         <div class="col-sm-12 col-md-8">
-          <!-- TODO:Filter on search -->
           <div v-for="category in categories" :key="category.id">
             <h2 class="display-4">{{ category.name }}</h2>
             <a :id="category.name" class="anchor"></a>
@@ -43,7 +42,6 @@
 import { computed, onMounted, ref } from 'vue'
 import store from '@/store'
 import Dish from '../components/Dish.vue'
-import DishFilter from '../components/DishFilter.vue'
 
 const categories = computed(() => store.state.categories)
 const dishes = computed(() => store.state.dishes)
