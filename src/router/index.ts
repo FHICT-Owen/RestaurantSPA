@@ -3,6 +3,7 @@ import Home from '../views/Home.vue'
 import Profile from '../views/Profile.vue'
 import Menu from '../views/Menu.vue'
 import SessionPage from '../views/SessionPage.vue'
+import TablePlan from '../views/TablePlan.vue'
 
 import { Auth0 } from '@/auth'
 
@@ -20,11 +21,18 @@ const routes: Array<RouteRecordRaw> = [
     component: Menu,
   },
   {
+    path: '/table_plan',
+    name: 'tableplan',
+    meta: {requiresNavBar: true},
+    component: TablePlan,
+  },
+  {
     path: '/session_page',
     name: 'sessionpage',
     meta: {requiresNavBar: false},
     component: SessionPage,
   },
+  
   {
     path: '/profile',
     name: 'profile',

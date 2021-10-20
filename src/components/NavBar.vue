@@ -23,6 +23,9 @@
             <li class="nav-item">
               <router-link to="/menu" class="nav-link">Menu</router-link>
             </li>
+            <li class="nav-item">
+              <router-link to="/table_plan" class="nav-link">Table Plan</router-link>
+            </li>
           </ul>
           <ul class="navbar-nav d-none d-md-block">
             <li v-if="!isAuthenticated && !loading" class="nav-item">
