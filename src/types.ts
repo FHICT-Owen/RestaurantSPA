@@ -15,3 +15,11 @@ interface PopUp {
     text: string
     isError: boolean
 }
+
+interface RestaurantTable {
+    id: number,
+    tableNumber: number,
+    restaurantId: number,
+    isActive: boolean,
+    inUse: boolean
+}
