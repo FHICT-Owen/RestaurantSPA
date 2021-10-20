@@ -8,6 +8,7 @@
       <button @click="toggleMenu">Switch to costumer menu</button>
       <ManagerMenu />
     </div>
+
   </div>
 </template>
 
@@ -15,6 +16,8 @@
 import { inject, ref } from 'vue'
 import CostumerMenu from '../components/CustomerMenu.vue'
 import ManagerMenu from '../components/ManagerMenu.vue'
+import TestPage from '../views/TestPage.vue'
+
 
 export default {
   components: {
