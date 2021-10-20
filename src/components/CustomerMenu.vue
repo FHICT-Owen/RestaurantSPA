@@ -1,6 +1,5 @@
 <template>
   <div>
-    <div v-show="nav_fixedheight" style="height: 52px"></div>
     <div id="navbar">
       <div class="container">
         <div class="row">
@@ -13,9 +12,9 @@
               >{{ category.name }}</a
             >
           </div>
-          <div class="col-md-2">
-            <input v-model="keyword" class="searchNav" placeholder="Search for your dish..." />
-          </div>
+            <div class="col-md-2">
+              <input v-model="keyword" class="searchNav" placeholder="Search for your dish..." />
+            </div>
         </div>
       </div>
     </div>
@@ -43,48 +42,38 @@ import { computed, onMounted, ref } from 'vue'
 import store from '@/store'
 import Dish from '../components/Dish.vue'
 
-const categories = computed(() => store.state.categories)
-const dishes = computed(() => store.state.dishes)
-
 export default {
   name: 'CostumerMenu',
   components: {
     Dish,
   },
-  data() {
-    return { keyword: '', dishes }
-  },
-  computed: {
-    filterDishes() {
-      const keyword = (this as any).keyword
-      return dishes.value.filter(({ name }) => name.toLowerCase().includes(keyword.toLowerCase()))
-    },
-  },
   setup() {
-    let nav_fixedheight = ref(false)
+    const categories = computed(() => store.state.categories)
+    const dishes = computed(() => store.state.dishes)
+    let keyword = ref('')
+    const filterDishes = computed(() => 
+      dishes.value.filter(({ name }) => 
+        name.toLowerCase().includes(keyword.value.toLowerCase())))
 
-    onMounted(() => {
-      var navbar = document.getElementById('navbar')
-      if (!!navbar) var sticky = navbar.offsetTop
-      window.addEventListener('scroll', () => manageStickyNav(navbar, sticky))
-    })
-
-    function manageStickyNav(navbar: any, sticky: any) {
-      if (!!navbar) {
-        if (window.pageYOffset >= sticky) {
-          nav_fixedheight.value = true
-          navbar.classList.add('sticky')
-        } else {
-          nav_fixedheight.value = false
-          navbar.classList.remove('sticky')
-        }
+    const manageStickyNav = (navbar: HTMLElement | null) => {
+      if(navbar != null) {
+        window.pageYOffset >= navbar.offsetTop ? 
+          navbar.classList.add('sticky') : navbar.classList.remove('sticky')
       }
     }
+
+    onMounted(() =>{
+      let navbar = document.getElementById('navbar')
+      window.addEventListener('scroll', () => manageStickyNav(navbar))
+    })
+
     return {
       categories,
-      nav_fixedheight,
+      dishes,
+      filterDishes,
+      keyword
     }
-  },
+  }
 }
 </script>
 
@@ -142,11 +131,6 @@ html {
   position: -webkit-sticky;
   position: sticky;
   top: 0;
-}
-
-/* Add some top padding to the page content to prevent sudden quick movement (as the navigation bar gets a new position at the top of the page (position:fixed and top:0) */
-.sticky + .content {
-  padding-top: 60px;
 }
 
 a.anchor {
