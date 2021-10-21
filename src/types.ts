@@ -7,8 +7,15 @@ interface Dish {
     id: number,
     name: string,
     description: string,
+    category: string,
+    ingredients: string[]
     image: string,
-    category: string
+}
+
+interface Ingredient {
+    id: number,
+    name: string,
+    isAllergen: boolean
 }
 
 interface PopUp {

@@ -2,7 +2,7 @@ import { showPopUp } from '@/utils'
 import axios from 'axios'
 
 export default class CategoryDataService {
-  static API_URL = process.env.VUE_APP_API_URL;
+  static API_URL = process.env.VUE_APP_MENU_SERVICE_URL;
 
   public static async getAllCategories (): Promise<Category[]> {
     const result = await axios.get(`${this.API_URL}/categories/`)
