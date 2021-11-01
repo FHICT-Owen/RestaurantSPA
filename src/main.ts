@@ -9,8 +9,6 @@ import { faLink, faUser, faPowerOff } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
 import store from './store'
 import './registerServiceWorker'
-import { Quasar } from 'quasar'
-const quasarUserOptions = require('./quasar-user-options')
 
 async function init () {
   const AuthPlugin = await Auth0.init({
@@ -26,7 +24,7 @@ async function init () {
     audience: process.env.VUE_APP_AUTH0_AUDIENCE || '',
     redirectUri: window.location.origin
   })
-  const app = createApp(App).use(Quasar, quasarUserOptions)
+  const app = createApp(App)
   library.add(faLink, faUser, faPowerOff)
   app
     .use(AuthPlugin)
