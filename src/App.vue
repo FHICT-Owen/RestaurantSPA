@@ -35,6 +35,7 @@ export default {
     onMounted(() => {
       store.dispatch('getAllCategories')
       store.dispatch('getAllDishes')
+      store.dispatch('getAllIngredients')
     })
     return { popUps }
   }
