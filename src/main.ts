@@ -7,6 +7,7 @@ import './assets/tailwind.css'
 import { library } from '@fortawesome/fontawesome-svg-core'
 import { faLink, faUser, faPowerOff } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
+import QrcodeVue from 'qrcode.vue'
 import store from './store'
 import './registerServiceWorker'
 
@@ -24,7 +25,12 @@ async function init () {
     audience: process.env.VUE_APP_AUTH0_AUDIENCE || '',
     redirectUri: window.location.origin
   })
-  const app = createApp(App)
+  const app = createApp(App, {
+    template: '<qrcode-vue :value="value"></qrcode-vue>',
+    components: {
+      QrcodeVue
+    }
+  })
   library.add(faLink, faUser, faPowerOff)
   app
     .use(AuthPlugin)
