@@ -124,7 +124,7 @@ export default {
         store.dispatch('getAllDishes'))
     }
 
-    const closeDialog = () => store.state.isOpen = false
+    const closeDialog = () => store.state.isDishDialogOpen = false
 
     const handleFileChange = async (e: any) =>
       await toBase64URL(e.target.files[0]).then(

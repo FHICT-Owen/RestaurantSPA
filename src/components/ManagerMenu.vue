@@ -16,7 +16,8 @@
         <Dish v-for="dish of dishes" :key="dish.id" :dish="dish" />
       </ul>
     </div>
-    <Dialog v-show="isOpen" :key="isOpen" />
+    <Dialog v-if="isDishDialogOpen" :key="isDishDialogOpen" />
+    <DeleteConfirmationDialog v-if="isCategoryDialogOpen" :props=""/>
   </div>
 </template>
 
@@ -25,6 +26,7 @@
 import Category from '../components/Category.vue'
 import Dish from '../components/Dish.vue'
 import Dialog from '../components/Dialog.vue'
+import DeleteConfirmationDialog from '../components/DeleteConfirmationDialog.vue'
 import store from '@/store'
 import { computed, ref } from 'vue'
 
@@ -33,12 +35,14 @@ export default {
   components: {
     Category,
     Dish,
-    Dialog
+    Dialog,
+    DeleteConfirmationDialog,
   },
   setup () {  
     const categories = computed(() => store.state.categories)
     const dishes = computed(() => store.state.dishes)
-    const isOpen = computed(() => store.state.isOpen)
+    const isDishDialogOpen = computed(() => store.state.isDishDialogOpen)
+    const isCategoryDialogOpen = computed(() => store.state.isCategoryDialogOpen)
     const toggleDialog = () => { 
       store.dispatch('toggleDialog', false) 
       store.dispatch('setCurrentDish', {})
@@ -51,7 +55,7 @@ export default {
       })
       name.value = ''
     }
-    return { categories, dishes, isOpen, toggleDialog, name, createCategory }
+    return { categories, dishes, isDishDialogOpen, isCategoryDialogOpen, toggleDialog, name, createCategory }
   }
 }
 </script>
