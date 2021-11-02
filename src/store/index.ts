@@ -6,6 +6,7 @@ import ingredientDataService from '@/services/IngredientDataService'
 export default createStore({
   state: {
     categories: [] as Category[],
+    selectedCategories: [] as string[],
     dishes: [] as Dish[],
     ingredients: [] as Ingredient[],
     isOpen: false,
