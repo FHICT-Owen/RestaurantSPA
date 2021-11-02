@@ -1,5 +1,5 @@
 <template>
-  <div class="q-pa-md q-gutter-sm">
+  <div>
     <div>
       <h3 v-if="!isEditMode" @click="openInput" style="display:inline" class="mr-3">{{category.name}} </h3>
       <input v-model="name" v-else @keyup.enter="editCategory">
