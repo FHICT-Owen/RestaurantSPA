@@ -8,8 +8,8 @@
           :key="category.id"
           :href="`#${category.name}`"
           class="no-underline capitalize p-4"
-          >{{ category.name }}</button
-        >
+          >{{ category.name }}
+        </button>
       </div>
     </div>
     <div class="capitalize container">
