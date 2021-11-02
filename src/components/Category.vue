@@ -29,7 +29,6 @@
 import ConfirmDialog from '../components/ConfirmDialog.vue'
 import store from '@/store'
 import {ref} from 'vue'
-import {useQuasar} from 'quasar'
 
 export default ({
   props: {
@@ -38,8 +37,6 @@ export default ({
   setup(props: {
       category: Category
     }) {
-    const $q = useQuasar()
-
     let isEditMode = ref(false)
     let name = ref('')
 
@@ -64,22 +61,22 @@ export default ({
       isEditMode.value = !isEditMode.value
     }
 
-    function confirm() {
-      $q.dialog({
-        title: 'Confirm',
-        message: 'Are you sure you want to delete this category',
-        cancel: true,
-        persistent: true
-      }).onOk(() => {
-        console.log('>>>> OK')
-      }).onOk(() => {
-        // console.log('>>>> second OK catcher')
-      }).onCancel(() => {
-        // console.log('>>>> Cancel')
-      }).onDismiss(() => {
-        // console.log('I am triggered on both OK and Cancel')
-      })
-    }
+    // function confirm() {
+    //   $q.dialog({
+    //     title: 'Confirm',
+    //     message: 'Are you sure you want to delete this category',
+    //     cancel: true,
+    //     persistent: true
+    //   }).onOk(() => {
+    //     console.log('>>>> OK')
+    //   }).onOk(() => {
+    //     // console.log('>>>> second OK catcher')
+    //   }).onCancel(() => {
+    //     // console.log('>>>> Cancel')
+    //   }).onDismiss(() => {
+    //     // console.log('I am triggered on both OK and Cancel')
+    //   })
+    // }
     return {
       deleteCategory,
       isEditMode,
