@@ -1,23 +1,22 @@
 <template>
 	<div>
-    <div class="mb-5">
-      <h1>Menu</h1>
-      <h2>Categories</h2>
-      <form @submit.prevent="createCategory">
-        <input v-model="name">
-        <button class="btn btn-primary rounded">New category</button>
-      </form>
-      <ul>
+    <div class="justify-center w-1/2">
+      <h1 class="text-5xl p-1">Menu</h1>
+      <h2 class="text-4xl p-1">Categories</h2>
+      <div class="border-2 border-gray-600 rounded-3xl p-2">
+        <form @submit.prevent="createCategory" class="flex justify-center">
+          <button class="bg-gray-200 rounded-xl p-2">New category</button>
+          <input class="border-2 border-gray-500 rounded-3xl p-1 mx-2" v-model="name">
+        </form>
         <Category v-for="category of categories" :key="category.id" :category="category" />
-      </ul>
-      <h2>Dishes</h2>
-      <button class="btn btn-primary rounded" @click="toggleDialog">New dish</button>
-      <ul>
+      </div>
+      <h2 class="text-4xl p-1">Dishes</h2>
+      <div class="border-2 border-gray-600 rounded-3xl p-2">
+        <button class="bg-gray-200 rounded-xl p-2" @click="toggleDialog">New dish</button>
         <Dish v-for="dish of dishes" :key="dish.id" :dish="dish" />
-      </ul>
+      </div>
     </div>
     <Dialog v-if="isDishDialogOpen" :key="isDishDialogOpen" />
-    <DeleteConfirmationDialog v-if="isCategoryDialogOpen" :props=""/>
   </div>
 </template>
 
@@ -26,7 +25,6 @@
 import Category from '../components/Category.vue'
 import Dish from '../components/Dish.vue'
 import Dialog from '../components/Dialog.vue'
-import DeleteConfirmationDialog from '../components/DeleteConfirmationDialog.vue'
 import store from '@/store'
 import { computed, ref } from 'vue'
 
@@ -35,14 +33,12 @@ export default {
   components: {
     Category,
     Dish,
-    Dialog,
-    DeleteConfirmationDialog,
+    Dialog
   },
   setup () {  
     const categories = computed(() => store.state.categories)
     const dishes = computed(() => store.state.dishes)
     const isDishDialogOpen = computed(() => store.state.isDishDialogOpen)
-    const isCategoryDialogOpen = computed(() => store.state.isCategoryDialogOpen)
     const toggleDialog = () => { 
       store.dispatch('toggleDialog', false) 
       store.dispatch('setCurrentDish', {})
@@ -55,7 +51,7 @@ export default {
       })
       name.value = ''
     }
-    return { categories, dishes, isDishDialogOpen, isCategoryDialogOpen, toggleDialog, name, createCategory }
+    return { categories, dishes, isDishDialogOpen, toggleDialog, name, createCategory }
   }
 }
 </script>

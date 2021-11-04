@@ -6,7 +6,7 @@
     </div>
     <div v-else-if="isAuthenticated && !loading">
       <button @click="toggleMenu">Switch to costumer menu</button>
-      <ManagerMenu />
+      <ManagerMenu class="flex justify-center" />
     </div>
 
   </div>

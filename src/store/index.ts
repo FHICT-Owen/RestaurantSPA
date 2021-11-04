@@ -10,10 +10,7 @@ export default createStore({
     ingredients: [] as Ingredient[],
     isDishDialogOpen: false,
     isConfirmDialogOpen: true,
-    confirmDialogItem: {},
     isEditDialog: false,
-    isModalOpen: false,
-    isModal: false,
     currentDish: {} as Dish,
     popUps: [] as PopUp[],
   },
@@ -27,7 +24,6 @@ export default createStore({
     },
     setCurrentDish: (state, payload) => {state.currentDish = payload},
     createNewDish: (state) => { state.isDishDialogOpen = !state.isDishDialogOpen },
-    setConfirmDialogState: (state, payload) => {state.isConfirmDialogOpen = !state.isConfirmDialogOpen, state.confirmDialogItemName = payload},
   },
   actions: {
     async getAllCategories ({ commit }) {
@@ -73,8 +69,9 @@ export default createStore({
       await ingredientDataService.deleteIngredient(ingredient)
     },
 
+    openConfirmDialog: ({commit}, payload) => commit('', payload),
+
     toggleDialog: ({commit}, payload) => commit('toggleDialog', payload),
-    setConfirmDialogState: ({commit}, payload) => commit('setConfirmDialogState', payload),
     setCurrentDish: ({commit}, payload) => commit('setCurrentDish', payload),
   },
   modules: {

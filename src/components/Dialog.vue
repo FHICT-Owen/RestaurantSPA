@@ -1,6 +1,5 @@
 <template>
-  <div class="fixed w-full h-full left-0 top-0">
-    <div class="absolute left-0 top-0 w-full h-full bg-gray-800 bg-opacity-60 cursor-pointer" @click="closeDialog"></div>
+  <DialogBackground @click="closeDialog">
     <dialog class="flex shadow-lg bg-white rounded-3xl flex-col p-2 z-40 top-1/2" style="transform: translateY(-50%)">
       <div class="w-80 h-80 flex flex-row justify-end rounded-3xl bg-gray-100" :style="{background: image}">
         <label 
@@ -53,7 +52,6 @@
               </datalist>
             </form>
           </div>
-          <Modal v-show="isAskForAllergen" :ingredient="{text: 'Is it a allergen?', name: ingredient}" />
         </ul>
       </div>
       <div class="flex flex-row justify-end mt-2">
@@ -69,7 +67,7 @@
         </button>
       </div>
     </dialog>
-  </div>
+  </DialogBackground>
 </template>
 
 <script lang="ts">
@@ -77,12 +75,12 @@ import { computed, ref } from 'vue'
 import store from '@/store'
 import { toBase64URL } from '@/utils'
 import Ingredient from './Ingredient.vue'
-import Modal from './Modal.vue'
+import DialogBackground from './DialogBackground.vue'
 
 export default {
   components: {
     Ingredient,
-    Modal
+    DialogBackground
   },
   setup() {
     const isEdit = computed(() => store.state.isEditDialog)
@@ -97,7 +95,6 @@ export default {
 
     let onGeneralTab = ref(true)
     let settingIngredient = ref(false)
-    let isAskForAllergen = computed(() => store.state.isModalOpen)
     let ingredient = ref('')
     
     const saveDish = () => {
@@ -134,9 +131,9 @@ export default {
     const addIngredient = () => {
       settingIngredient.value = false
       if (store.state.ingredients.filter(obj => obj.name === ingredient.value).length === 0)
-        store.state.isModalOpen = true
-      if (!dishIngredients.value.includes( ingredient.value)) {
-        dishIngredients.value.push(ingredient.value)}
+        
+        if (!dishIngredients.value.includes( ingredient.value)) {
+          dishIngredients.value.push(ingredient.value)}
     }
 
     return {
@@ -152,7 +149,6 @@ export default {
 
       onGeneralTab,
       settingIngredient,
-      isAskForAllergen,
       ingredient,
 
       saveDish,
