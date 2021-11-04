@@ -13,13 +13,22 @@
 </template>
 
 <script lang="ts">
+import {
+    computed,
+    onMounted,
+    ref
+  } from 'vue'
 import TableItem from "../components/TableItem.vue";
+import store from '@/store'
 
 export default {
   name: "TablePlan",
   components: {
     TableItem,
   },
+  setup(){
+    const tables = computed(() => store.state.tables)
+  }
 };
 </script>
 
