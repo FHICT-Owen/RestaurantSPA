@@ -6,6 +6,8 @@ export default createStore({
   state: {
     categories: [] as Category[],
     dishes: [] as Dish[],
+    tables: [] as RestaurantTable[],
+    selectedTables: [] as RestaurantTable[],
     isOpen: false,
     isEditDialog: false,
     currentDish: {} as Dish,
@@ -16,12 +18,14 @@ export default createStore({
   mutations: {
     getAllCategories: (state, categories) => { state.categories = categories },
     getAllDishes: (state, dishes) => { state.dishes = dishes },
+    getAllTables: (state, tables) => { state.tables = tables },
     toggleDialog: (state, payload) => { 
       state.isOpen = !state.isOpen, 
       state.isEditDialog = payload
     },
     setCurrentDish: (state, payload) => {state.currentDish = payload},
     createNewDish: (state) => { state.isOpen = !state.isOpen },
+
     // showPopUp: (state, payload) => {
     //   console.log(payload)
     //   state.popUps.push(payload)
