@@ -8,9 +8,9 @@
       </div>
       <div class="col-2">
         <p class="active">Active</p>
-        <button class="toggle activeEqualsTrue">Toggle</button>
+        <button class="toggle activeEqualsTrue"><img src="../assets/toggle-on.png"/></button>
       </div>
-      <button class="checkbox">Checkbox</button>
+      <button class="checkbox"><img src="../assets/checkbox-checked.png"/></button>
     </div>
 </template>
 
@@ -21,9 +21,16 @@ import { computed, ref } from "vue";
 
 export default {
   name: "TableItem",
-  components: {},
-  setup() {},
+  props: {
+    table:{} as RestaurantTable
+  },
+  setup(props: { table: RestaurantTable }) {
+    //../assets/checkbox-checked.png
+    //../assets/checkbox-unchecked.png
+    // const checkboxImg: string = "unchecked"
+  },
 };
+
 </script>
 
 <style scoped>
