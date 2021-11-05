@@ -3,18 +3,13 @@
     <div id="navbar" class="flex flex-col bg-gray-200 w-full overflow-hidden z-50">
       <input v-model="keyword" class="justify-center shadow-sm rounded-3xl h-10 p-3" placeholder="Search for your dish..." />
       <div class="flex flex-row justify-evenly">
-        <div 
-          id="all"
-          @click="selectCategory"
-          class="no-underline capitalize p-4 cursor-pointer select-none">
-          all
-        </div>
         <div
           v-for="category in categories"
           :id="category.name"
           :key="category.id"
           @click="selectCategory"
-          class="no-underline capitalize p-4 cursor-pointer select-none .select"
+          :tabindex="category.id"
+          class="no-underline capitalize p-4 cursor-pointer select-none"
           >{{ category.name }}
         </div>
       </div>
@@ -23,7 +18,6 @@
       <div>
         <div v-for="category in selectedCategory" :key="category.id">
           <h2 class="text-5xl mt-5">{{ category }}</h2>
-          <a :id="category" class="anchor"></a>
           <div v-for="(dish, index) in filteredDishes" :key="index">
             <Dish v-if="dish.category == category" :dish="dish" />
           </div>
@@ -56,25 +50,11 @@ export default {
     
     const selectCategory = (e:any) => {
       const newElement = document.getElementById(e.target.textContent.toLowerCase())
-      if (!!newElement) {
-        if (newElement.tagName === 'all') {
-          const lastElement = document.getElementById('all')
-          if (!!lastElement) {
-            lastElement.classList.remove('select')
-            newElement.classList.add('select')
-          }
-        } else {
-          const lastElement = document.getElementById(store.state.selectedCategory[0])
-          const all = document.getElementById('all')
-          if (!!lastElement && !!all) {
-            console.log()
-            all.classList.remove('select')
-            lastElement.classList.remove('select')
-            newElement.classList.add('select')
-          }
-        }
+      const lastElement = document.getElementById(store.state.selectedCategory[0])
+      if (!!newElement && !!lastElement) {
+        lastElement.classList.remove('select')
+        newElement.classList.add('select')
       }
-      
       store.commit('setSelectedCategory', e.target.textContent)
     }
     
@@ -89,8 +69,6 @@ export default {
       let navbar = document.getElementById('navbar')
       window.addEventListener('scroll', () => manageStickyNav(navbar))
       store.commit('setSelectedCategory', 'all')
-      const all = document.getElementById('all')
-      if (!!all) all.classList.add('select')
     })
 
     return {
@@ -113,6 +91,6 @@ export default {
   top: 0;
 }
 .select {
-  background-color: red;
+  background-color: orange;
 }
 </style>

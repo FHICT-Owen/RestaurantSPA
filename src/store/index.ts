@@ -17,7 +17,7 @@ export default createStore({
     popUps: [] as PopUp[],
   },
   mutations: {
-    getAllCategories: (state, categories) => { state.categories = categories },
+    getAllCategories: (state, categories) => { state.categories = categories, state.categories.unshift({id: 0, name: 'all'}) },
     getAllDishes: (state, dishes) => { state.dishes = dishes },
     getAllIngredients: (state, ingredients) => { state.ingredients = ingredients },
     toggleDialog: (state, payload) => { 
@@ -29,7 +29,7 @@ export default createStore({
         state.selectedCategory = state.categories.map(category => category.name)
       else {
         state.selectedCategory = []
-        state.selectedCategory.push(payload.trim()) 
+        state.selectedCategory.push(payload.trim())
       }
     },
     setCurrentDish: (state, payload) => {state.currentDish = payload},
