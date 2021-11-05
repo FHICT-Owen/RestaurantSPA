@@ -36,7 +36,7 @@ export default {
     Dialog
   },
   setup () {  
-    const categories = computed(() => store.state.categories)
+    const categories = computed(() => store.state.categories.slice(1))
     const dishes = computed(() => store.state.dishes)
     const isDishDialogOpen = computed(() => store.state.isDishDialogOpen)
     const toggleDialog = () => { 

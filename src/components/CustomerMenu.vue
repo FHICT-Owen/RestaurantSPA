@@ -1,37 +1,27 @@
 <template>
   <div>
-    <div id="navbar">
-      <div class="container">
-        <div class="row">
-          <div class="col-md-2"></div>
-          <div class="col-md-8">
-            <a
-              v-for="category in categories"
-              :key="category.id"
-              :href="`#${category.name}`"
-              >{{ category.name }}</a
-            >
-          </div>
-            <div class="col-md-2">
-              <input v-model="keyword" class="searchNav" placeholder="Search for your dish..." />
-            </div>
+    <div id="navbar" class="flex flex-col bg-gray-200 w-full overflow-hidden z-50">
+      <input v-model="keyword" class="justify-center shadow-sm rounded-3xl h-10 p-3" placeholder="Search for your dish..." />
+      <div class="flex flex-row justify-evenly">
+        <div
+          v-for="category in categories"
+          :id="category.name"
+          :key="category.id"
+          @click="selectCategory"
+          :tabindex="category.id"
+          class="no-underline capitalize p-4 cursor-pointer select-none"
+          >{{ category.name }}
         </div>
       </div>
     </div>
-
-    <div class="menu-content container">
-      <div class="row">
-        <div class="col-md-2"></div>
-        <div class="col-sm-12 col-md-8">
-          <div v-for="category in categories" :key="category.id">
-            <h2 class="display-4">{{ category.name }}</h2>
-            <a :id="category.name" class="anchor"></a>
-            <div v-for="(dish, index) in filterDishes" :key="index">
-              <Dish v-if="dish.category == category.name" :dish="dish" />
-            </div>
+    <div class="capitalize container">
+      <div>
+        <div v-for="category in selectedCategory" :key="category.id">
+          <h2 class="text-5xl mt-5">{{ category }}</h2>
+          <div v-for="(dish, index) in filteredDishes" :key="index">
+            <Dish v-if="dish.category == category" :dish="dish" />
           </div>
         </div>
-        <div class="col-md-2"></div>
       </div>
     </div>
   </div>
@@ -51,92 +41,56 @@ export default {
     const categories = computed(() => store.state.categories)
     const dishes = computed(() => store.state.dishes)
     let keyword = ref('')
-    const filterDishes = computed(() => 
+
+    const filteredDishes = computed(() => 
       dishes.value.filter(({ name }) => 
         name.toLowerCase().includes(keyword.value.toLowerCase())))
 
+    const selectedCategory = computed(() => store.state.selectedCategory)
+    
+    const selectCategory = (e:any) => {
+      const newElement = document.getElementById(e.target.textContent.toLowerCase())
+      const lastElement = document.getElementById(store.state.selectedCategory[0])
+      if (!!newElement && !!lastElement) {
+        lastElement.classList.remove('select')
+        newElement.classList.add('select')
+      }
+      store.commit('setSelectedCategory', e.target.textContent)
+    }
+    
     const manageStickyNav = (navbar: HTMLElement | null) => {
-      if(navbar != null) {
+      if(!!navbar) {
         window.pageYOffset >= navbar.offsetTop ? 
           navbar.classList.add('sticky') : navbar.classList.remove('sticky')
       }
     }
-
-    onMounted(() =>{
+    
+    onMounted(() => {
       let navbar = document.getElementById('navbar')
       window.addEventListener('scroll', () => manageStickyNav(navbar))
+      store.commit('setSelectedCategory', 'all')
     })
 
     return {
       categories,
       dishes,
-      filterDishes,
-      keyword
+      selectCategory,
+      filteredDishes,
+      keyword,
+      selectedCategory,
     }
   }
 }
 </script>
 
 <style>
-html {
-  scroll-behavior: smooth;
-}
-
-.menu {
-  /* background: #FFA825; */
-  border-bottom-left-radius: 42px;
-  border-bottom-right-radius: 42px;
-}
-
-.searchNav {
-  padding: 14px;
-}
-
-.menu-content {
-  border-radius: 42px;
-  background-color: white;
-}
-
-.menu-content h2 {
-  text-transform: capitalize;
-  margin-top: 20px;
-}
-
-/* Style the navbar */
-#navbar {
-  overflow: hidden;
-  background-color: #efefef;
-  width: 100%;
-  z-index: 999;
-}
-
-/* Navbar links */
-#navbar a {
-  text-transform: capitalize;
-  float: left;
-  display: block;
-  color: black;
-  text-align: center;
-  padding: 14px;
-  text-decoration: none;
-}
-
-/* Page content */
-.content {
-  padding: 16px;
-}
-
 /* The sticky class is added to the navbar with JS when it reaches its scroll position */
 .sticky {
   position: -webkit-sticky;
   position: sticky;
   top: 0;
 }
-
-a.anchor {
-  display: block;
-  position: relative;
-  top: -150px;
-  visibility: hidden;
+.select {
+  background-color: orange;
 }
 </style>
