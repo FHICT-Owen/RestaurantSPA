@@ -1,14 +1,13 @@
 <template>
   <div>
     <div v-if="costumerMenuIsOpen || !isAuthenticated">
-      <button v-show="isAuthenticated && !loading" @click="toggleMenu">Switch to manager menu</button>
+      <button class="flex" v-if="isAuthenticated && !loading" @click="toggleMenu">Switch to manager menu</button>
       <CostumerMenu />
     </div>
     <div v-else-if="isAuthenticated && !loading">
       <button @click="toggleMenu">Switch to costumer menu</button>
       <ManagerMenu />
     </div>
-
   </div>
 </template>
 
@@ -16,8 +15,6 @@
 import { inject, ref } from 'vue'
 import CostumerMenu from '../components/CustomerMenu.vue'
 import ManagerMenu from '../components/ManagerMenu.vue'
-import TestPage from '../views/TestPage.vue'
-
 
 export default {
   components: {

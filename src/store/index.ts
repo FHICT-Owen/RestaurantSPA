@@ -6,6 +6,7 @@ import ingredientDataService from '@/services/IngredientDataService'
 export default createStore({
   state: {
     categories: [] as Category[],
+    selectedCategory: [] as string[],
     dishes: [] as Dish[],
     ingredients: [] as Ingredient[],
     isOpen: false,
@@ -16,12 +17,20 @@ export default createStore({
     popUps: [] as PopUp[],
   },
   mutations: {
-    getAllCategories: (state, categories) => { state.categories = categories },
+    getAllCategories: (state, categories) => { state.categories = categories, state.categories.unshift({id: 0, name: 'all'}) },
     getAllDishes: (state, dishes) => { state.dishes = dishes },
     getAllIngredients: (state, ingredients) => { state.ingredients = ingredients },
     toggleDialog: (state, payload) => { 
       state.isOpen = !state.isOpen, 
       state.isEditDialog = payload
+    },
+    setSelectedCategory: (state, payload: string) => {
+      if (payload.trim().toLowerCase() === 'all')
+        state.selectedCategory = state.categories.map(category => category.name)
+      else {
+        state.selectedCategory = []
+        state.selectedCategory.push(payload.trim())
+      }
     },
     setCurrentDish: (state, payload) => {state.currentDish = payload},
     createNewDish: (state) => { state.isOpen = !state.isOpen },
