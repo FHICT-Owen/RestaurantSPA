@@ -18,7 +18,7 @@ export default class SessionDataService {
 
   public static async getSessionByCookie(secret: string): Promise<Session> {
     try{
-      return await axios.get(`${this.API_URL}/sessionbycookie?cookie=${secret}`).then(response => {
+      return await axios.get(`${this.API_URL}/session/sessionbycookie?cookie=${secret}`).then(response => {
         return response.data
       })
     } catch {
