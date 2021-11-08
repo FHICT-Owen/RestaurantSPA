@@ -9,7 +9,7 @@
           :key="category.id"
           @click="selectCategory"
           :tabindex="category.id"
-          class="no-underline capitalize p-4 cursor-pointer select-none"
+          class="no-underline capitalize py-2 px-4 mx-2 my-2.5 cursor-pointer select-none"
           >{{ category.name }}
         </div>
       </div>
@@ -30,14 +30,13 @@
 </template>
 
 <script lang="ts">
-import { computed, onMounted, ref } from 'vue'
+import { computed, defineComponent, onMounted, ref } from 'vue'
 import store from '@/store'
 import Dish from '../components/Dish.vue'
 
-export default {
-  name: 'CostumerMenu',
+export default defineComponent({
   components: {
-    Dish,
+    Dish
   },
   setup() {
     const categories = computed(() => store.state.categories)
@@ -71,6 +70,8 @@ export default {
       let navbar = document.getElementById('navbar')
       window.addEventListener('scroll', () => manageStickyNav(navbar))
       store.commit('setSelectedCategory', 'all')
+      const all = document.getElementById('all')
+      if (!!all) all.classList.add('select')
     })
 
     return {
@@ -82,7 +83,7 @@ export default {
       selectedCategory,
     }
   }
-}
+})
 </script>
 
 <style scoped>
@@ -94,5 +95,7 @@ export default {
 }
 .select {
   background-color: orange;
+  border-radius: 20px;
+  color: white;
 }
 </style>
