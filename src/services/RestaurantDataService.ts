@@ -9,10 +9,10 @@ export default class RestaurantDataService {
     return response.data
   }
 
-  public static async setInUse(tableId: number): Promise<any> {
-    return await axios.put(`${this.API_URL}/table/${tableId}/use`, true).then(response => {
+  public static async setInUse(tableId: number, state:boolean): Promise<any> {
+    return await axios.put(`${this.API_URL}/table/${tableId}/use?state=${state}`).then(() => {
       showPopUp('Set table to active!', false)
-      return response.data
+      return true
     }).catch(()=>{
       showPopUp('Was unable to set table to active!', true)
       return false

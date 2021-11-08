@@ -8,7 +8,7 @@ export default class SessionDataService {
   public static async createSession(session: Session): Promise<any> {
     return await axios.post(`${this.API_URL}/session/`, session).then(response => {
       showPopUp('Session created successfully!', false)
-      return response.data
+      return response.data.id
     }).catch(err => {
       showPopUp('Was unable to create session!', true)
       console.log(err)
@@ -17,7 +17,7 @@ export default class SessionDataService {
   }
 
   public static async removeSession(sessionId: number): Promise<any> {
-    return await axios.post(`${this.API_URL}/session/${sessionId}`).then(response => {
+    return await axios.delete(`${this.API_URL}/session/${sessionId}`).then(() => {
       showPopUp('Session removed successfully!', false)
       return true
     }).catch(err => {
