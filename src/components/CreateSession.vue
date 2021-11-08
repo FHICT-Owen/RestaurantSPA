@@ -39,9 +39,7 @@ export default {
                 SessionDataService.removeSession(tableId)
               }
             })            
-          } else {
-            SessionDataService.removeSession(tableId)
-          }         
+          }
         }).catch(() => {return})
       }
     }).catch()    
