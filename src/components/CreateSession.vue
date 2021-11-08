@@ -1,3 +1,7 @@
+<template>
+  <div></div>
+</template>
+
 <script lang="ts">
 
 import router from '../router/index'
@@ -22,7 +26,7 @@ export default {
     }
     const tableObj = RestaurantDataService.getTable(tableId)
     tableObj.then( table => {
-      if (table.isActive && table.inUse == false) {
+      if (table.isActive && !table.inUse) {
         const session = new Session(0, tableId, secret)
         SessionDataService.createSession(session).then(val => {
           console.log(val)

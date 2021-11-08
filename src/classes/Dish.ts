@@ -3,6 +3,8 @@ export default class Dish implements Dish {
   name!: string
   description!: string
   category!: string
+  dietaryRestrictions!: string[]
   ingredients!: string[]
+  prize!: number
   image!: string
 }
