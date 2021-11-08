@@ -1,83 +1,85 @@
 <template>
-  <DialogBackground @click="closeDialog">
-    <dialog class="flex shadow-lg bg-white rounded-3xl flex-col p-2 z-40 top-1/2" style="transform: translateY(-50%)">
-      <div class="w-80 h-80 flex flex-row justify-end rounded-3xl bg-gray-100" :style="{background: image}">
-        <label 
-          class="text-yellow-400 rounded-3xl p-2 border-2 border-yellow-400 mb-1 mr-1 bg-white y-6 self-end text-center cursor-pointer" 
-          for="FileUpload">
-            Choose Image...
-        </label>
-        <input
-          type="file"
-          id="FileUpload"
-          style="display: none"
-          @change="handleFileChange($event)">
-      </div>
-      <div class="flex flex-row justify-center pt-2">
-        <button class="flex hover:bg-gray-100 text-center border-yellow-400 text-yellow-400 p-2 border-2 border-solid box-border rounded-l-3xl" @click="onGeneralTab = true">General</button>
-        <button class="flex hover:bg-gray-100 text-center border-yellow-400 text-yellow-400 p-2 border-2 border-solid box-border rounded-r-3xl" @click="onGeneralTab = false">Ingredients</button>
-      </div>
-      <div v-if="onGeneralTab" class="flex flex-row pt-2 justify-evenly">
-        <div class="flex flex-col">
-          <input placeholder="Enter dish name ..." v-model="name" />
-          <textarea class="resize-none w-48 h-24 mt-2" placeholder="Enter dish description ..." v-model="description" />
+  <DialogBackground :close="closeDialog">
+    <dialog 
+      class="flex rounded-3xl p-2 z-50 top-1/2" 
+      style="transform: translateY(-50%); box-shadow: inset 0px 0px 4px 1px rgba(0, 0, 0, 0.25);">
+      <div class="flex flex-col w-80">
+        <div 
+          class="w-80 h-80 flex flex-row justify-end rounded-3xl bg-gray-100 bg-blend-normal bg-cover bg-no-repeat" 
+          :style="{background: image}">
+          <label 
+            class="text-yellow-400 rounded-3xl h-8 w-28 text-center text-sm border-2 border-yellow-400 mb-1 mr-1 bg-white y-6 self-end cursor-pointer" 
+            for="FileUpload">
+              Choose Image...
+          </label>
+          <input
+            type="file"
+            id="FileUpload"
+            style="display: none"
+            @change="handleFileChange($event)">
         </div>
-        <div class="flex flex-col">
-          <select 
-            class="text-black italic rounded-3xl p-2 mb-1 mr-1 bg-white y-6 self-end text-center cursor-pointer"
-            v-model="category">
-            <option v-for="category of categories" :key="category.id">
-              {{ category.name }}
-            </option>
-          </select>
-          <select 
-            class="text-black rounded-3xl p-2 mb-1 mr-1 bg-white y-6 self-end text-center cursor-pointer" 
-            v-model="category">
-            <option v-for="category of categories" :key="category.id">
-              {{ category.name }}
-            </option>
-          </select>
-          <input class="w-16" placeholder="Prize ..."/>
+        <div class="flex flex-row justify-center pt-2">
+          <button 
+            id="general"
+            class="w-36 text-sm h-8 selected border-yellow-400 border-2 border-solid box-border rounded-l-3xl" 
+            @click="switchGeneral">General</button>
+          <button 
+            id="ingredients"
+            class="w-36 h-8 text-sm unselected border-yellow-400 border-2 border-solid box-border rounded-r-3xl" 
+            @click="switchGeneral">Ingredients</button>
         </div>
-      </div>
-      <div v-else class="flex flex-row pt-2 max-w-xs">
-        <ul class="flex flex-wrap list-unstyled flex-row">
-          <Ingredient v-for="ingredient of dishIngredients" :key="ingredient.id" :ingredient="ingredient" />
-          <button v-if="!settingIngredient" class="bg-gray-200 rounded-full px-2" @click="settingIngredient = true">+</button>
-          <div v-else>
-            <form @submit.prevent="addIngredient">
-              <input v-model="ingredient" list="list" />
-              <datalist id="list">
-                <option v-for="ingredient of ingredients" :key="ingredient.id">{{ingredient.name}}</option>
-              </datalist>
-            </form>
+        <div v-if="onGeneralTab" class="flex flex-row pt-2 justify-evenly">
+          <div class="flex flex-col w-48">
+            <input class="text-base" placeholder="Enter dish name ..." v-model="name" />
+            <textarea class="text-sm resize-none h-24 mt-2" placeholder="Enter dish description ..." v-model="description" />
           </div>
-        </ul>
-      </div>
-      <div class="flex flex-row justify-end mt-2">
-        <button v-if="isEdit" 
-          class="text-white rounded-3xl px-3 py-1 mr-1 bg-red-500 hover:bg-red-600" 
-          @click="deleteDish">
-            Delete
-        </button>
-        <button
-          class="text-yellow-400 rounded-3xl px-3 py-1 border-2 border-yellow-400 hover:bg-gray-100" 
-          @click="saveDish">
-            Save
-        </button>
+          <div class="flex flex-col">
+            <select 
+              class="text-black italic rounded-3xl p-2 mb-1 mr-1 bg-white y-6 self-end text-center cursor-pointer"
+              v-model="category">
+              <option v-for="category of categories" :key="category.id">
+                {{ category.name }}
+              </option>
+            </select>
+            <input class="w-16 self-end" placeholder="Prize ..."/>
+          </div>
+        </div>
+        <div v-else class="flex flex-row pt-2 max-w-xs">
+          <ul class="flex flex-wrap list-unstyled flex-row">
+            <Ingredient v-for="ingredient of dishIngredients" :key="ingredient.id" :ingredient="ingredient" />
+            <button v-if="!settingIngredient" class="bg-gray-200 rounded-full px-2" @click="settingIngredient = true">+</button>
+            <div v-else>
+              <select 
+                @change="addNewIngredient"
+                class="text-black italic rounded-3xl p-2 mb-1 mr-1 bg-white y-6 self-end text-center cursor-pointer"
+                v-model="ingredient">
+                <option v-for="ingredient of ingredients" :key="ingredient.id">
+                  {{ingredient.name}}
+                </option>
+              </select>
+            </div>
+          </ul>
+        </div>
+        <div class="flex flex-row justify-end mt-2">
+          <button
+            class="text-yellow-400 rounded-3xl px-3 py-1 border-2 border-yellow-400 hover:bg-gray-100" 
+            @click="saveDish">
+              Save
+          </button>
+        </div>
       </div>
     </dialog>
   </DialogBackground>
 </template>
 
 <script lang="ts">
-import { computed, ref } from 'vue'
+import { computed, defineComponent, ref } from 'vue'
 import store from '@/store'
 import { toBase64URL } from '@/utils'
 import Ingredient from './Ingredient.vue'
 import DialogBackground from './DialogBackground.vue'
 
-export default {
+export default defineComponent({
   components: {
     Ingredient,
     DialogBackground
@@ -96,7 +98,32 @@ export default {
     let onGeneralTab = ref(true)
     let settingIngredient = ref(false)
     let ingredient = ref('')
-    
+
+    const switchGeneral = (e:any) => {
+      switch (e.target.id) {
+      case 'general':
+        onGeneralTab.value = true
+        e.target.classList.remove('unselected')
+        e.target.classList.add('selected')
+        const ingredients = document.getElementById('ingredients')
+        if (!!ingredients) {
+          ingredients.classList.remove('selected')
+          ingredients.classList.add('unselected')
+        } 
+        break
+      case 'ingredients':
+        onGeneralTab.value = false
+        e.target.classList.remove('unselected')
+        e.target.classList.add('selected')
+        const general = document.getElementById('general')
+        if (!!general) {
+          general.classList.remove('selected')
+          general.classList.add('unselected')
+        } 
+        break
+      }
+    }
+
     const saveDish = () => {
       store.dispatch(isEdit.value ? 'editDish' : 'createNewDish', {
         id: isEdit.value ? store.state.currentDish.id : 0,
@@ -105,20 +132,16 @@ export default {
         category: category.value,
         ingredients: dishIngredients.value,
         image: image.value
-      }).then(() => 
-        store.dispatch('getAllDishes'))
+      })
+      console.log(dishIngredients.value)
+      store.commit('closeDishDialog')
     }
-
-    const deleteDish = () => {
-      store.dispatch('deleteDish', {
-        id: store.state.currentDish.id,
-        name: name.value,
-        description: description.value,
-        category: category.value,
-        ingredients: dishIngredients.value,
-        image: image.value
-      }).then(() => 
-        store.dispatch('getAllDishes'))
+      
+    const addNewIngredient = (e:any) => {
+      if(!dishIngredients.value.includes(e.target.selectedOptions[0].text))
+        dishIngredients.value.push(e.target.selectedOptions[0].text)
+      ingredient.value = ''
+      settingIngredient.value = false
     }
 
     const closeDialog = () => store.state.isDishDialogOpen = false
@@ -127,14 +150,6 @@ export default {
       await toBase64URL(e.target.files[0]).then(
         data => image.value = data as string
       )
-
-    const addIngredient = () => {
-      settingIngredient.value = false
-      if (store.state.ingredients.filter(obj => obj.name === ingredient.value).length === 0)
-        
-        if (!dishIngredients.value.includes( ingredient.value)) {
-          dishIngredients.value.push(ingredient.value)}
-    }
 
     return {
       isEdit,
@@ -152,12 +167,24 @@ export default {
       ingredient,
 
       saveDish,
-      deleteDish,
 
       closeDialog,
       handleFileChange,
-      addIngredient
+
+      switchGeneral,
+      addNewIngredient,
     }
   }
-}
+})
 </script>
+
+<style scoped>
+  .selected {
+    background-color: rgba(251, 191, 36);
+    color: white;
+  }
+  .unselected {
+    background-color: white;
+    color: rgba(251, 191, 36);
+  }
+</style>

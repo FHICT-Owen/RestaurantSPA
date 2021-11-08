@@ -1,8 +1,8 @@
 <template>
   <div>
     <div id="navbar" class="flex flex-col bg-gray-200 w-full overflow-hidden z-50">
-      <input v-model="keyword" class="justify-center shadow-sm rounded-3xl h-10 p-3" placeholder="Search for your dish..." />
-      <div class="flex flex-row justify-evenly">
+      <input v-model="keyword" class="justify-center shadow-sm rounded-3xl h-10 p-3 mt-1" placeholder="Search for your dish..." />
+      <div class="flex flex-row overflow-x-scroll">
         <div
           v-for="category in categories"
           :id="category.name"
@@ -83,7 +83,7 @@ export default {
 }
 </script>
 
-<style>
+<style scoped>
 /* The sticky class is added to the navbar with JS when it reaches its scroll position */
 .sticky {
   position: -webkit-sticky;

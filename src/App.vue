@@ -33,9 +33,9 @@ export default {
   setup() {
     const popUps = computed(() => store.state.popUps)
     onMounted(() => {
-      store.dispatch('getAllCategories')
-      store.dispatch('getAllDishes')
-      store.dispatch('getAllIngredients')
+      store.commit('setCategories')
+      store.commit('setDishes')
+      store.commit('setIngredients')
     })
     return { popUps }
   }

@@ -10,39 +10,21 @@
       <h5 class="font-medium text-lg">{{dish.name}}</h5>
       <p class="font-med text-base text-gray-400">{{dish.description}}</p>
     </div>
-    <div class="flex flex-col justify-center space-y-1 m-2">
-      <div
-        class="bg-no-repeat bg-blend-normal w-9 h-9 bg-cover plus-icon"
-        @click="openEditDialog">
-      </div>
-      <div
-        class="bg-no-repeat bg-blend-normal w-9 h-9 bg-cover plus-icon"
-        @click="openEditDialog">
-      </div>
-    </div>
   </div>
 </template>
 
 <script lang="ts">
-import store from '@/store'
-import { ref } from 'vue'
+import { defineComponent, PropType, ref } from 'vue'
 
-export default ({
+export default defineComponent({
   props: {
-    dish: {} as Dish
-  },
-  setup (props: { dish: Dish }) {
-    function openEditDialog() {
-      store.dispatch('toggleDialog', true)
-      store.dispatch('setCurrentDish', props.dish)
+    dish: {
+      type: Object as PropType<Dish>,
+      required: true
     }
-    return { openEditDialog, imgSize: ref('88px') }
+  },
+  setup (props) {
+    return { imgSize: ref('88px') }
   }
 })
 </script>
-
-<style>
-.plus-icon {
-  background: url(../assets/plus.png);
-}
-</style>

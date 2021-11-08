@@ -1,17 +1,26 @@
 <template>
-  <div class="flex-grow-0 m-0.5 p-1.5 shadow rounded-3xl">
-		{{ingredient}}
+  <div class="flex flex-row flex-grow-0 m-0.5 p-1.5 shadow rounded-3xl">
+		{{ingredient}} <XCircleIcon @click="removeIngredient" class="w-6 h-6 hover:opacity-75" />
   </div>	
 </template>
 
 <script lang="ts">
+import store from '@/store'
+import { defineComponent } from '@vue/runtime-core'
+import { XCircleIcon } from '@heroicons/vue/outline'
 
-export default ({
-  props: {
-    ingredient: ''
+export default defineComponent({
+  components: {
+    XCircleIcon
   },
-  setup(props: { ingredient: string }) {
-
+  props: {
+    ingredient: {
+      type: String,
+      required: true
+    }
+  },
+  setup(props) { 
+    return { removeIngredient: () => store.dispatch('removeIngredientFromCurrentDish', props.ingredient) }
   }
 })
 </script>

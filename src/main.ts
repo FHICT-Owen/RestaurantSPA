@@ -3,12 +3,8 @@ import App from './App.vue'
 import router from './router'
 import { Auth0 } from '@/auth'
 import './assets/tailwind.css'
-
-import { library } from '@fortawesome/fontawesome-svg-core'
-import { faLink, faUser, faPowerOff } from '@fortawesome/free-solid-svg-icons'
-import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
 import QrcodeVue from 'qrcode.vue'
-import store from './store'
+import store, { key } from './store'
 import './registerServiceWorker'
 
 async function init () {
@@ -31,12 +27,10 @@ async function init () {
       QrcodeVue
     }
   })
-  library.add(faLink, faUser, faPowerOff)
   app
     .use(AuthPlugin)
-    .use(store)
+    .use(store, key)
     .use(router)
-    .component('font-awesome-icon', FontAwesomeIcon)
     .mount('#app')
 }
 
