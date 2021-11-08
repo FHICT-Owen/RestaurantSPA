@@ -11,13 +11,13 @@ export default class IngredientDataService {
 
   public static async createIngredient(ingredient: Ingredient) {
     await axios.post(`${this.API_URL}/ingredient/`, ingredient)
-      .then(() => showPopUp(ingredient.name, 'added', false))
-      .catch(() => showPopUp(ingredient.name, 'added', true))
+      .then(() => showPopUp(`Added ${ingredient.name}`, false))
+      .catch(() => showPopUp(`Unable to add ${ingredient.name}`, true))
   }
 
   public static async deleteIngredient(ingredient: Ingredient) {
     await axios.delete(`${this.API_URL}/ingredient/${ingredient.id}`)
-      .then(() => showPopUp(ingredient.name, 'deleted', false))
-      .catch(() => showPopUp(ingredient.name, 'deleted', true))
+      .then(() => showPopUp(`Deleted ${ingredient.name}`, false))
+      .catch(() => showPopUp(`Unable to remove ${ingredient.name}`, true))
   }
 }

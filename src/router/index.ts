@@ -4,6 +4,7 @@ import Profile from '../views/Profile.vue'
 import Menu from '../views/Menu.vue'
 import SessionPage from '../views/SessionPage.vue'
 import QRGenTest from '../views/QRGenTest.vue'
+import CreateSession from '../components/CreateSession.vue'
 
 import { Auth0 } from '@/auth'
 
@@ -38,6 +39,12 @@ const routes: Array<RouteRecordRaw> = [
     meta: {requiresNavBar: true},
     component: Profile,
     beforeEnter: Auth0.routeGuard
+  },
+  {
+    path: '/session',
+    name: 'createsessions',
+    meta: { requiresNavBar: false },
+    component: CreateSession,
   }
 ]
 

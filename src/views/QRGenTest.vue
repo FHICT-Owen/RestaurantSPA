@@ -1,17 +1,22 @@
 <template>
-  <qrcode-vue :value="value" :size="size" level="H" />
+  <div>
+    <input type="text" v-model="url"/>
+    <qrcode-vue :value="url" :size=size render-as="svg"></qrcode-vue>
+  </div>  
 </template>
 
-<script>
+<script lang="ts">
 import QrcodeVue from 'qrcode.vue'
+import { inject, ref } from 'vue'
 
 export default {
   name: 'QR',
-  data() {
-    return {
-      value: 'https://localhost:3000/menu',
-      size: 300,
-    }
+  setup(){
+    const url = ref('')
+    const size = ref(300)
+    const auth = inject<any>('Auth')
+  
+    return { ...auth, url, size }
   },
   components: {
     QrcodeVue,

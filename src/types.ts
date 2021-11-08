@@ -18,6 +18,20 @@ interface Ingredient {
     isAllergen: boolean
 }
 
+interface Table {
+  id: number,
+  tableNumber: number,
+  restaurantId: number,
+  isActive: boolean,
+  inUse: boolean
+}
+
+interface Session {
+  id: number,
+  tableId: number,
+  secret: string
+}
+
 interface PopUp {
     text: string
     isError: boolean
