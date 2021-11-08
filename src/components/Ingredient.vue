@@ -1,6 +1,6 @@
 <template>
   <div class="flex flex-row flex-grow-0 m-0.5 p-1.5 shadow rounded-3xl">
-		{{ingredient}} <XCircleIcon @click="removeIngredient" class="w-6 h-6 hover:opacity-75" />
+		{{ingredient}} <XCircleIcon @click="removeIngredient" class="w-6 h-6 hover:opacity-60 text-red-600 cursor-pointer" />
   </div>	
 </template>
 
