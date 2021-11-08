@@ -41,7 +41,7 @@
                 {{ category.name }}
               </option>
             </select>
-            <input type="number" min="0" step="0.01" v-model="prize" class="w-16 self-end" placeholder="Prize ..."/>
+            <input type="number" min="0" step="0.01" v-model="prize" class="w-24 self-end" placeholder="Prize ..."/>
           </div>
         </div>
         <div v-else class="flex flex-row pt-2 max-w-xs">
@@ -94,9 +94,12 @@ export default defineComponent({
     let name = ref(isEdit ? store.state.currentDish.name : '')
     let description = ref(isEdit ? store.state.currentDish.description : '')
     let category = ref(isEdit ? store.state.currentDish.category : '')
+    let dietaryRestrictions = ref<string[]>([])
     let dishIngredients = ref<string[]>(isEdit ? store.state.currentDish.ingredients || [] : [])
-    let prize = ref(isEdit ? (Math.round(store.state.currentDish.prize * 100) / 100).toFixed(2) : undefined)
+    let prize = ref(isEdit ? (Math.round(store.state.currentDish.prize * 100) / 100).toFixed(2) : 0)
     let image = ref(isEdit ? store.state.currentDish.image : '')
+
+    let options = ref(['Vegan', 'Vegetarian'])
 
     let onGeneralTab = ref(true)
     let settingIngredient = ref(false)
@@ -163,6 +166,7 @@ export default defineComponent({
       name,
       description,
       category,
+      dietaryRestrictions,
       dishIngredients,
       prize,
       image,
@@ -178,6 +182,8 @@ export default defineComponent({
 
       switchGeneral,
       addNewIngredient,
+
+      options
     }
   }
 })

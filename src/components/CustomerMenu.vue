@@ -17,9 +17,11 @@
     <div class="capitalize container">
       <div>
         <div v-for="category in selectedCategory" :key="category.id">
-          <h2 class="text-5xl mt-5">{{ category }}</h2>
-          <div v-for="(dish, index) in filteredDishes" :key="index">
-            <Dish v-if="dish.category == category" :dish="dish" />
+          <div v-if="category !== 'all'">
+            <h2 class="text-5xl mt-5">{{ category }}</h2>
+            <div v-for="(dish, index) in filteredDishes" :key="index">
+              <Dish v-if="dish.category == category" :dish="dish" />
+            </div>
           </div>
         </div>
       </div>
