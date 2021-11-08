@@ -6,13 +6,9 @@ export default class SessionDataService {
   static API_URL = process.env.VUE_APP_SESSION_SERVICE_URL;
 
   public static async createSession(session: Session): Promise<any> {
-    var config = {
-      headers: { 'Access-Control-Allow-Origin': '*' }
-    }
-
-    return await axios.post(`${this.API_URL}/session/`, session, config).then(response => {
+    return await axios.post(`${this.API_URL}/session/`, session).then(response => {
       showPopUp('Session created successfully!', false)
-      return response.data.id
+      return response.data
     }).catch(err => {
       showPopUp('Was unable to create session!', true)
       console.log(err)
