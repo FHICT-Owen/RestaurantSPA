@@ -47,7 +47,7 @@
         <div v-else class="flex flex-row pt-2 max-w-xs">
           <ul class="flex flex-wrap list-unstyled flex-row">
             <Ingredient v-for="ingredient of dishIngredients" :key="ingredient.id" :ingredient="ingredient" />
-            <button v-if="!settingIngredient" class="bg-gray-200 rounded-full px-2" @click="settingIngredient = true">+</button>
+            <PlusSmIcon v-if="!settingIngredient" class="rounded-full w-7 h-7 m-1.5 hover:opacity-60 p-1 cursor-pointer" style="box-shadow: 0px 0px 3px rgba(0, 0, 0, 0.25);" @click="settingIngredient = true"/>
             <div v-else>
               <select 
                 @change="addNewIngredient"
@@ -78,11 +78,13 @@ import store from '@/store'
 import { toBase64URL } from '@/utils'
 import Ingredient from './Ingredient.vue'
 import DialogBackground from './DialogBackground.vue'
+import { PlusSmIcon } from '@heroicons/vue/outline'
 
 export default defineComponent({
   components: {
     Ingredient,
-    DialogBackground
+    DialogBackground,
+    PlusSmIcon
   },
   setup() {
     const isEdit = computed(() => store.state.isEditDialog)
@@ -133,7 +135,6 @@ export default defineComponent({
         ingredients: dishIngredients.value,
         image: image.value
       })
-      console.log(dishIngredients.value)
       store.commit('closeDishDialog')
     }
       
