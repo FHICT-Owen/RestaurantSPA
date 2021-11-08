@@ -1,90 +1,65 @@
 <template>
   <div>
-    <div>
-      <h3 v-if="!isEditMode" @click="openInput" style="display:inline" class="mr-3">{{category.name}} </h3>
-      <input v-model="name" v-else @keyup.enter="editCategory">
-      <!-- <button class="btn btn-danger btn-sm rounded" style="display:inline" @click="deleteCategory">X</button> -->
-      <!-- <q-btn label="Delete" color="danger" @click="confirm = true" />
-
-
-      <q-dialog v-model="confirm" persistent>
-        <q-card>
-          <q-card-section class="row items-center">
-            <span class="q-ml-sm">Are you sure you want to delete this category?</span>
-          </q-card-section>
-
-          <q-card-actions align="right">
-            <q-btn flat label="Cancel" color="primary" v-close-popup />
-            <q-btn flat label="Delete" color="primary" v-close-popup @click="deleteCategory()" />
-          </q-card-actions>
-        </q-card>
-      </q-dialog> -->
-
-
+    <div class="m-1 flex justify-between">
+      <h3 v-if="!isEditMode" class="mr-3">{{category.name}} </h3>
+      <input v-model="name" class="border-2 w-32 rounded-3xl p-1" v-else @keyup.enter="editCategory"/>
+      <div class="flex flex-row space-x-1">
+        <CancelButton v-if="isEditMode" @click="isEditMode = false" />
+        <EditButton v-else @click="openInput" />
+        <DeleteButton @click="openConfirmDialog" />
+      </div>
     </div>
   </div>
 </template>
 
 <script lang="ts">
-import ConfirmDialog from '../components/ConfirmDialog.vue'
+import Category from '@/classes/Category'
 import store from '@/store'
-import {ref} from 'vue'
+import {computed, defineComponent, PropType, ref} from 'vue'
+import DeleteButton from './DeleteButton.vue'
+import EditButton from './EditButton.vue'
+import CancelButton from './CancelButton.vue'
 
-export default ({
-  props: {
-    category: {} as Category
+export default defineComponent({
+  components: { 
+    DeleteButton,
+    EditButton,
+    CancelButton
   },
-  setup(props: {
-      category: Category
-    }) {
+  props: {
+    category: {
+      type: Object as PropType<Category>,
+      required: true
+    }
+  },
+  setup(props) {
     let isEditMode = ref(false)
     let name = ref('')
 
-    function deleteCategory() {
-      store.dispatch('deleteCategory', props.category).then(() => {
-        store.dispatch('getAllCategories')
-      })
-    }
-
-    function openInput() {
+    const openInput = () => {
       isEditMode.value = !isEditMode.value
       name.value = props.category.name
     }
 
-    function editCategory() {
+    const editCategory = () => {
       store.dispatch('editCategory', {
         id: props.category.id,
         name: name.value
-      }).then(() => {
-        store.dispatch('getAllCategories')
       })
       isEditMode.value = !isEditMode.value
     }
 
-    // function confirm() {
-    //   $q.dialog({
-    //     title: 'Confirm',
-    //     message: 'Are you sure you want to delete this category',
-    //     cancel: true,
-    //     persistent: true
-    //   }).onOk(() => {
-    //     console.log('>>>> OK')
-    //   }).onOk(() => {
-    //     // console.log('>>>> second OK catcher')
-    //   }).onCancel(() => {
-    //     // console.log('>>>> Cancel')
-    //   }).onDismiss(() => {
-    //     // console.log('I am triggered on both OK and Cancel')
-    //   })
-    // }
+    const openConfirmDialog = () => {
+      store.dispatch('openConfirmDialog', {object: props.category, function: () => store.dispatch('deleteCategory', props.category)})
+    }
+
     return {
-      deleteCategory,
       isEditMode,
+      openConfirmDialog,
+      isDeleteMode: computed(() => store.state.isConfirmDialogOpen),
       editCategory,
       openInput,
-      name,
-      confirm: ref(false),
-      ConfirmDialog,
+      name
     }
   }
 })

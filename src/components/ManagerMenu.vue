@@ -1,22 +1,29 @@
 <template>
 	<div>
-    <div class="mb-5">
-      <h1>Menu</h1>
-      <h2>Categories</h2>
-      <form @submit.prevent="createCategory">
-        <input v-model="name">
-        <button class="btn btn-primary rounded">New category</button>
-      </form>
-      <ul>
+    <div class="justify-center w-full lg:w-3/5">
+      <h1 class="text-5xl p-1">Menu</h1>
+      <h2 class="text-4xl p-1">Categories</h2>
+      <div class="border-2 rounded-3xl p-2">
+        <form @submit.prevent="createCategory" class="flex justify-center">
+          <button class="bg-gray-200 rounded-xl p-2">New category</button>
+          <input class="border-2 rounded-3xl p-1 mx-2" v-model="name">
+        </form>
         <Category v-for="category of categories" :key="category.id" :category="category" />
-      </ul>
-      <h2>Dishes</h2>
-      <button class="btn btn-primary rounded" @click="toggleDialog">New dish</button>
-      <ul>
-        <Dish v-for="dish of dishes" :key="dish.id" :dish="dish" />
-      </ul>
+      </div>
+      <h2 class="text-4xl p-1">Dishes</h2>
+      <div class="border-2 rounded-3xl p-2">
+        <button class="bg-gray-200 rounded-xl p-2" @click="toggleDialog">New dish</button>
+        <div class="flex flex-row" v-for="dish of dishes" :key="dish.id"> 
+          <Dish class="w-full" :dish="dish" />
+          <div class="flex flex-col justify-center space-y-1 m-2">
+            <EditButton @click="openEditDialog(dish)" />
+            <DeleteButton @click="openConfirmDialog(dish)" />
+          </div>
+        </div>
+      </div>
     </div>
-    <Dialog v-show="isOpen" :key="isOpen" />
+    <DeleteConfirmDialog v-if="isConfirmDialogOpen" :key="isConfirmDialogOpen" />
+    <Dialog v-if="isDishDialogOpen" :key="isDishDialogOpen" />
   </div>
 </template>
 
@@ -27,31 +34,55 @@ import Dish from '../components/Dish.vue'
 import Dialog from '../components/Dialog.vue'
 import store from '@/store'
 import { computed, ref } from 'vue'
+import DeleteConfirmDialog from './DeleteConfirmDialog.vue'
+import DeleteButton from './DeleteButton.vue'
+import EditButton from './EditButton.vue'
 
 export default {
   name: 'ManagerMenu',
   components: {
     Category,
     Dish,
-    Dialog
+    Dialog,
+    DeleteConfirmDialog,
+    DeleteButton,
+    EditButton
   },
   setup () {  
     const categories = computed(() => store.state.categories.slice(1))
     const dishes = computed(() => store.state.dishes)
-    const isOpen = computed(() => store.state.isOpen)
+    const isConfirmDialogOpen = computed(() => store.state.isConfirmDialogOpen)
+    const isDishDialogOpen = computed(() => store.state.isDishDialogOpen)
     const toggleDialog = () => { 
       store.dispatch('toggleDialog', false) 
       store.dispatch('setCurrentDish', {})
     }
 
+    const openEditDialog = (dish: Dish) => {
+      store.dispatch('toggleDialog', true)
+      store.dispatch('setCurrentDish', dish)
+    }
+
+    const openConfirmDialog = (dish: Dish) => {
+      store.dispatch('openConfirmDialog', {object: dish, function: () => store.dispatch('deleteDish', dish)})
+    }
+
     let name = ref('')
     const createCategory = () => {
-      store.dispatch('createNewCategory', {id: 0, name: name.value}).then(() => {
-        store.dispatch('getAllCategories')
-      })
+      store.dispatch('createNewCategory', {id: 0, name: name.value})
       name.value = ''
     }
-    return { categories, dishes, isOpen, toggleDialog, name, createCategory }
+    return { 
+      categories, 
+      dishes, 
+      isDishDialogOpen, 
+      isConfirmDialogOpen, 
+      toggleDialog, 
+      name, 
+      createCategory, 
+      openEditDialog, 
+      openConfirmDialog 
+    }
   }
 }
 </script>
