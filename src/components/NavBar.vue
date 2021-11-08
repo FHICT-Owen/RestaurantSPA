@@ -97,12 +97,12 @@
                 <h6 class="d-inline-block">{{ user.name }}</h6>
               </span>
             </li>
-            <li>
+            <li class="flex flex-row">
               <UserCircleIcon class="mr-3 w-6 h-6" />
               <router-link to="/profile">Profile</router-link>
             </li>
 
-            <li>
+            <li class="flex flex-row">
               <LogoutIcon class="mr-3 w-6 h-6 flex flex-row" />
               <a id="qsLogoutBtn" href="#" class @click.prevent="logout"
                 >Log out</a
