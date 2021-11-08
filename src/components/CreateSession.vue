@@ -1,3 +1,7 @@
+<template>
+  <div></div>
+</template>
+
 <script lang="ts">
 
 import router from '../router/index'
@@ -16,7 +20,7 @@ export default {
     let secret = stringGen({length: 25})
     const tableObj = RestaurantDataService.getTable(tableId)
     tableObj.then( table => {
-      if (table.isActive && table.inUse == false) {
+      if (table.isActive && !table.inUse) {
         if(!!cookie) {
           secret = cookie
         }
