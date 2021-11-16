@@ -2,7 +2,7 @@ import { showPopUp } from '@/utils'
 import axios from 'axios'
 
 export default class IngredientDataService {
-  static API_URL = process.env.VUE_APP_RESTAURANT_SERVICE_URL;
+  static API_URL = process.env.VUE_APP_PROXY_URL;
 
   public static async getAllIngredients(): Promise<Ingredient[]> {
     const response = await axios.get(`${this.API_URL}/ingredient/`)
