@@ -7,7 +7,7 @@
       <button v-on:click="true">Delete Selected</button>
     </div>
 <div class="table-container">
-	<table-item/>
+	<table-item v-for='table in tables' :key='table.id'/>
 </div>
     </div>
 </template>
@@ -41,6 +41,8 @@ export default {
   height: 120vh;
   overflow: hidden;
   padding: 10px;
+  display: flex;
+  flex-direction: column;
 }
 
 .TablePlan {
@@ -54,6 +56,7 @@ export default {
 .buttons-container {
   align-self: flex-end;
 }
+
 
 </style>
 
