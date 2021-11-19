@@ -3,14 +3,9 @@ import App from './App.vue'
 import router from './router'
 import { Auth0 } from '@/auth'
 import './assets/tailwind.css'
-
-import { library } from '@fortawesome/fontawesome-svg-core'
-import { faLink, faUser, faPowerOff } from '@fortawesome/free-solid-svg-icons'
-import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
-import store from './store'
+import store, { key } from './store'
+import { VueCookieNext } from 'vue-cookie-next'
 import './registerServiceWorker'
-import { Quasar } from 'quasar'
-const quasarUserOptions = require('./quasar-user-options')
 
 async function init () {
   const AuthPlugin = await Auth0.init({
@@ -26,14 +21,21 @@ async function init () {
     audience: process.env.VUE_APP_AUTH0_AUDIENCE || '',
     redirectUri: window.location.origin
   })
-  const app = createApp(App).use(Quasar, quasarUserOptions)
-  library.add(faLink, faUser, faPowerOff)
+  
+  const app = createApp(App)
   app
     .use(AuthPlugin)
-    .use(store)
+    .use(store, key)
     .use(router)
-    .component('font-awesome-icon', FontAwesomeIcon)
+    .use(VueCookieNext)
     .mount('#app')
+  VueCookieNext.config({
+    expire: '4h',
+    path: '/',
+    domain: '',
+    secure: 'true',
+    sameSite: '',
+  })
 }
 
 init()

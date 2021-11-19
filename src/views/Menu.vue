@@ -1,12 +1,12 @@
 <template>
   <div>
     <div v-if="costumerMenuIsOpen || !isAuthenticated">
-      <button v-show="isAuthenticated && !loading" @click="toggleMenu">Switch to manager menu</button>
+      <button class="flex" v-if="isAuthenticated && !loading" @click="toggleMenu">Switch to manager menu</button>
       <CostumerMenu />
     </div>
     <div v-else-if="isAuthenticated && !loading">
       <button @click="toggleMenu">Switch to costumer menu</button>
-      <ManagerMenu />
+      <ManagerMenu class="flex justify-center" />
     </div>
   </div>
 </template>

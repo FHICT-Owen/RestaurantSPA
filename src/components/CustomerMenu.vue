@@ -1,145 +1,101 @@
 <template>
-  <div v-show="nav_fixedheight" style="height:52px;"></div>
-  <div id="navbar">
-    <div class="container">
-      <div class="row">
-        <div class="col-md-2"></div>
-        <div class="col-md-8">
-          <a v-for="category in categories" :key="category.id" :href="`#${category.name}`">{{category.name}}</a>
+  <div>
+    <div id="navbar" class="flex flex-col bg-gray-200 w-full overflow-hidden z-50">
+      <input v-model="keyword" class="justify-center shadow-sm rounded-3xl h-10 p-3 mt-1" placeholder="Search for your dish..." />
+      <div class="flex flex-row overflow-x-scroll">
+        <div
+          v-for="category in categories"
+          :id="category.name"
+          :key="category.id"
+          @click="selectCategory"
+          :tabindex="category.id"
+          class="no-underline capitalize py-2 px-4 mx-2 my-2.5 cursor-pointer select-none"
+          >{{ category.name }}
         </div>
-        <div class="col-md-2"></div>
       </div>
     </div>
-  </div>
-
-  <div class="menu-content container">
-    <div class="row">
-      <div class="col-md-2"></div>
-      <div class="col-sm-12 col-md-8">
-        <div v-for="category in categories" :key="category.id">
-          <h2 class="display-4">{{category.name}}</h2>
-          <a :id="category.name" class="anchor"></a>
-          <div v-for="dish in dishes" :key="dish.id">
-            <Dish v-if="dish.category==category.name" :dish="dish" />
+    <div class="capitalize container">
+      <div>
+        <div v-for="category in selectedCategory" :key="category.id">
+          <div v-if="category !== 'all'">
+            <h2 class="text-5xl mt-5">{{ category }}</h2>
+            <div v-for="(dish, index) in filteredDishes" :key="index">
+              <Dish v-if="dish.category == category" :dish="dish" />
+            </div>
           </div>
         </div>
       </div>
-      <div class="col-md-2"></div>
     </div>
   </div>
 </template>
 
 <script lang="ts">
-  import {
-    computed,
-    onMounted,
-    ref
-  } from 'vue'
-  import store from '@/store'
+import { computed, defineComponent, onMounted, ref } from 'vue'
+import store from '@/store'
+import Dish from '../components/Dish.vue'
 
-  // import Category from '../components/Category.vue'
-  import Dish from '../components/Dish.vue'
+export default defineComponent({
+  components: {
+    Dish
+  },
+  setup() {
+    const categories = computed(() => store.state.categories)
+    const dishes = computed(() => store.state.dishes)
+    let keyword = ref('')
 
-  export default {
-    name: 'CostumerMenu',
-    components: {
-      // Category,
-      Dish,
-    },
-    setup() {
-      const categories = computed(() => store.state.categories)
-      const dishes = computed(() => store.state.dishes)
+    const filteredDishes = computed(() => 
+      dishes.value.filter(({ name }) => 
+        name.toLowerCase().includes(keyword.value.toLowerCase())))
 
-      let nav_fixedheight = ref(false);
-
-      onMounted(() => {
-        var navbar = document.getElementById("navbar");
-        if (!!navbar)
-          var sticky = navbar.offsetTop;
-        window.addEventListener('scroll', () => manageStickyNav(navbar, sticky));
-      })
-
-      function manageStickyNav(navbar: any, sticky: any) {
-        if (!!navbar) {
-          if (window.pageYOffset >= (sticky)) {
-            nav_fixedheight.value = true;
-            navbar.classList.add("sticky")
-          } else {
-            nav_fixedheight.value = false;
-            navbar.classList.remove("sticky");
-          }
-        }
+    const selectedCategory = computed(() => store.state.selectedCategory)
+    
+    const selectCategory = (e:any) => {
+      const newElement = document.getElementById(e.target.textContent.toLowerCase())
+      const lastElement = document.getElementById(store.state.selectedCategory[0])
+      if (!!newElement && !!lastElement) {
+        lastElement.classList.remove('select')
+        newElement.classList.add('select')
       }
-      return {
-        categories,
-        dishes,
-        nav_fixedheight
+      store.commit('setSelectedCategory', e.target.textContent)
+    }
+    
+    const manageStickyNav = (navbar: HTMLElement | null) => {
+      if(!!navbar) {
+        window.pageYOffset >= navbar.offsetTop ? 
+          navbar.classList.add('sticky') : navbar.classList.remove('sticky')
       }
     }
+    
+    onMounted(() => {
+      let navbar = document.getElementById('navbar')
+      window.addEventListener('scroll', () => manageStickyNav(navbar))
+      store.commit('setSelectedCategory', 'all')
+      const all = document.getElementById('all')
+      if (!!all) all.classList.add('select')
+    })
+
+    return {
+      categories,
+      dishes,
+      selectCategory,
+      filteredDishes,
+      keyword,
+      selectedCategory,
+    }
   }
+})
 </script>
 
-<style>
-  html {
-    scroll-behavior: smooth;
-  }
-
-  .menu {
-    /* background: #FFA825; */
-    border-bottom-left-radius: 42px;
-    border-bottom-right-radius: 42px;
-  }
-
-  .menu-content {
-    border-radius: 42px;
-    background-color: white;
-  }
-
-  .menu-content h2 {
-    text-transform: capitalize;
-    margin-top: 20px;
-  }
-
-  /* Style the navbar */
-  #navbar {
-    overflow: hidden;
-    background-color: #efefef;
-    width: 100%;
-    z-index: 999;
-  }
-
-  /* Navbar links */
-  #navbar a {
-    text-transform: capitalize;
-    float: left;
-    display: block;
-    color: black;
-    text-align: center;
-    padding: 14px;
-    text-decoration: none;
-  }
-
-  /* Page content */
-  .content {
-    padding: 16px;
-  }
-
-  /* The sticky class is added to the navbar with JS when it reaches its scroll position */
-  .sticky {
-    position: -webkit-sticky;
-    position: sticky;
-    top: 0;
-  }
-
-  /* Add some top padding to the page content to prevent sudden quick movement (as the navigation bar gets a new position at the top of the page (position:fixed and top:0) */
-  .sticky+.content {
-    padding-top: 60px;
-  }
-
-  a.anchor {
-    display: block;
-    position: relative;
-    top: -150px;
-    visibility: hidden;
-  }
+<style scoped>
+/* The sticky class is added to the navbar with JS when it reaches its scroll position */
+.sticky {
+  position: -webkit-sticky;
+  position: sticky;
+  top: 0;
+}
+.select {
+  background-color: orange;
+  border-radius: 20px;
+  color: white;
+}
 </style>

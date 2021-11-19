@@ -1,9 +1,9 @@
 <template>
-  <div v-if="$route.meta.requiresNavBar" id="app" class="d-flex flex-column h-100">
-    <nav-bar />
-    <div class="container flex-grow-1">
-      <error />
-      <div class="mt-5">
+  <div v-if="$route.meta.requiresNavBar" id="app" class="h-100">
+    <NavBar />
+    <div>
+      <Error />
+      <div>
         <router-view />
         <ul class="pop-up-position">
           <PopUp v-for="popUp of popUps" :key="popUp" :popUp="popUp" />
@@ -33,8 +33,9 @@ export default {
   setup() {
     const popUps = computed(() => store.state.popUps)
     onMounted(() => {
-      store.dispatch('getAllCategories')
-      store.dispatch('getAllDishes')
+      store.commit('setCategories')
+      store.commit('setDishes')
+      store.commit('setIngredients')
     })
     return { popUps }
   }

@@ -7,10 +7,10 @@ export const toBase64URL = (file: File) => new Promise((resolve, reject) => {
   reader.onerror = error => reject(error)
 })
 
-export function showPopUp(name: string, callType: string, isError: boolean) {
-  store.state.popUps.push({text: isError ? 'Error occurred' : `${name} successfully ${callType}!`, isError: isError})
+export function showPopUp(text: string, isError: boolean) {
+  store.state.popUps.push({ text: isError ? 'Error occurred' : `${text}`, isError: isError})
   setTimeout(() => { 
-    const i = store.state.popUps.indexOf({text: isError ? 'Error occurred' : `${name} successfully ${callType}!`, isError: isError})
+    const i = store.state.popUps.indexOf({ text: isError ? 'Error occurred' : `${text}`, isError: isError})
     store.state.popUps.splice(i, 1) 
   }, 3000)
 }
