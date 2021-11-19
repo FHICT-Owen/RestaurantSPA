@@ -2,28 +2,37 @@ import { showPopUp } from '@/utils'
 import axios from 'axios'
 
 export default class DishDataService {
-  static RESTAURANT_API_URL = process.env.VUE_APP_API_URL;
+  static RESTAURANT_API_URL = process.env.RESTAURANT_APP_URL;
 
+
+  //FIX THIS
   public static async getAllTables(): Promise<Dish[]> {
-    const response = await axios.get(`${this.API_URL}/dish/`)
+    const response = await axios.get(`${this.RESTAURANT_API_URL}/table/`)
     return response.data
   }
 
-  public static async createTable(dish: Dish) {
-    await axios.post(`${this.API_URL}/dish/`, dish)
-      .then(() => showPopUp(dish.name, 'added', false))
-      .catch(() => showPopUp(dish.name, 'added', true))
+  //FIX THIS
+  public static async createTable(table: RestaurantTable) {
+    await axios.post(`${this.RESTAURANT_API_URL}/table/`, table)
+      // .then(() => showPopUp(table.id, 'added', false))
+      // .catch(() => showPopUp(dish.name, 'added', true))
   }
 
-  public static async editDish(dish: Dish) {
-    await axios.put(`${this.API_URL}/dish/${dish.id}`, dish)
-      .then(() => showPopUp(dish.name, 'updated', false))
-      .catch(() => showPopUp(dish.name, 'updated', true))
+  //DELETE ARRAY OF TABLES
+  //TOGGLE TABLE
+
+  public static async toggleTable(dish: Dish) {
+    await axios.put(`${this.RESTAURANT_API_URL}/table/${table.id}`, table)
+      .then(() => showPopUp(table.name, 'updated', false))
+      .catch(() => showPopUp(table.name, 'updated', true))
   }
 
-  public static async deleteDish(dish: Dish) {
-    await axios.delete(`${this.API_URL}/dish/${dish.id}`)
-      .then(() => showPopUp(dish.name, 'deleted', false))
-      .catch(() => showPopUp(dish.name, 'deleted', true))
+  //REMOVE
+
+  public static async deleteSelectedTables(selectedTables: RestaurantTable[]) {
+    await axios.delete(`${this.RESTAURANT_API_URL}/table/${selectedTables.id}`)
+      .then(() => showPopUp('Selected tables', 'deleted', false))
+      .catch(() => showPopUp('Selected tables', 'deleted', true))
   }
+  //REMOVE
 }
