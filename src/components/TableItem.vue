@@ -77,4 +77,14 @@ p {
 .emptyEqualsTrue {
   color: #009142;
 }
+
+
+.checkbox {
+  max-width: 35px;
+  max-height: 35px;
+}
+
+.toggle {
+  min-width: 50px;
+}
 </style>
