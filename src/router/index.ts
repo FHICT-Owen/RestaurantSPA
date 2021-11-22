@@ -4,6 +4,8 @@ import Profile from '../views/Profile.vue'
 import Menu from '../views/Menu.vue'
 import SessionPage from '../views/SessionPage.vue'
 import TablePlan from '../views/TablePlan.vue'
+import QRGenTest from '../views/QRGenTest.vue'
+import CreateSession from '../components/CreateSession.vue'
 
 import { Auth0 } from '@/auth'
 
@@ -27,6 +29,12 @@ const routes: Array<RouteRecordRaw> = [
     component: TablePlan,
   },
   {
+    path: '/qr',
+    name: 'qr',
+    meta: { requiresNavBar: true },
+    component: QRGenTest,
+  },
+  {
     path: '/session_page',
     name: 'sessionpage',
     meta: {requiresNavBar: false},
@@ -39,6 +47,12 @@ const routes: Array<RouteRecordRaw> = [
     meta: {requiresNavBar: true},
     component: Profile,
     beforeEnter: Auth0.routeGuard
+  },
+  {
+    path: '/session',
+    name: 'createsessions',
+    meta: { requiresNavBar: false },
+    component: CreateSession,
   }
 ]
 

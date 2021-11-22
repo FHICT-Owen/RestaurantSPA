@@ -1,39 +1,66 @@
 <template>
   <div>
-    <h3 v-if="!isEditMode" @click="openInput" style="display:inline" class="mr-3">{{category.name}} </h3>
-    <input v-model="name" v-else @keyup.enter="editCategory">
-    <button class="btn btn-danger btn-sm rounded" style="display:inline" @click="deleteCategory">X</button>
+    <div class="m-1 flex justify-between">
+      <h3 v-if="!isEditMode" class="mr-3">{{category.name}} </h3>
+      <input v-model="name" class="border-2 w-32 rounded-3xl p-1" v-else @keyup.enter="editCategory"/>
+      <div class="flex flex-row space-x-1">
+        <CancelButton v-if="isEditMode" @click="isEditMode = false" />
+        <EditButton v-else @click="openInput" />
+        <DeleteButton @click="openConfirmDialog" />
+      </div>
+    </div>
   </div>
 </template>
 
 <script lang="ts">
+import Category from '@/classes/Category'
 import store from '@/store'
-import { ref } from 'vue'
+import {computed, defineComponent, PropType, ref} from 'vue'
+import DeleteButton from './DeleteButton.vue'
+import EditButton from './EditButton.vue'
+import CancelButton from './CancelButton.vue'
 
-export default ({
-  props: {
-    category: {} as Category
+export default defineComponent({
+  components: { 
+    DeleteButton,
+    EditButton,
+    CancelButton
   },
-  setup(props: {category: Category}) {
+  props: {
+    category: {
+      type: Object as PropType<Category>,
+      required: true
+    }
+  },
+  setup(props) {
     let isEditMode = ref(false)
     let name = ref('')
-    function deleteCategory() {
-      store.dispatch('deleteCategory', props.category).then(() => {
-        store.dispatch('getAllCategories')
-      })
-    }
-    function openInput() {
+
+    const openInput = () => {
       isEditMode.value = !isEditMode.value
       name.value = props.category.name
     }
 
-    function editCategory() {      
-      store.dispatch('editCategory', {id: props.category.id, name: name.value}).then(() => {
-        store.dispatch('getAllCategories')
+    const editCategory = () => {
+      store.dispatch('editCategory', {
+        id: props.category.id,
+        name: name.value
       })
       isEditMode.value = !isEditMode.value
     }
-    return { deleteCategory, isEditMode, editCategory, openInput, name }
+
+    const openConfirmDialog = () => {
+      store.dispatch('openConfirmDialog', {object: props.category, function: () => store.dispatch('deleteCategory', props.category)})
+    }
+
+    return {
+      isEditMode,
+      openConfirmDialog,
+      isDeleteMode: computed(() => store.state.isConfirmDialogOpen),
+      editCategory,
+      openInput,
+      name
+    }
   }
 })
 </script>

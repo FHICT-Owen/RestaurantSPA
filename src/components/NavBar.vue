@@ -1,5 +1,5 @@
 <template>
-  <div class="nav-container mb-3">
+  <div class="nav-container">
     <nav class="navbar navbar-expand-md navbar-light bg-light">
       <div class="container">
         <div class="navbar-brand"></div>
@@ -56,18 +56,18 @@
                 <div class="dropdown-header">{{ user.name }}</div>
                 <router-link
                   to="/profile"
-                  class="dropdown-item dropdown-profile"
+                  class="dropdown-item dropdown-profile flex flex-row"
                 >
-                  <font-awesome-icon class="mr-3" icon="user" />
+                  <UserCircleIcon class="mr-3 w-6 h-6" />
                   Profile
                 </router-link>
                 <a
                   id="qsLogoutBtn"
                   href="#"
-                  class="dropdown-item"
+                  class="dropdown-item flex flex-row"
                   @click.prevent="logout"
                 >
-                  <font-awesome-icon class="mr-3" icon="power-off" />
+                  <LogoutIcon class="mr-3 w-6 h-6" />
                   Log out
                 </a>
               </div>
@@ -100,13 +100,13 @@
                 <h6 class="d-inline-block">{{ user.name }}</h6>
               </span>
             </li>
-            <li>
-              <font-awesome-icon icon="user" class="mr-3" />
+            <li class="flex flex-row">
+              <UserCircleIcon class="mr-3 w-6 h-6" />
               <router-link to="/profile">Profile</router-link>
             </li>
 
-            <li>
-              <font-awesome-icon icon="power-off" class="mr-3" />
+            <li class="flex flex-row">
+              <LogoutIcon class="mr-3 w-6 h-6 flex flex-row" />
               <a id="qsLogoutBtn" href="#" class @click.prevent="logout"
                 >Log out</a
               >
@@ -120,8 +120,13 @@
 
 <script>
 import { inject } from 'vue'
+import { UserCircleIcon, LogoutIcon } from '@heroicons/vue/outline'
 
 export default {
+  components: {
+    UserCircleIcon,
+    LogoutIcon
+  },
   name: 'NavBar',
   inject: ['Auth'],
   methods: {
@@ -140,7 +145,7 @@ export default {
 }
 </script>
 
-<style>
+<style scoped>
 #mobileAuthNavBar {
   min-height: 125px;
   justify-content: space-between;

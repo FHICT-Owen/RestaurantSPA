@@ -1,49 +1,20 @@
 <template>
-  <div class="container-fluid primary-bg">
-    <div class="row">
-      <div class="col-md-2"></div>
-      <div class="col-sm-12 col-md-8">
-        <div class="welcome">
-          <div class="welcome-text">
-            <h2>Welcome</h2>
-            <h5>What would you like to have?</h5>
-          </div>
-        </div>
-      </div>
-      <div class="col-md-2"></div>
+  <div>
+    <div class="flex flex-col text-white h-48 relative p-6" style="background-color: #FFA825">
+      <ShoppingCartIcon class="self-end" />
+      <div class="text-4xl w-4/5">Welcome</div>
+      <div class="text-3xl w-4/5">What would you like to have?</div>
     </div>
+    <CostumerMenu />
   </div>
-
-  <CostumerMenu />
 </template>
 
-
 <script lang="ts">
-  import CostumerMenu from '../components/CustomerMenu.vue'
+import { defineComponent } from '@vue/runtime-core'
+import { ShoppingCartIcon } from '@heroicons/vue/outline'
+import CostumerMenu from '../components/CustomerMenu.vue'
 
-  export default {
-    name: 'Home',
-    components: {
-      CostumerMenu,
-    },
-  }
+export default defineComponent({
+  components: { CostumerMenu, ShoppingCartIcon }
+})
 </script>
-
-
-<style>
-.primary-bg {
-  background-color: #FFA825;
-}
-.welcome {
-  position: relative;
-  color: white;
-  height: 200px;
-}
-
-.welcome-text {
-  left: 0;
-  bottom: 0;
-  position: absolute;
-  padding: 20px;
-}
-</style>
