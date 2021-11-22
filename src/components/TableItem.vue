@@ -20,9 +20,10 @@ import store from "@/store";
 import { computed, ref } from "vue";
 
 export default {
-  name: "TableItem",
   props: {
-    table:{} as RestaurantTable
+    title: String,
+    isActive: Boolean,
+    // table: {} as RestaurantTable
   },
   setup(props: { table: RestaurantTable }) {
     //../assets/checkbox-checked.png

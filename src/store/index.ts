@@ -1,6 +1,7 @@
 import { createStore } from 'vuex'
 import categoryDataService from '@/services/CategoryDataService'
 import dishDataService from '@/services/DishDataService'
+import tableDataService from '@/services/TableDataService'
 
 export default createStore({
   state: {
@@ -47,7 +48,11 @@ export default createStore({
       const dishes = await dishDataService.getAllDishes()
       return commit('getAllDishes', dishes)
     },
-
+    
+    async getAllTables({commit}){
+      const tables = await tableDataService.getAllTables()
+      return commit('getAllTables', tables)
+    },
     async createNewCategory ({commit}, category: Category) {
       await categoryDataService.createCategory(category)
     },
@@ -55,7 +60,7 @@ export default createStore({
       await dishDataService.createDish(dish)
       return commit('toggleDialog')
     },
-
+    
     async editDish({commit}, dish: Dish) {
       await dishDataService.editDish(dish)
       return commit('toggleDialog')

@@ -21,18 +21,18 @@ export default class DishDataService {
   //DELETE ARRAY OF TABLES
   //TOGGLE TABLE
 
-  public static async toggleTable(dish: Dish) {
+  public static async toggleTable(table: RestaurantTable) {
     await axios.put(`${this.RESTAURANT_API_URL}/table/${table.id}`, table)
-      .then(() => showPopUp(table.name, 'updated', false))
-      .catch(() => showPopUp(table.name, 'updated', true))
+      .then(() => showPopUp("Table " + table.id, 'updated', false))
+      .catch(() => showPopUp("Table " + table.id, 'updated', true))
   }
 
   //REMOVE
 
-  public static async deleteSelectedTables(selectedTables: RestaurantTable[]) {
-    await axios.delete(`${this.RESTAURANT_API_URL}/table/${selectedTables.id}`)
-      .then(() => showPopUp('Selected tables', 'deleted', false))
-      .catch(() => showPopUp('Selected tables', 'deleted', true))
-  }
+  // public static async deleteSelectedTables(selectedTables: RestaurantTable[]) {
+  //   await axios.delete(`${this.RESTAURANT_API_URL}/table/${selectedTables.id}`)
+  //     .then(() => showPopUp('Selected tables', 'deleted', false))
+  //     .catch(() => showPopUp('Selected tables', 'deleted', true))
+  // }
   //REMOVE
 }
