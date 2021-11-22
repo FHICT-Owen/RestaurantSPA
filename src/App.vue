@@ -31,6 +31,16 @@ export default {
     PopUp
   },
   setup() {
+    function getToken() {
+      const auth = inject<any>('Auth')
+      if (!!auth) {
+        const token = auth.getTokenSilently()
+        store.commit('setToken', token)
+        console.log(token)
+      } else throw new Error('Could not find auth!')
+      console.log('HI')
+    }
+
     const auth = inject<any>('Auth')
     const popUps = computed(() => store.state.popUps)
     onMounted(() => {
@@ -38,14 +48,9 @@ export default {
       store.commit('setDishes')
       store.commit('setIngredients')
       if (auth.isAuthenticated) {
-        setInterval(() => {
-          console.log('HELLO')
-          if (!!auth) {
-            const token = auth.getIdTokenClaims()
-            store.commit('setToken', token)
-            console.log(token)
-          } else throw new Error('Could not find auth!')
-        }, 1000*60*10)
+        console.log('HELLO')
+        getToken()
+        setInterval(getToken, 1000*60*10)
       }      
     })
     return { ...auth, popUps }
