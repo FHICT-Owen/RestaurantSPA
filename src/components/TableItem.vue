@@ -16,14 +16,14 @@
 
 
 <script lang="ts">
-import store from "@/store";
-import { computed, ref } from "vue";
+import store from '@/store'
+import { computed, ref } from 'vue'
 
 export default {
-  name: "TableItem",
+  name: 'TableItem',
   components: {},
   setup() {},
-};
+}
 </script>
 
 <style scoped>

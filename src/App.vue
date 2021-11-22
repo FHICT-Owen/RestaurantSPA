@@ -21,7 +21,7 @@ import NavBar from './components/NavBar.vue'
 import Error from './components/Error.vue'
 import PopUp from './components/PopUp.vue'
 import store from '@/store'
-import { computed, onMounted } from 'vue'
+import { computed, onMounted, inject } from 'vue'
 
 export default {
   name: 'App',
@@ -31,13 +31,24 @@ export default {
     PopUp
   },
   setup() {
+    const auth = inject<any>('Auth')
     const popUps = computed(() => store.state.popUps)
     onMounted(() => {
       store.commit('setCategories')
       store.commit('setDishes')
       store.commit('setIngredients')
+      if (auth.isAuthenticated) {
+        setInterval(() => {
+          console.log('HELLO')
+          if (!!auth) {
+            const token = auth.getIdTokenClaims()
+            store.commit('setToken', token)
+            console.log(token)
+          } else throw new Error('Could not find auth!')
+        }, 1000*60*10)
+      }      
     })
-    return { popUps }
+    return { ...auth, popUps }
   }
 }
 </script>

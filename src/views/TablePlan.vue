@@ -13,14 +13,14 @@
 </template>
 
 <script lang="ts">
-import TableItem from "../components/TableItem.vue";
+import TableItem from '../components/TableItem.vue'
 
 export default {
-  name: "TablePlan",
+  name: 'TablePlan',
   components: {
     TableItem,
   },
-};
+}
 </script>
 
 <style scoped>
