@@ -1,15 +1,28 @@
 <template>
     <div class="container">
         <h1 class="text-5xl">Orders</h1>
-        <br/>
-        <div class="container flex items-start space-x-4">
 
-            <OrderCard />
-            <OrderCard />
-            <OrderCard />
-            <OrderCard />
-            <OrderCard />
-            <OrderCard />
+  <div >
+    <ul class="mr-auto mx-4">
+        <button class="mx-2 btn bg-blue-500 text-white rounded w-auto">All</button>
+        <button class="mx-2 btn bg-blue-500 text-white rounded w-auto">Done</button>
+        <button class="mx-2 btn bg-blue-500 text-white rounded">Preparing</button>
+        <button class="mx-2 btn bg-blue-500 text-white rounded">Archive</button>
+    </ul>
+  </div>
+        <div class="container flex flex-wrap items-start">
+            <OrderCard class="mx-4" />
+            <OrderCard class="mx-4" />
+            <OrderCard class="mx-4" />
+            <OrderCard class="mx-4" />
+            <OrderCard class="mx-4" />
+            <OrderCard class="mx-4" />
+            <OrderCard class="mx-4" />
+            <OrderCard class="mx-4" />
+            <OrderCard class="mx-4" />
+            <OrderCard class="mx-4" />
+            <OrderCard class="mx-4" />
+            <OrderCard class="mx-4" />
         </div>
     </div>
 
