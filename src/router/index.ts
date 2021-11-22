@@ -5,6 +5,7 @@ import Menu from '../views/Menu.vue'
 import SessionPage from '../views/SessionPage.vue'
 import TablePlan from '../views/TablePlan.vue'
 import QRGenTest from '../views/QRGenTest.vue'
+import Liveview from '../views/Liveview.vue'
 import CreateSession from '../components/CreateSession.vue'
 
 import { Auth0 } from '@/auth'
@@ -40,7 +41,12 @@ const routes: Array<RouteRecordRaw> = [
     meta: {requiresNavBar: false},
     component: SessionPage,
   },
-  
+  {
+    path: '/liveview',
+    name: 'liveview',
+    meta: {requiresNavBar: false},
+    component: Liveview,
+  },
   {
     path: '/profile',
     name: 'profile',
