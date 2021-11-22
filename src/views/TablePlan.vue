@@ -7,7 +7,15 @@
       <button v-on:click="true">Delete Selected</button>
     </div>
 <div class="table-container">
-	<table-item v-for='table in tables' :key='table.id'/>
+	<!-- <table-item v-for='table in tables' :key='table.id'/> -->
+  <table-item title="1"></table-item>
+  <table-item title="2"></table-item>
+  <table-item title="3"></table-item>
+  <table-item title="4"></table-item>
+  <table-item title="5"></table-item>
+  <table-item title="6"></table-item>
+  <table-item title="7"></table-item>
+
 </div>
     </div>
 </template>
@@ -52,6 +60,7 @@ export default {
   background: var(--primary-color);
   font-family: SF Pro Display;
   font-style: normal;
+  padding: 10px;
 }
 .buttons-container {
   align-self: flex-end;

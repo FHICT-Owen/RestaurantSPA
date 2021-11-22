@@ -3,7 +3,7 @@
     <!-- <Table text="3" isEmpty=true active=false/> -->
     <div class="table-row">
       <div class="col-1">
-        <p class="num">Table 1</p>
+          <p class="num">Table {{table.title}}</p>
         <div class="status emptyEqualsFalse">In use</div>
       </div>
       <div class="col-2">
@@ -36,6 +36,7 @@ export default {
 <style scoped>
 
 
+  
 .table-row {
   display: flex;
   flex-direction: row;
@@ -44,11 +45,12 @@ export default {
   align-items: center;
   max-width: 730px;
   white-space: nowrap;
-  min-height: 70px;
+  min-height: 55px;
   padding-left: 10px;
   padding-right: 10px;
   box-shadow: -1px 1px 4px 1px rgba(0, 0, 0, 0.1);
   border-radius: 25px;
+  margin-bottom: 10px;
 }
 
 p {
