@@ -50,7 +50,7 @@ export default {
       if (auth.isAuthenticated) {
         console.log('HELLO')
         getToken()
-        setInterval(getToken, 1000*60*10)
+        //setInterval(getToken, 1000*60*10)
       }      
     })
     return { ...auth, popUps }
