@@ -23,6 +23,7 @@ export interface State {
   confirmDeleteFunction: Function
   
   popUps: PopUp[]
+  apiToken: string
 }
 
 export const key: InjectionKey<Store<State>> = Symbol()
@@ -46,6 +47,7 @@ export default createStore<State>({
     confirmDeleteFunction: new Function,
     
     popUps: [],
+    apiToken: '',
   },
   mutations: {
     getAllCategories: (state, categories) => { state.categories = categories },
@@ -75,6 +77,7 @@ export default createStore<State>({
     closeConfirmDialog: (state) => state.isConfirmDialogOpen = false,
     setCurrentDish: (state, payload) => state.currentDish = payload,
     createNewDish: (state) => state.isDishDialogOpen = !state.isDishDialogOpen,
+    setToken: (state, payload) => state.apiToken = payload,
   },
   actions: {
     createNewCategory: ({commit}, category: Category) => {

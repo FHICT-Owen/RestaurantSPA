@@ -21,7 +21,7 @@ import TableItem from "../components/TableItem.vue";
 import store from "@/store";
 
 export default {
-  name: "TablePlan",
+  name: 'TablePlan',
   components: {
     TableItem,
   },

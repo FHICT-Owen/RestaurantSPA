@@ -3,7 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "serve": "vue-cli-service serve --port 3000",
+    "serve": "concurrently --kill-others \"node proxy.js\" \"vue-cli-service serve --port 3000\"",
     "build": "vue-cli-service build"
   },
   "dependencies": {
@@ -11,7 +11,9 @@
     "@heroicons/vue": "^1.0.5",
     "autoprefixer": "^9",
     "axios": "^0.22.0",
+    "concurrently": "^6.4.0",
     "core-js": "^3.18.2",
+    "cors-anywhere": "^0.4.4",
     "crypto-random-string": "^4.0.0",
     "element-plus": "^1.0.2-beta.28",
     "postcss": "^7",

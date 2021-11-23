@@ -3,11 +3,12 @@ import createAuth0Client, {
   GetIdTokenClaimsOptions,
   GetTokenSilentlyOptions,
   GetTokenWithPopupOptions,
+  IdToken,
   LogoutOptions,
   RedirectLoginOptions,
   User
 } from '@auth0/auth0-spa-js'
-import { App, Plugin, computed, reactive, watchEffect } from 'vue'
+import { App, Plugin, computed, reactive, watchEffect, ComputedRef } from 'vue'
 import { NavigationGuardWithThis } from 'vue-router'
 
 let client: Auth0Client
@@ -64,7 +65,17 @@ const authPlugin = {
   logout
 }
 
-export type AuthPlugin = typeof authPlugin
+export interface AuthPlugin {
+  isAuthenticated: ComputedRef<boolean>
+  loading: ComputedRef<boolean>
+  user: ComputedRef<any> // TODO: replace any type
+  getIdTokenClaims: () => Promise<IdToken>
+  getTokenSilently: () => Promise<string>
+  getTokenWithPopup: () => Promise<string>
+  handleRedirectCallback: () => Promise<void>
+  loginWithRedirect: () => Promise<void>
+  logout: () => void | Promise<void>
+}
 
 const routeGuard: NavigationGuardWithThis<undefined> = (to: any, from: any, next: any) => {
   const { isAuthenticated, loading, loginWithRedirect } = authPlugin

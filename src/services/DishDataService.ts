@@ -1,28 +1,41 @@
+import store from '@/store'
 import { showPopUp } from '@/utils'
+import { computed } from '@vue/runtime-core'
 import axios from 'axios'
 
 export default class DishDataService {
   static API_URL = process.env.VUE_APP_PROXY_URL;
 
   public static async getAllDishes(): Promise<Dish[]> {
-    const response = await axios.get(`${this.API_URL}/dish/`)
+    const response = await axios.get(`${this.API_URL}/dish/`, {
+      headers: { Authorization: `Bearer ${store.state.apiToken}`}
+    })
     return response.data
   }
 
   public static async createDish(dish: Dish) {
-    await axios.post(`${this.API_URL}/dish/`, dish)
+    const token = computed(() => store.state.apiToken)
+    await axios.post(`${this.API_URL}/dish/`, dish, {
+      headers: { Authorization: `Bearer ${token.value}`}
+    })
       .then(() => showPopUp(`Added ${dish.name}`, false))
       .catch(() => showPopUp(`Was unable to add ${dish.name}`, true))
   }
 
   public static async editDish(dish: Dish) {
-    await axios.put(`${this.API_URL}/dish/${dish.id}`, dish)
+    const token = computed(() => store.state.apiToken)
+    await axios.put(`${this.API_URL}/dish/${dish.id}`, dish, {
+      headers: { Authorization: `Bearer ${token.value}`}
+    })
       .then(() => showPopUp(`Updated ${dish.name}`, false))
       .catch(() => showPopUp(`Was unable to update ${dish.name}`, true))
   }
 
   public static async deleteDish(dish: Dish) {
-    await axios.delete(`${this.API_URL}/dish/${dish.id}`)
+    const token = computed(() => store.state.apiToken)
+    await axios.delete(`${this.API_URL}/dish/${dish.id}`, {
+      headers: { Authorization: `Bearer ${token.value}`}
+    })
       .then(() => showPopUp(`Deleted ${dish.name}`, false))
       .catch(() => showPopUp(`Was unable to delete ${dish.name}`, true))
   }

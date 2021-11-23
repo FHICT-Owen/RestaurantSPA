@@ -12,9 +12,11 @@
 </template>
 
 <script lang="ts">
-import { inject, ref } from 'vue'
+import { inject, onMounted, ref } from 'vue'
 import CostumerMenu from '../components/CustomerMenu.vue'
 import ManagerMenu from '../components/ManagerMenu.vue'
+import store from '@/store'
+import { AuthPlugin } from '@/auth'
 
 export default {
   components: {
@@ -22,8 +24,14 @@ export default {
     ManagerMenu
   },
   setup() {
-    const auth = inject<any>('Auth') //TODO: define type for auth
+    const auth = inject<AuthPlugin>('Auth')
     let costumerMenuIsOpen = ref(false)
+
+    onMounted(() => {
+      store.commit('setCategories')
+      store.commit('setDishes')
+      store.commit('setIngredients')
+    })
 
     const toggleMenu = () => costumerMenuIsOpen.value = !costumerMenuIsOpen.value
 
