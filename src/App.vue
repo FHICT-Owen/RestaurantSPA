@@ -73,30 +73,29 @@ export default {
 
       var config: AxiosRequestConfig = {
         method: 'post',
-        url: 'https://dev-cgiwratest.eu.auth0.com/oauth/token',
+        url: 'http://127.0.0.1:8000/https://dev-cgiwratest.eu.auth0.com/oauth/token',
         headers: { 
-          'Content-Type': 'application/x-www-form-urlencoded'
+          'Content-Type': 'application/json'
         },
         data: {
-          client_id: process.env.CLIENT_ID,
-          client_secret: process.env.CLIENT_SECRET,
+          client_id: process.env.VUE_APP_CLIENT_ID,
+          client_secret: process.env.VUE_APP_CLIENT_SECRET,
           audience: process.env.VUE_APP_AUTH0_AUDIENCE,
           grant_type: 'client_credentials'
         }
       }
 
       axios(config)
-        .then(function (response) {
-          console.log(JSON.stringify(response.data))
+        .then(function (response: any) {
+          console.log(JSON.stringify(response.data.access_token))
         })
         .catch(function (error) {
           console.log(error)
         })
     }
     
-    onMounted(() => {
-      getToken()
-    })
+    onMounted(() => getToken())
+    
     return { popUps }
   }
 }
