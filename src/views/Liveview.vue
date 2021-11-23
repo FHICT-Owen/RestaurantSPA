@@ -38,14 +38,14 @@
 </template>
 
 <script lang="ts">
-    import {
-        defineComponent
-    } from 'vue'
-    import OrderCard from '../components/OrderCard.vue'
+import {
+  defineComponent
+} from 'vue'
+import OrderCard from '../components/OrderCard.vue'
 
-    export default defineComponent({
-        components: {
-            OrderCard
-        }
-    })
+export default defineComponent({
+  components: {
+    OrderCard
+  }
+})
 </script>
