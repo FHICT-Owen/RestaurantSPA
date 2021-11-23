@@ -29,7 +29,7 @@
             @click="switchGeneral">Ingredients</button>
         </div>
         <div v-if="onGeneralTab" class="flex flex-row pt-2 justify-evenly">
-          <div class="flex flex-col w-48">
+          <div class="flex flex-col w-40">
             <input class="text-base" placeholder="Enter dish name ..." v-model="name" />
             <textarea class="text-sm resize-none h-24 mt-2" placeholder="Enter dish description ..." v-model="description" />
           </div>

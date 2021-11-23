@@ -61,7 +61,7 @@ export default {
         axios(config)
           .then(function (response: any) {
             store.commit('setToken', response.data.access_token)
-            console.log(token)
+            console.log(token.value)
           })
           .catch(function (error) {
             console.log(error)
