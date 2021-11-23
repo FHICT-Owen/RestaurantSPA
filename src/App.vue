@@ -22,6 +22,7 @@ import Error from './components/Error.vue'
 import PopUp from './components/PopUp.vue'
 import store from '@/store'
 import { computed, onMounted, inject } from 'vue'
+import { AuthPlugin } from '@/auth'
 
 export default {
   name: 'App',
@@ -31,29 +32,24 @@ export default {
     PopUp
   },
   setup() {
-    function getToken() {
-      const auth = inject<any>('Auth')
-      if (!!auth) {
-        const token = auth.getTokenSilently()
-        store.commit('setToken', token)
-        console.log(token)
-      } else throw new Error('Could not find auth!')
-      console.log('HI')
-    }
-
-    const auth = inject<any>('Auth')
     const popUps = computed(() => store.state.popUps)
+    const token = computed(() => store.state.apiToken)
+    const auth = inject<AuthPlugin>('Auth')
+
+    const getToken = () => {
+      try {
+        if (!!auth && auth.isAuthenticated)
+          auth.getTokenSilently().then(res => {
+            store.commit('setToken', res)
+            console.log(token.value)
+          })
+      } catch (error) { }
+    }
+    
     onMounted(() => {
-      store.commit('setCategories')
-      store.commit('setDishes')
-      store.commit('setIngredients')
-      if (auth.isAuthenticated) {
-        console.log('HELLO')
-        getToken()
-        //setInterval(getToken, 1000*60*10)
-      }      
+      setInterval(() => getToken(), 10000)
     })
-    return { ...auth, popUps }
+    return { popUps }
   }
 }
 </script>
