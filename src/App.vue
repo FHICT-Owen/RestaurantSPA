@@ -38,60 +38,35 @@ export default {
     const auth = inject<AuthPlugin>('Auth')
 
     const getToken = () => {
-      // try {
-      //   if (!!auth && auth.isAuthenticated)
-      //     auth.getTokenSilently().then(res => {
-      //       store.commit('setToken', res)
-      //       console.log(token.value)
-      //     })
-      //   else {
-      //     var data = JSON.stringify({
-      //       'client_id': 'u3pT2y3SVtSMZRuXJr1ogc4N2AN89Yge',
-      //       'client_secret': 'xQ7wfhwa7kdyEwGAnuEZnYriakpJVkVyoDAdrfmb0V37uHIwHYxm3YfNFy52h82_',
-      //       'audience': 'https://dev-cgiwratest.eu.auth0.com/api/v2/',
-      //       'grant_type': 'client_credentials'
-      //     })
-
-      //     var config: AxiosRequestConfig = {
-      //       method: 'post',
-      //       url: 'https://dev-cgiwratest.eu.auth0.com/oauth/token',
-      //       headers: { 
-      //         'Content-Type': 'application/json'
-      //       },
-      //       data : data
-      //     }
-
-      //     axios(config)
-      //       .then(function (response) {
-      //         console.log(JSON.stringify(response.data))
-      //       })
-      //       .catch(function (error) {
-      //         console.log(error)
-      //       })
-      //   }
-      // } catch (error) { }
-
-      var config: AxiosRequestConfig = {
-        method: 'post',
-        url: 'http://127.0.0.1:8000/https://dev-cgiwratest.eu.auth0.com/oauth/token',
-        headers: { 
-          'Content-Type': 'application/json'
-        },
-        data: {
-          client_id: process.env.VUE_APP_CLIENT_ID,
-          client_secret: process.env.VUE_APP_CLIENT_SECRET,
-          audience: process.env.VUE_APP_AUTH0_AUDIENCE,
-          grant_type: 'client_credentials'
+      if (!!auth && auth.isAuthenticated.value)
+        auth.getTokenSilently().then(res => {
+          store.commit('setToken', res)
+          console.log(token.value)
+        })
+      else {
+        var config: AxiosRequestConfig = {
+          method: 'post',
+          url: 'http://127.0.0.1:8000/https://dev-cgiwratest.eu.auth0.com/oauth/token',
+          headers: { 
+            'Content-Type': 'application/json'
+          },
+          data: {
+            client_id: process.env.VUE_APP_CLIENT_ID,
+            client_secret: process.env.VUE_APP_CLIENT_SECRET,
+            audience: process.env.VUE_APP_AUTH0_AUDIENCE,
+            grant_type: 'client_credentials'
+          }
         }
-      }
 
-      axios(config)
-        .then(function (response: any) {
-          console.log(JSON.stringify(response.data.access_token))
-        })
-        .catch(function (error) {
-          console.log(error)
-        })
+        axios(config)
+          .then(function (response: any) {
+            store.commit('setToken', response.data.access_token)
+            console.log(token)
+          })
+          .catch(function (error) {
+            console.log(error)
+          })
+      }      
     }
     
     onMounted(() => getToken())
