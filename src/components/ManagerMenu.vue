@@ -13,11 +13,11 @@
       <h2 class="text-4xl p-1">Dishes</h2>
       <div class="border-2 rounded-3xl p-2">
         <button class="bg-gray-200 rounded-xl p-2" @click="toggleDialog">New dish</button>
-        <div class="flex flex-row" v-for="dish of dishes" :key="dish.id"> 
+        <div class="flex flex-col" v-for="dish of dishes" :key="dish.id"> 
           <Dish class="w-full" :dish="dish" />
-          <div class="flex flex-col justify-center space-y-1 m-2">
-            <EditButton @click="openEditDialog(dish)" />
-            <DeleteButton @click="openConfirmDialog(dish)" />
+          <div class="flex flex-row rounded-3xl mt-1.5 h-10">
+            <EditButton @click="openEditDialog(dish)" class="w-full md:w-1/4 my-1 ml-1 mr-0.5" />
+            <DeleteButton @click="openConfirmDialog(dish)" class="w-full md:w-1/4 my-1 ml-0.5 mr-1" />
           </div>
         </div>
       </div>
