@@ -4,11 +4,14 @@ import dishDataService from '@/services/DishDataService'
 import ingredientDataService from '@/services/IngredientDataService'
 import Category from '@/classes/Category'
 import Dish from '@/classes/Dish'
+import Order from '@/classes/Order'
 import { InjectionKey } from '@vue/runtime-dom'
+import orderDataService from '@/services/OrderDataService'
 
 export interface State {
   categories: Category[]
   dishes: Dish[]
+  orders: Order[]
   ingredients: Ingredient[]
 
   selectedCategory: string[]
@@ -31,6 +34,7 @@ export default createStore<State>({
   state: {
     categories: [],
     dishes: [],
+    orders: [],
     ingredients: [],
 
     selectedCategory: [],
@@ -50,6 +54,8 @@ export default createStore<State>({
     setCategories: async (state) => { state.categories = await categoryDataService.getAllCategories(), state.categories.unshift({id: 0, name: 'all'}) },
     setDishes: async (state) => state.dishes = await dishDataService.getAllDishes(),
     setIngredients: async (state) => state.ingredients = await ingredientDataService.getAllIngredients(),
+    setOrders: async (state) => state.orders = await orderDataService.getAllOrders(),
+
     toggleDialog: (state, payload) => { 
       state.isDishDialogOpen = !state.isDishDialogOpen, 
       state.isEditDialog = payload

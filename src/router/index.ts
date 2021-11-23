@@ -6,7 +6,7 @@ import SessionPage from '../views/SessionPage.vue'
 import TablePlan from '../views/TablePlan.vue'
 import QRGenTest from '../views/QRGenTest.vue'
 import CreateSession from '../components/CreateSession.vue'
-import LiveView from '../components/LiveView.vue'
+import LiveView from '../views/LiveView.vue'
 import { Auth0 } from '@/auth'
 
 const routes: Array<RouteRecordRaw> = [

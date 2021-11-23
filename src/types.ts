@@ -28,6 +28,15 @@ interface Table {
   inUse: boolean
 }
 
+interface Order {
+  id: number
+  sessionId: number
+  dishes: string[]
+  comments: string
+  isApproved: boolean
+  isServed: boolean
+}
+
 interface Session {
   id: number
   tableId: number
