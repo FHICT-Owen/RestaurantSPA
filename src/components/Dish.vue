@@ -8,7 +8,7 @@
     </div>
     <div class="flex-1 m-1">
       <h5 class="font-medium text-lg">{{dish.name}}</h5>
-      <p class="font-med text-base text-gray-400">{{dish.description}}</p>
+      <p class="text-gray-400" style="font-size: 0.85rem; line-height: 1rem">{{dish.description}}</p>
     </div>
   </div>
 </template>
