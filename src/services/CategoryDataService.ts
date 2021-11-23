@@ -7,9 +7,7 @@ export default class CategoryDataService {
 
   public static async getAllCategories (): Promise<Category[]> {
     const result = await axios.get(`${this.API_URL}/categories/`, {
-      headers: { 
-        Authorization: `Bearer ${store.state.apiToken}` 
-      } 
+      headers: { Authorization: `Bearer ${store.state.apiToken}` } 
     })
     return result.data
   }
