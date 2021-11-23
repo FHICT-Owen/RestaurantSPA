@@ -23,8 +23,8 @@ export default class DishDataService {
 
   public static async toggleTable(table: RestaurantTable) {
     await axios.put(`${this.RESTAURANT_API_URL}/table/${table.id}`, table)
-      .then(() => showPopUp("Table " + table.id, 'updated', false))
-      .catch(() => showPopUp("Table " + table.id, 'updated', true))
+      .then(() => showPopUp("Table " + table.id + 'updated', false))
+      .catch(() => showPopUp("Table " + table.id + ' updated', true))
   }
 
   //REMOVE
