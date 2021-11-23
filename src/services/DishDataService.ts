@@ -2,7 +2,7 @@ import { showPopUp } from '@/utils'
 import axios from 'axios'
 
 export default class DishDataService {
-  static API_URL = process.env.VUE_APP_MENU_SERVICE_URL;
+  static API_URL = process.env.VUE_APP_PROXY_URL;
 
   public static async getAllDishes(): Promise<Dish[]> {
     const response = await axios.get(`${this.API_URL}/dish/`)

@@ -3,7 +3,7 @@ import { showPopUp } from '@/utils'
 import axios from 'axios'
 
 export default class SessionDataService {
-  static API_URL = process.env.VUE_APP_SESSION_SERVICE_URL;
+  static API_URL = process.env.VUE_APP_PROXY_URL;
 
   public static async createSession(session: Session): Promise<Boolean> {
     return await axios.post(`${this.API_URL}/session/`, session).then(response => {
@@ -18,7 +18,7 @@ export default class SessionDataService {
 
   public static async getSessionByCookie(secret: string): Promise<Session> {
     try{
-      return await axios.get(`${this.API_URL}/sessionbycookie?cookie=${secret}`).then(response => {
+      return await axios.get(`${this.API_URL}/session/sessionbycookie?cookie=${secret}`).then(response => {
         return response.data
       })
     } catch {

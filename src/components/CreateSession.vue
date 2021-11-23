@@ -18,7 +18,7 @@ export default {
     const tableId = Number.parseInt(tableQuery)
     console.log(`tableId: ${tableId}`)
     let cookie = VueCookieNext.getCookie('GenericRestaurantSesh')
-    // try { SessionDataService.getSessionByCookie(cookie) } catch { VueCookieNext.removeCookie('GenericRestaurantSesh')}
+    try { SessionDataService.getSessionByCookie(cookie) } catch { VueCookieNext.removeCookie('GenericRestaurantSesh')}
     let secret = stringGen({length: 25})
     const tableObj = RestaurantDataService.getTable(tableId)
     tableObj.then( table => {

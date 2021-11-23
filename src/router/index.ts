@@ -3,7 +3,9 @@ import Home from '../views/Home.vue'
 import Profile from '../views/Profile.vue'
 import Menu from '../views/Menu.vue'
 import SessionPage from '../views/SessionPage.vue'
+import TablePlan from '../views/TablePlan.vue'
 import QRGenTest from '../views/QRGenTest.vue'
+import Liveview from '../views/LiveView.vue'
 import CreateSession from '../components/CreateSession.vue'
 
 import { Auth0 } from '@/auth'
@@ -22,6 +24,12 @@ const routes: Array<RouteRecordRaw> = [
     component: Menu,
   },
   {
+    path: '/table_plan',
+    name: 'tableplan',
+    meta: {requiresNavBar: true},
+    component: TablePlan,
+  },
+  {
     path: '/qr',
     name: 'qr',
     meta: { requiresNavBar: true },
@@ -32,6 +40,12 @@ const routes: Array<RouteRecordRaw> = [
     name: 'sessionpage',
     meta: {requiresNavBar: false},
     component: SessionPage,
+  },
+  {
+    path: '/live_view',
+    name: 'live_view',
+    meta: {requiresNavBar: false},
+    component: Liveview,
   },
   {
     path: '/profile',
