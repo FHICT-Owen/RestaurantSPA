@@ -6,13 +6,12 @@ export default class CategoryDataService {
   static API_URL = process.env.VUE_APP_PROXY_URL
 
   public static async getAllCategories (): Promise<Category[]> {
-    const result = await axios.get(`${this.API_URL}/categories/`, {
-      headers: { Authorization: `Bearer ${store.state.apiToken}` } 
-    })
+    const result = await axios.get(`${this.API_URL}/categories/`)
     return result.data
   }
 
   public static async createCategory (category: Category) {
+    console.log(store.state.apiToken)
     await axios.post(`${this.API_URL}/categories/`, category, {
       headers: { Authorization: `Bearer ${store.state.apiToken}`}
     })
