@@ -49,7 +49,7 @@ export default {
     EditButton
   },
   setup () {  
-    const categories = computed(() => store.state.categories.slice(1))
+    const categories = computed(() => store.state.categories)
     const dishes = computed(() => store.state.dishes)
     const isConfirmDialogOpen = computed(() => store.state.isConfirmDialogOpen)
     const isDishDialogOpen = computed(() => store.state.isDishDialogOpen)
