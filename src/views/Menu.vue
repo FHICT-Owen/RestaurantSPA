@@ -12,7 +12,7 @@
 </template>
 
 <script lang="ts">
-import { inject, onMounted, ref } from 'vue'
+import { inject, ref, onBeforeMount } from 'vue'
 import CostumerMenu from '../components/CustomerMenu.vue'
 import ManagerMenu from '../components/ManagerMenu.vue'
 import store from '@/store'
@@ -27,7 +27,9 @@ export default {
     const auth = inject<AuthPlugin>('Auth')
     let costumerMenuIsOpen = ref(false)
 
-    onMounted(() => {
+    
+
+    onBeforeMount(() => {
       store.commit('setCategories')
       store.commit('setDishes')
       store.commit('setIngredients')

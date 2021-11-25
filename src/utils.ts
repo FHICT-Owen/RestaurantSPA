@@ -14,3 +14,9 @@ export function showPopUp(text: string, isError: boolean) {
     store.state.popUps.splice(i, 1) 
   }, 3000)
 }
+
+export function setAuthHeader() {
+  return {
+    headers: { authorization: `Bearer ${store.state.apiToken}` }
+  }
+}

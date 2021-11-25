@@ -1,4 +1,3 @@
-import store from '@/store'
 import { Session } from '@/classes'
 import { showPopUp } from '@/utils'
 import axios from 'axios'

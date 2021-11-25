@@ -1,5 +1,4 @@
-import store from '@/store'
-import { showPopUp } from '@/utils'
+import { setAuthHeader, showPopUp } from '@/utils'
 import axios from 'axios'
 
 export default class IngredientDataService {
@@ -11,17 +10,13 @@ export default class IngredientDataService {
   }
 
   public static async createIngredient(ingredient: Ingredient) {
-    await axios.post(`${this.API_URL}/ingredient/`, ingredient, {
-      headers: { Authorization: `Bearer ${store.state.apiToken}`}
-    })
+    await axios.post(`${this.API_URL}/ingredient/`, ingredient, setAuthHeader())
       .then(() => showPopUp(`Added ${ingredient.name}`, false))
       .catch(() => showPopUp(`Unable to add ${ingredient.name}`, true))
   }
 
   public static async deleteIngredient(ingredient: Ingredient) {
-    await axios.delete(`${this.API_URL}/ingredient/${ingredient.id}`, {
-      headers: { Authorization: `Bearer ${store.state.apiToken}`}
-    })
+    await axios.delete(`${this.API_URL}/ingredient/${ingredient.id}`, setAuthHeader())
       .then(() => showPopUp(`Deleted ${ingredient.name}`, false))
       .catch(() => showPopUp(`Unable to remove ${ingredient.name}`, true))
   }

@@ -33,14 +33,12 @@ export default {
   },
   setup() {
     const popUps = computed(() => store.state.popUps)
-    const token = computed(() => store.state.apiToken)
     const auth = inject<AuthPlugin>('Auth')
 
     const getToken = () => {
       if (!!auth && auth.isAuthenticated.value)
         auth.getTokenSilently().then(res => {
           store.commit('setToken', res)
-          console.log(token.value)
         })
     }
 
