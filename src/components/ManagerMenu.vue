@@ -15,7 +15,7 @@
         <button class="bg-gray-200 rounded-xl p-2" @click="toggleDialog">New dish</button>
         <div class="flex flex-col" v-for="dish of dishes" :key="dish.id"> 
           <Dish class="w-full" :dish="dish" />
-          <div class="flex flex-row rounded-3xl mt-1.5 h-10">
+          <div class="flex flex-row justify-end rounded-3xl mt-1.5 h-10">
             <EditButton @click="openEditDialog(dish)" class="w-full md:w-1/4 my-1 ml-1 mr-0.5" />
             <DeleteButton @click="openConfirmDialog(dish)" class="w-full md:w-1/4 my-1 ml-0.5 mr-1" />
           </div>

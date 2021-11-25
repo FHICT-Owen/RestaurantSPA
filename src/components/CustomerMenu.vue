@@ -9,7 +9,7 @@
           :key="category.id"
           @click="selectCategory"
           :tabindex="category.id"
-          class="no-underline capitalize py-2 px-4 mx-2 my-2.5 cursor-pointer select-none"
+          class="no-underline capitalize py-2 px-4 mx-2 my-2.5 cursor-pointer select-none whitespace-nowrap"
           >{{ category.name }}
         </div>
       </div>

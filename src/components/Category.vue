@@ -3,10 +3,10 @@
     <div class="m-1 flex justify-between">
       <h3 v-if="!isEditMode" class="mr-3">{{category.name}} </h3>
       <input v-model="name" class="border-2 w-32 rounded-3xl p-1" v-else @keyup.enter="editCategory"/>
-      <div class="flex flex-row space-x-1">
-        <CancelButton v-if="isEditMode" @click="isEditMode = false" />
-        <EditButton v-else @click="openInput" />
-        <DeleteButton @click="openConfirmDialog" />
+      <div class="flex flex-row space-x-1 h-10">
+        <CancelButton v-if="isEditMode" @click="isEditMode = false" class="my-1 ml-1 mr-0.5" />
+        <EditButton v-else @click="openInput" class="my-1 ml-1 mr-0.5" />
+        <DeleteButton @click="openConfirmDialog" class="my-1 ml-0.5 mr-1" />
       </div>
     </div>
   </div>
