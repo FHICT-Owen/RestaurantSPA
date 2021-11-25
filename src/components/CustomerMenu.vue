@@ -3,13 +3,19 @@
     <div id="navbar" class="flex flex-col bg-gray-200 w-full overflow-hidden z-50">
       <input v-model="keyword" class="justify-center shadow-sm rounded-3xl h-10 p-3 mt-1" placeholder="Search for your dish..." />
       <div class="flex flex-row overflow-x-scroll">
+        <div 
+          id="all" 
+          @click="selectCategory"
+          class="no-underline capitalize py-2 px-4 mx-2 my-2.5 cursor-pointer select-none whitespace-nowrap">
+          All
+        </div>
         <div
           v-for="category in categories"
           :id="category.name"
           :key="category.id"
           @click="selectCategory"
           :tabindex="category.id"
-          class="no-underline capitalize py-2 px-4 mx-2 my-2.5 cursor-pointer select-none"
+          class="no-underline capitalize py-2 px-4 mx-2 my-2.5 cursor-pointer select-none whitespace-nowrap"
           >{{ category.name }}
         </div>
       </div>
@@ -17,11 +23,9 @@
     <div class="capitalize container">
       <div>
         <div v-for="category in selectedCategory" :key="category.id">
-          <div v-if="category !== 'all'">
-            <h2 class="text-5xl mt-5">{{ category }}</h2>
-            <div v-for="(dish, index) in filteredDishes" :key="index">
-              <Dish v-if="dish.category == category" :dish="dish" />
-            </div>
+          <h2 class="text-5xl mt-5">{{ category }}</h2>
+          <div v-for="(dish, index) in filteredDishes" :key="index">
+            <Dish v-if="dish.category == category" :dish="dish" />
           </div>
         </div>
       </div>
@@ -39,7 +43,9 @@ export default defineComponent({
     Dish
   },
   setup() {
-    const categories = computed(() => store.state.categories)
+    const categories = computed(() => 
+      store.state.categories.filter(c => store.state.dishes.find(d => d.category == c.name))
+    )
     const dishes = computed(() => store.state.dishes)
     let keyword = ref('')
 
@@ -50,8 +56,12 @@ export default defineComponent({
     const selectedCategory = computed(() => store.state.selectedCategory)
     
     const selectCategory = (e:any) => {
-      const newElement = document.getElementById(e.target.textContent.toLowerCase())
+      const newElement = document.getElementById(e.target.textContent)
       const lastElement = document.getElementById(store.state.selectedCategory[0])
+      const all = document.getElementById('all')
+      if (!!all) {
+        all.classList.remove('select')
+      }
       if (!!newElement && !!lastElement) {
         lastElement.classList.remove('select')
         newElement.classList.add('select')
