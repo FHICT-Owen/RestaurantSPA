@@ -23,7 +23,6 @@ import PopUp from './components/PopUp.vue'
 import store from '@/store'
 import { computed, onMounted, inject } from 'vue'
 import { AuthPlugin } from '@/auth'
-import axios, { AxiosRequestConfig } from 'axios'
 
 export default {
   name: 'App',
@@ -34,41 +33,15 @@ export default {
   },
   setup() {
     const popUps = computed(() => store.state.popUps)
-    const token = computed(() => store.state.apiToken)
     const auth = inject<AuthPlugin>('Auth')
 
     const getToken = () => {
       if (!!auth && auth.isAuthenticated.value)
         auth.getTokenSilently().then(res => {
           store.commit('setToken', res)
-          console.log(token.value)
         })
-      else {
-        var config: AxiosRequestConfig = {
-          method: 'post',
-          url: 'http://127.0.0.1:8000/https://dev-cgiwratest.eu.auth0.com/oauth/token',
-          headers: { 
-            'Content-Type': 'application/json'
-          },
-          data: {
-            client_id: process.env.VUE_APP_CLIENT_ID,
-            client_secret: process.env.VUE_APP_CLIENT_SECRET,
-            audience: process.env.VUE_APP_AUTH0_AUDIENCE,
-            grant_type: 'client_credentials'
-          }
-        }
-
-        axios(config)
-          .then(function (response: any) {
-            store.commit('setToken', response.data.access_token)
-            console.log(token.value)
-          })
-          .catch(function (error) {
-            console.log(error)
-          })
-      }      
     }
-    
+
     onMounted(() => getToken())
     
     return { popUps }

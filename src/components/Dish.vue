@@ -29,7 +29,7 @@ export default defineComponent({
     }
   },
   setup (props) {
-    return { imgSize: ref('88px') }
+    return { imgSize: ref('88px'), isInSession: ref(false) }
   }
 })
 </script>
