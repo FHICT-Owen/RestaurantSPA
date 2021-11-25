@@ -6,7 +6,7 @@ import SessionPage from '../views/SessionPage.vue'
 import TablePlan from '../views/TablePlan.vue'
 import QRGenTest from '../views/QRGenTest.vue'
 import CreateSession from '../components/CreateSession.vue'
-
+import LiveView from '../views/LiveView.vue'
 import { Auth0 } from '@/auth'
 
 const routes: Array<RouteRecordRaw> = [
@@ -27,6 +27,12 @@ const routes: Array<RouteRecordRaw> = [
     name: 'tableplan',
     meta: {requiresNavBar: true},
     component: TablePlan,
+  },
+  {
+    path: '/live_view',
+    name: 'liveview',
+    meta: {requiresNavBar: true},
+    component: LiveView,
   },
   {
     path: '/qr',
