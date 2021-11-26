@@ -7,10 +7,12 @@
         <div class="status emptyEqualsFalse">In use</div>
       </div>
       <div class="col-2">
-        <p class="active">Active</p>
-        <button class="toggle activeEqualsTrue"><img src="../assets/toggle-on.png"/></button>
+        <p v-if="table.isActive">Active</p>
+        <p v-else>Inactive</p>
+        <button v-if="table.inUse" class="toggle activeEqualsTrue"><img src="../assets/toggle-on.png"/></button>
+        <button v-else class="toggle activeEqualsFalse"><img src="../assets/toggle-off.png"/></button>
       </div>
-      <button class="checkbox"><img src="../assets/checkbox-checked.png"/></button>
+      <button v-if="" class="checkbox"><img src="../assets/checkbox-checked.png"/></button>
     </div>
 </template>
 
@@ -23,7 +25,7 @@ export default {
   props: {
     title: String,
     isActive: Boolean,
-    table: {} as RestaurantTable
+    table: {} as RestaurantTable,
   },
   setup(props: { table: RestaurantTable }) {
     //../assets/checkbox-checked.png
