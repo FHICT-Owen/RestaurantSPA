@@ -23,7 +23,7 @@ export default {
   props: {
     title: String,
     isActive: Boolean,
-    // table: {} as RestaurantTable
+    table: {} as RestaurantTable
   },
   setup(props: { table: RestaurantTable }) {
     //../assets/checkbox-checked.png

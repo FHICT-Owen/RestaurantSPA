@@ -29,10 +29,10 @@ export default class DishDataService {
 
   //REMOVE
 
-  // public static async deleteSelectedTables(selectedTables: RestaurantTable[]) {
-  //   await axios.delete(`${this.RESTAURANT_API_URL}/table/${selectedTables.id}`)
-  //     .then(() => showPopUp('Selected tables', 'deleted', false))
-  //     .catch(() => showPopUp('Selected tables', 'deleted', true))
-  // }
+  public static async deleteSelectedTables(selectedTables: RestaurantTable[]) {
+    await axios.delete(`${this.RESTAURANT_API_URL}/tables/${selectedTables}`)
+      .then(() => showPopUp('Selected tables deleted', false))
+      .catch(() => showPopUp('Selected tables deleted', true))
+  }
   //REMOVE
 }

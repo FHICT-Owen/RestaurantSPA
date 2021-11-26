@@ -23,10 +23,14 @@ import store from "@/store";
 export default {
   name: 'TablePlan',
   components: {
-    TableItem,
+    TableItem
   },
   setup() {
     const tables = computed(() => store.state.tables);
+    const selectedTableIds = computed(() => store.state.selectedTableIds);
+    const selectTable(id: number) => {
+      
+    }
   },
 };
 </script>
