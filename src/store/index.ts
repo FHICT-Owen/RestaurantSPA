@@ -1,16 +1,21 @@
 import { createStore, useStore as baseUseStore, Store, Commit } from 'vuex'
 import categoryDataService from '@/services/CategoryDataService'
 import dishDataService from '@/services/DishDataService'
+import tableDataService from '@/services/TableDataService'
 import ingredientDataService from '@/services/IngredientDataService'
-import Category from '@/classes/Category'
 import Dish from '@/classes/Dish'
+import Order from '@/classes/Order'
 import { InjectionKey } from '@vue/runtime-dom'
+import orderDataService from '@/services/OrderDataService'
 
 export interface State {
+
   categories: Category[]
   dishes: Dish[]
+  orders: Order[]
   ingredients: Ingredient[]
-
+  tables: RestaurantTable[]
+  selectedTableIds: number[]
   selectedCategory: string[]
 
   isDishDialogOpen: boolean
@@ -29,11 +34,15 @@ export const key: InjectionKey<Store<State>> = Symbol()
 
 export default createStore<State>({
   state: {
+
     categories: [],
     dishes: [],
+    orders: [],
     ingredients: [],
 
     selectedCategory: [],
+    tables: [] as RestaurantTable[],
+    selectedTableIds: [] as number[],
 
     isDishDialogOpen: false,
     isEditDialog: false,
@@ -53,6 +62,8 @@ export default createStore<State>({
     },
     setDishes: async (state) => state.dishes = await dishDataService.getAllDishes(),
     setIngredients: async (state) => state.ingredients = await ingredientDataService.getAllIngredients(),
+    setOrders: async (state) => state.orders = await orderDataService.getAllOrders(),
+    setTables: (state, tables) => state.tables = tables,
     toggleDialog: (state, payload) => { 
       state.isDishDialogOpen = !state.isDishDialogOpen, 
       state.isEditDialog = payload
@@ -98,7 +109,7 @@ export default createStore<State>({
       dishDataService.editDish(dish)
         .then(() => commit('setDishes'))
     },
-
+    
     deleteObject({state}) {
       state.confirmDeleteFunction()
       state.isConfirmDialogOpen = false

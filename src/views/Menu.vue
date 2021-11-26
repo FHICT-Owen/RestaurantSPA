@@ -12,10 +12,9 @@
 </template>
 
 <script lang="ts">
-import { inject, ref, onBeforeMount } from 'vue'
+import { inject, ref } from 'vue'
 import CostumerMenu from '../components/CustomerMenu.vue'
 import ManagerMenu from '../components/ManagerMenu.vue'
-import store from '@/store'
 import { AuthPlugin } from '@/auth'
 
 export default {
@@ -26,14 +25,6 @@ export default {
   setup() {
     const auth = inject<AuthPlugin>('Auth')
     let costumerMenuIsOpen = ref(false)
-
-    
-
-    onBeforeMount(() => {
-      store.commit('setCategories')
-      store.commit('setDishes')
-      store.commit('setIngredients')
-    })
 
     const toggleMenu = () => costumerMenuIsOpen.value = !costumerMenuIsOpen.value
 
