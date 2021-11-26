@@ -1,26 +1,46 @@
 <template>
     <div  class="w-64 text-white mb-3" style="max-width: 18rem;">
         <!-- TODO: bg-color depends on order status -->
-        <div class="card-header bg-warning relative">
-            <p class="text-xl">00:00</p>
-            <h5 class="text-xl">#{{order.id}}</h5>
-            <div class="absolute inset-y-3 right-5 flex space-x-2">
-                <ReplyIcon class="w-6 h-6" />
-                <BanIcon class="w-6 h-6" />
-                <CheckIcon class="h-6 w-6" />
-                <FlagIcon class="h-6 w-6" />
+            <!-- <div :load="log(orders)"></div> -->
+            <div v-if="order.isServed" class="card-header bg-success relative">
+                <p class="text-xl">00:00</p>
+                <h5 class="text-xl">#{{order.id}}</h5>
+                <div class="absolute inset-y-3 right-5 flex space-x-2">
+                    <ReplyIcon class="w-6 h-6" />
+                    <BanIcon class="w-6 h-6" />
+                    <CheckIcon class="h-6 w-6" />
+                    <FlagIcon class="h-6 w-6" />
+                </div>
             </div>
-        </div>
-        <div class="card-body border bg-light text-black overflow-y-auto max-h-64">
-            <p class="text-m text-gray-700 my-2" >{{order.comments}}</p>
-            <table class="table">
-						<div v-for="(order, index) in order.dishes" :key="index">
-							<tr>
-									<td>{{order}}</td>
-							</tr>
-						</div>
-            </table>
-        </div>
+            <div v-else-if="order.isApproved" class="card-header bg-warning relative">
+                <p class="text-xl">00:00</p>
+                <h5 class="text-xl">#{{order.id}}</h5>
+                <div class="absolute inset-y-3 right-5 flex space-x-2">
+                    <ReplyIcon class="w-6 h-6" />
+                    <BanIcon class="w-6 h-6" />
+                    <CheckIcon class="h-6 w-6" />
+                    <FlagIcon class="h-6 w-6" />
+                </div>
+            </div>
+            <div v-else-if="!order.isApproved" class="card-header bg-danger relative">
+                <p class="text-xl">00:00</p>
+                <h5 class="text-xl">#{{order.id}}</h5>
+                <div class="absolute inset-y-3 right-5 flex space-x-2">
+                    <ReplyIcon class="w-6 h-6" />
+                    <BanIcon class="w-6 h-6" />
+                    <CheckIcon class="h-6 w-6" />
+                    <FlagIcon class="h-6 w-6" />
+                </div>
+            </div>
+
+            <div class="card-body border bg-light text-black overflow-y-auto max-h-64">
+              <p class="text-m text-gray-700 my-2" >{{order.comments}}</p>
+              <table class="table">
+                <tr>
+                    <td v-for="(dish, index) in order.dishes" :key="index">{{dish}}</td>
+                </tr>
+              </table>
+          </div>
     </div>
 </template>
 
@@ -44,10 +64,13 @@ export default defineComponent({
       required: true
     }
   },
-  setup() {
-    const orders = computed(() => store.state.orders)
+  methods: {
+    log(order:any) {
+      console.log(order)
+    }
+  },
+  setup(props) {
     return {
-      orders 
     }
   }
 })

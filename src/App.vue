@@ -39,6 +39,7 @@ export default {
       if (!!auth && auth.isAuthenticated.value)
         auth.getTokenSilently().then(res => {
           store.commit('setToken', res)
+          console.log(res)
         })
     }
 
