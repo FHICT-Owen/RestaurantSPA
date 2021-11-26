@@ -9,8 +9,8 @@
       <div class="col-2">
         <p v-if="table.isActive">Active</p>
         <p v-else>Inactive</p>
-        <button v-if="table.inUse" class="toggle activeEqualsTrue"><img src="../assets/toggle-on.png"/></button>
-        <button v-else class="toggle activeEqualsFalse"><img src="../assets/toggle-off.png"/></button>
+        <button v-if="table.inUse" class="toggle activeEqualsTrue"><img src="../assets/toggle-on.png" alt="toggle-on"/></button>
+        <button v-else class="toggle activeEqualsFalse"><img src="../assets/toggle-off.png" alt="toggle-off"/></button>
       </div>
       <button @click="addToSelectedTables" class="checkbox">
         <img v-if="false" src="../assets/checkbox-checked.png"/>
