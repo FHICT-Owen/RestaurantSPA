@@ -7,6 +7,7 @@
     </div>
     <CostumerMenu />
     <button @click="connect">Connect</button>
+    <button @click="connectAsLiveView">Connect As Live View</button>
     <button @click="disconnect">Disconnect</button>
     <button @click="send">Send</button>
   </div>
@@ -15,9 +16,8 @@
 <script lang="ts">
 import { defineComponent } from '@vue/runtime-core'
 import { ShoppingCartIcon } from '@heroicons/vue/outline'
-import { Client, CompatClient, Stomp, StompHeaders } from '@stomp/stompjs'
+import { Client } from '@stomp/stompjs'
 import CostumerMenu from '../components/CustomerMenu.vue'
-import store from '@/store'
 
 export default defineComponent({
   components: { 
@@ -31,10 +31,7 @@ export default defineComponent({
       client = new Client({
         brokerURL: 'ws://localhost:6969/register',
         onConnect: () => {
-          console.log('onConnect')
-          client.subscribe('/topic/reply', message => {
-            console.log(message.body)
-          })
+          console.log('connected as costumer')
         }
       })
       client.activate()

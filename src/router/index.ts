@@ -27,12 +27,14 @@ const routes: Array<RouteRecordRaw> = [
     name: 'tableplan',
     meta: {requiresNavBar: true},
     component: TablePlan,
+    beforeEnter: Auth0.routeGuard
   },
   {
     path: '/live_view',
     name: 'liveview',
     meta: {requiresNavBar: true},
     component: LiveView,
+    beforeEnter: Auth0.routeGuard
   },
   {
     path: '/qr',
