@@ -6,10 +6,6 @@
       <div class="text-3xl w-4/5">What would you like to have?</div>
     </div>
     <CostumerMenu />
-    <button @click="connect">Connect</button>
-    <button @click="connectAsLiveView">Connect As Live View</button>
-    <button @click="disconnect">Disconnect</button>
-    <button @click="send">Send</button>
   </div>
 </template>
 
@@ -27,7 +23,7 @@ export default defineComponent({
   setup() {
     var client: Client
 
-    onMounted(() => connect)
+    onMounted(() => connect())
 
     function connect() {
       client = new Client({

@@ -43,7 +43,12 @@ export default {
         })
     }
 
-    onMounted(() => getToken())
+    onMounted(() => {
+      store.commit('setCategories')
+      store.commit('setDishes')
+      store.commit('setIngredients')
+      getToken()
+    })
     
     return { popUps }
   }
