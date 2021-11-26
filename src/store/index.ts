@@ -7,8 +7,10 @@ import Dish from '@/classes/Dish'
 import { InjectionKey } from '@vue/runtime-core'
 
 export interface State {
+
   categories: Category[]
   dishes: Dish[]
+  orders: Order[]
   ingredients: Ingredient[]
   tables: RestaurantTable[]
   selectedTableIds: number[]
@@ -30,13 +32,15 @@ export const key: InjectionKey<Store<State>> = Symbol()
 
 export default createStore<State>({
   state: {
-    categories: [] as Category[],
-    dishes: [] as Dish[],
-    tables: [] as RestaurantTable[],
-    selectedTableIds: [] as number[],
+
+    categories: [],
+    dishes: [],
+    orders: [],
     ingredients: [],
 
     selectedCategory: [],
+    tables: [] as RestaurantTable[],
+    selectedTableIds: [] as number[],
 
     isDishDialogOpen: false,
     isEditDialog: false,
@@ -50,10 +54,11 @@ export default createStore<State>({
     apiToken: '',
   },
   mutations: {
-    getAllCategories: (state, categories) => { state.categories = categories },
-    getAllDishes: (state, dishes) => { state.dishes = dishes },
     getAllTables: (state, tables) => { state.tables = tables },
-    setCategories: async (state) => { state.categories = await categoryDataService.getAllCategories(), state.categories.unshift({id: 0, name: 'all'}) },
+    setCategories: async (state) => {
+      state.categories = await categoryDataService.getAllCategories()
+      state.selectedCategory = state.categories.filter(c => state.dishes.find(d => d.category == c.name)).map(c => c.name)
+    },
     setDishes: async (state) => state.dishes = await dishDataService.getAllDishes(),
     setIngredients: async (state) => state.ingredients = await ingredientDataService.getAllIngredients(),
     toggleDialog: (state, payload) => { 
