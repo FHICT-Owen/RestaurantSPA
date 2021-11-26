@@ -21,14 +21,14 @@ export default {
       try { SessionDataService.getSessionByCookie(cookie) } catch { VueCookieNext.removeCookie('GenericRestaurantSesh')}
       let secret = stringGen({length: 25})
       let tableObj = RestaurantDataService.getTable(tableId)
-      tableObj.then( table => {
+      tableObj.then( async table => {
         if (table.isActive && !table.inUse) {
           if(!!cookie) {
             secret = cookie
           }
           const session = new Session(0, tableId, secret)
           try {
-            SessionDataService.createSession(session).then(response => {
+            await SessionDataService.createSession(session).then(response => {
               console.log(response)
               if (response == true) {
                 RestaurantDataService.setInUse(tableId, true).then(val => {
