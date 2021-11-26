@@ -1,8 +1,8 @@
-import { showPopUp } from '@/utils'
+import { setAuthHeader, showPopUp } from '@/utils'
 import axios from 'axios'
 
 export default class DishDataService {
-  static API_URL = process.env.VUE_APP_API_URL;
+  static API_URL = process.env.VUE_APP_PROXY_URL;
 
   public static async getAllDishes(): Promise<Dish[]> {
     const response = await axios.get(`${this.API_URL}/dish/`)
@@ -10,20 +10,20 @@ export default class DishDataService {
   }
 
   public static async createDish(dish: Dish) {
-    await axios.post(`${this.API_URL}/dish/`, dish)
-      .then(() => showPopUp(dish.name, 'added', false))
-      .catch(() => showPopUp(dish.name, 'added', true))
+    await axios.post(`${this.API_URL}/dish/`, dish, setAuthHeader())
+      .then(() => showPopUp(`Added ${dish.name}`, false))
+      .catch(() => showPopUp(`Was unable to add ${dish.name}`, true))
   }
 
   public static async editDish(dish: Dish) {
-    await axios.put(`${this.API_URL}/dish/${dish.id}`, dish)
-      .then(() => showPopUp(dish.name, 'updated', false))
-      .catch(() => showPopUp(dish.name, 'updated', true))
+    await axios.put(`${this.API_URL}/dish/${dish.id}`, dish, setAuthHeader())
+      .then(() => showPopUp(`Updated ${dish.name}`, false))
+      .catch(() => showPopUp(`Was unable to update ${dish.name}`, true))
   }
 
   public static async deleteDish(dish: Dish) {
-    await axios.delete(`${this.API_URL}/dish/${dish.id}`)
-      .then(() => showPopUp(dish.name, 'deleted', false))
-      .catch(() => showPopUp(dish.name, 'deleted', true))
+    await axios.delete(`${this.API_URL}/dish/${dish.id}`, setAuthHeader())
+      .then(() => showPopUp(`Deleted ${dish.name}`, false))
+      .catch(() => showPopUp(`Was unable to delete ${dish.name}`, true))
   }
 }

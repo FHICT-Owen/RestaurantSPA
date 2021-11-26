@@ -2,11 +2,9 @@ import { createApp } from 'vue'
 import App from './App.vue'
 import router from './router'
 import { Auth0 } from '@/auth'
-
-import { library } from '@fortawesome/fontawesome-svg-core'
-import { faLink, faUser, faPowerOff } from '@fortawesome/free-solid-svg-icons'
-import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
-import store from './store'
+import './assets/tailwind.css'
+import store, { key } from './store'
+import { VueCookieNext } from 'vue-cookie-next'
 import './registerServiceWorker'
 
 async function init () {
@@ -23,14 +21,21 @@ async function init () {
     audience: process.env.VUE_APP_AUTH0_AUDIENCE || '',
     redirectUri: window.location.origin
   })
+  
   const app = createApp(App)
-  library.add(faLink, faUser, faPowerOff)
   app
     .use(AuthPlugin)
-    .use(store)
+    .use(store, key)
     .use(router)
-    .component('font-awesome-icon', FontAwesomeIcon)
+    .use(VueCookieNext)
     .mount('#app')
+  VueCookieNext.config({
+    expire: '4h',
+    path: '/',
+    domain: '',
+    secure: 'true',
+    sameSite: '',
+  })
 }
 
 init()

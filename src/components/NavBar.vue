@@ -1,8 +1,8 @@
 <template>
-  <div class="nav-container mb-3">
+  <div class="nav-container">
     <nav class="navbar navbar-expand-md navbar-light bg-light">
       <div class="container">
-        <div class="navbar-brand logo"></div>
+        <div class="navbar-brand"></div>
         <button
           class="navbar-toggler"
           type="button"
@@ -20,13 +20,14 @@
             <li class="nav-item">
               <router-link to="/" class="nav-link">Home</router-link>
             </li>
-            <li class="nav-item" v-if="isAuthenticated">
-              <router-link to="/external-api" class="nav-link"
-                >External API</router-link
-              >
-            </li>
-            <li class="nav-item" v-if="isAuthenticated">
+            <li class="nav-item">
               <router-link to="/menu" class="nav-link">Menu</router-link>
+            </li>
+            <li class="nav-item">
+              <router-link to="/table_plan" class="nav-link">Table Plan</router-link>
+            </li>
+            <li class="nav-item">
+              <router-link to="/live_view" class="nav-link">Live view</router-link>
             </li>
           </ul>
           <ul class="navbar-nav d-none d-md-block">
@@ -58,18 +59,18 @@
                 <div class="dropdown-header">{{ user.name }}</div>
                 <router-link
                   to="/profile"
-                  class="dropdown-item dropdown-profile"
+                  class="dropdown-item dropdown-profile flex flex-row"
                 >
-                  <font-awesome-icon class="mr-3" icon="user" />
+                  <UserCircleIcon class="mr-3 w-6 h-6" />
                   Profile
                 </router-link>
                 <a
                   id="qsLogoutBtn"
                   href="#"
-                  class="dropdown-item"
+                  class="dropdown-item flex flex-row"
                   @click.prevent="logout"
                 >
-                  <font-awesome-icon class="mr-3" icon="power-off" />
+                  <LogoutIcon class="mr-3 w-6 h-6" />
                   Log out
                 </a>
               </div>
@@ -102,13 +103,13 @@
                 <h6 class="d-inline-block">{{ user.name }}</h6>
               </span>
             </li>
-            <li>
-              <font-awesome-icon icon="user" class="mr-3" />
+            <li class="flex flex-row">
+              <UserCircleIcon class="mr-3 w-6 h-6" />
               <router-link to="/profile">Profile</router-link>
             </li>
 
-            <li>
-              <font-awesome-icon icon="power-off" class="mr-3" />
+            <li class="flex flex-row">
+              <LogoutIcon class="mr-3 w-6 h-6 flex flex-row" />
               <a id="qsLogoutBtn" href="#" class @click.prevent="logout"
                 >Log out</a
               >
@@ -122,8 +123,13 @@
 
 <script>
 import { inject } from 'vue'
+import { UserCircleIcon, LogoutIcon } from '@heroicons/vue/outline'
 
 export default {
+  components: {
+    UserCircleIcon,
+    LogoutIcon
+  },
   name: 'NavBar',
   inject: ['Auth'],
   methods: {
@@ -142,7 +148,7 @@ export default {
 }
 </script>
 
-<style>
+<style scoped>
 #mobileAuthNavBar {
   min-height: 125px;
   justify-content: space-between;

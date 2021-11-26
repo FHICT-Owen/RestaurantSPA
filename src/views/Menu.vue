@@ -1,56 +1,34 @@
 <template>
   <div>
-    <div class="mb-5">
-      <h1>Menu</h1>
-      <h2>Categories</h2>
-      <form @submit.prevent="createCategory">
-        <input v-model="name">
-        <button class="btn btn-primary rounded">New category</button>
-      </form>
-      <ul>
-        <Category v-for="category of categories" :key="category.id" :category="category" />
-      </ul>
-      <h2>Dishes</h2>
-      <button class="btn btn-primary rounded" @click="toggleDialog">New dish</button>
-      <ul>
-        <Dish v-for="dish of dishes" :key="dish.id" :dish="dish" />
-      </ul>
+    <div v-if="costumerMenuIsOpen || !isAuthenticated">
+      <button class="flex" v-if="isAuthenticated && !loading" @click="toggleMenu">Switch to manager menu</button>
+      <CostumerMenu />
     </div>
-    <Dialog v-show="isOpen" :key="isOpen" />
+    <div v-else-if="isAuthenticated && !loading">
+      <button @click="toggleMenu">Switch to costumer menu</button>
+      <ManagerMenu class="flex justify-center" />
+    </div>
   </div>
 </template>
 
 <script lang="ts">
-import Category from '../components/Category.vue'
-import Dish from '../components/Dish.vue'
-import Dialog from '../components/Dialog.vue'
-import store from '@/store'
-import { computed, ref } from 'vue'
+import { inject, ref } from 'vue'
+import CostumerMenu from '../components/CustomerMenu.vue'
+import ManagerMenu from '../components/ManagerMenu.vue'
+import { AuthPlugin } from '@/auth'
 
 export default {
-  name: 'Menu',
   components: {
-    Category,
-    Dish,
-    Dialog
+    CostumerMenu,
+    ManagerMenu
   },
-  setup () {  
-    const categories = computed(() => store.state.categories)
-    const dishes = computed(() => store.state.dishes)
-    const isOpen = computed(() => store.state.isOpen)
-    const toggleDialog = () => { 
-      store.dispatch('toggleDialog', false) 
-      store.dispatch('setCurrentDish', {})
-    }
+  setup() {
+    const auth = inject<AuthPlugin>('Auth')
+    let costumerMenuIsOpen = ref(false)
 
-    let name = ref('')
-    const createCategory = () => {
-      store.dispatch('createNewCategory', {id: 0, name: name.value}).then(() => {
-        store.dispatch('getAllCategories')
-      })
-      name.value = ''
-    }
-    return { categories, dishes, isOpen, toggleDialog, name, createCategory }
+    const toggleMenu = () => costumerMenuIsOpen.value = !costumerMenuIsOpen.value
+
+    return { ...auth, costumerMenuIsOpen, toggleMenu }
   }
 }
 </script>

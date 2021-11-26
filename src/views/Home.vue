@@ -1,20 +1,18 @@
 <template>
   <div>
-    <hero />
-    <hr />
-    <home-content />
+    <qrcodescanner />
   </div>
 </template>
 
 <script lang="ts">
-import Hero from '../components/Hero.vue'
-import HomeContent from '../components/HomeContent.vue'
+import { defineComponent } from '@vue/runtime-core'
+import Qrcodescanner from '../components/Qrcodescanner.vue'
 
-export default {
-  name: 'Home',
+export default defineComponent({
   components: {
-    Hero,
-    HomeContent
+    Qrcodescanner
   }
-}
+})
 </script>
+
+

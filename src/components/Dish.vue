@@ -1,140 +1,35 @@
 <template>
-  <div class="food-card">
-    <div class="menu-card">
-      <div class="menu-image" :style="{ 'background-image': image }"></div>
-      <div class="menu-title">
-        <h5>{{dish.name}}</h5>
+  <div 
+    class="flex flex-col">
+    <div class="flex flex-row rounded-3xl h-24 mt-6" style="box-shadow: 0px 1px 2px 2px rgba(0, 0, 0, 0.1)">
+      <div 
+        class="rounded-3xl m-1 bg-blend-normal bg-cover bg-no-repeat" 
+        :style="{background: dish.image, minHeight: imgSize, minWidth: imgSize}">
       </div>
-      <div class="description-frame">
-        <p class="menu-description">{{dish.description}}</p>
+      <div class="flex-1 m-1">
+        <h5 class="font-medium text-lg">{{dish.name}}</h5>
+        <p class="text-gray-400" style="font-size: 0.85rem; line-height: 1rem">{{dish.description}}</p>
       </div>
-      <div class="plus-icon" @click="openEditDialog"><div class="overlay"></div></div>
+    </div>
+    <div v-if="isInSession" class="flex flex-row justify-around rounded-3xl mt-1.5 h-10">
+      <button class="bg-gray-400 text-white font-medium text-sm w-full rounded-l-3xl p-1 my-1 ml-1 mr-0.5">ADD</button>
+      <button class="bg-red-400 text-white font-medium text-sm w-full  rounded-r-3xl p-1 my-1 ml-0.5 mr-1">REMOVE</button>
     </div>
   </div>
 </template>
 
 <script lang="ts">
-import store from '@/store'
-import { convertNumberArrayToImageUrl } from '../utils'
+import { defineComponent, PropType, ref } from 'vue'
 
-export default ({
+export default defineComponent({
   props: {
-    dish: {} as Dish
-  },
-  setup (props: { dish: Dish }) {
-    function openEditDialog() {
-      store.dispatch('toggleDialog', true)
-      store.dispatch('setCurrentDish', props.dish)
+    dish: {
+      type: Object as PropType<Dish>,
+      required: true
     }
-    const image = convertNumberArrayToImageUrl(props.dish.image)
-    return { openEditDialog, image }
+  },
+  setup (props) {
+    return { imgSize: ref('88px'), isInSession: ref(false) }
   }
 })
 </script>
-
-
-<style>
-@font-face {
-  font-family: SF Pro Display;
-  src: url("../fonts/SFPRODISPLAYREGULAR.OTF");
-}
-
-.food-card {
-  position: relative;
-  width: 350px;
-  height: 100px;
-}
-
-.menu-card {
-  position: absolute;
-  left: 0%;
-  right: 0%;
-  top: 0%;
-  bottom: 0%;
-
-  background: #FFFFFF;
-  box-shadow: -1px 1px 4px 1px rgba(0, 0, 0, 0.1);
-  border-radius: 25px;
-}
-
-.menu-title {
-  position: absolute;
-  left: 32%;
-  right: 15.14%;
-  top: 9%;
-  bottom: 71%;
-
-  font-family: SF Pro Display;
-  font-style: normal;
-  font-weight: 500;
-  font-size: 18px;
-  line-height: 21px;
-  display: flex;
-  align-items: center;
-
-  color: #000000;
-}
-
-.menu-image {
-  position: absolute;
-  left: 1.43%;
-  right: 72.86%;
-  top: 5%;
-  bottom: 5%;
-  background-size: cover!important;
-  mix-blend-mode: normal;
-  border-radius: 22px;
-}
-
-.description-frame{
-  position: absolute;
-  left: 32%;
-  right: 18%;
-  top: 33%;
-  bottom: 5%;
-}
-
-.menu-description {
-  position: absolute;
-  width: 175px;
-  height: 48px;
-  left: 0px;
-  top: 0px;
-
-  font-family: SF Pro Display;
-  font-style: normal;
-  font-weight: 500;
-  font-size: 13px;
-  line-height: 16px;
-
-  color: #9F9F9F;
-}
-
-.plus-icon {
-  position: absolute;
-  left: 85.71%;
-  right: 4.29%;
-  top: 31%;
-  bottom: 34%;
-
-  background: url(../assets/pencil.png);
-}
-
-.plus-icon:hover > .overlay {
-  width:100%;
-  height:100%;
-  position:absolute;
-  background-color:#000;
-  opacity:0.1;
-  border-radius:30px;
-}
-
-li {
-  list-style: none;
-}
-
-ul {
-  margin:0;
-  padding:0;
-}
-</style>

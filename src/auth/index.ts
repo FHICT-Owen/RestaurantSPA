@@ -3,21 +3,22 @@ import createAuth0Client, {
   GetIdTokenClaimsOptions,
   GetTokenSilentlyOptions,
   GetTokenWithPopupOptions,
+  IdToken,
   LogoutOptions,
   RedirectLoginOptions,
   User
 } from '@auth0/auth0-spa-js'
-import { App, Plugin, computed, reactive, watchEffect } from 'vue'
+import { App, Plugin, computed, reactive, watchEffect, ComputedRef } from 'vue'
 import { NavigationGuardWithThis } from 'vue-router'
 
 let client: Auth0Client
 
 interface Auth0PluginState {
-    loading: boolean,
-    isAuthenticated: boolean;
-    user: User | undefined,
-    popupOpen: boolean;
-    error: any
+  loading: boolean,
+  isAuthenticated: boolean;
+  user: User | undefined,
+  popupOpen: boolean;
+  error: any
 }
 
 const state = reactive<Auth0PluginState>({
@@ -42,25 +43,15 @@ async function handleRedirectCallback () {
   }
 }
 
-function loginWithRedirect (o: RedirectLoginOptions) {
-  return client.loginWithRedirect(o)
-}
+const loginWithRedirect = (o: RedirectLoginOptions) => client.loginWithRedirect(o)
 
-function getIdTokenClaims (o: GetIdTokenClaimsOptions) {
-  return client.getIdTokenClaims(o)
-}
+const getIdTokenClaims = (o: GetIdTokenClaimsOptions) => client.getIdTokenClaims(o)
 
-function getTokenSilently (o: GetTokenSilentlyOptions) {
-  return client.getTokenSilently(o)
-}
+const getTokenSilently = (o: GetTokenSilentlyOptions) => client.getTokenSilently(o)
 
-function getTokenWithPopup (o: GetTokenWithPopupOptions) {
-  return client.getTokenWithPopup(o)
-}
+const getTokenWithPopup = (o: GetTokenWithPopupOptions) => client.getTokenWithPopup(o)
 
-function logout (o: LogoutOptions) {
-  return client.logout(o)
-}
+const logout = (o: LogoutOptions) => client.logout(o)
 
 const authPlugin = {
   isAuthenticated: computed(() => state.isAuthenticated),
@@ -74,39 +65,45 @@ const authPlugin = {
   logout
 }
 
+export interface AuthPlugin {
+  isAuthenticated: ComputedRef<boolean>
+  loading: ComputedRef<boolean>
+  user: ComputedRef<any> // TODO: replace any type
+  getIdTokenClaims: () => Promise<IdToken>
+  getTokenSilently: () => Promise<string>
+  getTokenWithPopup: () => Promise<string>
+  handleRedirectCallback: () => Promise<void>
+  loginWithRedirect: () => Promise<void>
+  logout: () => void | Promise<void>
+}
+
 const routeGuard: NavigationGuardWithThis<undefined> = (to: any, from: any, next: any) => {
   const { isAuthenticated, loading, loginWithRedirect } = authPlugin
 
   const verify = async () => {
     // If the user is authenticated, continue with the route
-    if (isAuthenticated.value) {
-      return next()
-    }
+    if (isAuthenticated.value) return next()
 
     // Otherwise, log in
     await loginWithRedirect({ appState: { targetUrl: to.fullPath } })
   }
 
   // If loading has already finished, check our auth state using `fn()`
-  if (!loading.value) {
-    return verify()
-  }
+  if (!loading.value) return verify()
 
   // Watch for the loading property to change before we check isAuthenticated
   watchEffect(() => {
-    if (!loading.value) {
-      return verify()
-    }
+    if (!loading.value) return verify()
   })
 }
 
 interface Auth0PluginOptions {
-    domain: string,
-    clientId: string,
-    audience: string,
-    redirectUri: string,
+  domain: string,
+  clientId: string,
+  audience: string,
+  redirectUri: string,
 
-    onRedirectCallback(appState: any): void
+  onRedirectCallback(appState: any): void
 }
 
 async function init (options: Auth0PluginOptions): Promise<Plugin> {
@@ -123,7 +120,7 @@ async function init (options: Auth0PluginOptions): Promise<Plugin> {
     // If the user is returning to the app after authentication
     if (
       window.location.search.includes('code=') &&
-            window.location.search.includes('state=')
+      window.location.search.includes('state=')
     ) {
       // handle the redirect and retrieve tokens
       const { appState } = await client.handleRedirectCallback()
@@ -149,8 +146,8 @@ async function init (options: Auth0PluginOptions): Promise<Plugin> {
 }
 
 interface Auth0Plugin {
-    init(options: Auth0PluginOptions): Promise<Plugin>;
-    routeGuard: NavigationGuardWithThis<undefined>
+  init(options: Auth0PluginOptions): Promise<Plugin>;
+  routeGuard: NavigationGuardWithThis<undefined>
 }
 
 export const Auth0: Auth0Plugin = {
