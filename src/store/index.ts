@@ -56,7 +56,6 @@ export default createStore<State>({
     apiToken: '',
   },
   mutations: {
-    setAllTables: (state, tables) => { state.tables = tables },
     setCategories: async (state) => {
       state.categories = await categoryDataService.getAllCategories()
       state.selectedCategory = state.categories.filter(c => state.dishes.find(d => d.category == c.name)).map(c => c.name)
@@ -64,7 +63,7 @@ export default createStore<State>({
     setDishes: async (state) => state.dishes = await dishDataService.getAllDishes(),
     setIngredients: async (state) => state.ingredients = await ingredientDataService.getAllIngredients(),
     setOrders: async (state) => state.orders = await orderDataService.getAllOrders(),
-
+    setTables: (state, tables) => state.tables = tables,
     toggleDialog: (state, payload) => { 
       state.isDishDialogOpen = !state.isDishDialogOpen, 
       state.isEditDialog = payload

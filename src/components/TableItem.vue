@@ -12,28 +12,28 @@
         <button v-if="table.inUse" class="toggle activeEqualsTrue"><img src="../assets/toggle-on.png"/></button>
         <button v-else class="toggle activeEqualsFalse"><img src="../assets/toggle-off.png"/></button>
       </div>
-      <button v-if="" class="checkbox"><img src="../assets/checkbox-checked.png"/></button>
+      <button class="checkbox"><img src="../assets/checkbox-checked.png"/></button>
     </div>
 </template>
 
 
 <script lang="ts">
-import store from '@/store'
-import { computed, ref } from 'vue'
+import { computed, defineComponent, PropType, ref } from 'vue'
 
-export default {
+export default defineComponent({
   props: {
-    title: String,
-    isActive: Boolean,
-    table: {} as RestaurantTable,
+    table: {
+      type: Object as PropType<RestaurantTable>,
+      required: true
+    }
   },
-  setup(props: { table: RestaurantTable }) {
+  setup(props) {
+
     //../assets/checkbox-checked.png
     //../assets/checkbox-unchecked.png
     // const checkboxImg: string = "unchecked"
   },
-};
-
+})
 </script>
 
 <style scoped>

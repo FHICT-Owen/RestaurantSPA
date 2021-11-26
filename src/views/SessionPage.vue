@@ -14,7 +14,7 @@
 </template>
 
 <script lang="ts">
-import { defineComponent } from '@vue/runtime-core'
+import { defineComponent, onMounted } from '@vue/runtime-core'
 import { ShoppingCartIcon } from '@heroicons/vue/outline'
 import { Client } from '@stomp/stompjs'
 import CostumerMenu from '../components/CustomerMenu.vue'
@@ -26,6 +26,8 @@ export default defineComponent({
   },
   setup() {
     var client: Client
+
+    onMounted(() => connect)
 
     function connect() {
       client = new Client({

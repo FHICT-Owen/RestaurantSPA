@@ -8,17 +8,15 @@
     </div>
     <div class="table-container">
       <!-- <table-item v-for='table in tables' :key='table.id'/> -->
-      <div v-for="table in tables" :key="table.id">
-        <TableItem :table="table" />
-      </div>
+      <TableItem v-for="table in tables" :table="table" :key="table.id" />
     </div>
   </div>
 </template>
 
 <script lang="ts">
-import { computed, onMounted, ref } from "vue";
-import TableItem from "../components/TableItem.vue";
-import store from "@/store";
+import { computed, onMounted, ref } from 'vue'
+import TableItem from '../components/TableItem.vue'
+import store from '@/store'
 
 export default {
   name: 'TablePlan',
@@ -26,13 +24,20 @@ export default {
     TableItem
   },
   setup() {
-    const tables = computed(() => store.state.tables);
-    const selectedTableIds = computed(() => store.state.selectedTableIds);
-    const selectTable(id: number) => {
+    const tables = computed(() => store.state.tables)
+    const selectedTableIds = computed(() => store.state.selectedTableIds)
+    // const selectTable(id: number) => {
       
+    // }
+    onMounted(() => {
+      store.commit('setTables')
+    })
+
+    return {
+      tables
     }
-  },
-};
+  }
+}
 </script>
 
 <style scoped>
