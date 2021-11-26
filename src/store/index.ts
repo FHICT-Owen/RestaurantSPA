@@ -28,6 +28,7 @@ export interface State {
   
   popUps: PopUp[]
   apiToken: string
+  sessionId: string
 }
 
 export const key: InjectionKey<Store<State>> = Symbol()
@@ -54,6 +55,7 @@ export default createStore<State>({
     
     popUps: [],
     apiToken: '',
+    sessionId: ''
   },
   mutations: {
     setCategories: async (state) => {
@@ -63,7 +65,7 @@ export default createStore<State>({
     setDishes: async (state) => state.dishes = await dishDataService.getAllDishes(),
     setIngredients: async (state) => state.ingredients = await ingredientDataService.getAllIngredients(),
     setOrders: async (state) => state.orders = await orderDataService.getAllOrders(),
-    setTables: (state, tables) => state.tables = tables,
+    setTables: async (state) => state.tables = await tableDataService.getAllTables(),
     toggleDialog: (state, payload) => { 
       state.isDishDialogOpen = !state.isDishDialogOpen, 
       state.isEditDialog = payload
@@ -86,6 +88,8 @@ export default createStore<State>({
     setCurrentDish: (state, payload) => state.currentDish = payload,
     createNewDish: (state) => state.isDishDialogOpen = !state.isDishDialogOpen,
     setToken: (state, payload) => state.apiToken = payload,
+    addToSelectedTableIds: (state, payload) => state.selectedTableIds.push(payload),
+    setSessionId: (state, payload) => state.sessionId = payload
   },
   actions: {
     createNewCategory: ({commit}, category: Category) => {

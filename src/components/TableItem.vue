@@ -12,12 +12,16 @@
         <button v-if="table.inUse" class="toggle activeEqualsTrue"><img src="../assets/toggle-on.png"/></button>
         <button v-else class="toggle activeEqualsFalse"><img src="../assets/toggle-off.png"/></button>
       </div>
-      <button class="checkbox"><img src="../assets/checkbox-checked.png"/></button>
+      <button @click="addToSelectedTables" class="checkbox">
+        <img v-if="false" src="../assets/checkbox-checked.png"/>
+        <img v-else src="../assets/checkbox-unchecked.png"/>
+      </button>
     </div>
 </template>
 
 
 <script lang="ts">
+import store from '@/store'
 import { computed, defineComponent, PropType, ref } from 'vue'
 
 export default defineComponent({
@@ -29,9 +33,15 @@ export default defineComponent({
   },
   setup(props) {
 
+    function addToSelectedTables() {
+      store.commit('addToSelectedTableIds', props.table.id)
+    }
     //../assets/checkbox-checked.png
     //../assets/checkbox-unchecked.png
     // const checkboxImg: string = "unchecked"
+    return {
+      addToSelectedTables
+    }
   },
 })
 </script>
