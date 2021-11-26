@@ -13,7 +13,7 @@ export default class DishDataService {
 
   //FIX THIS
   public static async createTable(table: RestaurantTable) {
-    await axios.post(`${this.RESTAURANT_API_URL}/table/`, table)
+    await axios.post(`${this.RESTAURANT_API_URL}/table/`, table, setAuthHeader())
     // .then(() => showPopUp(table.id, 'added', false))
     // .catch(() => showPopUp(dish.name, 'added', true))
   }
@@ -22,7 +22,7 @@ export default class DishDataService {
   //TOGGLE TABLE
 
   public static async toggleTable(table: RestaurantTable) {
-    await axios.put(`${this.RESTAURANT_API_URL}/table/${table.id}`, table)
+    await axios.put(`${this.RESTAURANT_API_URL}/table/${table.id}`, table, setAuthHeader())
       .then(() => showPopUp('Table ' + table.id + 'updated', false))
       .catch(() => showPopUp('Table ' + table.id + ' updated', true))
   }
@@ -30,7 +30,7 @@ export default class DishDataService {
   //REMOVE
 
   public static async deleteSelectedTables(selectedTables: RestaurantTable[]) {
-    await axios.delete(`${this.RESTAURANT_API_URL}/tables/${selectedTables}`)
+    await axios.delete(`${this.RESTAURANT_API_URL}/tables/${selectedTables}`, setAuthHeader())
       .then(() => showPopUp('Selected tables deleted', false))
       .catch(() => showPopUp('Selected tables deleted', true))
   }

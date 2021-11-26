@@ -28,6 +28,7 @@ export interface State {
   
   popUps: PopUp[]
   apiToken: string
+  sessionId: string
 }
 
 export const key: InjectionKey<Store<State>> = Symbol()
@@ -54,6 +55,7 @@ export default createStore<State>({
     
     popUps: [],
     apiToken: '',
+    sessionId: ''
   },
   mutations: {
     setCategories: async (state) => {
@@ -86,7 +88,8 @@ export default createStore<State>({
     setCurrentDish: (state, payload) => state.currentDish = payload,
     createNewDish: (state) => state.isDishDialogOpen = !state.isDishDialogOpen,
     setToken: (state, payload) => state.apiToken = payload,
-    addToSelectedTableIds: (state, payload) => state.selectedTableIds.push(payload)
+    addToSelectedTableIds: (state, payload) => state.selectedTableIds.push(payload),
+    setSessionId: (state, payload) => state.sessionId = payload
   },
   actions: {
     createNewCategory: ({commit}, category: Category) => {

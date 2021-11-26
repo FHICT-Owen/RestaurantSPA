@@ -1,13 +1,11 @@
-import store from '@/store'
+import { setAuthHeader, showPopUp } from '@/utils'
 import axios from 'axios'
 
 export default class OrderDataService {
   static API_URL = process.env.VUE_APP_PROXY_URL;
 
   public static async getAllOrders(): Promise<Order[]> {
-    const response = await axios.get(`${this.API_URL}/order/`, {
-      headers: { Authorization: `Bearer ${store.state.apiToken}`}
-    })
+    const response = await axios.get(`${this.API_URL}/order/`, setAuthHeader())
     return response.data
   }
 

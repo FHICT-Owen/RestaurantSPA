@@ -25,5 +25,5 @@ export default class CategoryDataService {
     await axios.delete(`${this.API_URL}/categories/${category.id}`, setAuthHeader())
       .then(() => showPopUp(`Deleted ${category.name}`, false))
       .catch(() => showPopUp(`Was unable to delete ${category.name}`, true))
-  } 
+  }
 }
