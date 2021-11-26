@@ -3,14 +3,16 @@
     <!-- <Table text="3" isEmpty=true active=false/> -->
     <div class="table-row">
       <div class="col-1">
-        <p class="num">Table 1</p>
+          <p class="num">Table {{table.title}}</p>
         <div class="status emptyEqualsFalse">In use</div>
       </div>
       <div class="col-2">
-        <p class="active">Active</p>
-        <button class="toggle activeEqualsTrue">Toggle</button>
+        <p v-if="table.isActive">Active</p>
+        <p v-else>Inactive</p>
+        <button v-if="table.inUse" class="toggle activeEqualsTrue"><img src="../assets/toggle-on.png"/></button>
+        <button v-else class="toggle activeEqualsFalse"><img src="../assets/toggle-off.png"/></button>
       </div>
-      <button class="checkbox">Checkbox</button>
+      <button v-if="" class="checkbox"><img src="../assets/checkbox-checked.png"/></button>
     </div>
 </template>
 
@@ -20,15 +22,24 @@ import store from '@/store'
 import { computed, ref } from 'vue'
 
 export default {
-  name: 'TableItem',
-  components: {},
-  setup() {},
-}
+  props: {
+    title: String,
+    isActive: Boolean,
+    table: {} as RestaurantTable,
+  },
+  setup(props: { table: RestaurantTable }) {
+    //../assets/checkbox-checked.png
+    //../assets/checkbox-unchecked.png
+    // const checkboxImg: string = "unchecked"
+  },
+};
+
 </script>
 
 <style scoped>
 
 
+  
 .table-row {
   display: flex;
   flex-direction: row;
@@ -37,11 +48,12 @@ export default {
   align-items: center;
   max-width: 730px;
   white-space: nowrap;
-  min-height: 70px;
+  min-height: 55px;
   padding-left: 10px;
   padding-right: 10px;
   box-shadow: -1px 1px 4px 1px rgba(0, 0, 0, 0.1);
   border-radius: 25px;
+  margin-bottom: 10px;
 }
 
 p {
@@ -69,5 +81,15 @@ p {
 }
 .emptyEqualsTrue {
   color: #009142;
+}
+
+
+.checkbox {
+  max-width: 35px;
+  max-height: 35px;
+}
+
+.toggle {
+  min-width: 50px;
 }
 </style>
