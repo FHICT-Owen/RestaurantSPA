@@ -14,7 +14,6 @@
     "axios": "^0.22.0",
     "core-js": "^3.18.2",
     "crypto-random-string": "^4.0.0",
-    "element-plus": "^1.0.2-beta.28",
     "postcss": "^7",
     "qrcode.vue": "^3.3.3",
     "register-service-worker": "^1.7.1",
