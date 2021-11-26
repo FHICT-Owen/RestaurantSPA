@@ -31,6 +31,7 @@ export default {
     // }
     onMounted(() => {
       store.commit('setTables')
+      console.log(tables.value)
     })
 
     return {
