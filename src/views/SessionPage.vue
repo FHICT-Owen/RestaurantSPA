@@ -39,6 +39,7 @@ export default defineComponent({
       try { sessionPromise = SessionDataService.getSessionByCookie(cookie) } catch { return router.push('menu')}
       sessionPromise.then(session => {
         store.commit('setSessionId', session.id)
+        console.log(session.id)
       })
       client = new Client({
         brokerURL: 'ws://localhost:6969/register',
