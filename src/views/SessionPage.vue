@@ -5,11 +5,8 @@
       <div class="text-4xl w-4/5">Welcome</div>
       <div class="text-3xl w-4/5">What would you like to have?</div>
     </div>
+    <button @click="placeOrder">Place order</button>
     <CostumerMenu />
-    <button @click="connect">Connect</button>
-    <button @click="connectAsLiveView">Connect As Live View</button>
-    <button @click="disconnect">Disconnect</button>
-    <button @click="send">Send</button>
   </div>
 </template>
 
@@ -22,6 +19,7 @@ import { Client } from '@stomp/stompjs'
 import CostumerMenu from '../components/CustomerMenu.vue'
 import { VueCookieNext } from 'vue-cookie-next'
 import store from '@/store'
+import Order from '@/classes/Order'
 
 export default defineComponent({
   components: { 
@@ -31,20 +29,23 @@ export default defineComponent({
   setup() {
     var client: Client
 
-    onMounted(() => connect)
+    onMounted(() => connect())
 
     function connect() {
-      const cookie = VueCookieNext.getCookie('GenericRestaurantSesh')
-      let sessionPromise
-      try { sessionPromise = SessionDataService.getSessionByCookie(cookie) } catch { return router.push('menu')}
-      sessionPromise.then(session => {
-        store.commit('setSessionId', session.id)
-        console.log(session.id)
-      })
+      // const cookie = VueCookieNext.getCookie('GenericRestaurantSesh')
+      // let sessionPromise
+      // try { sessionPromise = SessionDataService.getSessionByCookie(cookie) } catch { return router.push('menu')}
+      // sessionPromise.then(session => {
+      //   store.commit('setSessionId', session.id)
+      //   console.log(session.id)
+      // })
       client = new Client({
         brokerURL: 'ws://localhost:6969/register',
         onConnect: () => {
           console.log('connected as costumer')
+          client.subscribe('/topic/errors', message => {
+            console.log(message.body)
+          })
         }
       })
       client.activate()
@@ -54,17 +55,17 @@ export default defineComponent({
       if (client != null) client.deactivate()
     }
 
-    function send() {
-      var data = JSON.stringify({
-        'name' : 'yeett'
-      })
+    function placeOrder() {
+      console.log('wdoijawoid')
+      const obj = new Order(1, ['Hamburger', 'Fries', 'Salad'], 'Add salt', true, true)
+      const data = JSON.stringify(obj)
       client.publish({destination: '/app/message', body: data})
     }
 
     return {
       connect,
       disconnect,
-      send
+      placeOrder
     }
   }
 })
