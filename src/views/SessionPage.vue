@@ -64,9 +64,7 @@ export default defineComponent({
             'Fries', 
             'Salad'
           ], 
-          'Add salt', 
-          true, 
-          true
+          'Add salt'
         )
       )
       console.log(data)
