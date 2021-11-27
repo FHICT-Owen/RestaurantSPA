@@ -56,9 +56,20 @@ export default defineComponent({
     }
 
     function placeOrder() {
-      console.log('wdoijawoid')
-      const obj = new Order(1, ['Hamburger', 'Fries', 'Salad'], 'Add salt', true, true)
-      const data = JSON.stringify(obj)
+      const data = JSON.stringify(
+        new Order(
+          1, 
+          [
+            'Hamburger', 
+            'Fries', 
+            'Salad'
+          ], 
+          'Add salt', 
+          true, 
+          true
+        )
+      )
+      console.log(data)
       client.publish({destination: '/app/message', body: data})
     }
 

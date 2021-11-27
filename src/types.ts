@@ -35,6 +35,7 @@ interface Order {
   comments: string
   isApproved: boolean
   isServed: boolean
+  timeStamp: number
 }
 
 interface Session {
