@@ -34,7 +34,10 @@ interface Order {
   dishes: string[]
   comments: string
   isApproved: boolean
-  isServed: boolean
+  isCanceled: boolean
+  isBeingPrepared: boolean
+  isReady: boolean
+  timeStamp: number
 }
 
 interface Session {

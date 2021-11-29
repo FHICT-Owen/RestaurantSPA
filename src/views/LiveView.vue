@@ -44,7 +44,7 @@ export default defineComponent({
     const orders = computed(() => store.state.orders)
 
     onMounted(() => {
-      store.commit('setOrders')
+      // store.commit('setOrders')
       connectAsLiveView()
     })
 
@@ -54,6 +54,7 @@ export default defineComponent({
         onConnect: () => {
           console.log('connected as live-view')
           client.subscribe('/queue/live-view', message => {
+            store.commit('addOrder', JSON.parse(message.body))
             console.log(message.body)
           })
         }
