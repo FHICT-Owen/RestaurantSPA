@@ -89,7 +89,8 @@ export default createStore<State>({
     createNewDish: (state) => state.isDishDialogOpen = !state.isDishDialogOpen,
     setToken: (state, payload) => state.apiToken = payload,
     addToSelectedTableIds: (state, payload) => state.selectedTableIds.push(payload),
-    setSessionId: (state, payload) => state.sessionId = payload
+    setSessionId: (state, payload) => state.sessionId = payload,
+    addOrder: (state, payload) => state.orders.push(payload)
   },
   actions: {
     createNewCategory: ({commit}, category: Category) => {
@@ -133,7 +134,7 @@ export default createStore<State>({
 
     openConfirmDialog: ({commit}, payload) => commit('toggleConfirmDialog', payload),
     toggleDialog: ({commit}, payload) => commit('toggleDialog', payload),
-    
+
     setCurrentDish: ({commit}, payload) => commit('setCurrentDish', payload),
     removeIngredientFromCurrentDish: ({state}, payload) => 
       state.currentDish.ingredients.splice(state.currentDish.ingredients.indexOf(payload), 1)
