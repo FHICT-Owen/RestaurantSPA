@@ -21,12 +21,12 @@
     <div v-if="true" class="flex flex-row justify-around rounded-3xl mt-1.5 h-10">
       <button 
         @click="addDishToCurrentOrder"
-        class="bg-gray-400 text-white font-medium text-sm w-full rounded-l-3xl p-1 my-1 ml-1 mr-0.5">
+        class="text-white font-medium text-sm w-2/5 rounded-3xl p-1 my-1 ml-1 mr-0.5" style="background-color: rgb(255, 168, 37)">
         ADD
       </button>
       <button 
         @click="removeDishFromCurrentOrder"
-        class="bg-red-400 text-white font-medium text-sm w-full rounded-r-3xl p-1 my-1 ml-0.5 mr-1">
+        class="bg-red-500 text-white font-medium text-sm w-2/5 rounded-3xl p-1 my-1 ml-0.5 mr-1">
         REMOVE
       </button>
     </div>
