@@ -12,8 +12,11 @@ export interface State {
 
   categories: Category[]
   dishes: Dish[]
-  orders: Order[]
   ingredients: Ingredient[]
+
+  orders: Order[]
+  currentOrder: Order
+
   tables: RestaurantTable[]
   selectedTableIds: number[]
   selectedCategory: string[]
@@ -35,11 +38,12 @@ export const key: InjectionKey<Store<State>> = Symbol()
 
 export default createStore<State>({
   state: {
-
     categories: [],
     dishes: [],
-    orders: [],
     ingredients: [],
+
+    orders: [],
+    currentOrder: new Order,
 
     selectedCategory: [],
     tables: [] as RestaurantTable[],

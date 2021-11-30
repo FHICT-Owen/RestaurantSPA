@@ -6,7 +6,8 @@
       <div class="text-3xl w-4/5">What would you like to have?</div>
     </div>
     <button @click="placeOrder">Place order</button>
-    <CostumerMenu />
+    <CustomerMenu />
+    <CustomerOrderDialog class="flex justify-center" v-if="true /* if currentOrder > 1 dish */"/>
   </div>
 </template>
 
@@ -16,15 +17,17 @@ import SessionDataService from '../services/SessionDataService'
 import { defineComponent, onMounted } from '@vue/runtime-core'
 import { ShoppingCartIcon } from '@heroicons/vue/outline'
 import { Client } from '@stomp/stompjs'
-import CostumerMenu from '../components/CustomerMenu.vue'
+import CustomerMenu from '../components/CustomerMenu.vue'
+import CustomerOrderDialog from '../components/CustomerOrderDialog.vue'
 import { VueCookieNext } from 'vue-cookie-next'
 import store from '@/store'
 import Order from '@/classes/Order'
 
 export default defineComponent({
   components: { 
-    CostumerMenu, 
-    ShoppingCartIcon 
+    CustomerMenu, 
+    ShoppingCartIcon,
+    CustomerOrderDialog
   },
   setup() {
     var client: Client
