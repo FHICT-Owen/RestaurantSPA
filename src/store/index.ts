@@ -1,41 +1,38 @@
-import { createStore, useStore as baseUseStore, Store, Commit } from 'vuex'
-import categoryDataService from '@/services/CategoryDataService'
-import dishDataService from '@/services/DishDataService'
-import tableDataService from '@/services/TableDataService'
-import ingredientDataService from '@/services/IngredientDataService'
-import Dish from '@/classes/Dish'
-import Order from '@/classes/Order'
-import { InjectionKey } from '@vue/runtime-dom'
-import orderDataService from '@/services/OrderDataService'
+import { createStore, useStore as baseUseStore, Store, Commit } from "vuex";
+import categoryDataService from "@/services/CategoryDataService";
+import dishDataService from "@/services/DishDataService";
+import tableDataService from "@/services/TableDataService";
+import ingredientDataService from "@/services/IngredientDataService";
+import Dish from "@/classes/Dish";
+import Order from "@/classes/Order";
+import { InjectionKey } from "@vue/runtime-dom";
+import orderDataService from "@/services/OrderDataService";
 
 export interface State {
+  categories: Category[];
+  dishes: Dish[];
+  orders: Order[];
+  ingredients: Ingredient[];
+  tables: RestaurantTable[];
+  selectedTableIds: number[];
+  selectedCategory: string[];
 
-  categories: Category[]
-  dishes: Dish[]
-  orders: Order[]
-  ingredients: Ingredient[]
-  tables: RestaurantTable[]
-  selectedTableIds: number[]
-  selectedCategory: string[]
+  isDishDialogOpen: boolean;
+  isEditDialog: boolean;
+  currentDish: Dish;
 
-  isDishDialogOpen: boolean
-  isEditDialog: boolean
-  currentDish: Dish
+  isConfirmDialogOpen: boolean;
+  currentConfirmDialogObject: Object;
+  confirmDeleteFunction: Function;
 
-  isConfirmDialogOpen: boolean
-  currentConfirmDialogObject: Object
-  confirmDeleteFunction: Function
-  
-  popUps: PopUp[]
-  apiToken: string
-  sessionId: string
+  popUps: PopUp[];
+  apiToken: string;
 }
 
-export const key: InjectionKey<Store<State>> = Symbol()
+export const key: InjectionKey<Store<State>> = Symbol();
 
 export default createStore<State>({
   state: {
-
     categories: [],
     dishes: [],
     orders: [],
@@ -47,101 +44,121 @@ export default createStore<State>({
 
     isDishDialogOpen: false,
     isEditDialog: false,
-    currentDish: new Dish,
+    currentDish: new Dish(),
 
     isConfirmDialogOpen: false,
     currentConfirmDialogObject: {},
-    confirmDeleteFunction: new Function,
-    
+    confirmDeleteFunction: new Function(),
+
     popUps: [],
-    apiToken: '',
-    sessionId: ''
+    apiToken: "",
   },
   mutations: {
     setCategories: async (state) => {
-      state.categories = await categoryDataService.getAllCategories()
-      state.selectedCategory = state.categories.filter(c => state.dishes.find(d => d.category == c.name)).map(c => c.name)
+      state.categories = await categoryDataService.getAllCategories();
+      state.selectedCategory = state.categories
+        .filter((c) => state.dishes.find((d) => d.category == c.name))
+        .map((c) => c.name);
     },
-    setDishes: async (state) => state.dishes = await dishDataService.getAllDishes(),
-    setIngredients: async (state) => state.ingredients = await ingredientDataService.getAllIngredients(),
-    setOrders: async (state) => state.orders = await orderDataService.getAllOrders(),
-    setTables: async (state) => state.tables = await tableDataService.getAllTables(),
-    toggleDialog: (state, payload) => { 
-      state.isDishDialogOpen = !state.isDishDialogOpen, 
-      state.isEditDialog = payload
+    setDishes: async (state) =>
+      (state.dishes = await dishDataService.getAllDishes()),
+    setIngredients: async (state) =>
+      (state.ingredients = await ingredientDataService.getAllIngredients()),
+    setOrders: async (state) =>
+      (state.orders = await orderDataService.getAllOrders()),
+    setTables: async (state) =>
+      (state.tables = await tableDataService.getAllTables()),
+    toggleDialog: (state, payload) => {
+      (state.isDishDialogOpen = !state.isDishDialogOpen),
+        (state.isEditDialog = payload);
     },
-    closeDishDialog: (state) => state.isDishDialogOpen = false,
+    closeDishDialog: (state) => (state.isDishDialogOpen = false),
     setSelectedCategory: (state, payload: string) => {
-      if (payload.trim().toLowerCase() === 'all')
-        state.selectedCategory = state.categories.filter(c => state.dishes.find(d => d.category == c.name)).map(c => c.name)
+      if (payload.trim().toLowerCase() === "all")
+        state.selectedCategory = state.categories
+          .filter((c) => state.dishes.find((d) => d.category == c.name))
+          .map((c) => c.name);
       else {
-        state.selectedCategory = []
-        state.selectedCategory.push(payload.trim())
+        state.selectedCategory = [];
+        state.selectedCategory.push(payload.trim());
       }
     },
-    toggleConfirmDialog: (state, payload) => { 
-      state.isConfirmDialogOpen = !state.isConfirmDialogOpen,
-      state.currentConfirmDialogObject = payload.object
-      state.confirmDeleteFunction = payload.function
+    toggleConfirmDialog: (state, payload) => {
+      (state.isConfirmDialogOpen = !state.isConfirmDialogOpen),
+        (state.currentConfirmDialogObject = payload.object);
+      state.confirmDeleteFunction = payload.function;
     },
-    closeConfirmDialog: (state) => state.isConfirmDialogOpen = false,
-    setCurrentDish: (state, payload) => state.currentDish = payload,
-    createNewDish: (state) => state.isDishDialogOpen = !state.isDishDialogOpen,
-    setToken: (state, payload) => state.apiToken = payload,
-    addToSelectedTableIds: (state, payload) => state.selectedTableIds.push(payload),
-    setSessionId: (state, payload) => state.sessionId = payload,
-    addOrder: (state, payload) => state.orders.push(payload)
+    closeConfirmDialog: (state) => (state.isConfirmDialogOpen = false),
+    setCurrentDish: (state, payload) => (state.currentDish = payload),
+    createNewDish: (state) =>
+      (state.isDishDialogOpen = !state.isDishDialogOpen),
+    setToken: (state, payload) => (state.apiToken = payload),
+    addToSelectedTableIds: (state, payload) =>
+      state.selectedTableIds.push(payload),
   },
   actions: {
-    createNewCategory: ({commit}, category: Category) => {
-      categoryDataService.createCategory(category)
-        .then(() => commit('setCategories'))
+    createNewCategory: ({ commit }, category: Category) => {
+      categoryDataService
+        .createCategory(category)
+        .then(() => commit("setCategories"));
     },
-    createNewDish ({commit}, dish: Dish) {
-      dishDataService.createDish(dish)
-        .then(() => commit('setDishes'))
+    createNewDish({ commit }, dish: Dish) {
+      dishDataService.createDish(dish).then(() => commit("setDishes"));
     },
-    createNewIngredient ({commit}, ingredient: Ingredient) {
-      ingredientDataService.createIngredient(ingredient)
-        .then(() => commit('setIngredients'))
+    createNewIngredient({ commit }, ingredient: Ingredient) {
+      ingredientDataService
+        .createIngredient(ingredient)
+        .then(() => commit("setIngredients"));
     },
-
-    editCategory({commit}, category: Category) {
-      categoryDataService.editCategory(category)
-        .then(() => commit('setCategories'))
-    },
-    editDish({commit}, dish: Dish) {
-      dishDataService.editDish(dish)
-        .then(() => commit('setDishes'))
-    },
-    
-    deleteObject({state}) {
-      state.confirmDeleteFunction()
-      state.isConfirmDialogOpen = false
-    },
-    deleteDish({commit}, dish: Dish) {
-      dishDataService.deleteDish(dish)
-        .then(() => commit('setDishes'))
-    },
-    deleteCategory({commit}, category: Category) {
-      categoryDataService.deleteCategory(category)
-        .then(() => commit('setCategories'))
-    },
-    deleteIngredient({commit}, ingredient: Ingredient) {
-      ingredientDataService.deleteIngredient(ingredient)
-        .then(() => commit('setIngredients'))
+    createNewTable({ commit }){
+      // tableDataService.createTable()
     },
 
-    openConfirmDialog: ({commit}, payload) => commit('toggleConfirmDialog', payload),
-    toggleDialog: ({commit}, payload) => commit('toggleDialog', payload),
+    editCategory({ commit }, category: Category) {
+      categoryDataService
+        .editCategory(category)
+        .then(() => commit("setCategories"));
+    },
+    editDish({ commit }, dish: Dish) {
+      dishDataService.editDish(dish).then(() => commit("setDishes"));
+    },
 
-    setCurrentDish: ({commit}, payload) => commit('setCurrentDish', payload),
-    removeIngredientFromCurrentDish: ({state}, payload) => 
-      state.currentDish.ingredients.splice(state.currentDish.ingredients.indexOf(payload), 1)
+    deleteObject({ state }) {
+      state.confirmDeleteFunction();
+      state.isConfirmDialogOpen = false;
+    },
+    deleteDish({ commit }, dish: Dish) {
+      dishDataService.deleteDish(dish).then(() => commit("setDishes"));
+    },
+    deleteCategory({ commit }, category: Category) {
+      categoryDataService
+        .deleteCategory(category)
+        .then(() => commit("setCategories"));
+    },
+    deleteIngredient({ commit }, ingredient: Ingredient) {
+      ingredientDataService
+        .deleteIngredient(ingredient)
+        .then(() => commit("setIngredients"));
+    },
+
+    openConfirmDialog: ({ commit }, payload) =>
+      commit("toggleConfirmDialog", payload),
+    toggleDialog: ({ commit }, payload) => commit("toggleDialog", payload),
+
+    setCurrentDish: ({ commit }, payload) => commit("setCurrentDish", payload),
+    removeIngredientFromCurrentDish: ({ state }, payload) =>
+      state.currentDish.ingredients.splice(
+        state.currentDish.ingredients.indexOf(payload),
+        1
+      ),
+    removeTableFromSelectedTableIds: ({ state }, payload) =>
+      state.selectedTableIds.splice(
+        state.selectedTableIds.indexOf(payload),
+        1
+      ),
   },
-  modules: {
-  }
-})
-export function useStore () {
-  return baseUseStore(key)
+  modules: {},
+});
+export function useStore() {
+  return baseUseStore(key);
 }

@@ -1,60 +1,72 @@
 <template>
-  
-    <!-- <Table text="3" isEmpty=true active=false/> -->
-    <div class="table-row">
-      <div class="col-1">
-          <p class="num">Table {{table.title}}</p>
-        <div class="status emptyEqualsFalse">In use</div>
-      </div>
-      <div class="col-2">
-        <p v-if="table.isActive">Active</p>
-        <p v-else>Inactive</p>
-        <button v-if="table.inUse" class="toggle activeEqualsTrue"><img src="../assets/toggle-on.png"/></button>
-        <button v-else class="toggle activeEqualsFalse"><img src="../assets/toggle-off.png"/></button>
-      </div>
-      <button @click="addToSelectedTables" class="checkbox">
-        <img v-if="false" src="../assets/checkbox-checked.png"/>
-        <img v-else src="../assets/checkbox-unchecked.png"/>
+  <!-- <Table text="3" isEmpty=true active=false/> -->
+  <div class="table-row flex flex-row">
+    <div class="col-1">
+      <p class="num">Table {{ table.tableNumber }}</p>
+      <div v-if="table.inUse" class="status emptyEqualsFalse">In Use</div>
+      <div v-else class="status emptyEqualsTrue">Available</div>
+    </div>
+    <div class="col-2">
+      <p v-if="table.isActive">Active</p>
+      <p v-else>Inactive</p>
+      <button class="toggle">
+        <img v-if="table.isActive" src="../assets/toggle-on.png" />
+        <img v-else src="../assets/toggle-off.png" />
       </button>
     </div>
+    <button @click="addToSelectedTables" class="checkbox">
+      <img v-if="isSelected" src="../assets/checkbox-checked.png" />
+      <img v-else src="../assets/checkbox-unchecked.png" />
+    </button>
+  </div>
 </template>
 
 
 <script lang="ts">
-import store from '@/store'
-import { computed, defineComponent, PropType, ref } from 'vue'
+import store from "@/store";
+import { computed, defineComponent, onMounted, PropType, ref } from "vue";
 
 export default defineComponent({
   props: {
     table: {
       type: Object as PropType<RestaurantTable>,
-      required: true
-    }
+      required: true,
+    },
+    isSelected: {
+      type: Object as PropType<Boolean>,
+      required: true,
+    },
   },
   setup(props) {
-
     function addToSelectedTables() {
-      store.commit('addToSelectedTableIds', props.table.id)
+      store.commit("addToSelectedTableIds", props.table.id);
     }
+    function removeFromSelectedTables() {
+      //store.commit("removeFromSelectedTableIds", props.table.id);
+    }
+    function toggleTable(id: number) {
+
+    }
+
     //../assets/checkbox-checked.png
     //../assets/checkbox-unchecked.png
     // const checkboxImg: string = "unchecked"
+
+    onMounted(() => console.log(props.table.tableNumber));
     return {
-      addToSelectedTables
-    }
+      addToSelectedTables,
+      removeFromSelectedTables,
+      toggleTable
+    };
   },
-})
+});
 </script>
 
 <style scoped>
-
-
-  
 .table-row {
   display: flex;
   flex-direction: row;
-  flex-wrap: wrap;
-  justify-content: space-between;
+  justify-content: space-around;
   align-items: center;
   max-width: 730px;
   white-space: nowrap;
@@ -92,7 +104,6 @@ p {
 .emptyEqualsTrue {
   color: #009142;
 }
-
 
 .checkbox {
   max-width: 35px;
