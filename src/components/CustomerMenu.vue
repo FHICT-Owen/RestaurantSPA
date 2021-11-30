@@ -1,32 +1,33 @@
 <template>
-  <div id="navbar" class="flex flex-col bg-gray-200 overflow-hidden z-50">
-    <input v-model="keyword" class="justify-center shadow-sm rounded-3xl h-10 p-3 mt-1" placeholder="Search for your dish..." />
-    <div class="flex flex-row overflow-x-scroll">
-      <div 
-        id="all" 
-        @click="selectCategory"
-        class="no-underline capitalize py-2 px-4 mx-2 my-2.5 cursor-pointer select-none whitespace-nowrap">
-        All
-      </div>
-      <div
-        v-for="category in categories"
-        :id="category.name"
-        :key="category.id"
-        @click="selectCategory"
-        :tabindex="category.id"
-        class="no-underline capitalize py-2 px-4 mx-2 my-2.5 cursor-pointer select-none whitespace-nowrap"
-        >{{ category.name }}
+  <div>
+    <div id="navbar" class="flex flex-col bg-white overflow-hidden z-50">
+      <input v-model="keyword" class="justify-center shadow-sm rounded-3xl h-10 p-3 mt-1" placeholder="Search for your dish..." />
+      <div class="flex flex-row overflow-x-scroll">
+        <div 
+          id="all" 
+          @click="selectCategory"
+          class="no-underline capitalize py-2 px-4 mx-2 my-2.5 cursor-pointer select-none whitespace-nowrap">
+          All
+        </div>
+        <div
+          v-for="category in categories"
+          :id="category.name"
+          :key="category.id"
+          @click="selectCategory"
+          :tabindex="category.id"
+          class="no-underline capitalize py-2 px-4 mx-2 my-2.5 cursor-pointer select-none whitespace-nowrap"
+          >{{ category.name }}
+        </div>
       </div>
     </div>
-  </div>
-  <div class="capitalize container">
-    <div>
+    <div class="capitalize container">
       <div v-for="category in selectedCategory" :key="category.id">
         <h2 class="text-3xl mt-5">{{ category }}</h2>
         <div v-for="(dish, index) in filteredDishes" :key="index">
           <Dish v-if="dish.category == category" :dish="dish" />
         </div>
       </div>
+      <div class="h-28"></div>
     </div>
   </div>
 </template>
