@@ -52,10 +52,10 @@ export default defineComponent({
       dishes.value.reduce((a, v) => (v === props.dish.name ? a + 1 : a), 0)
 
     const addDishToCurrentOrder = () => 
-      store.commit('addOrder', props.dish.name)
+      store.commit('addOrder', props.dish)
 
     const removeDishFromCurrentOrder = () => 
-      store.commit('removeOrder', props.dish.name)
+      store.commit('removeOrder', props.dish)
 
     return { 
       imgSize: ref('88px'), 
