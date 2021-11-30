@@ -9,7 +9,7 @@ import { InjectionKey } from '@vue/runtime-dom'
 import orderDataService from '@/services/OrderDataService'
 
 export interface State {
-
+  totalPrice: number
   categories: Category[]
   dishes: Dish[]
   ingredients: Ingredient[]
@@ -38,6 +38,7 @@ export const key: InjectionKey<Store<State>> = Symbol()
 
 export default createStore<State>({
   state: {
+    totalPrice: 0,
     categories: [],
     dishes: [],
     ingredients: [],
@@ -94,11 +95,16 @@ export default createStore<State>({
     setToken: (state, payload) => state.apiToken = payload,
     addToSelectedTableIds: (state, payload) => state.selectedTableIds.push(payload),
     setSessionId: (state, payload) => state.sessionId = payload,
-    addOrder: (state, payload) => state.currentOrder.dishes.push(payload),
+    addOrder: (state, payload) => {
+       state.currentOrder.dishes.push(payload.name)
+       state.totalPrice += payload.prize
+      },
     removeOrder: (state, payload) => { 
-      const index = state.currentOrder.dishes.indexOf(payload)
-      if (index != -1)
+      const index = state.currentOrder.dishes.indexOf(payload.name)
+      if (index != -1){
         state.currentOrder.dishes.splice(index, 1)
+        state.totalPrice -= payload.prize
+      }
     }
   },
   actions: {
