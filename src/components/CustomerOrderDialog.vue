@@ -6,10 +6,10 @@
       <div class="flex flex-row justify-between h-7">
           <p class="text-2xl" style="color:#148F00">€{{(total < 0 ? 0.00 : total).toFixed(2)}}</p>
           <p>Preparing...</p>
-          <button class="rounded-lg px-1 text-sm w-16" style="color:#148F00; border: 2px solid;" @click=""> ORDER </button>
+          <button class="rounded-lg px-1 text-sm w-16" style="color:#148F00; border: 2px solid;" @click="order"> ORDER </button>
       </div>
       <div class="flex-row">
-        <textarea class="resize-none mt-1" v-model="message" rows="1" placeholder="Comments..." />
+        <textarea class="resize-none mt-1" v-model="comments" rows="1" placeholder="Comments..." />
       </div>
     </div>
   </div>
@@ -20,17 +20,22 @@ import store from '@/store'
 import { computed, defineComponent, ref } from 'vue'
 
 export default defineComponent({
-  setup () {
-
-    const dishes = computed(() => store.state.currentOrder.dishes)
-    const total = computed(() => store.state.totalPrice)
-
-    const countOccurrences = () => {
-
+  props: {
+    placeOrder: {
+      type: Function,
+      required: true
     }
-    // dishes.value.reduce((a, v) => (v === props.dish.name ? a + 1 : a), 0)
+  },
+  setup (props) {
+    const total = computed(() => store.state.totalPrice)
+    let comments = ref('')
 
-    return { message: ref(''), total}
+    const order = () => {
+      store.state.currentOrder.comments = comments.value
+      props.placeOrder(store.state.currentOrder)
+    }
+
+    return { comments, total, order }
   }
 })
 </script>

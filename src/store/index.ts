@@ -96,9 +96,9 @@ export default createStore<State>({
     addToSelectedTableIds: (state, payload) => state.selectedTableIds.push(payload),
     setSessionId: (state, payload) => state.sessionId = payload,
     addOrder: (state, payload) => {
-       state.currentOrder.dishes.push(payload.name)
-       state.totalPrice += payload.prize
-      },
+      state.currentOrder.dishes.push(payload.name)
+      state.totalPrice += payload.prize
+    },
     removeOrder: (state, payload) => { 
       const index = state.currentOrder.dishes.indexOf(payload.name)
       if (index != -1){
