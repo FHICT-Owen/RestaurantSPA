@@ -7,7 +7,7 @@ export default class DishDataService {
 
   //FIX THIS
   public static async getAllTables(): Promise<RestaurantTable[]> {
-    const response = await axios.get(`${this.RESTAURANT_API_URL}/table/1`, setAuthHeader())
+    const response = await axios.get(`${this.RESTAURANT_API_URL}/table/tables/1`, setAuthHeader())
     return response.data
   }
 

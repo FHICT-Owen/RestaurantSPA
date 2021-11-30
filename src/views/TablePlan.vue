@@ -1,44 +1,64 @@
 <template>
   <div class="TablePlan">
-    Table Plan
-
     <div class="buttons-container">
-      <button v-on:click="true">Add Table</button>
-      <button v-on:click="true">Delete Selected</button>
+      <p class="btnwrap">
+        <button class="buttons" v-on:click="true">Add Table</button>
+      </p>
+
+      <p class="btnwrap">
+        <button class="buttons" v-on:click="true">Delete Selected</button>
+      </p>
     </div>
     <div class="table-container">
       <!-- <table-item v-for='table in tables' :key='table.id'/> -->
-      <TableItem v-for="table in tables" :table="table" :key="table.id" />
+      <TableItem
+        v-for="table in tables"
+        :table="table"
+        :isSelected="isSelected(id)"
+        :key="table.id"
+      />
     </div>
   </div>
 </template>
 
 <script lang="ts">
-import { computed, onMounted, ref } from 'vue'
-import TableItem from '../components/TableItem.vue'
-import store from '@/store'
+import { computed, onMounted, ref } from "vue";
+import TableItem from "../components/TableItem.vue";
+import store from "@/store";
 
 export default {
-  name: 'TablePlan',
+  name: "TablePlan",
   components: {
-    TableItem
+    TableItem,
   },
   setup() {
-    const tables = computed(() => store.state.tables)
-    const selectedTableIds = computed(() => store.state.selectedTableIds)
+    const tables = computed(() => store.state.tables);
+    const selectedTableIds = computed(() => store.state.selectedTableIds);
     // const selectTable(id: number) => {
-      
+
     // }
+
+    function addTable() {
+      // store.commit()
+    }
+
+    function deleteTables(ids: number[]) {}
+    function isSelected(id: number) {
+      return selectedTableIds.value.indexOf(id) != -1;
+    }
     onMounted(() => {
-      store.commit('setTables')
-      console.log(tables.value)
-    })
+      store.commit("setTables");
+      console.log(tables.value);
+    });
 
     return {
-      tables
-    }
-  }
-}
+      tables,
+      isSelected,
+      deleteTables,
+      addTable,
+    };
+  },
+};
 </script>
 
 <style scoped>
@@ -56,14 +76,41 @@ export default {
 .TablePlan {
   display: flex;
   flex-direction: column;
+  align-content: center;
   max-width: 750px;
-  background: var(--primary-color);
   font-family: SF Pro Display;
   font-style: normal;
   padding: 10px;
 }
 .buttons-container {
   align-self: flex-end;
+  display: flex;
+  flex-direction: row;
+  text-align: center;
+}
+
+.btnwrap {
+  text-align: center;
+}
+
+.buttons {
+  width: 130px;
+  height: 40px;
+
+  background: #ffa825;
+  border: 2.5px solid #ffffff;
+  box-sizing: border-box;
+  border-radius: 7px;
+
+  font-family: SF Pro Display;
+  font-style: normal;
+  font-weight: bold;
+  font-size: 14px;
+  line-height: 17px;
+  display: flex;
+  align-items: center;
+
+  color: #ffffff;
 }
 </style>
 
