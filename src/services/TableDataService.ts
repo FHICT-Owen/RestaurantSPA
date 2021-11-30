@@ -5,7 +5,7 @@ export default class DishDataService {
   static RESTAURANT_API_URL = process.env.VUE_APP_PROXY_URL;
 
   public static async getAllTables(): Promise<RestaurantTable[]> {
-    const response = await axios.get(`${this.RESTAURANT_API_URL}/table/1`, setAuthHeader())
+    const response = await axios.get(`${this.RESTAURANT_API_URL}/table/tables/1`, setAuthHeader())
     return response.data
   }
 
