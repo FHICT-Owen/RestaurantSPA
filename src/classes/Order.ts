@@ -9,10 +9,10 @@ export default class Order implements Order {
   isReady: boolean
   timeStamp: number
 
-  constructor(sessionId: number, dishes: string[], comments: string) {
-    this.sessionId = sessionId
-    this.dishes = dishes
-    this.comments = comments
+  constructor(sessionId?: number, dishes?: string[], comments?: string) {
+    this.sessionId = sessionId || 0
+    this.dishes = dishes || []
+    this.comments = comments || ''
     this.isApproved = false
     this.isCanceled = false
     this.isBeingPrepared = false

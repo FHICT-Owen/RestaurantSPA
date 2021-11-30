@@ -8,7 +8,7 @@
         :style="{ background: dish.image, minHeight: imgSize, minWidth: imgSize }">
           <div 
             class="z-10 px-9 py-7 rounded-3xl text-2xl bg-opacity-60 text-white align-self-center">
-            {}
+            {{countOccurrences()}}
           </div>
       </div>
       <div class="flex-1 m-1">
@@ -25,7 +25,7 @@
         ADD
       </button>
       <button 
-        @click=""
+        @click="removeDishFromCurrentOrder"
         class="bg-red-400 text-white font-medium text-sm w-full rounded-r-3xl p-1 my-1 ml-0.5 mr-1">
         REMOVE
       </button>
@@ -35,8 +35,8 @@
 </template>
 
 <script lang="ts">
-import store from "@/store";
-import { computed, defineComponent, PropType, ref } from "vue";
+import store from '@/store'
+import { computed, defineComponent, PropType, ref } from 'vue'
 
 export default defineComponent({
   props: {
@@ -46,27 +46,24 @@ export default defineComponent({
     },
   },
   setup(props) {
-
     const dishes = computed(() => store.state.currentOrder.dishes)
     
-    const addDishToCurrentOrder = () => {
+    const countOccurrences = () => 
+      dishes.value.reduce((a, v) => (v === props.dish.name ? a + 1 : a), 0)
+
+    const addDishToCurrentOrder = () => 
       store.commit('addOrder', props.dish.name)
-      console.log(dishes.value)
+
+    const removeDishFromCurrentOrder = () => 
+      store.commit('removeOrder', props.dish.name)
+
+    return { 
+      imgSize: ref('88px'), 
+      isInSession: ref(false),
+      countOccurrences,
+      addDishToCurrentOrder,
+      removeDishFromCurrentOrder
     }
-
-    // const removeDishFromCurrentOrder = () => {
-    //  store.state.currentOrder.dishes = 
-    // }
-
-    // const d = () => {
-    //   console.log(x.value.map( x => x == props.dish.name))
-    // }
-
-    // const e = (val:any) => {
-    //   console.log(d.value.reduce())
-    // }
-
-    return { addDishToCurrentOrder, imgSize: ref("88px"), isInSession: ref(false) };
   },
-});
+})
 </script>

@@ -94,7 +94,12 @@ export default createStore<State>({
     setToken: (state, payload) => state.apiToken = payload,
     addToSelectedTableIds: (state, payload) => state.selectedTableIds.push(payload),
     setSessionId: (state, payload) => state.sessionId = payload,
-    addOrder: (state, payload) => state.orders.push(payload)
+    addOrder: (state, payload) => state.currentOrder.dishes.push(payload),
+    removeOrder: (state, payload) => { 
+      const index = state.currentOrder.dishes.indexOf(payload)
+      if (index != -1)
+        state.currentOrder.dishes.splice(index, 1)
+    }
   },
   actions: {
     createNewCategory: ({commit}, category: Category) => {
