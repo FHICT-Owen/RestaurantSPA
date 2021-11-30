@@ -1,12 +1,12 @@
-import { createStore, useStore as baseUseStore, Store, Commit } from "vuex";
-import categoryDataService from "@/services/CategoryDataService";
-import dishDataService from "@/services/DishDataService";
-import tableDataService from "@/services/TableDataService";
-import ingredientDataService from "@/services/IngredientDataService";
-import Dish from "@/classes/Dish";
-import Order from "@/classes/Order";
-import { InjectionKey } from "@vue/runtime-dom";
-import orderDataService from "@/services/OrderDataService";
+import { createStore, useStore as baseUseStore, Store, Commit } from 'vuex'
+import categoryDataService from '@/services/CategoryDataService'
+import dishDataService from '@/services/DishDataService'
+import tableDataService from '@/services/TableDataService'
+import ingredientDataService from '@/services/IngredientDataService'
+import Dish from '@/classes/Dish'
+import Order from '@/classes/Order'
+import { InjectionKey } from '@vue/runtime-dom'
+import orderDataService from '@/services/OrderDataService'
 
 export interface State {
   categories: Category[]
@@ -32,10 +32,12 @@ export interface State {
   confirmDeleteFunction: Function
 
   popUps: PopUp[]
+
+  sessionId: string
   apiToken: string
 }
 
-export const key: InjectionKey<Store<State>> = Symbol();
+export const key: InjectionKey<Store<State>> = Symbol()
 
 export default createStore<State>({
   state: {
@@ -51,7 +53,6 @@ export default createStore<State>({
     orders: [],
     currentOrder: new Order,
 
-
     tables: [] as RestaurantTable[],
     selectedTableIds: [] as number[],
 
@@ -63,32 +64,34 @@ export default createStore<State>({
     confirmDeleteFunction: new Function(),
 
     popUps: [],
-    apiToken: "",
+
+    sessionId: '',
+    apiToken: ''
   },
   mutations: {
     setCategories: async (state) => {
-      state.categories = await categoryDataService.getAllCategories();
+      state.categories = await categoryDataService.getAllCategories()
       state.selectedCategory = state.categories
         .filter((c) => state.dishes.find((d) => d.category == c.name))
-        .map((c) => c.name);
+        .map((c) => c.name)
     },
     setDishes: async (state) => state.dishes = await dishDataService.getAllDishes(),
     setIngredients: async (state) => state.ingredients = await ingredientDataService.getAllIngredients(),
     setOrders: async (state) => state.orders = await orderDataService.getAllOrders(),
     setTables: async (state) => state.tables = await tableDataService.getAllTables(),
     toggleDialog: (state, payload) => {
-      (state.isDishDialogOpen = !state.isDishDialogOpen),
-        (state.isEditDialog = payload);
+      state.isDishDialogOpen = !state.isDishDialogOpen
+      state.isEditDialog = payload
     },
     closeDishDialog: (state) => (state.isDishDialogOpen = false),
     setSelectedCategory: (state, payload: string) => {
-      if (payload.trim().toLowerCase() === "all")
+      if (payload.trim().toLowerCase() === 'all')
         state.selectedCategory = state.categories
           .filter((c) => state.dishes.find((d) => d.category == c.name))
-          .map((c) => c.name);
+          .map((c) => c.name)
       else {
-        state.selectedCategory = [];
-        state.selectedCategory.push(payload.trim());
+        state.selectedCategory = []
+        state.selectedCategory.push(payload.trim())
       }
     },
     toggleConfirmDialog: (state, payload) => {
@@ -118,15 +121,15 @@ export default createStore<State>({
     createNewCategory: ({ commit }, category: Category) => {
       categoryDataService
         .createCategory(category)
-        .then(() => commit("setCategories"));
+        .then(() => commit('setCategories'))
     },
     createNewDish({ commit }, dish: Dish) {
-      dishDataService.createDish(dish).then(() => commit("setDishes"));
+      dishDataService.createDish(dish).then(() => commit('setDishes'))
     },
     createNewIngredient({ commit }, ingredient: Ingredient) {
       ingredientDataService
         .createIngredient(ingredient)
-        .then(() => commit("setIngredients"));
+        .then(() => commit('setIngredients'))
     },
     createNewTable({ commit }){
       // tableDataService.createTable()
@@ -135,35 +138,35 @@ export default createStore<State>({
     editCategory({ commit }, category: Category) {
       categoryDataService
         .editCategory(category)
-        .then(() => commit("setCategories"));
+        .then(() => commit('setCategories'))
     },
     editDish({ commit }, dish: Dish) {
-      dishDataService.editDish(dish).then(() => commit("setDishes"));
+      dishDataService.editDish(dish).then(() => commit('setDishes'))
     },
 
     deleteObject({ state }) {
-      state.confirmDeleteFunction();
-      state.isConfirmDialogOpen = false;
+      state.confirmDeleteFunction()
+      state.isConfirmDialogOpen = false
     },
     deleteDish({ commit }, dish: Dish) {
-      dishDataService.deleteDish(dish).then(() => commit("setDishes"));
+      dishDataService.deleteDish(dish).then(() => commit('setDishes'))
     },
     deleteCategory({ commit }, category: Category) {
       categoryDataService
         .deleteCategory(category)
-        .then(() => commit("setCategories"));
+        .then(() => commit('setCategories'))
     },
     deleteIngredient({ commit }, ingredient: Ingredient) {
       ingredientDataService
         .deleteIngredient(ingredient)
-        .then(() => commit("setIngredients"));
+        .then(() => commit('setIngredients'))
     },
 
     openConfirmDialog: ({ commit }, payload) =>
-      commit("toggleConfirmDialog", payload),
-    toggleDialog: ({ commit }, payload) => commit("toggleDialog", payload),
+      commit('toggleConfirmDialog', payload),
+    toggleDialog: ({ commit }, payload) => commit('toggleDialog', payload),
 
-    setCurrentDish: ({ commit }, payload) => commit("setCurrentDish", payload),
+    setCurrentDish: ({ commit }, payload) => commit('setCurrentDish', payload),
     removeIngredientFromCurrentDish: ({ state }, payload) =>
       state.currentDish.ingredients.splice(
         state.currentDish.ingredients.indexOf(payload),
@@ -176,7 +179,7 @@ export default createStore<State>({
       ),
   },
   modules: {},
-});
+})
 export function useStore() {
-  return baseUseStore(key);
+  return baseUseStore(key)
 }
