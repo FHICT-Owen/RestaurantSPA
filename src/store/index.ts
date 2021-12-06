@@ -83,7 +83,10 @@ export default createStore<State>({
       state.isDishDialogOpen = !state.isDishDialogOpen
       state.isEditDialog = payload
     },
-    closeDishDialog: (state) => (state.isDishDialogOpen = false),
+    closeDishDialog: (state) => state.isDishDialogOpen = false,
+    setOrderPrepared: async (state, payload: boolean) => {
+        
+    },
     setSelectedCategory: (state, payload: string) => {
       if (payload.trim().toLowerCase() === 'all')
         state.selectedCategory = state.categories
