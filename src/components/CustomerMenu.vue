@@ -16,7 +16,9 @@
           @click="selectCategory"
           :tabindex="category.id"
           class="no-underline capitalize py-2 px-4 mx-2 my-2.5 cursor-pointer select-none whitespace-nowrap"
-          >{{ category.name }}
+          >
+          <div v-if="lang == 'en' ">{{ category.name }}</div>
+          <div v-else-if="lang == 'nl'">{{ category.name_NL }}</div>
         </div>
       </div>
     </div>
@@ -75,7 +77,10 @@ export default defineComponent({
       }
     }
     
+    let lang = ref('')
+
     onMounted(() => {
+      lang.value = localStorage.getItem('lang') || 'en'
       let navbar = document.getElementById('navbar')
       window.addEventListener('scroll', () => manageStickyNav(navbar))
       store.commit('setSelectedCategory', 'all')
@@ -90,6 +95,7 @@ export default defineComponent({
       filteredDishes,
       keyword,
       selectedCategory,
+      lang
     }
   }
 })

@@ -40,7 +40,12 @@
                 Login
               </button>
             </li>
-
+            <li>
+              <select class="custom-select" v-model="lang" @change="handleChangeLanguage($event)">
+                <option value="en">English</option>
+                <option value="nl">Dutch</option>
+              </select>
+              </li>
             <li class="nav-item dropdown" v-if="isAuthenticated">
               <a
                 class="nav-link dropdown-toggle"
@@ -132,6 +137,12 @@ export default {
   },
   name: 'NavBar',
   inject: ['Auth'],
+  data: function () {
+    const lang = localStorage.getItem('lang') || 'en';
+    return {
+      lang: lang
+    }
+  },
   methods: {
     login () {
       this.Auth.loginWithRedirect()
@@ -139,6 +150,10 @@ export default {
     logout () {
       this.Auth.logout()
       this.$router.push({ path: '/' })
+    },
+    handleChangeLanguage(event) {
+      localStorage.setItem('lang', event.target.value);
+      window.location.reload();
     }
   },
   setup () {
