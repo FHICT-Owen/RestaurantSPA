@@ -6,7 +6,7 @@
       <div
         class="flex rounded-3xl m-1 bg-blend-normal bg-cover bg-no-repeat"
         :style="{ background: dish.image, minHeight: imgSize, minWidth: imgSize }">
-          <div 
+          <div v-if="countOccurrences() > 0"
             class="z-10 px-9 py-7 rounded-3xl text-2xl bg-opacity-60 text-white align-self-center">
             {{countOccurrences()}}
           </div>
