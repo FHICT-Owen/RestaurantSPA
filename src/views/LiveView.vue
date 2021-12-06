@@ -3,7 +3,7 @@
     <div class="flex content-end">
       <ul class="flex my-5">
         <li class="mr-3">
-          <a class="inline-block border border-blue-500 rounded py-1 px-3 bg-blue-500 text-white no-underline" href="#">All</a>
+          <a class="inline-block border border-blue-500 rounded py-1 px-3 bg-blue-500 text-white no-underline">All</a>
         </li>
         <li class="mr-3">
           <a class="inline-block border border-blue-500 rounded py-1 px-3 bg-blue-500 text-white no-underline" href="#">Done</a>
@@ -21,7 +21,7 @@
     </div>
     <div class="container flex flex-wrap items-start">
       <div v-for="(order, index) in orders" :key="index">
-        <OrderCard :order="order" class="mx-4"/>
+        <OrderCard v-if="order.isApproved" :order="order" class="mx-4"/>
       </div>
     </div>
   </div>
@@ -41,81 +41,9 @@ export default defineComponent({
   setup() {
     var client: Client
     const auth = inject<AuthPlugin>('Auth')
-    // const orders = computed(() => store.state.orders)
-    const orders = [
-      { // Not approved order
-        id: 40,
-        sessionId: 1,
-        dishes: [
-          'steak',
-          'hamburgers'
-        ],
-        comments: '',
-        isApproved: false,
-        isCanceled: false,
-        isBeingPrepared: false,
-        isReady: false,
-        timeStamp: 10
-      },
-      { // New order (approved order)
-        id: 41,
-        sessionId: 1,
-        dishes: [
-          'steak',
-          'hamburgers'
-        ],
-        comments: '',
-        isApproved: true,
-        isCanceled: false,
-        isBeingPrepared: false,
-        isReady: false,
-        timeStamp: 10
-      },
-      { // Preparing order
-        id: 42,
-        sessionId: 1,
-        dishes: [
-          'steak',
-          'hamburgers'
-        ],
-        comments: 'hamburger without tomato',
-        isApproved: true,
-        isCanceled: false,
-        isBeingPrepared: true,
-        isReady: false,
-        timeStamp: 10
-      },
-      { // Completed order (done)
-        id: 43,
-        sessionId: 1,
-        dishes: [
-          'milkshake'
-        ],
-        comments: '',
-        isApproved: true,
-        isCanceled: false,
-        isBeingPrepared: false,
-        isReady: true,
-        timeStamp: 10
-      },
-      { // Cancelled (isCanceled)
-        id: 44,
-        sessionId: 1,
-        dishes: [
-          'steak'
-        ],
-        comments: '',
-        isApproved: false,
-        isCanceled: true,
-        isBeingPrepared: false,
-        isReady: false,
-        timeStamp: 10
-      }
-    ]
-
-
+    const orders = computed(() => store.state.orders)
     onMounted(() => {
-      // store.commit('setOrders')
+      store.commit('setOrders')
       connectAsLiveView()
     })
 
@@ -134,7 +62,7 @@ export default defineComponent({
     }
 
     return {
-      ...auth, orders 
+      ...auth, orders
     }
   }
 })

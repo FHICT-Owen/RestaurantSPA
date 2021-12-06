@@ -71,6 +71,9 @@ export default createStore<State>({
       state.isEditDialog = payload
     },
     closeDishDialog: (state) => state.isDishDialogOpen = false,
+    setOrderPrepared: async (state, payload: boolean) => {
+        
+    },
     setSelectedCategory: (state, payload: string) => {
       if (payload.trim().toLowerCase() === 'all')
         state.selectedCategory = state.categories.filter(c => state.dishes.find(d => d.category == c.name)).map(c => c.name)
