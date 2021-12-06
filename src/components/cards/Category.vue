@@ -16,9 +16,9 @@
 import Category from '@/classes/Category'
 import store from '@/store'
 import {computed, defineComponent, PropType, ref} from 'vue'
-import DeleteButton from './DeleteButton.vue'
-import EditButton from './EditButton.vue'
-import CancelButton from './CancelButton.vue'
+import DeleteButton from '../buttons/DeleteButton.vue'
+import EditButton from '../buttons/EditButton.vue'
+import CancelButton from '../buttons/CancelButton.vue'
 
 export default defineComponent({
   components: { 

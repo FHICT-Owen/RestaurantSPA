@@ -76,7 +76,7 @@
 import { computed, defineComponent, ref } from 'vue'
 import store from '@/store'
 import { toBase64URL } from '@/utils'
-import Ingredient from './Ingredient.vue'
+import Ingredient from '../cards/Ingredient.vue'
 import DialogBackground from './DialogBackground.vue'
 import { PlusSmIcon } from '@heroicons/vue/outline'
 

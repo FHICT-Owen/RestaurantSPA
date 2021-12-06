@@ -29,7 +29,7 @@
 
 <script lang="ts">
 import { inject, computed, defineComponent, onMounted } from 'vue'
-import OrderCard from '../components/OrderCard.vue'
+import OrderCard from '../components/cards/OrderCard.vue'
 import store from '@/store'
 import { AuthPlugin } from '@/auth'
 import { Client } from '@stomp/stompjs'

@@ -21,7 +21,7 @@ import { defineComponent, onMounted } from '@vue/runtime-core'
 import { ShoppingCartIcon } from '@heroicons/vue/outline'
 import { Client } from '@stomp/stompjs'
 import CustomerMenu from '../components/CustomerMenu.vue'
-import CustomerOrderDialog from '../components/CustomerOrderDialog.vue'
+import CustomerOrderDialog from '../components/dialogs/CustomerOrderDialog.vue'
 import { VueCookieNext } from 'vue-cookie-next'
 import store from '@/store'
 import Order from '@/classes/Order'
@@ -33,9 +33,9 @@ export default defineComponent({
     CustomerOrderDialog
   },
   methods: {
-      handleChangeLanguage(event:any) {
-      localStorage.setItem('lang', event.target.value);
-      window.location.reload();
+    handleChangeLanguage(event:any) {
+      localStorage.setItem('lang', event.target.value)
+      window.location.reload()
     }
   },
   setup() {

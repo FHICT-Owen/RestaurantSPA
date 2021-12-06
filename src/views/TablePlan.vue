@@ -22,18 +22,18 @@
 </template>
 
 <script lang="ts">
-import { computed, onMounted, ref } from "vue";
-import TableItem from "../components/TableItem.vue";
-import store from "@/store";
+import { computed, onMounted, ref } from 'vue'
+import TableItem from '../components/dialogs/TableItem.vue'
+import store from '@/store'
 
 export default {
-  name: "TablePlan",
+  name: 'TablePlan',
   components: {
     TableItem,
   },
   setup() {
-    const tables = computed(() => store.state.tables);
-    const selectedTableIds = computed(() => store.state.selectedTableIds);
+    const tables = computed(() => store.state.tables)
+    const selectedTableIds = computed(() => store.state.selectedTableIds)
     // const selectTable(id: number) => {
 
     // }
@@ -44,21 +44,21 @@ export default {
 
     function deleteTables(ids: number[]) {}
     function isSelected(id: number) {
-      return selectedTableIds.value.indexOf(id) != -1;
+      return selectedTableIds.value.indexOf(id) != -1
     }
     onMounted(() => {
-      store.commit("setTables");
-      console.log(tables.value);
-    });
+      store.commit('setTables')
+      console.log(tables.value)
+    })
 
     return {
       tables,
       isSelected,
       deleteTables,
       addTable,
-    };
+    }
   },
-};
+}
 </script>
 
 <style scoped>

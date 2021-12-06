@@ -10,21 +10,21 @@
       <p v-if="table.isActive">Active</p>
       <p v-else>Inactive</p>
       <button class="toggle">
-        <img v-if="table.isActive" src="../assets/toggle-on.png" />
-        <img v-else src="../assets/toggle-off.png" />
+        <img v-if="table.isActive" src="../../assets/toggle-on.png" />
+        <img v-else src="../../assets/toggle-off.png" />
       </button>
     </div>
     <button @click="addToSelectedTables" class="checkbox">
-      <img v-if="isSelected" src="../assets/checkbox-checked.png" />
-      <img v-else src="../assets/checkbox-unchecked.png" />
+      <img v-if="isSelected" src="../../assets/checkbox-checked.png" />
+      <img v-else src="../../assets/checkbox-unchecked.png" />
     </button>
   </div>
 </template>
 
 
 <script lang="ts">
-import store from "@/store";
-import { computed, defineComponent, onMounted, PropType, ref } from "vue";
+import store from '@/store'
+import { computed, defineComponent, onMounted, PropType, ref } from 'vue'
 
 export default defineComponent({
   props: {
@@ -39,7 +39,7 @@ export default defineComponent({
   },
   setup(props) {
     function addToSelectedTables() {
-      store.commit("addToSelectedTableIds", props.table.id);
+      store.commit('addToSelectedTableIds', props.table.id)
     }
     function removeFromSelectedTables() {
       //store.commit("removeFromSelectedTableIds", props.table.id);
@@ -52,14 +52,14 @@ export default defineComponent({
     //../assets/checkbox-unchecked.png
     // const checkboxImg: string = "unchecked"
 
-    onMounted(() => console.log(props.table.tableNumber));
+    onMounted(() => console.log(props.table.tableNumber))
     return {
       addToSelectedTables,
       removeFromSelectedTables,
       toggleTable
-    };
+    }
   },
-});
+})
 </script>
 
 <style scoped>
