@@ -1,4 +1,6 @@
+import Order from '@/classes/Order'
 import { setAuthHeader, showPopUp } from '@/utils'
+import { Client } from '@stomp/stompjs'
 import axios from 'axios'
 
 export default class OrderDataService {
@@ -9,14 +11,9 @@ export default class OrderDataService {
     return response.data
   }
 
-  //   public static async createOrder(order: Order) {
-  //     const token = computed(() => store.state.apiToken)
-  //     await axios.post(`${this.API_URL}/dish/`, dish, {
-  //       headers: { Authorization: `Bearer ${token.value}`}
-  //     })
-  //       .then(() => showPopUp(`Added ${dish.name}`, false))
-  //       .catch(() => showPopUp(`Was unable to add ${dish.name}`, true))
-  //   }
+  public static async createOrder(order: Order) {
+    return await axios.post(`${this.API_URL}/order/`, order)
+  }
 
   //   public static async approveOrder(dish: Dish) {
   //     const token = computed(() => store.state.apiToken)

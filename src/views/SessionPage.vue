@@ -25,6 +25,7 @@ import CustomerOrderDialog from '../components/dialogs/CustomerOrderDialog.vue'
 import { VueCookieNext } from 'vue-cookie-next'
 import store from '@/store'
 import Order from '@/classes/Order'
+import OrderDataService from '@/services/OrderDataService'
 
 export default defineComponent({
   components: { 
@@ -64,8 +65,12 @@ export default defineComponent({
       if (!!client) client.deactivate()
     }
 
-    const placeOrder = (order: Order) =>
-      client.publish({destination: '/app/message', body: JSON.stringify(order)})
+    const placeOrder = (order: Order) => { 
+      OrderDataService.createOrder(order)
+        .then(() => client.publish({destination: '/app/message', body: JSON.stringify(order)}))
+        .catch()
+    }
+      
 
     return {
       connect,
