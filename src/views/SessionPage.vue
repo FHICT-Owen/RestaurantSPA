@@ -2,6 +2,10 @@
   <div>
     <div class="flex flex-col text-white h-48 relative p-6" style="background-color: #FFA825">
       <ShoppingCartIcon class="self-end" />
+      <select class="custom-select" v-model="lang" @change="handleChangeLanguage($event)">
+        <option value="en">English</option>
+        <option value="nl">Dutch</option>
+      </select>
       <div class="text-4xl w-4/5">Welcome</div>
       <div class="text-3xl w-4/5">What would you like to have?</div>
     </div>
@@ -25,6 +29,12 @@ export default defineComponent({
   components: { 
     CostumerMenu, 
     ShoppingCartIcon 
+  },
+  methods: {
+      handleChangeLanguage(event:any) {
+      localStorage.setItem('lang', event.target.value);
+      window.location.reload();
+    }
   },
   setup() {
     var client: Client

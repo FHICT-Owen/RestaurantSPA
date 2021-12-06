@@ -6,6 +6,7 @@ import './assets/tailwind.css'
 import store, { key } from './store'
 import { VueCookieNext } from 'vue-cookie-next'
 import './registerServiceWorker'
+// import i18n from './i18n'
 
 async function init () {
   const AuthPlugin = await Auth0.init({
@@ -28,6 +29,7 @@ async function init () {
     .use(store, key)
     .use(router)
     .use(VueCookieNext)
+    // .use(i18n)
     .mount('#app')
   VueCookieNext.config({
     expire: '4h',
