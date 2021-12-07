@@ -29,14 +29,14 @@
 
 
 <script lang="ts">
-import Category from '../components/Category.vue'
-import Dish from '../components/Dish.vue'
-import Dialog from '../components/Dialog.vue'
+import Category from './cards/Category.vue'
+import Dish from './cards/Dish.vue'
+import Dialog from './dialogs/Dialog.vue'
 import store from '@/store'
 import { computed, ref } from 'vue'
-import DeleteConfirmDialog from './DeleteConfirmDialog.vue'
-import DeleteButton from './DeleteButton.vue'
-import EditButton from './EditButton.vue'
+import DeleteConfirmDialog from './dialogs/DeleteConfirmDialog.vue'
+import DeleteButton from './buttons/DeleteButton.vue'
+import EditButton from './buttons/EditButton.vue'
 
 export default {
   name: 'ManagerMenu',

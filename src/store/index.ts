@@ -9,78 +9,96 @@ import { InjectionKey } from '@vue/runtime-dom'
 import orderDataService from '@/services/OrderDataService'
 
 export interface State {
-
   categories: Category[]
+  selectedCategory: string[]
+  
   dishes: Dish[]
-  orders: Order[]
+  currentDish: Dish
+  
   ingredients: Ingredient[]
+
+  totalPrice: number
+  orders: Order[]
+  currentOrder: Order
+
   tables: RestaurantTable[]
   selectedTableIds: number[]
-  selectedCategory: string[]
-
+  
   isDishDialogOpen: boolean
   isEditDialog: boolean
-  currentDish: Dish
 
   isConfirmDialogOpen: boolean
   currentConfirmDialogObject: Object
   confirmDeleteFunction: Function
-  
+
   popUps: PopUp[]
-  apiToken: string
+
   sessionId: string
+  apiToken: string
 }
 
 export const key: InjectionKey<Store<State>> = Symbol()
 
 export default createStore<State>({
   state: {
-
     categories: [],
+    selectedCategory: [],
+    
     dishes: [],
-    orders: [],
+    currentDish: new Dish(),
+    
     ingredients: [],
 
-    selectedCategory: [],
+    totalPrice: 0,
+    orders: [],
+    currentOrder: new Order,
+
     tables: [] as RestaurantTable[],
     selectedTableIds: [] as number[],
 
     isDishDialogOpen: false,
     isEditDialog: false,
-    currentDish: new Dish,
 
     isConfirmDialogOpen: false,
     currentConfirmDialogObject: {},
-    confirmDeleteFunction: new Function,
-    
+    confirmDeleteFunction: new Function(),
+
     popUps: [],
-    apiToken: '',
-    sessionId: ''
+
+    sessionId: '',
+    apiToken: ''
   },
   mutations: {
     setCategories: async (state) => {
       state.categories = await categoryDataService.getAllCategories()
-      state.selectedCategory = state.categories.filter(c => state.dishes.find(d => d.category == c.name)).map(c => c.name)
+      state.selectedCategory = state.categories
+        .filter((c) => state.dishes.find((d) => d.category == c.name))
+        .map((c) => c.name)
     },
     setDishes: async (state) => state.dishes = await dishDataService.getAllDishes(),
     setIngredients: async (state) => state.ingredients = await ingredientDataService.getAllIngredients(),
     setOrders: async (state) => state.orders = await orderDataService.getAllOrders(),
     setTables: async (state) => state.tables = await tableDataService.getAllTables(),
-    toggleDialog: (state, payload) => { 
-      state.isDishDialogOpen = !state.isDishDialogOpen, 
+    toggleDialog: (state, payload) => {
+      state.isDishDialogOpen = !state.isDishDialogOpen
       state.isEditDialog = payload
     },
     closeDishDialog: (state) => state.isDishDialogOpen = false,
+    setOrderPrepared: async (state, payload: boolean) => {
+        
+    },
     setSelectedCategory: (state, payload: string) => {
       if (payload.trim().toLowerCase() === 'all')
-        state.selectedCategory = state.categories.filter(c => state.dishes.find(d => d.category == c.name)).map(c => c.name)
+        state.selectedCategory = state.categories
+          .filter((c) => state.dishes.find((d) => d.category == c.name))
+          .map((c) => c.name)
       else {
         state.selectedCategory = []
         state.selectedCategory.push(payload.trim())
       }
     },
-    toggleConfirmDialog: (state, payload) => { 
-      state.isConfirmDialogOpen = !state.isConfirmDialogOpen,
+    toggleConfirmDialog: (state, payload) => {
+      state.isConfirmDialogOpen = !state.isConfirmDialogOpen
       state.currentConfirmDialogObject = payload.object
       state.confirmDeleteFunction = payload.function
     },
@@ -90,58 +108,85 @@ export default createStore<State>({
     setToken: (state, payload) => state.apiToken = payload,
     addToSelectedTableIds: (state, payload) => state.selectedTableIds.push(payload),
     setSessionId: (state, payload) => state.sessionId = payload,
-    addOrder: (state, payload) => state.orders.push(payload)
+    addOrder: (state, payload) => {
+      state.currentOrder.dishes.push(payload.name)
+      state.totalPrice += payload.prize
+    },
+    removeOrder: (state, payload) => { 
+      const index = state.currentOrder.dishes.indexOf(payload.name)
+      if (index != -1){
+        state.currentOrder.dishes.splice(index, 1)
+        state.totalPrice -= payload.prize
+      }
+    }
   },
   actions: {
-    createNewCategory: ({commit}, category: Category) => {
-      categoryDataService.createCategory(category)
+    createNewCategory: ({ commit }, category: Category) => {
+      categoryDataService
+        .createCategory(category)
         .then(() => commit('setCategories'))
     },
-    createNewDish ({commit}, dish: Dish) {
-      dishDataService.createDish(dish)
-        .then(() => commit('setDishes'))
+    createNewDish({ commit }, dish: Dish) {
+      dishDataService.createDish(dish).then(() => commit('setDishes'))
     },
-    createNewIngredient ({commit}, ingredient: Ingredient) {
-      ingredientDataService.createIngredient(ingredient)
+    createNewIngredient({ commit }, ingredient: Ingredient) {
+      ingredientDataService
+        .createIngredient(ingredient)
         .then(() => commit('setIngredients'))
     },
+    createNewTable({ commit }){
+      // tableDataService.createTable()
+    },
 
-    editCategory({commit}, category: Category) {
-      categoryDataService.editCategory(category)
+    editCategory({ commit }, category: Category) {
+      categoryDataService
+        .editCategory(category)
         .then(() => commit('setCategories'))
     },
-    editDish({commit}, dish: Dish) {
-      dishDataService.editDish(dish)
-        .then(() => commit('setDishes'))
+    editDish({ commit }, dish: Dish) {
+      dishDataService.editDish(dish).then(() => commit('setDishes'))
     },
-    
-    deleteObject({state}) {
+
+    updateOrder({ commit }, order: Order) {
+      orderDataService.updateOrder(order).then(() => commit('setOrders'))
+    },
+
+    deleteObject({ state }) {
       state.confirmDeleteFunction()
       state.isConfirmDialogOpen = false
     },
-    deleteDish({commit}, dish: Dish) {
-      dishDataService.deleteDish(dish)
-        .then(() => commit('setDishes'))
+    deleteDish({ commit }, dish: Dish) {
+      dishDataService.deleteDish(dish).then(() => commit('setDishes'))
     },
-    deleteCategory({commit}, category: Category) {
-      categoryDataService.deleteCategory(category)
+    deleteCategory({ commit }, category: Category) {
+      categoryDataService
+        .deleteCategory(category)
         .then(() => commit('setCategories'))
     },
-    deleteIngredient({commit}, ingredient: Ingredient) {
-      ingredientDataService.deleteIngredient(ingredient)
+    deleteIngredient({ commit }, ingredient: Ingredient) {
+      ingredientDataService
+        .deleteIngredient(ingredient)
         .then(() => commit('setIngredients'))
     },
 
-    openConfirmDialog: ({commit}, payload) => commit('toggleConfirmDialog', payload),
-    toggleDialog: ({commit}, payload) => commit('toggleDialog', payload),
+    openConfirmDialog: ({ commit }, payload) =>
+      commit('toggleConfirmDialog', payload),
+    toggleDialog: ({ commit }, payload) => commit('toggleDialog', payload),
 
-    setCurrentDish: ({commit}, payload) => commit('setCurrentDish', payload),
-    removeIngredientFromCurrentDish: ({state}, payload) => 
-      state.currentDish.ingredients.splice(state.currentDish.ingredients.indexOf(payload), 1)
+    setCurrentDish: ({ commit }, payload) => commit('setCurrentDish', payload),
+    removeIngredientFromCurrentDish: ({ state }, payload) =>
+      state.currentDish.ingredients.splice(
+        state.currentDish.ingredients.indexOf(payload),
+        1
+      ),
+    removeTableFromSelectedTableIds: ({ state }, payload) =>
+      state.selectedTableIds.splice(
+        state.selectedTableIds.indexOf(payload),
+        1
+      ),
   },
-  modules: {
-  }
+  modules: {},
 })
-export function useStore () {
+export function useStore() {
   return baseUseStore(key)
 }
