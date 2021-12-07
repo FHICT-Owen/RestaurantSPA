@@ -147,6 +147,10 @@ export default createStore<State>({
       dishDataService.editDish(dish).then(() => commit('setDishes'))
     },
 
+    updateOrder({ commit }, order: Order) {
+      orderDataService.updateOrder(order).then(() => commit('setOrders'))
+    },
+
     deleteObject({ state }) {
       state.confirmDeleteFunction()
       state.isConfirmDialogOpen = false

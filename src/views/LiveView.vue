@@ -21,7 +21,7 @@
     </div>
     <div class="container flex flex-wrap items-start">
       <div v-for="(order, index) in orders" :key="index">
-        <OrderCard :order="order" class="mx-4"/>
+        <OrderCard v-if="order.isApproved" :order="order" class="mx-4"/>
       </div>
     </div>
   </div>

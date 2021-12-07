@@ -1,7 +1,7 @@
 <template>
     <div  class="w-64 text-white mb-3" style="max-width: 18rem;">
           <!-- TODO: bg-color depends on order status -->
-            <div class="card-header relative" v-bind:class="{ 'bg-primary' : !order.isApproved, 'bg-warning': order.isBeingPrepared, 'bg-danger': order.isCanceled, 'bg-success': order.isReady}">
+            <div class="card-header relative" v-bind:class="{ 'bg-primary' :  order.isApproved, 'bg-warning': order.isBeingPrepared, 'bg-danger': order.isCanceled, 'bg-success': order.isReady}">
                 <p class="text-xl">{{new Date(order.timeStamp).toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit' })}}</p>
                 <h5 class="text-xl">#{{order.id}}</h5>
                 <div class="absolute inset-y-3 right-5 flex space-x-2">
@@ -47,18 +47,20 @@ export default defineComponent({
     }
   },
   setup(props) {
-    const order = ref(props.order)
+    let order = props.order
     const prepareOrder = () => {
       if (props.order.isBeingPrepared) {
-        // If order is done being prepared, set isReady True
-        props.order.isReady == true
-
-        console.log('klikkie1')
+        // If order is done being prepared, set isBeingPrepared false and isReady True
+        order.isBeingPrepared = false
+        order.isReady = true
+        store.dispatch('updateOrder', order)     
+        console.log('set order done')
       }
       else { 
         // If order is approved, set isBeingPrepared True
-
-        console.log('klikkie2')
+        order.isBeingPrepared = true
+        store.dispatch('updateOrder', order)     
+        console.log(order)
       }
     }
 
