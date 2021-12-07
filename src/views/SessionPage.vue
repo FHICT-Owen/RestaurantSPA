@@ -67,10 +67,13 @@ export default defineComponent({
 
     const placeOrder = (order: Order) => { 
       OrderDataService.createOrder(order)
-        .then(() => client.publish({destination: '/app/message', body: JSON.stringify(order)}))
+        .then(() => { 
+          store.state.orders.push(order), 
+          client.publish({destination: '/app/message', body: JSON.stringify(order)})
+          store.state.canPlaceOrder = false
+        })
         .catch()
     }
-      
 
     return {
       connect,

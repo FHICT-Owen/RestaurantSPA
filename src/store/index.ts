@@ -20,6 +20,7 @@ export interface State {
   totalPrice: number
   orders: Order[]
   currentOrder: Order
+  canPlaceOrder: boolean
 
   tables: RestaurantTable[]
   selectedTableIds: number[]
@@ -52,6 +53,7 @@ export default createStore<State>({
     totalPrice: 0,
     orders: [],
     currentOrder: new Order,
+    canPlaceOrder: true,
 
     tables: [] as RestaurantTable[],
     selectedTableIds: [] as number[],
@@ -65,7 +67,7 @@ export default createStore<State>({
 
     popUps: [],
 
-    sessionId: '',
+    sessionId: 's',
     apiToken: ''
   },
   mutations: {
