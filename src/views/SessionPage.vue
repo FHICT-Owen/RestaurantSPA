@@ -23,15 +23,18 @@ import SessionDataService from '../services/SessionDataService'
 import { defineComponent, onMounted } from '@vue/runtime-core'
 import { ShoppingCartIcon } from '@heroicons/vue/outline'
 import { Client } from '@stomp/stompjs'
-import CostumerMenu from '../components/CustomerMenu.vue'
+import CustomerMenu from '../components/CustomerMenu.vue'
+import CustomerOrderDialog from '../components/dialogs/CustomerOrderDialog.vue'
 import { VueCookieNext } from 'vue-cookie-next'
 import store from '@/store'
 import Order from '@/classes/Order'
+import OrderDataService from '@/services/OrderDataService'
 
 export default defineComponent({
   components: { 
-    CostumerMenu, 
-    ShoppingCartIcon 
+    CustomerMenu, 
+    ShoppingCartIcon,
+    CustomerOrderDialog
   },
   methods: {
     handleChangeLanguage(lang:string) {
@@ -44,7 +47,7 @@ export default defineComponent({
 
     onMounted(() => connect())
 
-    function connect() {
+    const connect = () => {
       // const cookie = VueCookieNext.getCookie('GenericRestaurantSesh')
       // let sessionPromise
       // try { sessionPromise = SessionDataService.getSessionByCookie(cookie) } catch { return router.push('menu')}
@@ -56,33 +59,21 @@ export default defineComponent({
         brokerURL: 'ws://localhost:6969/register',
         onConnect: () => {
           console.log('connected as costumer')
-          client.subscribe('/topic/errors', message => {
-            console.log(message.body)
-          })
         }
       })
       client.activate()
     }
 
-    function disconnect() {
-      if (client != null) client.deactivate()
+    const disconnect = () => {
+      if (!!client) client.deactivate()
     }
 
-    function placeOrder() {
-      const data = JSON.stringify(
-        new Order(
-          1, 
-          [
-            'Hamburger', 
-            'Fries', 
-            'Salad'
-          ], 
-          'Add salt'
-        )
-      )
-      console.log(data)
-      client.publish({destination: '/app/message', body: data})
+    const placeOrder = (order: Order) => { 
+      OrderDataService.createOrder(order)
+        .then(() => client.publish({destination: '/app/message', body: JSON.stringify(order)}))
+        .catch()
     }
+      
 
     return {
       connect,

@@ -25,7 +25,7 @@
     <div class="capitalize container">
       <div>
         <div v-for="category in selectedCategory" :key="category.id">
-          <h2 class="text-5xl mt-5">{{ category }}</h2>
+          <h2 class="text-3xl mt-5">{{ category }}</h2>
           <!-- TODO: Translate selected category -->
           <!-- <h2 v-if="lang == 'en' " class="text-3xl mt-5">{{ category }}</h2> --> 
           <div v-for="(dish, index) in filteredDishes" :key="index">
@@ -33,6 +33,7 @@
           </div>
         </div>
       </div>
+      <div class="h-28"></div>
     </div>
   </div>
 </template>
@@ -40,7 +41,7 @@
 <script lang="ts">
 import { computed, defineComponent, onMounted, ref } from 'vue'
 import store from '@/store'
-import Dish from '../components/Dish.vue'
+import Dish from './cards/Dish.vue'
 
 export default defineComponent({
   components: {
