@@ -26,6 +26,11 @@ export default class SessionDataService {
     }
   }
 
+  public static async getAllSessions(): Promise<Session[]> {
+    const response = await axios.get(`${this.API_URL}/session`, setAuthHeader())
+    return response.data
+  }
+
   public static async removeSession(tableId: number): Promise<Boolean> {
     return await axios.delete(`${this.API_URL}/session/sessionbytable/${tableId}`, setAuthHeader()).then(() => {
       showPopUp('Session removed successfully!', false)

@@ -21,7 +21,7 @@
     </div>
     <div class="container flex flex-wrap items-start">
       <div v-for="(order, index) in orders" :key="index">
-        <OrderCard v-if="order.isApproved" :order="order" class="mx-4"/>
+        <OrderCard :order="order" :table="getTable(order.sessionId)" v-if="filter == getTable(order.sessionId).tableNumber || filter == 0" class="mx-4"/>
       </div>
     </div>
   </div>
@@ -33,7 +33,7 @@ import OrderCard from '../components/cards/OrderCard.vue'
 import store from '@/store'
 import { AuthPlugin } from '@/auth'
 import { Client } from '@stomp/stompjs'
-import { ref } from 'vue'
+
 export default defineComponent({
   components: {
     OrderCard
@@ -41,11 +41,26 @@ export default defineComponent({
   setup() {
     var client: Client
     const auth = inject<AuthPlugin>('Auth')
+    const filter = computed(() => store.state.filter)
     const orders = computed(() => store.state.orders)
+    const tables = computed(() => store.state.tables)
+    const sessions = computed(() => store.state.sessions)
+    
     onMounted(() => {
       store.commit('setOrders')
+      store.commit('setTables')
+      store.commit('setSessions')
       connectAsLiveView()
     })
+    
+    function getTable(sessionId: number) {
+      console.log(sessionId)
+      const session = sessions.value.find(s => s.id == sessionId)
+      if (!session) return
+      const table = tables.value.find(t => t.id == session.tableId)
+      console.log(table)
+      return table
+    }
 
     function connectAsLiveView() {
       client = new Client({
@@ -62,7 +77,7 @@ export default defineComponent({
     }
 
     return {
-      ...auth, orders
+      ...auth, orders, getTable, filter
     }
   }
 })

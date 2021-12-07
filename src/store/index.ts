@@ -7,6 +7,7 @@ import Dish from '@/classes/Dish'
 import Order from '@/classes/Order'
 import { InjectionKey } from '@vue/runtime-dom'
 import orderDataService from '@/services/OrderDataService'
+import SessionDataService from '@/services/SessionDataService'
 
 export interface State {
   categories: Category[]
@@ -21,7 +22,7 @@ export interface State {
   orders: Order[]
   currentOrder: Order
 
-  tables: RestaurantTable[]
+  tables: Table[]
   selectedTableIds: number[]
   
   isDishDialogOpen: boolean
@@ -33,8 +34,11 @@ export interface State {
 
   popUps: PopUp[]
 
+  sessions: Session[]
   sessionId: string
+
   apiToken: string
+  filter: number
 }
 
 export const key: InjectionKey<Store<State>> = Symbol()
@@ -53,7 +57,7 @@ export default createStore<State>({
     orders: [],
     currentOrder: new Order,
 
-    tables: [] as RestaurantTable[],
+    tables: [] as Table[],
     selectedTableIds: [] as number[],
 
     isDishDialogOpen: false,
@@ -65,8 +69,11 @@ export default createStore<State>({
 
     popUps: [],
 
+    sessions: [] as Session[],
     sessionId: '',
-    apiToken: ''
+
+    apiToken: '',
+    filter: 0
   },
   mutations: {
     setCategories: async (state) => {
@@ -79,6 +86,7 @@ export default createStore<State>({
     setIngredients: async (state) => state.ingredients = await ingredientDataService.getAllIngredients(),
     setOrders: async (state) => state.orders = await orderDataService.getAllOrders(),
     setTables: async (state) => state.tables = await tableDataService.getAllTables(),
+    setSessions: async (state) => state.sessions = await SessionDataService.getAllSessions(),
     toggleDialog: (state, payload) => {
       state.isDishDialogOpen = !state.isDishDialogOpen
       state.isEditDialog = payload
@@ -118,7 +126,8 @@ export default createStore<State>({
         state.currentOrder.dishes.splice(index, 1)
         state.totalPrice -= payload.prize
       }
-    }
+    },
+    setFilter: (state, payload) => state.filter = payload
   },
   actions: {
     createNewCategory: ({ commit }, category: Category) => {

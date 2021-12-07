@@ -29,7 +29,7 @@ import { computed, defineComponent, onMounted, PropType, ref } from 'vue'
 export default defineComponent({
   props: {
     table: {
-      type: Object as PropType<RestaurantTable>,
+      type: Object as PropType<Table>,
       required: true,
     },
     isSelected: {
