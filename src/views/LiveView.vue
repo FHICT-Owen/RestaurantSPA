@@ -54,11 +54,9 @@ export default defineComponent({
     })
     
     function getTable(sessionId: number) {
-      console.log(sessionId)
       const session = sessions.value.find(s => s.id == sessionId)
       if (!session) return
       const table = tables.value.find(t => t.id == session.tableId)
-      console.log(table)
       return table
     }
 
