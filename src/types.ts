@@ -37,6 +37,7 @@ interface Order {
   isCanceled: boolean
   isBeingPrepared: boolean
   isReady: boolean
+  isArchived: boolean
   timeStamp: number
 }
 

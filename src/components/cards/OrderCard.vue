@@ -28,9 +28,9 @@
 
 
 <script lang="ts">
-import { computed, defineComponent, PropType, ref} from 'vue'
+import { defineComponent, PropType} from 'vue'
 import store from '@/store'
-import { FlagIcon, CheckIcon, BanIcon, ReplyIcon } from '@heroicons/vue/solid'
+import { FlagIcon, CheckIcon, BanIcon } from '@heroicons/vue/solid'
 
 
 export default defineComponent({
@@ -49,7 +49,6 @@ export default defineComponent({
       required: true
     }
   },
-  // weghalen na gebruik
   methods: {
     log(order:any) {
       console.log(order)
@@ -74,13 +73,17 @@ export default defineComponent({
       }
     }
 
-    const cancelOrder = (order:any) => {
-      order.isCanceled == true
-    }    
-
-    const archiveOrder = (order:any) => {
-      order.isArchived == true
+    const archiveOrder = () => {
+      // Set isArchived True
+      order.isArchived = true
+      store.dispatch('updateOrder', order) 
     }
+
+    const cancelOrder = () => {
+      // Set isCanceled True
+      order.isCanceled = true
+      store.dispatch('updateOrder', order) 
+    }  
 
     function filterByTable(table: Table) {
       if (isFiltered) {
@@ -90,7 +93,6 @@ export default defineComponent({
         store.commit('setFilter', table.tableNumber)
         isFiltered = true
       }
-      
     }
 
     return {

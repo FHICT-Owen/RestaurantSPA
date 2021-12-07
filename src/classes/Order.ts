@@ -7,6 +7,7 @@ export default class Order implements Order {
   isCanceled: boolean
   isBeingPrepared: boolean
   isReady: boolean
+  isArchived: boolean
   timeStamp: number
 
   constructor(sessionId?: number, dishes?: string[], comments?: string) {
@@ -17,6 +18,7 @@ export default class Order implements Order {
     this.isCanceled = false
     this.isBeingPrepared = false
     this.isReady = false
+    this.isArchived = false
     this.timeStamp = Date.now()
   }
 }

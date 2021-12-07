@@ -1,6 +1,5 @@
 import Order from '@/classes/Order'
 import { setAuthHeader, showPopUp } from '@/utils'
-import { Client } from '@stomp/stompjs'
 import axios from 'axios'
 
 export default class OrderDataService {
