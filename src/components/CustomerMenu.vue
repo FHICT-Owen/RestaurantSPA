@@ -1,7 +1,7 @@
 <template>
   <div>
-    <div id="navbar" class="flex flex-col bg-gray-200 w-full overflow-hidden z-50">
-      <input v-model="keyword" class="justify-center shadow-sm rounded-3xl h-10 p-3 mt-1" placeholder="Search for your dish..." />
+    <div id="navbar" class="flex flex-col bg-white overflow-hidden z-50">
+      <input v-model="keyword" class="justify-center shadow-sm rounded-3xl h-10 p-3 mt-1" :placeholder="$t('search_bar')" />
       <div class="flex flex-row overflow-x-scroll">
         <div 
           id="all" 
@@ -26,6 +26,8 @@
       <div>
         <div v-for="category in selectedCategory" :key="category.id">
           <h2 class="text-5xl mt-5">{{ category }}</h2>
+          <!-- TODO: Translate selected category -->
+          <!-- <h2 v-if="lang == 'en' " class="text-3xl mt-5">{{ category }}</h2> --> 
           <div v-for="(dish, index) in filteredDishes" :key="index">
             <Dish v-if="dish.category == category" :dish="dish" />
           </div>
