@@ -12,7 +12,7 @@
               <CheckIcon @click="prepareOrder" class="h-6 w-6 cursor-pointer rounded-md" style="box-shadow: 0px 1px 2px 2px rgba(0, 0, 0, 0.1);"/>
               <FlagIcon @click="archiveOrder" class="h-6 w-6 cursor-pointer rounded-md" style="box-shadow: 0px 1px 2px 2px rgba(0, 0, 0, 0.1);"/>
             </div>
-            <h5 class="text-xl cursor-pointer px-2 rounded-md" style="box-shadow: 0px 1px 2px 2px rgba(0, 0, 0, 0.1);" @click="filterByTable(table)">Table: {{table.tableNumber}}</h5>
+            <h5 class="text-xl cursor-pointer px-2 rounded-md" style="box-shadow: 0px 1px 2px 2px rgba(0, 0, 0, 0.1);" @click="filterByTable(table)">Table: {{(table) ? table.tableNumber : NaN}}</h5>
           </div>                
         </div>
         <div v-if="!order.isArchived" class="card-body border bg-light text-black overflow-y-auto max-h-64">
@@ -75,7 +75,7 @@ export default defineComponent({
 
     const archiveOrder = () => {
       // Set isArchived True
-      order.isArchived = true
+      //order.isArchived = true
       store.dispatch('updateOrder', order) 
     }
 
