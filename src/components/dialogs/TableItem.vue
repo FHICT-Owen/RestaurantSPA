@@ -1,6 +1,6 @@
 <template>
   <!-- <Table text="3" isEmpty=true active=false/> -->
-  <div class="table-row flex flex-row">
+  <div class="table-row flex-row">
     <div class="col-1">
       <p class="num">Table {{ table.tableNumber }}</p>
       <div v-if="table.inUse" class="status emptyEqualsFalse">In Use</div>
@@ -13,20 +13,30 @@
         <img v-if="table.isActive" src="../../assets/toggle-on.png" />
         <img v-else src="../../assets/toggle-off.png" />
       </button>
+      <button class="inline-block border border-yellow-500 rounded py-1 px-3 bg-yellow-500 text-white no-underline" @click="printQRCode(table.id)">Print</button>
     </div>
     <button @click="addToSelectedTables" class="checkbox">
       <img v-if="isSelected" src="../../assets/checkbox-checked.png" />
       <img v-else src="../../assets/checkbox-unchecked.png" />
     </button>
+    <div hidden>
+      <qrcode-vue id="QRCODE" :value="tableUrl" :size=300 render-as="svg"></qrcode-vue>
+    </div>
   </div>
 </template>
 
 
 <script lang="ts">
 import store from '@/store'
+import QrcodeVue from 'qrcode.vue'
+import { Printd } from 'printd'
+
 import { computed, defineComponent, onMounted, PropType, ref } from 'vue'
 
 export default defineComponent({
+  components: {
+    QrcodeVue
+  },
   props: {
     table: {
       type: Object as PropType<Table>,
@@ -38,6 +48,8 @@ export default defineComponent({
     },
   },
   setup(props) {
+    let tableUrl = ref('')
+    const printContent = ref()
     function addToSelectedTables() {
       store.commit('addToSelectedTableIds', props.table.id)
     }
@@ -45,18 +57,38 @@ export default defineComponent({
       //store.commit("removeFromSelectedTableIds", props.table.id);
     }
     function toggleTable(id: number) {
+      
+    }
 
+    function setQR(id: number) {
+      return new Promise( resolve => {
+        tableUrl.value = `https://localhost:3000/session?tableId=${id}`
+        resolve(id)
+      })
+    }
+
+    async function printQRCode(id: number) {
+      setQR(id).then(() => {
+        const cvs = <HTMLElement> document.getElementById('QRCODE')
+        const d = new Printd()
+        d.print(cvs)
+      })     
     }
 
     //../assets/checkbox-checked.png
     //../assets/checkbox-unchecked.png
     // const checkboxImg: string = "unchecked"
 
-    onMounted(() => console.log(props.table.tableNumber))
+    onMounted(() => {
+      console.log(props.table.tableNumber)
+    })
     return {
       addToSelectedTables,
       removeFromSelectedTables,
-      toggleTable
+      toggleTable,
+      printQRCode,
+      printContent,
+      tableUrl
     }
   },
 })
