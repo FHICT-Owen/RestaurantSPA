@@ -1,6 +1,7 @@
 interface Category {
   id: number
   name: string
+  name_NL: string
 }
 
 interface Dish {
@@ -19,6 +20,7 @@ interface Dish {
 interface Ingredient {
   id: number
   name: string
+  name_NL: string
   isAllergen: boolean
 }
 

@@ -4,19 +4,17 @@
       <h1 class="text-5xl p-1">Menu</h1>
       <h2 class="text-4xl p-1">Categories</h2>
       <div class="border-2 rounded-lg p-2">
-        <form @submit.prevent="createCategory" class="flex h-8 justify-center">
-          <button class="bg-gray-200 rounded-lg p-1">New category</button>
-          <input class="border-2 rounded-lg p-1 mx-2" v-model="category">
-        </form>
+        <button class="bg-gray-200 rounded-lg p-1" @click="createCategory">New category</button>
+        <input class="border-2 rounded-lg p-1 mx-2" v-model="category" placeholder="Enter english category name ...">
+        <input class="border-2 rounded-lg p-1 mx-2" v-model="categoryNL" placeholder="Enter dutch category name ...">
         <Category v-for="category of categories" :key="category.id" :category="category" />
       </div>
       <h2 class="text-4xl p-1">Ingredients</h2>
       <div class="border-2 rounded-lg p-2">
-        <form @submit.prevent="createIngredient" class="flex h-8 justify-center">
-          <button class="bg-gray-200 rounded-lg p-1">New ingredient</button>
-          <input class="border-2 rounded-lg p-1 mx-2" v-model="ingredient">
-          <input type="checkbox" @change="setIsAllergen">
-        </form>
+        <button class="bg-gray-200 rounded-lg p-1" @click="createIngredient">New ingredient</button>
+        <input class="border-2 rounded-lg p-1 mx-2" v-model="ingredient" placeholder="Enter english ingredient name ...">
+        <input class="border-2 rounded-lg p-1 mx-2" v-model="ingredientNL" placeholder="Enter dutch ingredient name ...">
+        <input type="checkbox" @change="setIsAllergen">
         <IngredientCard v-for="ingredient of ingredients" :key="ingredient.id" :ingredient="ingredient" />
       </div>
       <h2 class="text-4xl p-1">Dishes</h2>
@@ -81,15 +79,19 @@ export default defineComponent({
     }
 
     let category = ref('')
+    let categoryNL = ref('')
     const createCategory = () => {
-      store.dispatch('createNewCategory', {id: 0, name: category.value})
+      store.dispatch('createNewCategory', {id: 0, name: category.value, name_NL: categoryNL.value})
       category.value = ''
+      categoryNL.value = ''
     }
 
     let ingredient = ref('')
+    let ingredientNL = ref('')
     const createIngredient = () => {
-      store.dispatch('createNewIngredient', {id: 0, name: ingredient.value, isAllergen: isAllergen.value})
+      store.dispatch('createNewIngredient', {id: 0, name: ingredient.value, name_NL: ingredientNL.value, isAllergen: isAllergen.value})
       ingredient.value = ''
+      ingredientNL.value = ''
     }
 
     const setIsAllergen = (e: any) => {
@@ -103,11 +105,13 @@ export default defineComponent({
       isConfirmDialogOpen, 
       toggleDialog, 
       category, 
+      categoryNL, 
       createCategory, 
       openEditDialog, 
       openConfirmDialog,
       ingredients,
       ingredient,
+      ingredientNL,
       createIngredient,
       setIsAllergen
     }

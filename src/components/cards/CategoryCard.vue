@@ -2,6 +2,7 @@
   <div>
     <div class="m-1 flex justify-between">
       <h3 v-if="!isEditMode" class="mr-3">{{category.name}}</h3>
+      <h3 v-if="!isEditMode" class="mr-3">{{category.name_NL}}</h3>
       <input v-model="name" class="border-2 h-8 w-32 rounded-lg p-1" v-else @keyup.enter="editCategory"/>
       <div class="flex flex-row space-x-1 h-10">
         <CancelButton v-if="isEditMode" @click="isEditMode = false" class="my-1 ml-1 mr-0.5" />

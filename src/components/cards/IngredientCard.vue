@@ -3,6 +3,7 @@
     <div class="m-1 flex justify-between">
       <div class="flex flex-row">
         <h3 class="mr-3">{{ingredient.name}}</h3>
+        <h3 class="mr-3">{{ingredient.name_NL}}</h3>
         <input id="AllergenCheckbox" type="checkbox" v-model="isAllergen" disabled>
         <label for="AllergenCheckbox">is allergen</label>
       </div>
