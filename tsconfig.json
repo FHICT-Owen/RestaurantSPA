@@ -4,6 +4,7 @@
     "module": "esnext",
     "strict": true,
     "jsx": "preserve",
+    "resolveJsonModule": true,
     "importHelpers": true,
     "moduleResolution": "node",
     "skipLibCheck": true,
@@ -32,7 +33,7 @@
     "src/**/*.vue",
     "tests/**/*.ts",
     "tests/**/*.tsx"
-, "src/quasar-user-options.js"  ],
+, "src/quasar-user-options.js", "src/i18n.js"  ],
   "exclude": [
     "node_modules"
   ]

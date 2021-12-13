@@ -1,17 +1,20 @@
 <template>
-  <div>
-    <div class="flex flex-col text-white h-48 relative p-6" style="background-color: #FFA825">
-      <ShoppingCartIcon class="self-end" />
-      <select class="custom-select" v-model="lang" @change="handleChangeLanguage($event)">
-        <option value="en">English</option>
-        <option value="nl">Dutch</option>
-      </select>
-      <div class="text-4xl w-4/5">Welcome</div>
-      <div class="text-3xl w-4/5">What would you like to have?</div>
+  <div class="flex flex-col text-white h-48 relative p-6" style="background-color: #FFA825">
+    <div class="flex self-end">
+      <country-flag @click="handleChangeLanguage('nl')" country='nl' size='big' class="px-8 bg-no-repeat cursor-pointer"/>
+      <country-flag @click="handleChangeLanguage('en')" country='gb' size='big' class="px-8 bg-no-repeat cursor-pointer"/>
+      <ShoppingCartIcon class="w-12 cursor-pointer" style="margin-top:-4px"/>
     </div>
-    <CustomerMenu />
-    <CustomerOrderDialog :placeOrder="placeOrder" class="flex justify-center" v-if="true /* if currentOrder > 1 dish */"/>
+
+    <div class="flex-row text-4xl w-4/5">{{ $t('greeting') }}</div>
+    <div class="flex-row text-3xl w-4/5">{{ $t('question') }}</div>
+
+
   </div>
+
+      <CustomerMenu/>
+
+    <CustomerOrderDialog :placeOrder="placeOrder" class="flex justify-center" v-if="true /* if currentOrder > 1 dish */"/>
 </template>
 
 <script lang="ts">
@@ -34,8 +37,8 @@ export default defineComponent({
     CustomerOrderDialog
   },
   methods: {
-    handleChangeLanguage(event:any) {
-      localStorage.setItem('lang', event.target.value)
+    handleChangeLanguage(lang:string) {
+      localStorage.setItem('lang', lang)
       window.location.reload()
     }
   },
