@@ -1,4 +1,4 @@
-export default class Category implements Category {
+export default class Category {
   id!: number
   name!: string
   name_NL!: string

@@ -19,9 +19,11 @@ interface Dish {
 
 interface Ingredient {
   id: number
-  name: string
-  name_NL: string
-  isAllergen: boolean
+	restaurantId: number
+	name: string
+	name_NL: string
+	isAllergen: boolean
+	isInStock: boolean
 }
 
 interface Table {

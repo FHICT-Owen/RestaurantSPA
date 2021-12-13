@@ -1,4 +1,4 @@
-export default class Dish implements Dish {
+export default class Dish {
   id!: number
   name!: string
   name_NL!: string

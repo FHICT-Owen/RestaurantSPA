@@ -1,4 +1,4 @@
-export default class Order implements Order {
+export default class Order {
   id!: number
   sessionId: number
   dishes: string[]
