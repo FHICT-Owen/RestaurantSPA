@@ -6,7 +6,9 @@ import './assets/tailwind.css'
 import store, { key } from './store'
 import { VueCookieNext } from 'vue-cookie-next'
 import './registerServiceWorker'
-// import i18n from './i18n'
+import CountryFlag from 'vue-country-flag-next'
+import i18n from '@/i18n'
+
 
 async function init () {
   const AuthPlugin = await Auth0.init({
@@ -25,11 +27,12 @@ async function init () {
   
   const app = createApp(App)
   app
+    .use(i18n)
     .use(AuthPlugin)
     .use(store, key)
     .use(router)
     .use(VueCookieNext)
-    // .use(i18n)
+    .use(CountryFlag)
     .mount('#app')
   VueCookieNext.config({
     expire: '4h',

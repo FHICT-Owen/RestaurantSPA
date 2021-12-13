@@ -6,15 +6,19 @@
       <div
         class="flex rounded-3xl m-1 bg-blend-normal bg-cover bg-no-repeat"
         :style="{ background: dish.image, minHeight: imgSize, minWidth: imgSize }">
-          <div v-if="countOccurrences() > 0"
+          <div 
             class="z-10 px-9 py-7 rounded-3xl text-2xl bg-opacity-60 text-white align-self-center">
             {{countOccurrences()}}
           </div>
       </div>
       <div class="flex-1 m-1">
-        <h5 class="font-medium text-lg">{{ dish.name }}</h5>
-        <p class="text-gray-400" style="font-size: 0.85rem; line-height: 1rem">
+        <h5 v-if="lang == 'en' " class="font-medium text-lg">{{ dish.name }}</h5>
+        <h5 v-else-if="lang == 'nl' " class="font-medium text-lg">{{ dish.name_NL }}</h5>
+        <p v-if="lang == 'en' " class="text-gray-400" style="font-size: 0.85rem; line-height: 1rem">
           {{ dish.description }}
+        </p>
+        <p v-else-if="lang == 'nl' " class="text-gray-400" style="font-size: 0.85rem; line-height: 1rem">
+          {{ dish.description_NL }}
         </p>
       </div>
     </div>
@@ -35,7 +39,7 @@
 
 <script lang="ts">
 import store from '@/store'
-import { computed, defineComponent, PropType, ref } from 'vue'
+import { computed, defineComponent, PropType, ref, onMounted } from 'vue'
 
 export default defineComponent({
   props: {
@@ -57,7 +61,13 @@ export default defineComponent({
     const removeDishFromCurrentOrder = () => 
       store.commit('removeOrder', props.dish)
 
+    let lang = ref('')
+    onMounted(() => {
+      lang.value = localStorage.getItem('lang') || 'en'
+    })
+
     return { 
+      lang,
       imgSize: ref('88px'), 
       inInSession,
       countOccurrences,
