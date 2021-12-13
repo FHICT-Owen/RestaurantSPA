@@ -30,8 +30,36 @@
         </div>
         <div v-if="onGeneralTab" class="flex flex-row pt-2 justify-evenly">
           <div class="flex flex-col w-40">
-            <input class="text-base" placeholder="Enter dish name ..." v-model="name" />
-            <textarea class="text-sm resize-none h-24 mt-2" placeholder="Enter dish description ..." v-model="description" />
+            <div class="flex flex-row m-0.5">
+              <button 
+                id="EN"
+                class="rounded text-sm px-2 selected border-yellow-400 border-2 border-solid box-border mr-1"
+                @click="switchLanguage">EN</button>
+              <button 
+                id="NL"
+                class="rounded text-sm px-2 unselected border-yellow-400 border-2 border-solid box-border"
+                @click="switchLanguage">NL</button>
+            </div>
+            <input 
+              v-if="onEnglish" 
+              class="text-base" 
+              placeholder="Enter english dish name ..." 
+              v-model="name" />
+            <input 
+              v-else 
+              class="text-base" 
+              placeholder="Enter dutch dish name ..." 
+              v-model="nameNL" />
+            <textarea 
+              v-if="onEnglish" 
+              class="text-sm resize-none h-24 mt-2" 
+              placeholder="Enter english dish description ..." 
+              v-model="description" />
+            <textarea 
+              v-else 
+              class="text-sm resize-none h-24 mt-2" 
+              placeholder="Enter dutch dish description ..." 
+              v-model="descriptionNL" />
           </div>
           <div class="flex flex-col">
             <select 
@@ -76,7 +104,7 @@
 import { computed, defineComponent, ref } from 'vue'
 import store from '@/store'
 import { toBase64URL } from '@/utils'
-import Ingredient from '../cards/Ingredient.vue'
+import Ingredient from '../cards/DishIngredientCard.vue'
 import DialogBackground from './DialogBackground.vue'
 import { PlusSmIcon } from '@heroicons/vue/outline'
 
@@ -92,7 +120,9 @@ export default defineComponent({
     const ingredients = computed(() => store.state.ingredients)
 
     let name = ref(isEdit ? store.state.currentDish.name : '')
+    let nameNL = ref(isEdit ? store.state.currentDish.name_NL : '')
     let description = ref(isEdit ? store.state.currentDish.description : '')
+    let descriptionNL = ref(isEdit ? store.state.currentDish.description_NL : '')
     let category = ref(isEdit ? store.state.currentDish.category : '')
     let dietaryRestrictions = ref<string[]>([])
     let dishIngredients = ref<string[]>(isEdit ? store.state.currentDish.ingredients || [] : [])
@@ -100,6 +130,8 @@ export default defineComponent({
     let image = ref(isEdit ? store.state.currentDish.image : '')
 
     let options = ref(['Vegan', 'Vegetarian'])
+
+    let onEnglish = ref(true)
 
     let onGeneralTab = ref(true)
     let settingIngredient = ref(false)
@@ -130,11 +162,38 @@ export default defineComponent({
       }
     }
 
+    const switchLanguage = (e:any) => {
+      switch (e.target.id) {
+      case 'EN':
+        onEnglish.value = true
+        e.target.classList.remove('unselected')
+        e.target.classList.add('selected')
+        const ingredients = document.getElementById('NL')
+        if (!!ingredients) {
+          ingredients.classList.remove('selected')
+          ingredients.classList.add('unselected')
+        } 
+        break
+      case 'NL':
+        onEnglish.value = false
+        e.target.classList.remove('unselected')
+        e.target.classList.add('selected')
+        const general = document.getElementById('EN')
+        if (!!general) {
+          general.classList.remove('selected')
+          general.classList.add('unselected')
+        } 
+        break
+      }
+    }
+
     const saveDish = () => {
       store.dispatch(isEdit.value ? 'editDish' : 'createNewDish', {
         id: isEdit.value ? store.state.currentDish.id : 0,
         name: name.value,
+        name_NL: nameNL.value,
         description: description.value,
+        description_NL: descriptionNL.value,
         category: category.value,
         dietaryRestrictions: [],
         ingredients: dishIngredients.value,
@@ -164,7 +223,9 @@ export default defineComponent({
       ingredients,
 
       name,
+      nameNL,
       description,
+      descriptionNL,
       category,
       dietaryRestrictions,
       dishIngredients,
@@ -182,6 +243,9 @@ export default defineComponent({
 
       switchGeneral,
       addNewIngredient,
+
+      switchLanguage,
+      onEnglish,
 
       options
     }

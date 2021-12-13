@@ -37,7 +37,7 @@
 <script lang="ts">
 import { computed, defineComponent, onMounted, ref } from 'vue'
 import store from '@/store'
-import Dish from './cards/Dish.vue'
+import Dish from './cards/DishCard.vue'
 
 export default defineComponent({
   components: {

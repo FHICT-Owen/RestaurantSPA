@@ -1,29 +1,25 @@
 <template>
-    <div  class="w-64 text-white mb-3" style="max-width: 18rem;">
+    <div class="w-64 text-white mb-3 rounded-lg h-48 shadow" v-bind:class="{ 'bg-primary' : !order.isApproved, 'bg-warning': order.isBeingPrepared, 'bg-danger': order.isCanceled, 'bg-success': order.isReady}" style="max-width: 18rem">
       <!-- TODO: bg-color depends on order status -->
-        <div class="card-header relative flex justify-between" v-if="!order.isArchived" v-bind:class="{ 'bg-primary' : !order.isApproved, 'bg-warning': order.isBeingPrepared, 'bg-danger': order.isCanceled, 'bg-success': order.isReady}">
-          <div class="flex flex-col justify-between">
-            <p class="text-xl">{{new Date(order.timeStamp).toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit' })}}</p>
-            <h5 class="text-xl">#{{order.id}}</h5>
-          </div>            
-          <div class="flex flex-col justify-between">
-            <div class="flex space-x-2">
-              <BanIcon @click="cancelOrder" class="w-6 h-6 cursor-pointer rounded-md" style="box-shadow: 0px 1px 2px 2px rgba(0, 0, 0, 0.1);"/>
-              <CheckIcon @click="prepareOrder" class="h-6 w-6 cursor-pointer rounded-md" style="box-shadow: 0px 1px 2px 2px rgba(0, 0, 0, 0.1);"/>
-              <FlagIcon @click="archiveOrder" class="h-6 w-6 cursor-pointer rounded-md" style="box-shadow: 0px 1px 2px 2px rgba(0, 0, 0, 0.1);"/>
-            </div>
-            <h5 class="text-xl cursor-pointer px-2 rounded-md" style="box-shadow: 0px 1px 2px 2px rgba(0, 0, 0, 0.1);" @click="filterByTable(table)">Table: {{(table) ? table.tableNumber : NaN}}</h5>
-          </div>                
+      <div class="px-3 py-2 flex justify-between rounded-t-lg">
+        <div class="flex flex-col justify-between">
+          <p class="text-xl">{{new Date(order.timeStamp).toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit' })}}</p>
+          <h5 class="text-xl">#{{order.id}}</h5>
         </div>
-        <div v-if="!order.isArchived" class="card-body border bg-light text-black overflow-y-auto max-h-64">
-          <p class="text-m text-gray-700 my-2" >{{order.comments}}</p>
-          <table class="table">
-            <tr>
-              <li class="list-inside list-none" v-for="(dish, index) in order.dishes" :key="index">{{dish}}</li>
-            </tr>
-          </table>
+      <div class="flex flex-col justify-between">
+        <div class="flex space-x-2">
+          <BanIcon @click="cancelOrder" class="w-6 h-6 cursor-pointer rounded-md shadow"/>
+          <CheckIcon @click="prepareOrder" class="h-6 w-6 cursor-pointer rounded-md shadow"/>
+          <FlagIcon @click="archiveOrder" class="h-6 w-6 cursor-pointer rounded-md shadow"/>
         </div>
-    </div>
+        <h5 class="text-md cursor-pointer text-center px-2 py-1 rounded-md mt-2 shadow" @click="filterByTable(table)">Table: {{(table) ? table.tableNumber : NaN}}</h5>
+      </div>
+      </div>
+      <div class="flex flex-col px-3 pb-2 rounded-b-lg text-white capitalize font-semibold max-h-64">
+        <p class="text-gray-200 italic" >{{order.comments}}</p>
+        <div v-for="(dish, index) in order.dishes" :key="index">{{dish}}</div>
+      </div>
+  </div>
 </template>
 
 

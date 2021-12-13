@@ -19,7 +19,7 @@
         </li>
       </ul>
     </div>
-    <div class="container flex flex-wrap items-start">
+    <div class="flex flex-wrap items-start">
       <div v-for="(order, index) in orders" :key="index">
         <OrderCard :order="order" :table="getTable(order.sessionId)" v-if="(getTable(order.sessionId)) ? filter == getTable(order.sessionId).tableNumber || filter == 0 : true && order.isArchived == false" class="mx-4"/>
       </div>

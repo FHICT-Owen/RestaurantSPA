@@ -1,6 +1,6 @@
 <template>
   <button 
-    class="flex flex-row px-3 py-1 rounded-3xl justify-center text-white bg-red-500 hover:bg-red-600">
+    class="flex flex-row px-2 py-1 rounded-lg justify-center text-white bg-red-500 hover:bg-red-600">
     <TrashIcon class="w-5 h-5 mt-0.5" />Delete
   </button>
 </template>
