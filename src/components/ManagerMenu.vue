@@ -7,7 +7,7 @@
         <button class="bg-gray-200 rounded-lg p-1" @click="createCategory">New category</button>
         <input class="border-2 rounded-lg p-1 mx-2" v-model="category" placeholder="Enter english category name ...">
         <input class="border-2 rounded-lg p-1 mx-2" v-model="categoryNL" placeholder="Enter dutch category name ...">
-        <Category v-for="category of categories" :key="category.id" :category="category" />
+        <CategoryCard v-for="category of categories" :key="category.id" :category="category" />
       </div>
       <h2 class="text-4xl p-1">Ingredients</h2>
       <div class="border-2 rounded-lg p-2">
@@ -21,7 +21,7 @@
       <div class="border-2 rounded-lg p-2">
         <button class="bg-gray-200 rounded-lg p-2" @click="toggleDialog">New dish</button>
         <div class="flex flex-col" v-for="dish of dishes" :key="dish.id"> 
-          <Dish class="w-full" :dish="dish" />
+          <DishCard class="w-full" :dish="dish" />
           <div class="flex flex-row justify-end rounded-lg mt-1.5 h-10">
             <EditButton @click="openEditDialog(dish)" class="w-full md:w-1/4 my-1 ml-1 mr-0.5" />
             <DeleteButton @click="openConfirmDialog(dish)" class="w-full md:w-1/4 my-1 ml-0.5 mr-1" />
@@ -36,8 +36,8 @@
 
 
 <script lang="ts">
-import Category from './cards/CategoryCard.vue'
-import Dish from './cards/DishCard.vue'
+import CategoryCard from './cards/CategoryCard.vue'
+import DishCard from './cards/DishCard.vue'
 import Dialog from './dialogs/Dialog.vue'
 import store from '@/store'
 import { computed, defineComponent, ref } from 'vue'
@@ -45,11 +45,13 @@ import DeleteConfirmDialog from './dialogs/DeleteConfirmDialog.vue'
 import DeleteButton from './buttons/DeleteButton.vue'
 import EditButton from './buttons/EditButton.vue'
 import IngredientCard from './cards/IngredientCard.vue'
+import Ingredient from '@/classes/Ingredient'
+import Category from '@/classes/Category'
 
 export default defineComponent({
   components: {
-    Category,
-    Dish,
+    CategoryCard,
+    DishCard,
     Dialog,
     DeleteConfirmDialog,
     DeleteButton,
@@ -81,7 +83,7 @@ export default defineComponent({
     let category = ref('')
     let categoryNL = ref('')
     const createCategory = () => {
-      store.dispatch('createNewCategory', {id: 0, name: category.value, name_NL: categoryNL.value})
+      store.dispatch('createNewCategory', new Category(category.value, categoryNL.value))
       category.value = ''
       categoryNL.value = ''
     }
@@ -89,7 +91,7 @@ export default defineComponent({
     let ingredient = ref('')
     let ingredientNL = ref('')
     const createIngredient = () => {
-      store.dispatch('createNewIngredient', {id: 0, name: ingredient.value, name_NL: ingredientNL.value, isAllergen: isAllergen.value})
+      store.dispatch('createNewIngredient', new Ingredient(0, ingredient.value, ingredientNL.value, isAllergen.value))
       ingredient.value = ''
       ingredientNL.value = ''
     }
