@@ -1,5 +1,5 @@
 <template>
-    <div class="w-64 text-white mb-3 rounded-lgs shadow" v-bind:class="{ 'bg-primary' : !order.isApproved, 'bg-warning': order.isBeingPrepared, 'bg-danger': order.isCanceled, 'bg-success': order.isReady}" style="max-width: 18rem">
+    <div class="w-64 text-white mb-3 rounded-lg shadow" v-bind:class="{ 'bg-primary' : !order.isApproved, 'bg-warning': order.isBeingPrepared, 'bg-danger': order.isCanceled, 'bg-success': order.isReady}" style="max-width: 18rem">
       <!-- TODO: bg-color depends on order status -->
       <div class="px-3 py-2 flex justify-between rounded-t-lg">
         <div class="flex flex-col justify-between">
@@ -28,7 +28,6 @@ import { defineComponent, PropType} from 'vue'
 import store from '@/store'
 import { FlagIcon, CheckIcon, BanIcon } from '@heroicons/vue/solid'
 
-
 export default defineComponent({
   components: {
     FlagIcon,
@@ -42,12 +41,7 @@ export default defineComponent({
     },
     table: {
       type: Object as PropType<Table>,
-      required: true
-    }
-  },
-  methods: {
-    log(order:any) {
-      console.log(order)
+      required: false
     }
   },
   setup(props) {
@@ -65,7 +59,6 @@ export default defineComponent({
         // If order is approved, set isBeingPrepared True
         order.isBeingPrepared = true
         store.dispatch('updateOrder', order)     
-        console.log(order)
       }
     }
 

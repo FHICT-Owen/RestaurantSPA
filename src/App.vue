@@ -23,7 +23,6 @@ import PopUp from './components/PopUp.vue'
 import store from '@/store'
 import { computed, onMounted, inject } from 'vue'
 import { AuthPlugin } from '@/auth'
-import axios, { AxiosRequestConfig } from 'axios'
 
 export default {
   name: 'App',

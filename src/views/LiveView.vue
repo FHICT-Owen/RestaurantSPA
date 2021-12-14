@@ -21,7 +21,12 @@
     </div>
     <div class="flex flex-wrap items-start">
       <div v-for="(order, index) in orders" :key="index">
-        <OrderCard :order="order" :table="getTable(order.sessionId)" v-if="(getTable(order.sessionId)) ? filter == getTable(order.sessionId).tableNumber || filter == 0 : true && order.isArchived == false" class="mx-4"/>
+        <OrderCard 
+          class="mx-4"
+          :order="order" 
+          :table="getTable(order.sessionId)" 
+          v-if="(getTable(order.sessionId)) ? 
+            filter == getTable(order.sessionId).tableNumber || filter == 0 : true && order.isArchived == false"/>
       </div>
     </div>
   </div>
@@ -54,11 +59,11 @@ export default defineComponent({
     })
     
     function getTable(sessionId: number) {
-      console.log(`Session: ${sessionId}`)
+      // console.log(`Session: ${sessionId}`)
       const session = sessions.value.find(s => s.id == sessionId)
       if (!session) return
       const table = tables.value.find(t => t.id == session.tableId)
-      console.log(table)
+      // console.log(table)
       return table
     }
 
