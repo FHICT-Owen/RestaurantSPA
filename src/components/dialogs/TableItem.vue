@@ -65,7 +65,7 @@ export default defineComponent({
 
     function setQR(id: number) {
       return new Promise( resolve => {
-        tableUrl.value = `https://localhost:3000/session?tableId=${id}`
+        tableUrl.value = `${window.location.origin}/session?tableId=${id}`
         resolve(id)
       })
     }
