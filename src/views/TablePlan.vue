@@ -14,7 +14,6 @@
       <TableItem
         v-for="table in tables"
         :table="table"
-        :isSelected="isSelected(id)"
         :key="table.id"
       />
     </div>
@@ -48,7 +47,6 @@ export default {
     }
     onMounted(() => {
       store.commit('setTables')
-      console.log(tables.value)
     })
 
     return {
