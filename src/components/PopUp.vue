@@ -1,32 +1,26 @@
 <template>
-  <div :id="data.text" class="popup">
+  <div :id="data.text" class="text-xl bg-opacity-20 bg-gray-200 rounded p-2">
     {{data.text}}
   </div>
 </template>
 
 <script lang="ts">
-import { onMounted, ref } from 'vue'
+import { defineComponent, onMounted, PropType, ref } from 'vue'
 
-export default ({
+export default defineComponent({
   props: {
-    popUp: {} as PopUp
+    popUp: {
+      type: Object as PropType<PopUp>,
+      required: true,
+    }
   },
-  setup(props: {popUp: PopUp}) {
-    let data = ref(props.popUp)
+  setup(props) {
     onMounted(() => {
-      const c = document.getElementById(`${data.value.text}`)
-      if (!!c) {
-        if (data.value.isError) c.style.color = 'red'
-        else c.style.color = 'green'
-      }
+      const popUp = document.getElementById(`${props.popUp.text}`)
+      if (!!popUp) props.popUp.isError 
+        ? popUp.style.color = 'red' : popUp.style.color = 'green'
     })
-    return { data }
+    return { data: ref(props.popUp) }
   },
 })
 </script>
-
-<style>
-/* 
-  refactor so that not your not using onMounted but set the color before the component has renderd
-*/
-</style>

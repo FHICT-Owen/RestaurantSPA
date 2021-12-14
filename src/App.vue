@@ -60,8 +60,8 @@ export default {
 <style>
 .pop-up-position {
   position: fixed;
-  top: 80%;
-  left: 80%;
+  top: 20%;
+  left: 50%;
   transform: translate(-50%, -50%);
 }
 
