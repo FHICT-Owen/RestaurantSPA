@@ -19,14 +19,16 @@
         </li>
       </ul>
     </div>
-    <div class="flex flex-wrap items-start">
-      <div v-for="(order, index) in orders" :key="index">
-        <OrderCard 
-          class="mx-4"
-          :order="order" 
-          :table="getTable(order.sessionId)" 
-          v-if="(getTable(order.sessionId)) ? 
-            filter == getTable(order.sessionId).tableNumber || filter == 0 : true && order.isArchived == false"/>
+    <div class="overflow-x-scroll">
+      <div class="flex flex-wrap flex-col items-start" style="height: 70vh">
+        <div v-for="(order, index) in orders" :key="index">
+          <OrderCard 
+            class="mx-4"
+            :order="order" 
+            :table="getTable(order.sessionId)" 
+            v-if="(getTable(order.sessionId)) ? 
+              filter == getTable(order.sessionId).tableNumber || filter == 0 : true && order.isArchived == false"/>
+        </div>
       </div>
     </div>
   </div>
