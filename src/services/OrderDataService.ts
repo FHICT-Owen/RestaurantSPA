@@ -1,4 +1,4 @@
-import Order from '@/classes/Order'
+import { Order } from '../classes'
 import { setAuthHeader, showPopUp } from '@/utils'
 import axios from 'axios'
 

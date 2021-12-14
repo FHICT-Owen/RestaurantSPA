@@ -14,7 +14,7 @@
 </template>
 
 <script lang="ts">
-import Category from '@/classes/Category'
+import { Category } from '../../classes'
 import store from '@/store'
 import {computed, defineComponent, PropType, ref} from 'vue'
 import DeleteButton from '../buttons/DeleteButton.vue'

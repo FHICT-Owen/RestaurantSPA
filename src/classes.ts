@@ -25,3 +25,91 @@ export class Table implements Table {
     this.inUse = inUse
   }
 }
+
+export class Category {
+  id!: number
+  name: string
+  name_NL: string
+
+  constructor(name: string, name_NL: string) {
+	  this.name = name
+	  this.name_NL = name_NL
+  }
+}
+
+export class Dish {
+  id!: number
+  name!: string
+  name_NL!: string
+  description!: string
+  description_NL!: string
+  category!: string
+  dietaryRestrictions!: string[]
+  ingredients!: string[]
+  prize!: number
+  image!: string
+
+  // constructor(name: string, name_NL: string, description: string, description_NL: string,  category: string,  dietaryRestrictions: string[],  ingredients: string[],  prize: number, image: string)
+  // {
+  //   this.name = name
+  //   this.name_NL = name_NL
+  //   this.description = description
+  //   this.description_NL = description_NL
+  //   this.category = category
+  //   this.dietaryRestrictions = dietaryRestrictions
+  //   this.ingredients = ingredients
+  //   this.prize = prize
+  //   this.image = image
+  // }
+}
+
+export class Ingredient {
+	id!: number
+	restaurantId: number
+	name: string
+	name_NL: string
+	isAllergen: boolean
+	isInStock: boolean
+  
+	constructor(restaurantId: number, name: string, name_NL: string, isAllergen: boolean) {
+	  this.restaurantId = restaurantId
+	  this.name = name
+	  this.name_NL = name_NL
+	  this.isAllergen = isAllergen
+	  this.isInStock = false
+	}
+}
+
+export class Order {
+  id!: number
+  sessionId: number
+  dishes: string[]
+  comments: string
+  isApproved: boolean
+  isCanceled: boolean
+  isBeingPrepared: boolean
+  isReady: boolean
+  isArchived: boolean
+  timeStamp: number
+
+  constructor(sessionId?: number, dishes?: string[], comments?: string) {
+    this.sessionId = sessionId || 0
+    this.dishes = dishes || []
+    this.comments = comments || ''
+    this.isApproved = false
+    this.isCanceled = false
+    this.isBeingPrepared = false
+    this.isReady = false
+    this.isArchived = false
+    this.timeStamp = Date.now()
+  }
+}
+
+export class Restaurant {
+  id!: number
+  name: string
+
+  constructor(name: string) {
+    this.name = name
+  }
+}

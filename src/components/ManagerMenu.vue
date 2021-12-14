@@ -45,8 +45,7 @@ import DeleteConfirmDialog from './dialogs/DeleteConfirmDialog.vue'
 import DeleteButton from './buttons/DeleteButton.vue'
 import EditButton from './buttons/EditButton.vue'
 import IngredientCard from './cards/IngredientCard.vue'
-import Ingredient from '@/classes/Ingredient'
-import Category from '@/classes/Category'
+import { Ingredient, Category } from '../classes'
 
 export default defineComponent({
   components: {

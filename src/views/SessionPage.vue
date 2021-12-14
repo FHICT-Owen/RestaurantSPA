@@ -27,7 +27,7 @@ import CustomerMenu from '../components/CustomerMenu.vue'
 import CustomerOrderDialog from '../components/dialogs/CustomerOrderDialog.vue'
 import { VueCookieNext } from 'vue-cookie-next'
 import store from '@/store'
-import Order from '@/classes/Order'
+import { Order } from '../classes'
 import OrderDataService from '@/services/OrderDataService'
 
 export default defineComponent({

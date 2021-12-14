@@ -24,7 +24,7 @@
 <script lang="ts">
 import store from '@/store'
 import { computed, defineComponent, ref } from 'vue'
-import Restaurant from '@/classes/Restaurant'
+import { Restaurant } from '../classes'
 import RestaurantCard from '../components/cards/RestaurantCard.vue'
 
 export default defineComponent({

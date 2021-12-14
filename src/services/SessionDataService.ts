@@ -1,4 +1,4 @@
-import { Session } from '@/classes'
+import { Session } from '../classes'
 import { setAuthHeader, showPopUp } from '@/utils'
 import axios from 'axios'
 

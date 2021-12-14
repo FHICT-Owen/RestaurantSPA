@@ -39,7 +39,7 @@ export default {
                   } else {
                     SessionDataService.removeSession(tableId)
                   }
-                })            
+                })
               }
             })
           } catch { return router.push('/') }

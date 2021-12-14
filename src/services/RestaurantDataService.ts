@@ -1,4 +1,4 @@
-import Restaurant from '@/classes/Restaurant'
+import { Restaurant } from '../classes'
 import { setAuthHeader, showPopUp } from '@/utils'
 import axios from 'axios'
 

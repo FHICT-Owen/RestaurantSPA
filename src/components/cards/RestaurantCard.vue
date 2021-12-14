@@ -13,7 +13,7 @@
 </template>
 
 <script lang="ts">
-import Restaurant from '@/classes/Restaurant'
+import { Restaurant } from '../../classes'
 import store from '@/store'
 import {computed, defineComponent, PropType, ref} from 'vue'
 import DeleteButton from '../buttons/DeleteButton.vue'

@@ -16,7 +16,7 @@
 </template>
 
 <script lang="ts">
-import Ingredient from '@/classes/Ingredient'
+import { Ingredient } from '../../classes'
 import store from '@/store'
 import {computed, defineComponent, PropType, ref} from 'vue'
 import DeleteButton from '../buttons/DeleteButton.vue'
