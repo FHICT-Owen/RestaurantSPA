@@ -1,8 +1,8 @@
 <template>
   <div class="flex flex-col text-white relative p-6" style="background-color: #FFA825">
     <div class="flex self-end">
-      <country-flag @click="handleChangeLanguage('nl')" country='nl' size='big' class="px-8 bg-no-repeat cursor-pointer"/>
-      <country-flag @click="handleChangeLanguage('en')" country='gb' size='big' class="px-8 bg-no-repeat cursor-pointer"/>
+      <country-flag v-if="lang == 'en' " @click="handleChangeLanguage('nl')" country='nl' size='big' class="px-8 bg-no-repeat cursor-pointer"/>
+      <country-flag  v-if="lang == 'nl'" v @click="handleChangeLanguage('en')" country='gb' size='big' class="px-8 bg-no-repeat cursor-pointer"/>
       <ShoppingCartIcon class="w-12 cursor-pointer" style="margin-top:-4px"/>
     </div>
 
@@ -20,7 +20,7 @@
 <script lang="ts">
 import router from '../router/index'
 import SessionDataService from '../services/SessionDataService'
-import { defineComponent, onMounted } from '@vue/runtime-core'
+import { defineComponent, onMounted, ref } from '@vue/runtime-core'
 import { ShoppingCartIcon } from '@heroicons/vue/outline'
 import { Client } from '@stomp/stompjs'
 import CustomerMenu from '../components/CustomerMenu.vue'
@@ -45,7 +45,12 @@ export default defineComponent({
   setup() {
     var client: Client
 
-    onMounted(() => connect())
+    let lang = ref('')
+
+    onMounted(() => {
+      lang.value = localStorage.getItem('lang') || 'en'
+      connect()
+    }) 
 
     const connect = () => {
       // const cookie = VueCookieNext.getCookie('GenericRestaurantSesh')
@@ -76,6 +81,7 @@ export default defineComponent({
       
 
     return {
+      lang,
       connect,
       disconnect,
       placeOrder
