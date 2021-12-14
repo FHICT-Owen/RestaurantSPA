@@ -11,7 +11,11 @@
             {{countOccurrences()}}
           </div>
       </div>
-      <div class="flex-1 m-1">
+      <div class="relative flex-1 m-1">
+        <div class="absolute right-0 -top-4 shadow-lg py-1 px-4 rounded-full text-green-500 capitalize italic bg-white text-sm">
+          Vegantarian, Vegan, Lactose
+          {{ log(dish) }}
+        </div>
         <h5 v-if="lang == 'en' " class="font-medium text-lg">{{ dish.name }}</h5>
         <h5 v-else-if="lang == 'nl' " class="font-medium text-lg">{{ dish.name_NL }}</h5>
         <p v-if="lang == 'en' " class="text-gray-400" style="font-size: 0.85rem; line-height: 1rem">
@@ -47,6 +51,11 @@ export default defineComponent({
       type: Object as PropType<Dish>,
       required: true,
     },
+  },
+  methods: {
+    log(order:any) {
+      console.log(order)
+    }
   },
   setup(props) {
     const dishes = computed(() => store.state.currentOrder.dishes)
