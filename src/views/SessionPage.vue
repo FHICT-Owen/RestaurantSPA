@@ -1,13 +1,13 @@
 <template>
-  <div class="flex flex-col text-white h-48 relative p-6" style="background-color: #FFA825">
+  <div class="flex flex-col text-white relative p-6" style="background-color: #FFA825">
     <div class="flex self-end">
       <country-flag @click="handleChangeLanguage('nl')" country='nl' size='big' class="px-8 bg-no-repeat cursor-pointer"/>
       <country-flag @click="handleChangeLanguage('en')" country='gb' size='big' class="px-8 bg-no-repeat cursor-pointer"/>
       <ShoppingCartIcon class="w-12 cursor-pointer" style="margin-top:-4px"/>
     </div>
 
-    <div class="flex-row text-4xl w-4/5">{{ $t('greeting') }}</div>
-    <div class="flex-row text-3xl w-4/5">{{ $t('question') }}</div>
+    <div class="flex-row text-2xl w-4/5">{{ $t('greeting') }}</div>
+    <div class="flex-row text-xl w-4/5">{{ $t('question') }}</div>
 
 
   </div>
