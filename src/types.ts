@@ -57,3 +57,8 @@ interface PopUp {
   text: string
   isError: boolean
 }
+
+interface Restaurant {
+  id: number
+  name: string
+}

@@ -1,5 +1,5 @@
 <template>
-    <div class="w-64 text-white mb-3 rounded-lg h-48 shadow" v-bind:class="{ 'bg-primary' : !order.isApproved, 'bg-warning': order.isBeingPrepared, 'bg-danger': order.isCanceled, 'bg-success': order.isReady}" style="max-width: 18rem">
+    <div class="w-64 text-white mb-3 rounded-lgs shadow" v-bind:class="{ 'bg-primary' : !order.isApproved, 'bg-warning': order.isBeingPrepared, 'bg-danger': order.isCanceled, 'bg-success': order.isReady}" style="max-width: 18rem">
       <!-- TODO: bg-color depends on order status -->
       <div class="px-3 py-2 flex justify-between rounded-t-lg">
         <div class="flex flex-col justify-between">
