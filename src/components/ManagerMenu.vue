@@ -1,7 +1,7 @@
 <template>
 	<div>
     <div class="justify-center w-full lg:w-3/5">
-      <h1 class="text-5xl p-1">Menu</h1>
+      <h1 class="text-5xl p-1">Menu</h1>      
       <h2 class="text-4xl p-1">Categories</h2>
       <div class="border-2 rounded-lg p-2">
         <button class="bg-gray-200 rounded-lg p-1" @click="createCategory">New category</button>

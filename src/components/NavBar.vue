@@ -29,6 +29,9 @@
             <li class="nav-item">
               <router-link to="/live_view" class="nav-link">Live view</router-link>
             </li>
+            <li class="nav-item">
+              <router-link to="/restaurant_detail" class="nav-link">Restaurant details</router-link>
+            </li>
           </ul>
           <ul class="navbar-nav d-none d-md-block">
             <li v-if="!isAuthenticated && !loading" class="nav-item">
@@ -132,7 +135,7 @@ export default {
   name: 'NavBar',
   inject: ['Auth'],
   data: function () {
-    const lang = localStorage.getItem('lang') || 'en';
+    const lang = localStorage.getItem('lang') || 'en'
     return {
       lang: lang
     }
