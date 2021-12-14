@@ -1,7 +1,7 @@
 <template>
   <button 
     class="flex flex-row px-2 py-1 rounded-lg justify-center text-white bg-red-500 hover:bg-red-600">
-    <TrashIcon class="w-5 h-5 mt-0.5" />Delete
+    <TrashIcon class="w-5 h-5 mt-0.5" />
   </button>
 </template>
 
