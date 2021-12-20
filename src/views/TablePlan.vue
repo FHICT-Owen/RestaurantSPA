@@ -3,7 +3,7 @@
     <div class="flex flex-col w-full max-w-3xl">
       <button 
         class="inline-block border border-yellow-500 rounded-3xl m-2 py-1 px-3 bg-yellow-500 text-white no-underline" 
-        v-on:click="true">Add Table
+        v-on:click="addTable">Add Table
       </button>
       <div 
         class="flex flex-col items-center p-3 bg-white" 
@@ -11,28 +11,30 @@
         <TableCard v-for="table in tables" :table="table" :key="table.id" />
       </div>
     </div>
+		<TableDialog v-if="isTableDialogOpen" :key="isTableDialogOpen" />
   </div>
+	
 </template>
 
 <script lang="ts">
 import { computed, onMounted, ref } from 'vue'
 import TableCard from '../components/cards/TableCard.vue'
+import TableDialog from '../components/dialogs/TableDialog.vue'
 import store from '@/store'
 
 export default {
   name: 'TablePlan',
   components: {
     TableCard,
+    TableDialog
   },
   setup() {
+    const isTableDialogOpen = computed(() => store.state.isTableDialogOpen)
     const tables = computed(() => store.state.tables)
     const selectedTableIds = computed(() => store.state.selectedTableIds)
-    // const selectTable(id: number) => {
-
-    // }
 
     function addTable() {
-      // store.commit()
+      store.commit('toggleTableDialog')
     }
 
     function isSelected(id: number) {
@@ -46,6 +48,7 @@ export default {
       tables,
       isSelected,
       addTable,
+      isTableDialogOpen
     }
   },
 }
