@@ -30,6 +30,8 @@ export interface State {
   isDishDialogOpen: boolean
   isEditDialog: boolean
 
+	isTableDialogOpen: boolean
+
   isConfirmDialogOpen: boolean
   currentConfirmDialogObject: Object
   confirmDeleteFunction: Function
@@ -67,6 +69,8 @@ export default createStore<State>({
     isDishDialogOpen: false,
     isEditDialog: false,
 
+    isTableDialogOpen: false,
+
     isConfirmDialogOpen: false,
     currentConfirmDialogObject: {},
     confirmDeleteFunction: new Function(),
@@ -95,6 +99,9 @@ export default createStore<State>({
     toggleDialog: (state, payload) => {
       state.isDishDialogOpen = !state.isDishDialogOpen
       state.isEditDialog = payload
+    },
+    toggleTableDialog: (state) => {
+      state.isTableDialogOpen = !state.isTableDialogOpen
     },
     closeDishDialog: (state) => state.isDishDialogOpen = false,
     setSelectedCategory: (state, payload: string) => {
@@ -150,8 +157,10 @@ export default createStore<State>({
         .createIngredient(ingredient)
         .then(() => commit('setIngredients'))
     },
-    createNewTable({ commit }){
-      // tableDataService.createTable()
+    createNewTable({ commit }, table: Table){
+      tableDataService
+        .createTable(table)
+        .then(() => commit('setTables'))
     },
 
     editCategory({ commit }, category: Category) {
