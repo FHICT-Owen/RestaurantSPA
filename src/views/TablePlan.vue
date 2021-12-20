@@ -35,7 +35,6 @@ export default {
       // store.commit()
     }
 
-    function deleteTables(ids: number[]) {}
     function isSelected(id: number) {
       return selectedTableIds.value.indexOf(id) != -1
     }
@@ -46,7 +45,6 @@ export default {
     return {
       tables,
       isSelected,
-      deleteTables,
       addTable,
     }
   },

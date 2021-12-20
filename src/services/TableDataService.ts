@@ -21,9 +21,15 @@ export default class DishDataService {
       .catch(() => showPopUp('Table ' + table.id + ' updated', true))
   }
 
-  public static async deleteSelectedTables(selectedTables: Table[]) {
-    await axios.delete(`${this.RESTAURANT_API_URL}/tables/${selectedTables}`, setAuthHeader())
-      .then(() => showPopUp('Selected tables deleted', false))
-      .catch(() => showPopUp('Selected tables deleted', true))
+  public static async deleteTable(selectedTable: Table): Promise<Boolean>{
+    await axios.delete(`${this.RESTAURANT_API_URL}/table/${selectedTable.id}`, setAuthHeader())
+      .then(() => {
+        showPopUp('Selected table removed', false)
+      })
+      .catch(() => {
+        showPopUp('Selected table removed', true)
+        return false
+      })
+    return true
   }
 }

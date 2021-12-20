@@ -1,13 +1,12 @@
 <template>
-  <div
-    class="flex flex-row justify-between items-center w-full whitespace-nowrap rounded-2xl px-4 py-2 m-1 shadow">
+  <div class="flex flex-row justify-between items-center w-full whitespace-nowrap rounded-2xl px-4 py-2 m-1 shadow">
     <div class="flex flex-row justify-center gap-5">
       <div class="flex items-center gap-2">
         <p class="num">Table {{table.tableNumber}}</p>
         <div 
           class="text-sm w-14"
-          :class="table.inUse ? 'text-red-600' : 'text-green-600'" >
-          {{table.inUse ? 'In Use' : 'Available'}}
+          :class="table.inUse ? 'text-red-600' : 'text-green-600'">
+          {{ table.inUse ? "In Use" : "Available" }}
         </div>
       </div>
       <label class="relative inline-block w-14 h-8 my-auto">
@@ -17,9 +16,15 @@
     </div>
     <div class="flex flex-row gap-2">
       <PrinterButton @click="printQRCode" />
-      <DeleteButton />
+      <DeleteButton @click="removeTable(table)" />
     </div>
-    <QrcodeVue :id="table.id" :value="tableUrl" :size=300 render-as="svg" hidden/>
+    <QrcodeVue
+      :id="table.id"
+      :value="tableUrl"
+      :size="300"
+      render-as="svg"
+      hidden
+    />
   </div>
 </template>
 
@@ -31,42 +36,59 @@ import { Printd } from 'printd'
 import QrcodeVue from 'qrcode.vue'
 import DeleteButton from '../buttons/DeleteButton.vue'
 import PrinterButton from '../buttons/PrinterButton.vue'
+import TableDataService from '../../services/TableDataService'
 
 export default defineComponent({
   components: {
     QrcodeVue,
     DeleteButton,
-    PrinterButton
+    PrinterButton,
   },
   props: {
     table: {
       type: Object as PropType<Table>,
       required: true,
-    }
+    },
   },
   setup(props) {
-    const tableUrl = ref(`${window.location.origin}/session?tableId=${props.table.id}`)
+    const tableUrl = ref(
+      `${window.location.origin}/session?tableId=${props.table.id}`
+    )
     const printContent = ref()
 
     function addToSelectedTables() {
       store.commit('addToSelectedTableIds', props.table.id)
     }
 
-    function toggleTable(id: number) {
-      
-    }
+    function toggleTable(id: number) {}
 
     function printQRCode() {
-      const cvs = <HTMLElement> document.getElementById(`${props.table.id}`)
+      const cvs = <HTMLElement>document.getElementById(`${props.table.id}`)
       new Printd().print(cvs)
+    }
+
+    function removeTable(table: Table) {
+      if (table.inUse) return
+
+      TableDataService.deleteTable(table).then( promise => {
+        if (promise) {
+          const currentTables = ref(store.state.tables)
+          const tableToRemove = currentTables.value.find(target => target.id == table.id) 
+          const filteredTables = currentTables.value.filter(function(value, index, arr){ 
+            return value != tableToRemove
+    	})
+          store.state.tables = filteredTables
+        }
+      })
     }
 
     return {
       addToSelectedTables,
       toggleTable,
       printQRCode,
+      removeTable,
       printContent,
-      tableUrl
+      tableUrl,
     }
   },
 })
@@ -89,8 +111,8 @@ export default defineComponent({
   right: 0;
   bottom: 0;
   background-color: #ccc;
-  -webkit-transition: .4s;
-  transition: .4s;
+  -webkit-transition: 0.4s;
+  transition: 0.4s;
 }
 
 .slider:before {
@@ -101,8 +123,8 @@ export default defineComponent({
   left: 4px;
   bottom: 4px;
   background-color: white;
-  -webkit-transition: .4s;
-  transition: .4s;
+  -webkit-transition: 0.4s;
+  transition: 0.4s;
 }
 
 input:checked + .slider {
@@ -126,5 +148,5 @@ input:checked + .slider:before {
 
 .slider.round:before {
   border-radius: 50%;
-} 
+}
 </style>
