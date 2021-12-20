@@ -1,8 +1,8 @@
 <template>
   <div>
-    <div id="navbar" class="flex flex-col bg-white overflow-hidden z-50">
-      <input v-model="keyword" class="justify-center shadow-sm rounded-3xl h-10 p-3 mt-1" :placeholder="$t('search_bar')" />
-      <div class="flex flex-row overflow-x-scroll">
+    <div id="navbar" class="flex flex-col overflow-hidden z-50" style="background-color: #FFA825">
+      <input v-model="keyword" class="justify-center shadow-sm rounded-3xl h-10 p-3 mt-1 w-11/12 m-auto mb-4" :placeholder="$t('search_bar')" />
+      <div class="flex flex-row overflow-x-scroll bg-white">
         <div 
           id="all" 
           @click="selectCategory"
