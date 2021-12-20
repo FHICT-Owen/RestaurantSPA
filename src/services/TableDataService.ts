@@ -27,7 +27,7 @@ export default class DishDataService {
         showPopUp('Selected table removed', false)
       })
       .catch(() => {
-        showPopUp('Selected table removed', true)
+        showPopUp('Selected table not removed', true)
         return false
       })
     return true
