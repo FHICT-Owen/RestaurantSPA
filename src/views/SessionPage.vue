@@ -1,15 +1,18 @@
 <template>
-  <div class="flex flex-col text-white relative p-6" style="background-color: #FFA825">
-    <div class="flex self-end">
-      <country-flag v-if="lang == 'en' " @click="handleChangeLanguage('nl')" country='nl' size='big' class="px-8 bg-no-repeat cursor-pointer"/>
-      <country-flag  v-if="lang == 'nl'" v @click="handleChangeLanguage('en')" country='gb' size='big' class="px-8 bg-no-repeat cursor-pointer"/>
-      <ShoppingCartIcon class="w-12 cursor-pointer" style="margin-top:-4px"/>
+  <div class="h-20 flex flex-col text-white relative p-6" style="background-color: #FFA825">
+    <div class="relative">
+      <div class="absolute left-0">
+        <h1 class="text-3xl font-semibold">Menu</h1>
+      </div>
+      <div class="flex self-end absolute right-0">
+        <country-flag v-if="lang == 'en' " @click="handleChangeLanguage('nl')" country='nl' size='big' class="px-8 bg-no-repeat cursor-pointer"/>
+        <country-flag  v-if="lang == 'nl'" v @click="handleChangeLanguage('en')" country='gb' size='big' class="px-8 bg-no-repeat cursor-pointer"/>
+        <ShoppingCartIcon class="w-12 cursor-pointer" style="margin-top:-4px"/>
+      </div>
     </div>
 
-    <div class="flex-row text-2xl w-4/5">{{ $t('greeting') }}</div>
-    <div class="flex-row text-xl w-4/5">{{ $t('question') }}</div>
-
-
+    <!-- <div class="flex-row text-2xl w-4/5">{{ $t('greeting') }}</div>
+    <div class="flex-row text-xl w-4/5">{{ $t('question') }}</div> -->
   </div>
 
       <CustomerMenu/>
