@@ -29,7 +29,7 @@
           <!-- TODO: Translate selected category -->
           <!-- <h2 v-if="lang == 'en' " class="text-3xl mt-5">{{ category }}</h2> --> 
           <div v-for="(dish, index) in filteredDishes" :key="index">
-            <Dish v-if="dish.category == category" :dish="dish" />
+            <Dish v-if="dish.category == category && checkIfDishCanBeMade(dish)" :dish="dish" />
           </div>
         </div>
       </div>
@@ -73,6 +73,10 @@ export default defineComponent({
       }
       store.commit('setSelectedCategory', e.target.textContent)
     }
+
+    const checkIfDishCanBeMade = (dish: Dish) =>
+      dish.ingredients.some((x) => 
+        store.state.ingredients.some((d) => d.isInStock && x == d.name))
     
     const manageStickyNav = (navbar: HTMLElement | null) => {
       if(!!navbar) {
@@ -99,7 +103,8 @@ export default defineComponent({
       filteredDishes,
       keyword,
       selectedCategory,
-      lang
+      lang,
+      checkIfDishCanBeMade
     }
   }
 })
