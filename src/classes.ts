@@ -64,19 +64,20 @@ export class Dish {
 }
 
 export class Ingredient {
-	id!: number
+	id: number
 	restaurantId: number
 	name: string
 	name_NL: string
 	isAllergen: boolean
 	isInStock: boolean
   
-	constructor(restaurantId: number, name: string, name_NL: string, isAllergen: boolean) {
+	constructor(id: number, restaurantId: number, name: string, name_NL: string, isAllergen: boolean, isInStock: boolean) {
+	  this.id = id
 	  this.restaurantId = restaurantId
 	  this.name = name
 	  this.name_NL = name_NL
 	  this.isAllergen = isAllergen
-	  this.isInStock = false
+	  this.isInStock = isInStock
 	}
 }
 

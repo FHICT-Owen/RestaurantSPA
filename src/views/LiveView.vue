@@ -20,7 +20,7 @@
       </ul>
     </div>
     <div class="overflow-x-scroll">
-      <div class="flex flex-wrap flex-col items-start" style="height: 70vh">
+      <div class="flex flex-wrap flex-col items-start" style="height: 60vh">
         <div v-for="(order, index) in orders" :key="index">
           <OrderCard 
             class="mx-4"
@@ -31,6 +31,15 @@
         </div>
       </div>
     </div>
+    <div class="flex flex-col justify-center" style="max-height: 10vh">
+      <div class="text-xl">Ingredients in stock</div>
+      <div class="flex flex-col w-full">
+        <div 
+          class="flex flex-wrap flex-row items-center gap-1 p-3 bg-white">
+          <IngredientInstockCard v-for="ingredient in ingredients" :ingredient="ingredient" :key="ingredient.id" />
+        </div>
+      </div>
+  </div>
   </div>
 </template>
 
@@ -40,10 +49,12 @@ import OrderCard from '../components/cards/OrderCard.vue'
 import store from '@/store'
 import { AuthPlugin } from '@/auth'
 import { Client } from '@stomp/stompjs'
+import IngredientInstockCard from '@/components/cards/IngredientInstockCard.vue'
 
 export default defineComponent({
   components: {
-    OrderCard
+    OrderCard,
+    IngredientInstockCard
   },
   setup() {
     var client: Client
@@ -52,6 +63,7 @@ export default defineComponent({
     const orders = computed(() => store.state.orders)
     const tables = computed(() => store.state.tables)
     const sessions = computed(() => store.state.sessions)
+    const ingredients = computed(() => store.state.ingredients)
     
     onMounted(() => {
       store.commit('setOrders')
@@ -84,7 +96,7 @@ export default defineComponent({
     }
 
     return {
-      ...auth, orders, getTable, filter
+      ...auth, orders, getTable, filter, ingredients
     }
   }
 })

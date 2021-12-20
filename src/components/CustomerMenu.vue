@@ -76,7 +76,12 @@ export default defineComponent({
 
     const checkIfDishCanBeMade = (dish: Dish) =>
       dish.ingredients.some((x) => 
-        store.state.ingredients.some((d) => d.isInStock && x == d.name))
+        store.state.ingredients.filter(d => d.isInStock && x == d.name))
+
+    // return true when all ingredients are available
+    // return false when atleast 1 ingredient is out of stock
+    // return false when dish does not have any ingredients
+    // return false when dish does have a ingredient that doesn't exist
     
     const manageStickyNav = (navbar: HTMLElement | null) => {
       if(!!navbar) {

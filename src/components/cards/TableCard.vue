@@ -10,7 +10,7 @@
         </div>
       </div>
       <label class="relative inline-block w-14 h-8 my-auto">
-        <input id="slider" type="checkbox" hidden />
+        <input id="slider" type="checkbox" v-model="isActive" @change="toggleTable" hidden />
         <span class="slider round"></span>
       </label>
     </div>
@@ -29,7 +29,7 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, PropType, ref } from 'vue'
+import { computed, defineComponent, PropType, ref } from 'vue'
 import store from '@/store'
 import { Printd } from 'printd'
 
@@ -37,6 +37,7 @@ import QrcodeVue from 'qrcode.vue'
 import DeleteButton from '../buttons/DeleteButton.vue'
 import PrinterButton from '../buttons/PrinterButton.vue'
 import TableDataService from '../../services/TableDataService'
+import { Table } from '@/classes'
 
 export default defineComponent({
   components: {
@@ -56,11 +57,9 @@ export default defineComponent({
     )
     const printContent = ref()
 
-    function addToSelectedTables() {
-      store.commit('addToSelectedTableIds', props.table.id)
+    function toggleTable() {
+      store.dispatch('updateTable', new Table(props.table.id, props.table.tableNumber, props.table.restaurantId, !props.table.isActive, props.table.inUse))
     }
-
-    function toggleTable(id: number) {}
 
     function printQRCode() {
       const cvs = <HTMLElement>document.getElementById(`${props.table.id}`)
@@ -83,12 +82,12 @@ export default defineComponent({
     }
 
     return {
-      addToSelectedTables,
       toggleTable,
       printQRCode,
       removeTable,
       printContent,
-      tableUrl,
+      isActive: ref(props.table.isActive),
+      tableUrl
     }
   },
 })

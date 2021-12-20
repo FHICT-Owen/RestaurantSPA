@@ -74,7 +74,7 @@ export default createStore<State>({
     popUps: [],
 
     sessions: [] as Session[],
-    sessionId: '',
+    sessionId: 's',
 
     apiToken: '',
     filter: 0
@@ -116,7 +116,6 @@ export default createStore<State>({
     setCurrentDish: (state, payload) => state.currentDish = payload,
     createNewDish: (state) => state.isDishDialogOpen = !state.isDishDialogOpen,
     setToken: (state, payload) => state.apiToken = payload,
-    addToSelectedTableIds: (state, payload) => state.selectedTableIds.push(payload),
     setSessionId: (state, payload) => state.sessionId = payload,
     addOrder: (state, payload) => {
       state.currentOrder.dishes.push(payload.name)
@@ -167,7 +166,12 @@ export default createStore<State>({
     editDish({ commit }, dish: Dish) {
       dishDataService.editDish(dish).then(() => commit('setDishes'))
     },
-
+    updateTable({ commit }, table: Table) {
+      tableDataService.updateTable(table).then(() => commit('setTables'))
+    },
+    updateIngredient({ commit }, ingredient: Ingredient) {
+      ingredientDataService.updateIngredient(ingredient).then(() => commit('setIngredients'))
+    },
     updateOrder({ commit }, order: Order) {
       orderDataService.updateOrder(order).then(() => commit('setOrders'))
     },
