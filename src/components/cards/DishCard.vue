@@ -13,7 +13,7 @@
       </div>
       <div class="relative flex-1 m-1">
         <div class="absolute right-0 -top-4 shadow-lg py-1 px-4 rounded-full text-green-500 capitalize italic bg-white text-sm font-semibold">
-          Vegantarian, Vegan
+          Vegan
           <!-- {{ log(dish) }} -->
         </div>
         <h5 v-if="lang == 'en' " class="font-medium text-lg">{{ dish.name }}</h5>

@@ -30,6 +30,8 @@ export interface State {
   isDishDialogOpen: boolean
   isEditDialog: boolean
 
+	isTableDialogOpen: boolean
+
   isConfirmDialogOpen: boolean
   currentConfirmDialogObject: Object
   confirmDeleteFunction: Function
@@ -67,6 +69,8 @@ export default createStore<State>({
     isDishDialogOpen: false,
     isEditDialog: false,
 
+    isTableDialogOpen: false,
+
     isConfirmDialogOpen: false,
     currentConfirmDialogObject: {},
     confirmDeleteFunction: new Function(),
@@ -74,7 +78,7 @@ export default createStore<State>({
     popUps: [],
 
     sessions: [] as Session[],
-    sessionId: '',
+    sessionId: 's',
 
     apiToken: '',
     filter: 0
@@ -96,6 +100,9 @@ export default createStore<State>({
       state.isDishDialogOpen = !state.isDishDialogOpen
       state.isEditDialog = payload
     },
+    toggleTableDialog: (state) => {
+      state.isTableDialogOpen = !state.isTableDialogOpen
+    },
     closeDishDialog: (state) => state.isDishDialogOpen = false,
     setSelectedCategory: (state, payload: string) => {
       if (payload.trim().toLowerCase() === 'all')
@@ -116,7 +123,6 @@ export default createStore<State>({
     setCurrentDish: (state, payload) => state.currentDish = payload,
     createNewDish: (state) => state.isDishDialogOpen = !state.isDishDialogOpen,
     setToken: (state, payload) => state.apiToken = payload,
-    addToSelectedTableIds: (state, payload) => state.selectedTableIds.push(payload),
     setSessionId: (state, payload) => state.sessionId = payload,
     addOrder: (state, payload) => {
       state.currentOrder.dishes.push(payload.name)
@@ -150,8 +156,10 @@ export default createStore<State>({
         .createIngredient(ingredient)
         .then(() => commit('setIngredients'))
     },
-    createNewTable({ commit }){
-      // tableDataService.createTable()
+    createNewTable({ commit }, table: Table){
+      tableDataService
+        .createTable(table)
+        .then(() => commit('setTables'))
     },
 
     editCategory({ commit }, category: Category) {
@@ -167,7 +175,12 @@ export default createStore<State>({
     editDish({ commit }, dish: Dish) {
       dishDataService.editDish(dish).then(() => commit('setDishes'))
     },
-
+    updateTable({ commit }, table: Table) {
+      tableDataService.updateTable(table).then(() => commit('setTables'))
+    },
+    updateIngredient({ commit }, ingredient: Ingredient) {
+      ingredientDataService.updateIngredient(ingredient).then(() => commit('setIngredients'))
+    },
     updateOrder({ commit }, order: Order) {
       orderDataService.updateOrder(order).then(() => commit('setOrders'))
     },
