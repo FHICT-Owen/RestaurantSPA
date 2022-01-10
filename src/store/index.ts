@@ -108,8 +108,41 @@ export default createStore<State>({
     editDish: async (state, payload) => {
       dishDataService.editDish(payload)
         .then(dish => {
-          const elementIndex = state.categories.findIndex(obj => obj.id == dish.id)
-          Object.assign(state.categories[elementIndex], dish)
+          const elementIndex = state.dishes.findIndex(obj => obj.id == dish.id)
+          Object.assign(state.dishes[elementIndex], dish)
+        })
+    },
+    addIngredient: async (state, payload) => {
+      ingredientDataService.createIngredient(payload)
+        .then(ingredient => state.ingredients.push(ingredient))
+    },
+    editIngredient: async (state, payload) => {
+      ingredientDataService.editIngredient(payload)
+        .then(ingredient => {
+          const elementIndex = state.ingredients.findIndex(obj => obj.id == ingredient.id)
+          Object.assign(state.ingredients[elementIndex], ingredient)
+        })
+    },
+    addTable: async (state, payload) => {
+      tableDataService.createTable(payload)
+        .then(table => state.tables.push(table))
+    },
+    editTable: async (state, payload) => {
+      tableDataService.editTable(payload)
+        .then(table => {
+          const elementIndex = state.tables.findIndex(obj => obj.id == table.id)
+          Object.assign(state.tables[elementIndex], table)
+        })
+    },
+    addRestaurant: async (state, payload) => {
+      restaurantDataService.createRestaurant(payload)
+        .then(restaurant => state.restaurants.push(restaurant))
+    },
+    editRestaurant: async (state, payload) => {
+      restaurantDataService.editRestaurant(payload)
+        .then(restaurant => {
+          const elementIndex = state.restaurants.findIndex(obj => obj.id == restaurant.id)
+          Object.assign(state.restaurants[elementIndex], restaurant)
         })
     },
     setDishes: async (state) => state.dishes = await dishDataService.getAllDishes(),
@@ -160,32 +193,6 @@ export default createStore<State>({
     setFilter: (state, payload) => state.filter = payload
   },
   actions: {
-    createNewRestaurant: ({ commit }, restaurant: Restaurant) => {
-      restaurantDataService
-        .createRestaurant(restaurant)
-        .then(() => commit('setRestaurant'))
-    },
-    createNewIngredient({ commit }, ingredient: Ingredient) {
-      ingredientDataService
-        .createIngredient(ingredient)
-        .then(() => commit('setIngredients'))
-    },
-    createNewTable({ commit }, table: Table){
-      tableDataService
-        .createTable(table)
-        .then(() => commit('setTables'))
-    },
-    editRestaurant({ commit }, restaurant: Restaurant) {
-      restaurantDataService
-        .editRestaurant(restaurant)
-        .then(() => commit('setRestaurant'))
-    },
-    updateTable({ commit }, table: Table) {
-      tableDataService.updateTable(table).then(() => commit('setTables'))
-    },
-    updateIngredient({ commit }, ingredient: Ingredient) {
-      ingredientDataService.updateIngredient(ingredient).then(() => commit('setIngredients'))
-    },
     updateOrder({ commit }, order: Order) {
       orderDataService.updateOrder(order).then(() => commit('setOrders'))
     },

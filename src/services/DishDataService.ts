@@ -12,7 +12,7 @@ export default class DishDataService {
 
   public static async createDish (dish: Dish): Promise<Dish> {
     return await axios.post(`${this.API_URL}/dish/`, dish, setAuthHeader())
-      .then((response: AxiosResponse<Category>) => { 
+      .then((response: AxiosResponse<Dish>) => { 
         showPopUp(`Added ${dish.name}`, false)
         return Object.setPrototypeOf(response.data, Dish.prototype) 
       })
@@ -23,7 +23,7 @@ export default class DishDataService {
 
   public static async editDish(dish: Dish): Promise<Dish> {
     return await axios.put(`${this.API_URL}/dish/`, dish, setAuthHeader())
-      .then((response: AxiosResponse<Category>) => { 
+      .then((response: AxiosResponse<Dish>) => { 
         showPopUp(`Updated ${dish.name}`, false) 
         return Object.setPrototypeOf(response.data, Dish.prototype) 
       })

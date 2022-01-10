@@ -35,7 +35,7 @@ export default defineComponent({
     let tableName = ref(1) // should be changed to string in the future
 
     const createTable = () => {
-      store.dispatch('createNewTable', new Table(0,tableName.value,1,false,false))
+      store.commit('addTable', new Table(0,tableName.value,1,false,false))
       closeDialog()
     }
 

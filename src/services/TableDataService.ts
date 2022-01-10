@@ -1,29 +1,44 @@
+import { Table } from '@/classes'
 import { setAuthHeader, showPopUp } from '@/utils'
-import axios from 'axios'
+import axios, { AxiosError, AxiosResponse } from 'axios'
 
-export default class DishDataService {
-  static RESTAURANT_API_URL = process.env.VUE_APP_PROXY_URL;
+export default class TableDataService {
+  static API_URL = process.env.VUE_APP_PROXY_URL;
 
-  public static async getAllTables(): Promise<Table[]> {
-    const response = await axios.get(`${this.RESTAURANT_API_URL}/table/tables/1`, setAuthHeader())
+  public static async getTable(tableId: number): Promise<Table> {
+    const response = await axios.get(`${this.API_URL}/table/${tableId}`, setAuthHeader())
     return response.data
   }
 
-  public static async createTable(table: Table) {
-    await axios.post(`${this.RESTAURANT_API_URL}/table/`, table, setAuthHeader())
-      .then(() => showPopUp('Table ' + table.id + 'added', false))
-      .catch(() => showPopUp('Table ' + table.id + ' added', true))
+  public static async getAllTables(): Promise<Table[]> {
+    const response = await axios.get(`${this.API_URL}/table/tables/1`, setAuthHeader())
+    return response.data
   }
 
-  public static async updateTable(table: Table) {
-    console.log('test')
-    await axios.put(`${this.RESTAURANT_API_URL}/table/${table.id}`, table, setAuthHeader())
-      .then(() => showPopUp('Table ' + table.id + 'updated', false))
-      .catch(() => showPopUp('Table ' + table.id + ' updated', true))
+  public static async createTable (table: Table): Promise<Table> {
+    return await axios.post(`${this.API_URL}/table/`, table, setAuthHeader())
+      .then((response: AxiosResponse<Table>) => { 
+        showPopUp(`Added ${table.tableNumber}`, false)
+        return Object.setPrototypeOf(response.data, Table.prototype) 
+      })
+      .catch((error: AxiosError) => {
+        showPopUp(`Was unable to add ${table.tableNumber}`, true)
+      })
+  }
+
+  public static async editTable(table: Table): Promise<Table> {
+    return await axios.put(`${this.API_URL}/table/`, table, setAuthHeader())
+      .then((response: AxiosResponse<Table>) => { 
+        showPopUp(`Updated ${table.tableNumber}`, false) 
+        return Object.setPrototypeOf(response.data, Table.prototype) 
+      })
+      .catch((error: AxiosError) => {
+        showPopUp(`Was unable to update ${table.tableNumber}`, true)
+      })
   }
 
   public static async deleteTable(selectedTable: Table): Promise<Boolean>{
-    await axios.delete(`${this.RESTAURANT_API_URL}/table/${selectedTable.id}`, setAuthHeader())
+    await axios.delete(`${this.API_URL}/table/${selectedTable.id}`, setAuthHeader())
       .then(() => {
         showPopUp('Selected table removed', false)
       })

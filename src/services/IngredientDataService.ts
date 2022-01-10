@@ -1,5 +1,6 @@
+import { Ingredient } from '@/classes'
 import { setAuthHeader, showPopUp } from '@/utils'
-import axios from 'axios'
+import axios, { AxiosError, AxiosResponse } from 'axios'
 
 export default class IngredientDataService {
   static API_URL = process.env.VUE_APP_PROXY_URL;
@@ -9,16 +10,26 @@ export default class IngredientDataService {
     return response.data
   }
 
-  public static async createIngredient(ingredient: Ingredient) {
-    await axios.post(`${this.API_URL}/ingredient/`, ingredient, setAuthHeader())
-      .then(() => showPopUp(`Added ${ingredient.name}`, false))
-      .catch(() => showPopUp(`Unable to add ${ingredient.name}`, true))
+  public static async createIngredient (ingredient: Ingredient): Promise<Ingredient> {
+    return await axios.post(`${this.API_URL}/ingredient/`, ingredient, setAuthHeader())
+      .then((response: AxiosResponse<Ingredient>) => { 
+        showPopUp(`Added ${ingredient.name}`, false)
+        return Object.setPrototypeOf(response.data, Ingredient.prototype) 
+      })
+      .catch((error: AxiosError) => {
+        showPopUp(`Was unable to add ${ingredient.name}`, true)
+      })
   }
 
-  public static async updateIngredient(ingredient: Ingredient) {
-    await axios.put(`${this.API_URL}/ingredient/${ingredient.id}`, ingredient, setAuthHeader())
-      .then(() => showPopUp('Ingredient ' + ingredient.id + ' updated', false))
-      .catch(() => showPopUp('Ingredient ' + ingredient.id + ' updated', true))
+  public static async editIngredient(ingredient: Ingredient): Promise<Ingredient> {
+    return await axios.put(`${this.API_URL}/ingredient/`, ingredient, setAuthHeader())
+      .then((response: AxiosResponse<Ingredient>) => { 
+        showPopUp(`Updated ${ingredient.name}`, false) 
+        return Object.setPrototypeOf(response.data, Ingredient.prototype) 
+      })
+      .catch((error: AxiosError) => {
+        showPopUp(`Was unable to update ${ingredient.name}`, true)
+      })
   }
 
   public static async deleteIngredient(ingredient: Ingredient) {
