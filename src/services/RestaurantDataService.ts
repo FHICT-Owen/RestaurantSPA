@@ -16,7 +16,7 @@ export default class RestaurantDataService {
   }
 
   public static async createRestaurant(restaurant: Restaurant) {
-    return await axios.post(`${this.API_URL}/restaurant/`, restaurant)
+    return await axios.post(`${this.API_URL}/restaurant/`, restaurant, setAuthHeader())
   }
 
   public static async editRestaurant(restaurant: Restaurant) {
