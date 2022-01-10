@@ -24,13 +24,19 @@
               <router-link to="/menu" class="nav-link">Menu</router-link>
             </li>
             <li class="nav-item">
-              <router-link to="/table_plan" class="nav-link">Table Plan</router-link>
+              <router-link to="/table_plan" class="nav-link"
+                >Table Plan</router-link
+              >
             </li>
             <li class="nav-item">
-              <router-link to="/live_view" class="nav-link">Live view</router-link>
+              <router-link to="/live_view" class="nav-link"
+                >Live view</router-link
+              >
             </li>
             <li class="nav-item">
-              <router-link to="/restaurant_detail" class="nav-link">Restaurant details</router-link>
+              <router-link to="/restaurant_detail" class="nav-link"
+                >Restaurant details</router-link
+              >
             </li>
           </ul>
           <ul class="navbar-nav d-none d-md-block">
@@ -121,39 +127,156 @@
       </div>
     </nav>
   </div>
+
+  <nav class="flex items-center justify-between flex-wrap">
+    <div class="block lg:hidden">
+      <button
+        class="flex items-center px-3 py-2 border rounded text-teal-200 border-teal-400 hover:text-white hover:border-white"
+      >
+        <svg
+          class="fill-current h-3 w-3"
+          viewBox="0 0 20 20"
+          xmlns="http://www.w3.org/2000/svg"
+        >
+          <title>Menu</title>
+          <path d="M0 3h20v2H0V3zm0 6h20v2H0V9zm0 6h20v2H0v-2z" />
+        </svg>
+      </button>
+    </div>
+    <div class="w-full block flex-grow lg:flex lg:items-center lg:w-auto py-4 bg-yellow-500">
+      <div class="text-sm lg:flex-grow">
+        <div
+          class="block mt-4 lg:inline-block lg:mt-0 text-white text-2xl rounded-lg bg-black bg-opacity-0 hover:bg-opacity-10 text-opacity-60 list-none px-2 mx-2"
+        >
+          <router-link
+            to="/"
+            v-slot="{ href, route, navigate, isActive, isExactActive }"
+            custom
+          >
+            <li
+              :class="[
+                isActive && 'router-link-active',
+                isExactActive && 'router-link-exact-active',
+              ]"
+            >
+              <a :href="href" @click="navigate" class="text-decoration-line: no-underline hover:text-white "> <div class="w-full">Home</div></a>
+            </li>
+          </router-link>
+        </div>
+        <div
+          class="block mt-4 lg:inline-block lg:mt-0 text-white text-2xl rounded-lg bg-black bg-opacity-0 hover:bg-opacity-10 text-opacity-60 list-none px-2 mx-2"
+        >
+          <router-link
+            to="/menu"
+            v-slot="{ href, route, navigate, isActive, isExactActive }"
+            custom
+          >
+            <li
+              :class="[
+                isActive && 'router-link-active',
+                isExactActive && 'router-link-exact-active',
+              ]"
+            >
+              <a :href="href" @click="navigate" class="text-decoration-line: no-underline hover:text-white "><div class="w-full">Menu</div></a>
+            </li>
+          </router-link>
+        </div>
+        <div
+          class="block mt-4 lg:inline-block lg:mt-0 text-white text-2xl rounded-lg bg-black bg-opacity-0 hover:bg-opacity-10 text-opacity-60 list-none px-2 mx-2"
+        >
+          <router-link
+            to="/table_plan"
+            v-slot="{ href, route, navigate, isActive, isExactActive }"
+            custom
+          >
+            <li
+              :class="[
+                isActive && 'router-link-active',
+                isExactActive && 'router-link-exact-active',
+              ]"
+            >
+              <a :href="href" @click="navigate" class="text-decoration-line: no-underline hover:text-white"> <div class="w-full"> Table Plan</div></a>
+            </li>
+          </router-link>
+        </div>
+        <div
+          class="block mt-4 lg:inline-block lg:mt-0 text-white text-2xl rounded-lg  bg-black bg-opacity-0 hover:bg-opacity-10 text-opacity-60 list-none px-2 mx-2"
+        >
+          <router-link
+            to="/live_view"
+            v-slot="{ href, route, navigate, isActive, isExactActive }"
+            custom
+          >
+            <li
+              :class="[
+                isActive && 'router-link-active',
+                isExactActive && 'router-link-exact-active',
+              ]"
+            >
+              <a :href="href" @click="navigate" class="text-decoration-line: no-underline hover:text-white "> <div class="w-full"> Live View</div></a>
+            </li>
+          </router-link>
+        </div>
+        <div
+          class="block mt-4 lg:inline-block lg:mt-0 text-white text-2xl  rounded-lg bg-black bg-opacity-0 hover:bg-opacity-10 text-opacity-60 list-none px-2 mx-2"
+        >
+          <!-- <router-link to="/restaurant_detail" class="text-decoration-line: no-underline hover:text-white">Restaurant details</router-link> -->
+          <router-link
+            to="/restaurant_detail"
+            v-slot="{ href, route, navigate, isActive, isExactActive }"
+            custom
+          >
+            <li
+              :class="[
+                isActive && 'router-link-active',
+                isExactActive && 'router-link-exact-active',
+              ,]"
+            >
+              <a :href="href" @click="navigate" class="text-decoration-line: no-underline hover:text-white"> <div class="w-full"> Restaurant Details </div></a>
+            </li>
+          </router-link>
+        </div>
+      </div>
+      <div>
+        <div
+          class="inline-block text-sm px-4 py-2 leading-none border rounded text-white border-white hover:border-transparent hover:text-teal-500 hover:bg-white mt-4 lg:mt-0"
+        ></div>
+      </div>
+    </div>
+  </nav>
 </template>
 
 <script>
-import { inject } from 'vue'
-import { UserCircleIcon, LogoutIcon } from '@heroicons/vue/outline'
+import { inject } from "vue";
+import { UserCircleIcon, LogoutIcon } from "@heroicons/vue/outline";
 
 export default {
   components: {
     UserCircleIcon,
-    LogoutIcon
+    LogoutIcon,
   },
-  name: 'NavBar',
-  inject: ['Auth'],
-  data: function () {
-    const lang = localStorage.getItem('lang') || 'en'
+  name: "NavBar",
+  inject: ["Auth"],
+  data: function() {
+    const lang = localStorage.getItem("lang") || "en";
     return {
-      lang: lang
-    }
+      lang: lang,
+    };
   },
   methods: {
-    login () {
-      this.Auth.loginWithRedirect()
+    login() {
+      this.Auth.loginWithRedirect();
     },
-    logout () {
-      this.Auth.logout()
-      this.$router.push({ path: '/' })
+    logout() {
+      this.Auth.logout();
+      this.$router.push({ path: "/" });
     },
   },
-  setup () {
-    const auth = inject('Auth')
-    return { ...auth }
-  }
-}
+  setup() {
+    const auth = inject("Auth");
+    return { ...auth };
+  },
+};
 </script>
 
 <style scoped>
@@ -161,4 +284,10 @@ export default {
   min-height: 125px;
   justify-content: space-between;
 }
+
+nav li.router-link-exact-active {
+   color: white;
+   cursor: pointer;
+ }
+
 </style>
