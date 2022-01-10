@@ -188,7 +188,7 @@ export default defineComponent({
     }
 
     const saveDish = () => {
-      store.dispatch(isEdit.value ? 'editDish' : 'createNewDish', {
+      store.commit(isEdit.value ? 'editDish' : 'addDish', {
         id: isEdit.value ? store.state.currentDish.id : 0,
         name: name.value,
         name_NL: nameNL.value,

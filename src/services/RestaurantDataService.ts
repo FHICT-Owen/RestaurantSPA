@@ -1,28 +1,35 @@
 import { Restaurant } from '../classes'
 import { setAuthHeader, showPopUp } from '@/utils'
-import axios from 'axios'
+import axios, { AxiosError, AxiosResponse } from 'axios'
 
 export default class RestaurantDataService {
   static API_URL = process.env.VUE_APP_PROXY_URL;
-
-  public static async getTable(tableId: number): Promise<Table> {
-    const response = await axios.get(`${this.API_URL}/table/${tableId}`, setAuthHeader())
-    return response.data
-  }
 
   public static async getAllRestaurants(): Promise<Restaurant[]> {
     const response = await axios.get(`${this.API_URL}/restaurant/`)
     return response.data
   }
 
-  public static async createRestaurant(restaurant: Restaurant) {
+  public static async createRestaurant (restaurant: Restaurant): Promise<Restaurant> {
     return await axios.post(`${this.API_URL}/restaurant/`, restaurant, setAuthHeader())
+      .then((response: AxiosResponse<Restaurant>) => { 
+        showPopUp(`Added ${restaurant.name}`, false)
+        return Object.setPrototypeOf(response.data, Restaurant.prototype) 
+      })
+      .catch((error: AxiosError) => {
+        showPopUp(`Was unable to add ${restaurant.name}`, true)
+      })
   }
 
-  public static async editRestaurant(restaurant: Restaurant) {
-    await axios.put(`${this.API_URL}/restaurant/${restaurant.id}`, restaurant, setAuthHeader())
-      .then(() => showPopUp(`Updated ${restaurant.name}`, false))
-      .catch(() => showPopUp(`Was unable to update ${restaurant.name}`, true))
+  public static async editRestaurant(restaurant: Restaurant): Promise<Restaurant> {
+    return await axios.put(`${this.API_URL}/restaurant/`, restaurant, setAuthHeader())
+      .then((response: AxiosResponse<Restaurant>) => { 
+        showPopUp(`Updated ${restaurant.name}`, false) 
+        return Object.setPrototypeOf(response.data, Restaurant.prototype) 
+      })
+      .catch((error: AxiosError) => {
+        showPopUp(`Was unable to update ${restaurant.name}`, true)
+      })
   }
 
   public static async deleteRestaurant(restaurant: Restaurant) {
