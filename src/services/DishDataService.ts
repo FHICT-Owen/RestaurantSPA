@@ -1,5 +1,6 @@
+import { Dish } from '@/classes'
 import { setAuthHeader, showPopUp } from '@/utils'
-import axios from 'axios'
+import axios, { AxiosError, AxiosResponse } from 'axios'
 
 export default class DishDataService {
   static API_URL = process.env.VUE_APP_PROXY_URL;
@@ -9,16 +10,26 @@ export default class DishDataService {
     return response.data
   }
 
-  public static async createDish(dish: Dish) {
-    await axios.post(`${this.API_URL}/dish/`, dish, setAuthHeader())
-      .then(() => showPopUp(`Added ${dish.name}`, false))
-      .catch(() => showPopUp(`Was unable to add ${dish.name}`, true))
+  public static async createDish (dish: Dish): Promise<Dish> {
+    return await axios.post(`${this.API_URL}/dish/`, dish, setAuthHeader())
+      .then((response: AxiosResponse<Category>) => { 
+        showPopUp(`Added ${dish.name}`, false)
+        return Object.setPrototypeOf(response.data, Dish.prototype) 
+      })
+      .catch((error: AxiosError) => {
+        showPopUp(`Was unable to add ${dish.name}`, true)
+      })
   }
 
-  public static async editDish(dish: Dish) {
-    await axios.put(`${this.API_URL}/dish/${dish.id}`, dish, setAuthHeader())
-      .then(() => showPopUp(`Updated ${dish.name}`, false))
-      .catch(() => showPopUp(`Was unable to update ${dish.name}`, true))
+  public static async editDish(dish: Dish): Promise<Dish> {
+    return await axios.put(`${this.API_URL}/dish/`, dish, setAuthHeader())
+      .then((response: AxiosResponse<Category>) => { 
+        showPopUp(`Updated ${dish.name}`, false) 
+        return Object.setPrototypeOf(response.data, Dish.prototype) 
+      })
+      .catch((error: AxiosError) => {
+        showPopUp(`Was unable to update ${dish.name}`, true)
+      })
   }
 
   public static async deleteDish(dish: Dish) {

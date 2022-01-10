@@ -82,7 +82,7 @@ export default defineComponent({
     let category = ref('')
     let categoryNL = ref('')
     const createCategory = () => {
-      store.dispatch('createNewCategory', new Category(category.value, categoryNL.value))
+      store.commit('addCategory', new Category(category.value, categoryNL.value))
       category.value = ''
       categoryNL.value = ''
     }

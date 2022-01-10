@@ -90,6 +90,28 @@ export default createStore<State>({
         .filter((c) => state.dishes.find((d) => d.category == c.name))
         .map((c) => c.name)
     },
+    addCategory: async (state, payload) => {
+      categoryDataService.createCategory(payload)
+        .then(category => state.categories.push(category))
+    },
+    editCategory: async (state, payload) => {
+      categoryDataService.editCategory(payload)
+        .then(category => {
+          const elementIndex = state.categories.findIndex(obj => obj.id == category.id)
+          Object.assign(state.categories[elementIndex], category)
+        })
+    },
+    addDish: async (state, payload) => {
+      dishDataService.createDish(payload)
+        .then(dish => state.dishes.push(dish))
+    },
+    editDish: async (state, payload) => {
+      dishDataService.editDish(payload)
+        .then(dish => {
+          const elementIndex = state.categories.findIndex(obj => obj.id == dish.id)
+          Object.assign(state.categories[elementIndex], dish)
+        })
+    },
     setDishes: async (state) => state.dishes = await dishDataService.getAllDishes(),
     setIngredients: async (state) => state.ingredients = await ingredientDataService.getAllIngredients(),
     setRestaurants: async (state) => state.restaurants = await restaurantDataService.getAllRestaurants(),
@@ -138,14 +160,6 @@ export default createStore<State>({
     setFilter: (state, payload) => state.filter = payload
   },
   actions: {
-    createNewCategory: ({ commit }, category: Category) => {
-      categoryDataService
-        .createCategory(category)
-        .then(() => commit('setCategories'))
-    },
-    createNewDish({ commit }, dish: Dish) {
-      dishDataService.createDish(dish).then(() => commit('setDishes'))
-    },
     createNewRestaurant: ({ commit }, restaurant: Restaurant) => {
       restaurantDataService
         .createRestaurant(restaurant)
@@ -161,19 +175,10 @@ export default createStore<State>({
         .createTable(table)
         .then(() => commit('setTables'))
     },
-
-    editCategory({ commit }, category: Category) {
-      categoryDataService
-        .editCategory(category)
-        .then(() => commit('setCategories'))
-    },
     editRestaurant({ commit }, restaurant: Restaurant) {
       restaurantDataService
         .editRestaurant(restaurant)
         .then(() => commit('setRestaurant'))
-    },
-    editDish({ commit }, dish: Dish) {
-      dishDataService.editDish(dish).then(() => commit('setDishes'))
     },
     updateTable({ commit }, table: Table) {
       tableDataService.updateTable(table).then(() => commit('setTables'))
