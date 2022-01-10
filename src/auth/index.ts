@@ -135,6 +135,12 @@ async function init (options: Auth0PluginOptions): Promise<Plugin> {
     // Initialize our internal authentication state
     state.isAuthenticated = await client.isAuthenticated()
     state.user = await client.getUser()
+    if (state.user) {
+      if (state.user['http://restaurant-manager/roles']) {
+        state.user.roles = state.user['http://restaurant-manager/roles']
+        delete state.user['http://restaurant-manager/roles']
+      }        
+    }
     state.loading = false
   }
 
