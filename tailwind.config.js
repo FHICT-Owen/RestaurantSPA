@@ -4,6 +4,9 @@ module.exports = {
   important: true,
   theme: {
     extend: {},
+    screens: {
+      'xs' : '340px'
+    }
   },
   variants: {
     extend: {},
