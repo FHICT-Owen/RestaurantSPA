@@ -269,7 +269,7 @@
             </li>
           </router-link>
         </div>
-        <div class="inline-block">
+        <div class="inline-block md:float-right">
           <button
             @click="
               if (isAuthenticated) {
@@ -278,7 +278,7 @@
                 login();
               }
             "
-            class="inline-block mx-3 mt-3 text-sm p-3 leading-none border rounded-lg text-white border-white hover:border-transparent hover:text-teal-500 hover:bg-black m-auto md:mt-0"
+            class="inline-block mx-3 mt-3 text-sm p-3 leading-none border rounded-lg text-white border-white hover:border-transparent hover:text-teal-500 hover:bg-black  md:mt-0 "
           >
             {{ isAuthenticated ? "Log Out" : "Log In" }}
           </button>

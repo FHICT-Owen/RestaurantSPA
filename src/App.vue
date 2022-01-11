@@ -1,5 +1,5 @@
 <template>
-  <div v-if="$route.meta.requiresNavBar" id="app" class="h-100">
+  <div v-if="$route.meta.requiresNavBar" id="app" class="h-screen">
     <NavBar />
     <div>
       <Error />
