@@ -52,26 +52,26 @@ export default defineComponent({
         // If order is done being prepared, set isBeingPrepared false and isReady True
         order.isBeingPrepared = false
         order.isReady = true
-        store.dispatch('editOrder', order)     
+        store.commit('editOrder', order)     
         console.log('set order done')
       }
       else { 
         // If order is approved, set isBeingPrepared True
         order.isBeingPrepared = true
-        store.dispatch('updateOrder', order)     
+        store.commit('editOrder', order)     
       }
     }
 
     const archiveOrder = () => {
       // Set isArchived True
       //order.isArchived = true
-      store.dispatch('updateOrder', order) 
+      store.commit('editOrder', order) 
     }
 
     const cancelOrder = () => {
       // Set isCanceled True
       order.isCanceled = true
-      store.dispatch('updateOrder', order) 
+      store.commit('editOrder', order) 
     }  
 
     function filterByTable(table: Table) {

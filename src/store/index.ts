@@ -123,6 +123,13 @@ export default createStore<State>({
           Object.assign(state.ingredients[elementIndex], ingredient)
         })
     },
+    editOrder: async (state, payload ) => {
+      orderDataService.editOrder(payload)
+        .then(order => {
+          const elementIndex = state.orders.findIndex(obj => obj.id == order.id)
+          Object.assign(state.orders[elementIndex], order)
+        })
+    },
     addTable: async (state, payload) => {
       tableDataService.createTable(payload)
         .then(table => state.tables.push(table))
@@ -193,10 +200,7 @@ export default createStore<State>({
     setFilter: (state, payload) => state.filter = payload
   },
   actions: {
-    updateOrder({ commit }, order: Order) {
-      orderDataService.updateOrder(order).then(() => commit('setOrders'))
-    },
-
+    
     deleteObject({ state }) {
       state.confirmDeleteFunction()
       state.isConfirmDialogOpen = false
