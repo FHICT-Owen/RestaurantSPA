@@ -129,9 +129,11 @@
   </div>
 
   <nav class="flex items-center justify-between flex-wrap">
-    <div class="block lg:hidden">
+    
+    <div class="w-full block flex-grow md:flex sm:items-center  md:w-auto py-4 bg-yellow-500  z-50">
+      <div class="block md:hidden">
       <button
-        class="flex items-center px-3 py-2 border rounded text-teal-200 border-teal-400 hover:text-white hover:border-white"
+        class="flex items-center px-3 py-2 border rounded text-teal-200 border-teal-400 border-white text-white"
       >
         <svg
           class="fill-current h-3 w-3"
@@ -143,10 +145,9 @@
         </svg>
       </button>
     </div>
-    <div class="w-full block flex-grow lg:flex lg:items-center lg:w-auto py-4 bg-yellow-500">
-      <div class="text-sm lg:flex-grow">
+      <div class="text-sm md:flex-grow">
         <div
-          class="block mt-4 lg:inline-block lg:mt-0 text-white text-2xl rounded-lg bg-black bg-opacity-0 hover:bg-opacity-10 text-opacity-60 list-none px-2 mx-2"
+          class="block mt-4 md:inline-block md:mt-0 text-white text-2xl rounded-lg bg-black bg-opacity-0 hover:bg-opacity-10 text-opacity-60 list-none px-2 mx-2"
         >
           <router-link
             to="/"
@@ -164,7 +165,7 @@
           </router-link>
         </div>
         <div
-          class="block mt-4 lg:inline-block lg:mt-0 text-white text-2xl rounded-lg bg-black bg-opacity-0 hover:bg-opacity-10 text-opacity-60 list-none px-2 mx-2"
+          class="block mt-4 md:inline-block md:mt-0 text-white text-2xl rounded-lg bg-black bg-opacity-0 hover:bg-opacity-10 text-opacity-60 list-none px-2 mx-2"
         >
           <router-link
             to="/menu"
@@ -182,7 +183,7 @@
           </router-link>
         </div>
         <div
-          class="block mt-4 lg:inline-block lg:mt-0 text-white text-2xl rounded-lg bg-black bg-opacity-0 hover:bg-opacity-10 text-opacity-60 list-none px-2 mx-2"
+          class="block mt-4 md:inline-block md:mt-0 text-white text-2xl rounded-lg bg-black bg-opacity-0 hover:bg-opacity-10 text-opacity-60 list-none px-2 mx-2"
         >
           <router-link
             to="/table_plan"
@@ -200,7 +201,7 @@
           </router-link>
         </div>
         <div
-          class="block mt-4 lg:inline-block lg:mt-0 text-white text-2xl rounded-lg  bg-black bg-opacity-0 hover:bg-opacity-10 text-opacity-60 list-none px-2 mx-2"
+          class="block mt-4 md:inline-block md:mt-0 text-white text-2xl rounded-lg  bg-black bg-opacity-0 hover:bg-opacity-10 text-opacity-60 list-none px-2 mx-2"
         >
           <router-link
             to="/live_view"
@@ -218,7 +219,7 @@
           </router-link>
         </div>
         <div
-          class="block mt-4 lg:inline-block lg:mt-0 text-white text-2xl  rounded-lg bg-black bg-opacity-0 hover:bg-opacity-10 text-opacity-60 list-none px-2 mx-2"
+          class="block mt-4 md:inline-block md:mt-0 text-white text-2xl  rounded-lg bg-black bg-opacity-0 hover:bg-opacity-10 text-opacity-60 list-none px-2 mx-2"
         >
           <!-- <router-link to="/restaurant_detail" class="text-decoration-line: no-underline hover:text-white">Restaurant details</router-link> -->
           <router-link
@@ -239,7 +240,7 @@
       </div>
       <div>
         <div
-          class="inline-block text-sm px-4 py-2 leading-none border rounded text-white border-white hover:border-transparent hover:text-teal-500 hover:bg-white mt-4 lg:mt-0"
+          class="inline-block mx-3 text-sm p-3 leading-none border rounded-full text-white border-white hover:border-transparent hover:text-teal-500 hover:bg-white mt-4 lg:mt-0"
         ></div>
       </div>
     </div>
