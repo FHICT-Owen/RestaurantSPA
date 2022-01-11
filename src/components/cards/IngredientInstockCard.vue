@@ -23,7 +23,7 @@ export default defineComponent({
   setup(props) { 
 
     const toggleIsInStock = () => {
-      store.dispatch('updateIngredient', new Ingredient(props.ingredient.id, props.ingredient.restaurantId, props.ingredient.name, props.ingredient.name_NL, props.ingredient.isAllergen, !props.ingredient.isInStock) )
+      store.commit('editIngredient', new Ingredient(props.ingredient.id, props.ingredient.restaurantId, props.ingredient.name, props.ingredient.name_NL, props.ingredient.isAllergen, !props.ingredient.isInStock) )
     }
     return { 
       isInStock: computed(() => props.ingredient.isInStock),

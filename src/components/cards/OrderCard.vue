@@ -52,7 +52,7 @@ export default defineComponent({
         // If order is done being prepared, set isBeingPrepared false and isReady True
         order.isBeingPrepared = false
         order.isReady = true
-        store.dispatch('updateOrder', order)     
+        store.dispatch('editOrder', order)     
         console.log('set order done')
       }
       else { 

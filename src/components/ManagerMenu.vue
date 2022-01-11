@@ -90,7 +90,7 @@ export default defineComponent({
     let ingredient = ref('')
     let ingredientNL = ref('')
     const createIngredient = () => {
-      store.dispatch('createNewIngredient', new Ingredient(0, 0, ingredient.value, ingredientNL.value, isAllergen.value, false))
+      store.commit('addIngredient', new Ingredient(0, 0, ingredient.value, ingredientNL.value, isAllergen.value, false))
       ingredient.value = ''
       ingredientNL.value = ''
     }
