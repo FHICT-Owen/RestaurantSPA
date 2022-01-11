@@ -29,7 +29,6 @@
         </div>
       </div>
     </div>
-    <DeleteConfirmDialog v-if="isConfirmDialogOpen" :key="isConfirmDialogOpen" />
     <Dialog v-if="isDishDialogOpen" :key="isDishDialogOpen" />
   </div>
 </template>
@@ -41,7 +40,6 @@ import DishCard from './cards/DishCard.vue'
 import Dialog from './dialogs/Dialog.vue'
 import store from '@/store'
 import { computed, defineComponent, ref } from 'vue'
-import DeleteConfirmDialog from './dialogs/DeleteConfirmDialog.vue'
 import DeleteButton from './buttons/DeleteButton.vue'
 import EditButton from './buttons/EditButton.vue'
 import IngredientCard from './cards/IngredientCard.vue'
@@ -51,8 +49,7 @@ export default defineComponent({
   components: {
     CategoryCard,
     DishCard,
-    Dialog,
-    DeleteConfirmDialog,
+    Dialog,    
     DeleteButton,
     EditButton,
     IngredientCard 
@@ -61,7 +58,6 @@ export default defineComponent({
     const categories = computed(() => store.state.categories)
     const dishes = computed(() => store.state.dishes)
     const ingredients = computed(() => store.state.ingredients)
-    const isConfirmDialogOpen = computed(() => store.state.isConfirmDialogOpen)
     const isDishDialogOpen = computed(() => store.state.isDishDialogOpen)
     let isAllergen = ref(false)
 
@@ -102,8 +98,7 @@ export default defineComponent({
     return {
       categories, 
       dishes, 
-      isDishDialogOpen, 
-      isConfirmDialogOpen, 
+      isDishDialogOpen,
       toggleDialog, 
       category, 
       categoryNL, 

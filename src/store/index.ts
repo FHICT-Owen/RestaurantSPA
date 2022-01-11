@@ -212,7 +212,7 @@ export default createStore<State>({
     deleteRestaurant({ commit }, restaurant: Restaurant) {
       restaurantDataService
         .deleteRestaurant(restaurant)
-        .then(() => commit('setRestaurant'))
+        .then(() => commit('setRestaurants'))
     },
     deleteIngredient({ commit }, ingredient: Ingredient) {
       ingredientDataService
@@ -220,8 +220,6 @@ export default createStore<State>({
         .then(() => commit('setIngredients'))
     },
 
-    openConfirmDialog: ({ commit }, payload) =>
-      commit('toggleConfirmDialog', payload),
     toggleDialog: ({ commit }, payload) => commit('toggleDialog', payload),
 
     setCurrentDish: ({ commit }, payload) => commit('setCurrentDish', payload),

@@ -14,9 +14,7 @@
     <!-- <div class="flex-row text-2xl w-4/5">{{ $t('greeting') }}</div>
     <div class="flex-row text-xl w-4/5">{{ $t('question') }}</div> -->
   </div>
-
-      <CustomerMenu/>
-
+    <CustomerMenu/>
     <CustomerOrderDialog :placeOrder="placeOrder" class="flex justify-center" v-if="true /* if currentOrder > 1 dish */"/>
 </template>
 

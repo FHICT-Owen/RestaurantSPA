@@ -51,7 +51,7 @@ export default defineComponent({
     }
 
     const openConfirmDialog = () => {
-      store.dispatch('openConfirmDialog', {object: props.category, function: () => store.dispatch('deleteCategory', props.category)})
+      store.commit('toggleConfirmDialog', {object: props.category, function: () => store.dispatch('deleteCategory', props.category)})
     }
 
     return {
