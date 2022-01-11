@@ -36,7 +36,7 @@ export default defineComponent({
 
     let restaurant = ref('')
     const createRestaurant = () => {
-      store.dispatch('createNewRestaurant', new Restaurant(restaurant.value))
+      store.commit('addRestaurant', new Restaurant(restaurant.value))
       restaurant.value = ''
     }
 
