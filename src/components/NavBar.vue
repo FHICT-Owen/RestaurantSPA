@@ -1,5 +1,5 @@
 <template>
-  <div class="nav-container">
+  <!-- <div class="nav-container">
     <nav class="navbar navbar-expand-md navbar-light bg-light">
       <div class="container">
         <div class="navbar-brand"></div>
@@ -126,13 +126,13 @@
         </div>
       </div>
     </nav>
-  </div>
+  </div> -->
 
   <nav class="flex items-center justify-between flex-wrap">
     <div
       class="w-full block flex-grow md:flex sm:items-center  md:w-auto py-4 bg-yellow-500  z-50"
     >
-      <div class="block md:hidden">
+      <div class="block ml-3 md:hidden">
         <button
           class="flex items-center px-3 py-2 border rounded text-teal-200 border-teal-400 border-white text-white"
           @click="toggleNav"
@@ -269,11 +269,20 @@
             </li>
           </router-link>
         </div>
-      </div>
-      <div>
-        <div
-          class="inline-block mx-3 text-sm p-3 leading-none border rounded-full text-white border-white hover:border-transparent hover:text-teal-500 hover:bg-white mt-4 lg:mt-0"
-        ></div>
+        <div class="inline-block">
+          <button
+            @click="
+              if (isAuthenticated) {
+                logout();
+              } else {
+                login();
+              }
+            "
+            class="inline-block mx-3 mt-3 text-sm p-3 leading-none border rounded-lg text-white border-white hover:border-transparent hover:text-teal-500 hover:bg-black m-auto md:mt-0"
+          >
+            {{ isAuthenticated ? "Log Out" : "Log In" }}
+          </button>
+        </div>
       </div>
     </div>
   </nav>
@@ -295,7 +304,11 @@ export default defineComponent({
     const auth = inject<AuthPlugin>("Auth");
     const lang = localStorage.getItem("lang") || "en";
     let showNavOnMobile = ref(false);
-    let showNav = computed(() => window.innerWidth >= 768 ? true : showNavOnMobile.value)
+    let currentWidth = ref(window.innerWidth);
+    let showNav = computed(() =>
+      currentWidth.value >= 768 ? true : showNavOnMobile.value
+    );
+
     // screen size > 768 else-if (shownavonmobile
     // let showNav = computed(() => )
     function login() {
@@ -308,10 +321,29 @@ export default defineComponent({
         router.push("/");
       }
     }
+
+    // function handleLogInLogOut(){
+    //   auth?.isAuthenticated.value ? logout() : login()
+    // }
+
     function toggleNav() {
-      showNavOnMobile.value = !showNavOnMobile.value
+      showNavOnMobile.value = !showNavOnMobile.value;
     }
-    return { ...auth, showNavOnMobile, login, logout, toggleNav, showNav };
+
+    function reportWindowWidth() {
+      currentWidth.value = window.innerWidth;
+    }
+
+    window.onresize = reportWindowWidth;
+    return {
+      ...auth,
+      showNavOnMobile,
+      login,
+      logout,
+      toggleNav,
+      showNav,
+      currentWidth,
+    };
   },
 });
 </script>
