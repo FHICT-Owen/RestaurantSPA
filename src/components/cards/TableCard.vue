@@ -1,12 +1,13 @@
 <template>
-  <div class="flex flex-row justify-between items-center w-full whitespace-nowrap rounded-2xl px-4 py-2 m-1 shadow">
-    <div class="flex flex-row justify-center gap-5">
-      <div class="flex items-center gap-2">
-        <p class="num">Table {{table.tableNumber}}</p>
+  <div class="flex flex-row justify-between items-center w-full whitespace-nowrap rounded-2xl px-2 py-2 m-1 shadow">
+    <div class="flex flex-row justify-center gap-1 xs:gap-3">
+      <div class="flex items-center gap-x-1">
+        <p style="width:77px">Table {{table.tableNumber}}</p>
         <div 
           class="text-sm w-14"
           :class="table.inUse ? 'text-red-600' : 'text-green-600'">
           {{ table.inUse ? "In Use" : "Available" }}
+
         </div>
       </div>
       <label class="relative inline-block w-14 h-8 my-auto">
@@ -14,7 +15,7 @@
         <span class="slider round"></span>
       </label>
     </div>
-    <div class="flex flex-row gap-2">
+    <div class="flex flex-row gap-1">
       <PrinterButton @click="printQRCode" />
       <DeleteButton @click="removeTable(table)" />
     </div>

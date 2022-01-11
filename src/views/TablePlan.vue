@@ -2,12 +2,12 @@
   <div class="flex justify-center">
     <div class="flex flex-col w-full max-w-3xl">
       <button 
-        class="inline-block border border-yellow-500 rounded-3xl m-2 py-1 px-3 bg-yellow-500 text-white no-underline" 
+        class="inline-block border border-yellow-500 rounded-xl m-2 py-1 px-3 bg-yellow-500 text-white no-underline" 
         v-on:click="addTable">Add Table
       </button>
       <div 
-        class="flex flex-col items-center p-3 bg-white" 
-        style="box-shadow: inset 0px 0px 4px 1px rgba(0, 0, 0, 0.25); border-radius: 40px;">
+        class="flex flex-col items-center p-2 rounded-2xl bg-white" 
+        style="box-shadow: inset 0px 0px 4px 1px rgba(0, 0, 0, 0.25);">
         <TableCard v-for="table in tables" :table="table" :key="table.id" />
       </div>
     </div>
