@@ -8,6 +8,7 @@
         <ul class="pop-up-position">
           <PopUp v-for="popUp of popUps" :key="popUp" :popUp="popUp" />
         </ul>
+        <DeleteConfirmDialog v-if="isConfirmDialogOpen" :key="isConfirmDialogOpen" />
       </div>
     </div>
   </div>
@@ -19,6 +20,7 @@
 <script lang="ts">
 import NavBar from './components/NavBar.vue'
 import Error from './components/Error.vue'
+import DeleteConfirmDialog from './components/dialogs/DeleteConfirmDialog.vue'
 import PopUp from './components/PopUp.vue'
 import store from '@/store'
 import { computed, onMounted, inject } from 'vue'
@@ -28,11 +30,13 @@ export default {
   name: 'App',
   components: {
     NavBar,
+    DeleteConfirmDialog,
     Error,
     PopUp
   },
   setup() {
     const popUps = computed(() => store.state.popUps)
+    const isConfirmDialogOpen = computed(() => store.state.isConfirmDialogOpen)
     const token = computed(() => store.state.apiToken)
     const auth = inject<AuthPlugin>('Auth')
 
@@ -52,7 +56,7 @@ export default {
       getToken()
     })
     
-    return { popUps }
+    return { popUps, isConfirmDialogOpen }
   }
 }
 </script>

@@ -50,7 +50,7 @@ export default defineComponent({
     }
 
     const openConfirmDialog = () => {
-      store.dispatch('openConfirmDialog', {object: props.restaurant, function: () => store.dispatch('deleteRestaurant', props.restaurant)})
+      store.commit('toggleConfirmDialog', {object: props.restaurant, function: () => store.dispatch('deleteRestaurant', props.restaurant)})
     }
     return{
       isEditMode,

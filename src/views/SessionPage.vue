@@ -6,7 +6,7 @@
       </div>
       <div class="flex self-end absolute right-0">
         <country-flag v-if="lang == 'en' " @click="handleChangeLanguage('nl')" country='nl' size='big' class="px-8 bg-no-repeat cursor-pointer"/>
-        <country-flag  v-if="lang == 'nl'" v @click="handleChangeLanguage('en')" country='gb' size='big' class="px-8 bg-no-repeat cursor-pointer"/>
+        <country-flag  v-if="lang == 'nl'" @click="handleChangeLanguage('en')" country='gb' size='big' class="px-8 bg-no-repeat cursor-pointer"/>
         <ShoppingCartIcon class="w-12 cursor-pointer" style="margin-top:-4px"/>
       </div>
     </div>
@@ -14,9 +14,7 @@
     <!-- <div class="flex-row text-2xl w-4/5">{{ $t('greeting') }}</div>
     <div class="flex-row text-xl w-4/5">{{ $t('question') }}</div> -->
   </div>
-
-      <CustomerMenu/>
-
+    <CustomerMenu/>
     <CustomerOrderDialog :placeOrder="placeOrder" class="flex justify-center" v-if="true /* if currentOrder > 1 dish */"/>
 </template>
 

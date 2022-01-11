@@ -1,6 +1,6 @@
 import { Order } from '../classes'
 import { setAuthHeader, showPopUp } from '@/utils'
-import axios from 'axios'
+import axios, { AxiosError, AxiosResponse } from 'axios'
 
 export default class OrderDataService {
   static API_URL = process.env.VUE_APP_PROXY_URL;
@@ -10,14 +10,26 @@ export default class OrderDataService {
     return response.data
   }
 
-  public static async createOrder(order: Order) {
-    return await axios.post(`${this.API_URL}/order/`, order)
+  public static async createOrder (order: Order): Promise<Order> {
+    return await axios.post(`${this.API_URL}/Order/`, order, setAuthHeader())
+      .then((response: AxiosResponse<Order>) => { 
+        showPopUp(`Added ${order.id}`, false)
+        return Object.setPrototypeOf(response.data, Order.prototype) 
+      })
+      .catch((error: AxiosError) => {
+        showPopUp(`Was unable to add ${order.id}`, true)
+      })
   }
 
-  public static async updateOrder(order: Order) {
+  public static async editOrder(order: Order) : Promise<any>{
     await axios.put(`${this.API_URL}/order/`, order, setAuthHeader())
-      .then(() => showPopUp(`Updated ${order.id}`, false))
-      .catch(() => showPopUp(`Was unable to update ${order.id}`, true))
+      .then((response: AxiosResponse<Order>) => { 
+        showPopUp(`Updated ${order.id}`, false) 
+        return order
+      })      
+      .catch((error: AxiosError) => {
+        showPopUp(`Was unable to update ${order.id}`, true)
+      })
   }
 
   //   public static async deleteOrderById(dish: Dish) {
