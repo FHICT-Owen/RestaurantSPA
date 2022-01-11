@@ -42,7 +42,7 @@ export default defineComponent({
     }
 
     const editRestaurant = () => {
-		 store.dispatch('editRestaurant', {
+		 store.commit('editRestaurant', {
         id: props.restaurant.id,
         name: name.value
       })
