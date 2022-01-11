@@ -10,8 +10,15 @@ export default class OrderDataService {
     return response.data
   }
 
-  public static async createOrder(order: Order) {
-    return await axios.post(`${this.API_URL}/order/`, order)
+  public static async createOrder (order: Order): Promise<Order> {
+    return await axios.post(`${this.API_URL}/Order/`, order, setAuthHeader())
+      .then((response: AxiosResponse<Order>) => { 
+        showPopUp(`Added ${order.id}`, false)
+        return Object.setPrototypeOf(response.data, Order.prototype) 
+      })
+      .catch((error: AxiosError) => {
+        showPopUp(`Was unable to add ${order.id}`, true)
+      })
   }
 
   public static async editOrder(order: Order) : Promise<any>{
