@@ -129,23 +129,25 @@
   </div>
 
   <nav class="flex items-center justify-between flex-wrap">
-    
-    <div class="w-full block flex-grow md:flex sm:items-center  md:w-auto py-4 bg-yellow-500  z-50">
+    <div
+      class="w-full block flex-grow md:flex sm:items-center  md:w-auto py-4 bg-yellow-500  z-50"
+    >
       <div class="block md:hidden">
-      <button
-        class="flex items-center px-3 py-2 border rounded text-teal-200 border-teal-400 border-white text-white"
-      >
-        <svg
-          class="fill-current h-3 w-3"
-          viewBox="0 0 20 20"
-          xmlns="http://www.w3.org/2000/svg"
+        <button
+          class="flex items-center px-3 py-2 border rounded text-teal-200 border-teal-400 border-white text-white"
+          @click="toggleNav"
         >
-          <title>Menu</title>
-          <path d="M0 3h20v2H0V3zm0 6h20v2H0V9zm0 6h20v2H0v-2z" />
-        </svg>
-      </button>
-    </div>
-      <div class="text-sm md:flex-grow">
+          <svg
+            class="fill-current h-3 w-3"
+            viewBox="0 0 20 20"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <title>Menu</title>
+            <path d="M0 3h20v2H0V3zm0 6h20v2H0V9zm0 6h20v2H0v-2z" />
+          </svg>
+        </button>
+      </div>
+      <div class="text-sm md:flex-grow" v-if="showNav">
         <div
           class="block mt-4 md:inline-block md:mt-0 text-white text-2xl rounded-lg bg-black bg-opacity-0 hover:bg-opacity-10 text-opacity-60 list-none px-2 mx-2"
         >
@@ -160,7 +162,13 @@
                 isExactActive && 'router-link-exact-active',
               ]"
             >
-              <a :href="href" @click="navigate" class="text-decoration-line: no-underline hover:text-white "> <div class="w-full">Home</div></a>
+              <a
+                :href="href"
+                @click="navigate"
+                class="text-decoration-line: no-underline hover:text-white "
+              >
+                <div class="w-full">Home</div></a
+              >
             </li>
           </router-link>
         </div>
@@ -178,7 +186,12 @@
                 isExactActive && 'router-link-exact-active',
               ]"
             >
-              <a :href="href" @click="navigate" class="text-decoration-line: no-underline hover:text-white "><div class="w-full">Menu</div></a>
+              <a
+                :href="href"
+                @click="navigate"
+                class="text-decoration-line: no-underline hover:text-white "
+                ><div class="w-full">Menu</div></a
+              >
             </li>
           </router-link>
         </div>
@@ -196,7 +209,13 @@
                 isExactActive && 'router-link-exact-active',
               ]"
             >
-              <a :href="href" @click="navigate" class="text-decoration-line: no-underline hover:text-white"> <div class="w-full"> Table Plan</div></a>
+              <a
+                :href="href"
+                @click="navigate"
+                class="text-decoration-line: no-underline hover:text-white"
+              >
+                <div class="w-full">Table Plan</div></a
+              >
             </li>
           </router-link>
         </div>
@@ -214,7 +233,13 @@
                 isExactActive && 'router-link-exact-active',
               ]"
             >
-              <a :href="href" @click="navigate" class="text-decoration-line: no-underline hover:text-white "> <div class="w-full"> Live View</div></a>
+              <a
+                :href="href"
+                @click="navigate"
+                class="text-decoration-line: no-underline hover:text-white "
+              >
+                <div class="w-full">Live View</div></a
+              >
             </li>
           </router-link>
         </div>
@@ -231,9 +256,16 @@
               :class="[
                 isActive && 'router-link-active',
                 isExactActive && 'router-link-exact-active',
-              ,]"
+                ,
+              ]"
             >
-              <a :href="href" @click="navigate" class="text-decoration-line: no-underline hover:text-white"> <div class="w-full"> Restaurant Details </div></a>
+              <a
+                :href="href"
+                @click="navigate"
+                class="text-decoration-line: no-underline hover:text-white"
+              >
+                <div class="w-full">Restaurant Details</div></a
+              >
             </li>
           </router-link>
         </div>
@@ -247,37 +279,41 @@
   </nav>
 </template>
 
-<script>
-import { inject } from "vue";
+<script lang="ts">
+import { inject, defineComponent, ref, computed } from "vue";
 import { UserCircleIcon, LogoutIcon } from "@heroicons/vue/outline";
+import { AuthPlugin } from "@/auth";
+import router from "@/router";
 
-export default {
+export default defineComponent({
   components: {
     UserCircleIcon,
     LogoutIcon,
   },
-  name: "NavBar",
-  inject: ["Auth"],
-  data: function() {
-    const lang = localStorage.getItem("lang") || "en";
-    return {
-      lang: lang,
-    };
-  },
-  methods: {
-    login() {
-      this.Auth.loginWithRedirect();
-    },
-    logout() {
-      this.Auth.logout();
-      this.$router.push({ path: "/" });
-    },
-  },
+  methods: {},
   setup() {
-    const auth = inject("Auth");
-    return { ...auth };
+    const auth = inject<AuthPlugin>("Auth");
+    const lang = localStorage.getItem("lang") || "en";
+    let showNavOnMobile = ref(false);
+    let showNav = computed(() => window.innerWidth >= 768 ? true : showNavOnMobile.value)
+    // screen size > 768 else-if (shownavonmobile
+    // let showNav = computed(() => )
+    function login() {
+      if (!!auth) auth.loginWithRedirect();
+    }
+
+    function logout() {
+      if (!!auth) {
+        auth.logout();
+        router.push("/");
+      }
+    }
+    function toggleNav() {
+      showNavOnMobile.value = !showNavOnMobile.value
+    }
+    return { ...auth, showNavOnMobile, login, logout, toggleNav, showNav };
   },
-};
+});
 </script>
 
 <style scoped>
@@ -287,8 +323,7 @@ export default {
 }
 
 nav li.router-link-exact-active {
-   color: white;
-   cursor: pointer;
- }
-
+  color: white;
+  cursor: pointer;
+}
 </style>
