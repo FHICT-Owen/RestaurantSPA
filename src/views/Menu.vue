@@ -12,12 +12,12 @@
 </template>
 
 <script lang="ts">
-import { inject, ref } from 'vue'
+import { defineComponent, inject, ref } from 'vue'
 import CustomerMenu from '../components/CustomerMenu.vue'
 import ManagerMenu from '../components/ManagerMenu.vue'
 import { AuthPlugin } from '@/auth'
 
-export default {
+export default defineComponent({
   components: {
     CustomerMenu,
     ManagerMenu
@@ -28,7 +28,11 @@ export default {
 
     const toggleMenu = () => costumerMenuIsOpen.value = !costumerMenuIsOpen.value
 
-    return { ...auth, costumerMenuIsOpen, toggleMenu }
+    return { 
+      ...auth, 
+      costumerMenuIsOpen, 
+      toggleMenu 
+    }
   }
-}
+})
 </script>
