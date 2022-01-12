@@ -32,9 +32,3 @@ export default defineComponent({
   }
 })
 </script>
-
-<style>
-dasd {
-  stroke: ;
-}
-</style>
