@@ -46,7 +46,7 @@ export class Dish {
   category!: string
   dietaryRestrictions!: string[]
   ingredients!: string[]
-  prize!: number
+  prize!: string
   image!: string
 
   // constructor(name: string, name_NL: string, description: string, description_NL: string,  category: string,  dietaryRestrictions: string[],  ingredients: string[],  prize: number, image: string)

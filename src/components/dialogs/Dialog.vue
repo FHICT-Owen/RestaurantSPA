@@ -28,48 +28,57 @@
             class="w-36 h-8 text-sm unselected border-yellow-400 border-2 border-solid box-border rounded-r-3xl" 
             @click="switchGeneral">Ingredients</button>
         </div>
-        <div v-if="onGeneralTab" class="flex flex-row pt-2 justify-evenly">
+        <div class="flex flex-row m-0.5 pt-2">
+          <button 
+            id="EN"
+            class="rounded text-sm px-2 selected border-yellow-400 border-2 border-solid box-border mr-1"
+            @click="switchLanguage">EN</button>
+          <button 
+            id="NL"
+            class="rounded text-sm px-2 unselected border-yellow-400 border-2 border-solid box-border"
+            @click="switchLanguage">NL</button>
+        </div>
+        <div v-if="onGeneralTab" class="flex flex-row justify-evenly">
           <div class="flex flex-col w-40">
-            <div class="flex flex-row m-0.5">
-              <button 
-                id="EN"
-                class="rounded text-sm px-2 selected border-yellow-400 border-2 border-solid box-border mr-1"
-                @click="switchLanguage">EN</button>
-              <button 
-                id="NL"
-                class="rounded text-sm px-2 unselected border-yellow-400 border-2 border-solid box-border"
-                @click="switchLanguage">NL</button>
-            </div>
             <input 
               v-if="onEnglish" 
-              class="text-base" 
-              placeholder="Enter english dish name ..." 
+              class="text-sm m-1 p-1 rounded-md shadow-sm" 
+              placeholder="Enter dish name ..." 
               v-model="name" />
             <input 
               v-else 
-              class="text-base" 
-              placeholder="Enter dutch dish name ..." 
+              class="text-sm m-1 p-1 rounded-md shadow-sm" 
+              placeholder="Enter dish name ..." 
               v-model="nameNL" />
             <textarea 
               v-if="onEnglish" 
-              class="text-sm resize-none h-24 mt-2" 
-              placeholder="Enter english dish description ..." 
+              class="text-sm resize-none p-1 rounded-md shadow-sm h-24 m-1" 
+              placeholder="Enter dish description ..." 
               v-model="description" />
             <textarea 
               v-else 
-              class="text-sm resize-none h-24 mt-2" 
-              placeholder="Enter dutch dish description ..." 
+              class="text-sm resize-none p-1 rounded-md shadow-sm h-24 m-1" 
+              placeholder="Enter dish description ..." 
               v-model="descriptionNL" />
           </div>
           <div class="flex flex-col">
+            <div class="relative flex rounded-md shadow-sm m-1">
+              <span class="text-black sm:text-sm absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">€</span>
+              <input 
+                type="number" 
+                min="0" 
+                step="0.01"
+                v-model="prize" 
+                class="w-full pl-7 py-1 pr-1 text-sm border-gray-300 rounded-md" 
+                placeholder="0.00" />
+            </div>
             <select 
-              class="text-black italic rounded-3xl p-2 mb-1 mr-1 bg-white y-6 self-end text-center cursor-pointer"
+              class="text-black italic rounded-md p-1 m-1 bg-white text-center cursor-pointer shadow-sm"
               v-model="category">
               <option v-for="category of categories" :key="category.id">
                 {{ category.name }}
               </option>
             </select>
-            <input type="number" min="0" step="0.01" v-model="prize" class="w-24 self-end" placeholder="Prize ..."/>
           </div>
         </div>
         <div v-else class="flex flex-row pt-2 max-w-xs">
@@ -126,7 +135,7 @@ export default defineComponent({
     let category = ref(isEdit ? store.state.currentDish.category : '')
     let dietaryRestrictions = ref<string[]>([])
     let dishIngredients = ref<string[]>(isEdit ? store.state.currentDish.ingredients || [] : [])
-    let prize = ref(isEdit ? (Math.round(store.state.currentDish.prize * 100) / 100).toFixed(2) : 0)
+    let prize = ref(isEdit ? store.state.currentDish.prize : '')
     let image = ref(isEdit ? store.state.currentDish.image : '')
 
     let options = ref(['Vegan', 'Vegetarian'])

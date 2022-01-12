@@ -96,9 +96,9 @@ export default createStore<State>({
     },
     editCategory: async (state, payload) => {
       categoryDataService.editCategory(payload)
-        .then(category => {
-          const elementIndex = state.categories.findIndex(obj => obj.id == category.id)
-          Object.assign(state.categories[elementIndex], category)
+        .then(() => {
+          const elementIndex = state.categories.findIndex(obj => obj.id == payload.id)
+          Object.assign(state.categories[elementIndex], payload)
         })
     },
     addDish: async (state, payload) => {
@@ -147,9 +147,9 @@ export default createStore<State>({
     },
     editRestaurant: async (state, payload) => {
       restaurantDataService.editRestaurant(payload)
-        .then(restaurant => {
-          const elementIndex = state.restaurants.findIndex(obj => obj.id == restaurant.id)
-          Object.assign(state.restaurants[elementIndex], restaurant)
+        .then(() => {
+          const elementIndex = state.restaurants.findIndex(obj => obj.id == payload.id)
+          Object.assign(state.restaurants[elementIndex], payload)
         })
     },
     setDishes: async (state) => state.dishes = await dishDataService.getAllDishes(),

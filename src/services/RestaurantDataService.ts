@@ -21,11 +21,11 @@ export default class RestaurantDataService {
       })
   }
 
-  public static async editRestaurant(restaurant: Restaurant): Promise<Restaurant> {
+  public static async editRestaurant(restaurant: Restaurant): Promise<any> {
     return await axios.put(`${this.API_URL}/restaurant/`, restaurant, setAuthHeader())
-      .then((response: AxiosResponse<Restaurant>) => { 
+      .then(() => { 
         showPopUp(`Updated ${restaurant.name}`, false) 
-        return Object.setPrototypeOf(response.data, Restaurant.prototype) 
+        return restaurant
       })
       .catch((error: AxiosError) => {
         showPopUp(`Was unable to update ${restaurant.name}`, true)

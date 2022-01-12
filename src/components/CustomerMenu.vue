@@ -54,9 +54,10 @@ export default defineComponent({
     const dishes = computed(() => store.state.dishes)
     let keyword = ref('')
 
-    const filteredDishes = computed(() => 
-      dishes.value.filter(({ name }) => 
-        name.toLowerCase().includes(keyword.value.toLowerCase())))
+    const filteredDishes = computed(() => lang.value === 'en' ?
+      dishes.value.filter(({name}) => 
+        name.toLowerCase().includes(keyword.value.toLowerCase())) : dishes.value.filter(({name_NL}) => 
+        name_NL.toLowerCase().includes(keyword.value.toLowerCase())))
 
     const selectedCategory = computed(() => store.state.selectedCategory)
     

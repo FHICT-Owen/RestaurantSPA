@@ -13,7 +13,7 @@ interface Dish {
   category: string
   dietaryRestrictions: string[]
   ingredients: string[]
-  prize: number
+  prize: string
   image: string
 }
 
