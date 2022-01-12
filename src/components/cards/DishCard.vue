@@ -52,11 +52,6 @@ export default defineComponent({
       required: true,
     },
   },
-  methods: {
-    log(order:any) {
-      console.log(order)
-    }
-  },
   setup(props) {
     const dishes = computed(() => store.state.currentOrder.dishes)
     const inInSession = computed(() => store.state.sessionId.length > 0) //TODO: make a proper check for sessionId checking

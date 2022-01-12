@@ -72,7 +72,7 @@ export default defineComponent({
     }
 
     const openConfirmDialog = (dish: Dish) => {
-      store.dispatch('openConfirmDialog', {object: dish, function: () => store.dispatch('deleteDish', dish)})
+      store.commit('toggleConfirmDialog', {object: dish, function: () => store.dispatch('deleteDish', dish)})
     }
 
     let category = ref('')
