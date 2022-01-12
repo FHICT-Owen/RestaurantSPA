@@ -1,4 +1,4 @@
-import { Session } from '@/classes'
+import { Session } from '../classes'
 import { setAuthHeader, showPopUp } from '@/utils'
 import axios from 'axios'
 
@@ -24,6 +24,11 @@ export default class SessionDataService {
     } catch {
       return new Session(0,0,'')
     }
+  }
+
+  public static async getAllSessions(): Promise<Session[]> {
+    const response = await axios.get(`${this.API_URL}/session`, setAuthHeader())
+    return response.data
   }
 
   public static async removeSession(tableId: number): Promise<Boolean> {

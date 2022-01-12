@@ -7,6 +7,7 @@ import TablePlan from '../views/TablePlan.vue'
 import QRGenTest from '../views/QRGenTest.vue'
 import CreateSession from '../components/CreateSession.vue'
 import LiveView from '../views/LiveView.vue'
+import RestaurantView from '../views/RestaurantView.vue'
 import { Auth0 } from '@/auth'
 
 const routes: Array<RouteRecordRaw> = [
@@ -34,6 +35,13 @@ const routes: Array<RouteRecordRaw> = [
     name: 'liveview',
     meta: {requiresNavBar: true},
     component: LiveView,
+    beforeEnter: Auth0.routeGuard
+  },
+  {
+    path: '/restaurant_detail',
+    name: 'restaurant',
+    meta: {requiresNavBar: true},
+    component: RestaurantView,
     beforeEnter: Auth0.routeGuard
   },
   {

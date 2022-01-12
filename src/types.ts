@@ -1,23 +1,29 @@
 interface Category {
   id: number
   name: string
+  name_NL: string
 }
 
 interface Dish {
   id: number
   name: string
+  name_NL: string
   description: string
+  description_NL: string
   category: string
   dietaryRestrictions: string[]
   ingredients: string[]
-  prize: number
+  prize: string
   image: string
 }
 
 interface Ingredient {
   id: number
-  name: string
-  isAllergen: boolean
+	restaurantId: number
+	name: string
+	name_NL: string
+	isAllergen: boolean
+	isInStock: boolean
 }
 
 interface Table {
@@ -34,7 +40,11 @@ interface Order {
   dishes: string[]
   comments: string
   isApproved: boolean
-  isServed: boolean
+  isCanceled: boolean
+  isBeingPrepared: boolean
+  isReady: boolean
+  isArchived: boolean
+  timeStamp: number
 }
 
 interface Session {
@@ -48,10 +58,7 @@ interface PopUp {
   isError: boolean
 }
 
-interface RestaurantTable {
-    id: number,
-    tableNumber: number,
-    restaurantId: number,
-    isActive: boolean,
-    inUse: boolean
+interface Restaurant {
+  id: number
+  name: string
 }

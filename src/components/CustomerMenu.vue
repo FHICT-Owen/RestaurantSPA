@@ -1,8 +1,8 @@
 <template>
   <div>
-    <div id="navbar" class="flex flex-col bg-gray-200 w-full overflow-hidden z-50">
-      <input v-model="keyword" class="justify-center shadow-sm rounded-3xl h-10 p-3 mt-1" placeholder="Search for your dish..." />
-      <div class="flex flex-row overflow-x-scroll">
+    <div id="navbar" class="flex flex-col overflow-hidden z-50" style="background-color: #FFA825">
+      <input v-model="keyword" class="justify-center shadow-sm rounded-3xl h-10 p-3 mt-1 w-11/12 m-auto mb-4" :placeholder="$t('search_bar')" />
+      <div class="flex flex-row overflow-x-scroll bg-white">
         <div 
           id="all" 
           @click="selectCategory"
@@ -16,19 +16,24 @@
           @click="selectCategory"
           :tabindex="category.id"
           class="no-underline capitalize py-2 px-4 mx-2 my-2.5 cursor-pointer select-none whitespace-nowrap"
-          >{{ category.name }}
+          >
+          <div v-if="lang == 'en' ">{{ category.name }}</div>
+          <div v-else-if="lang == 'nl'">{{ category.name_NL }}</div>
         </div>
       </div>
     </div>
     <div class="capitalize container">
       <div>
         <div v-for="category in selectedCategory" :key="category.id">
-          <h2 class="text-5xl mt-5">{{ category }}</h2>
+          <h2 class="text-3xl mt-5">{{ category }}</h2>
+          <!-- TODO: Translate selected category -->
+          <!-- <h2 v-if="lang == 'en' " class="text-3xl mt-5">{{ category }}</h2> --> 
           <div v-for="(dish, index) in filteredDishes" :key="index">
-            <Dish v-if="dish.category == category" :dish="dish" />
+            <Dish v-if="dish.category == category && checkIfDishCanBeMade(dish)" :dish="dish" />
           </div>
         </div>
       </div>
+      <div class="h-28"></div>
     </div>
   </div>
 </template>
@@ -36,7 +41,7 @@
 <script lang="ts">
 import { computed, defineComponent, onMounted, ref } from 'vue'
 import store from '@/store'
-import Dish from '../components/Dish.vue'
+import Dish from './cards/DishCard.vue'
 
 export default defineComponent({
   components: {
@@ -49,9 +54,10 @@ export default defineComponent({
     const dishes = computed(() => store.state.dishes)
     let keyword = ref('')
 
-    const filteredDishes = computed(() => 
-      dishes.value.filter(({ name }) => 
-        name.toLowerCase().includes(keyword.value.toLowerCase())))
+    const filteredDishes = computed(() => lang.value === 'en' ?
+      dishes.value.filter(({name}) => 
+        name.toLowerCase().includes(keyword.value.toLowerCase())) : dishes.value.filter(({name_NL}) => 
+        name_NL.toLowerCase().includes(keyword.value.toLowerCase())))
 
     const selectedCategory = computed(() => store.state.selectedCategory)
     
@@ -68,6 +74,15 @@ export default defineComponent({
       }
       store.commit('setSelectedCategory', e.target.textContent)
     }
+
+    const checkIfDishCanBeMade = (dish: Dish) =>
+      dish.ingredients.some((x) => 
+        store.state.ingredients.filter(d => d.isInStock && x == d.name))
+
+    // return true when all ingredients are available
+    // return false when atleast 1 ingredient is out of stock
+    // return false when dish does not have any ingredients
+    // return false when dish does have a ingredient that doesn't exist
     
     const manageStickyNav = (navbar: HTMLElement | null) => {
       if(!!navbar) {
@@ -76,7 +91,10 @@ export default defineComponent({
       }
     }
     
+    let lang = ref('')
+
     onMounted(() => {
+      lang.value = localStorage.getItem('lang') || 'en'
       let navbar = document.getElementById('navbar')
       window.addEventListener('scroll', () => manageStickyNav(navbar))
       store.commit('setSelectedCategory', 'all')
@@ -91,6 +109,8 @@ export default defineComponent({
       filteredDishes,
       keyword,
       selectedCategory,
+      lang,
+      checkIfDishCanBeMade
     }
   }
 })

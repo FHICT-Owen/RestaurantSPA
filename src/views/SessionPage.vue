@@ -1,46 +1,66 @@
 <template>
-  <div>
-    <div class="flex flex-col text-white h-48 relative p-6" style="background-color: #FFA825">
-      <ShoppingCartIcon class="self-end" />
-      <div class="text-4xl w-4/5">Welcome</div>
-      <div class="text-3xl w-4/5">What would you like to have?</div>
+  <div class="h-20 flex flex-col text-white relative p-6" style="background-color: #FFA825">
+    <div class="relative">
+      <div class="absolute left-0">
+        <h1 class="text-3xl font-semibold">Menu</h1>
+      </div>
+      <div class="flex self-end absolute right-0">
+        <country-flag v-if="lang == 'en' " @click="handleChangeLanguage('nl')" country='nl' size='big' class="px-8 bg-no-repeat cursor-pointer"/>
+        <country-flag  v-if="lang == 'nl'" @click="handleChangeLanguage('en')" country='gb' size='big' class="px-8 bg-no-repeat cursor-pointer"/>
+        <ShoppingCartIcon class="w-12 cursor-pointer" style="margin-top:-4px"/>
+      </div>
     </div>
-    <CostumerMenu />
-    <button @click="connect">Connect</button>
-    <button @click="connectAsLiveView">Connect As Live View</button>
-    <button @click="disconnect">Disconnect</button>
-    <button @click="send">Send</button>
+
+    <!-- <div class="flex-row text-2xl w-4/5">{{ $t('greeting') }}</div>
+    <div class="flex-row text-xl w-4/5">{{ $t('question') }}</div> -->
   </div>
+    <CustomerMenu/>
+    <CustomerOrderDialog :placeOrder="placeOrder" class="flex justify-center" v-if="true /* if currentOrder > 1 dish */"/>
 </template>
 
 <script lang="ts">
 import router from '../router/index'
 import SessionDataService from '../services/SessionDataService'
-import { defineComponent, onMounted } from '@vue/runtime-core'
+import { defineComponent, onMounted, ref } from '@vue/runtime-core'
 import { ShoppingCartIcon } from '@heroicons/vue/outline'
 import { Client } from '@stomp/stompjs'
-import CostumerMenu from '../components/CustomerMenu.vue'
+import CustomerMenu from '../components/CustomerMenu.vue'
+import CustomerOrderDialog from '../components/dialogs/CustomerOrderDialog.vue'
 import { VueCookieNext } from 'vue-cookie-next'
 import store from '@/store'
+import { Order } from '../classes'
+import OrderDataService from '@/services/OrderDataService'
 
 export default defineComponent({
   components: { 
-    CostumerMenu, 
-    ShoppingCartIcon 
+    CustomerMenu, 
+    ShoppingCartIcon,
+    CustomerOrderDialog
+  },
+  methods: {
+    handleChangeLanguage(lang:string) {
+      localStorage.setItem('lang', lang)
+      window.location.reload()
+    }
   },
   setup() {
     var client: Client
 
-    onMounted(() => connect)
+    let lang = ref('')
 
-    function connect() {
-      const cookie = VueCookieNext.getCookie('GenericRestaurantSesh')
-      let sessionPromise
-      try { sessionPromise = SessionDataService.getSessionByCookie(cookie) } catch { return router.push('menu')}
-      sessionPromise.then(session => {
-        store.commit('setSessionId', session.id)
-        console.log(session.id)
-      })
+    onMounted(() => {
+      lang.value = localStorage.getItem('lang') || 'en'
+      connect()
+    }) 
+
+    const connect = () => {
+      // const cookie = VueCookieNext.getCookie('GenericRestaurantSesh')
+      // let sessionPromise
+      // try { sessionPromise = SessionDataService.getSessionByCookie(cookie) } catch { return router.push('menu')}
+      // sessionPromise.then(session => {
+      //   store.commit('setSessionId', session.id)
+      //   console.log(session.id)
+      // })
       client = new Client({
         brokerURL: 'ws://localhost:6969/register',
         onConnect: () => {
@@ -50,21 +70,22 @@ export default defineComponent({
       client.activate()
     }
 
-    function disconnect() {
-      if (client != null) client.deactivate()
+    const disconnect = () => {
+      if (!!client) client.deactivate()
     }
 
-    function send() {
-      var data = JSON.stringify({
-        'name' : 'yeett'
-      })
-      client.publish({destination: '/app/message', body: data})
+    const placeOrder = (order: Order) => { 
+      OrderDataService.createOrder(order)
+        .then(() => client.publish({destination: '/app/message', body: JSON.stringify(order)}))
+        .catch()
     }
+      
 
     return {
+      lang,
       connect,
       disconnect,
-      send
+      placeOrder
     }
   }
 })

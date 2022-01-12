@@ -2,7 +2,7 @@
   <div>
     <div v-if="costumerMenuIsOpen || !isAuthenticated">
       <button class="flex" v-if="isAuthenticated && !loading" @click="toggleMenu">Switch to manager menu</button>
-      <CostumerMenu />
+      <CustomerMenu />
     </div>
     <div v-else-if="isAuthenticated && !loading">
       <button @click="toggleMenu">Switch to costumer menu</button>
@@ -13,13 +13,13 @@
 
 <script lang="ts">
 import { inject, ref } from 'vue'
-import CostumerMenu from '../components/CustomerMenu.vue'
+import CustomerMenu from '../components/CustomerMenu.vue'
 import ManagerMenu from '../components/ManagerMenu.vue'
 import { AuthPlugin } from '@/auth'
 
 export default {
   components: {
-    CostumerMenu,
+    CustomerMenu,
     ManagerMenu
   },
   setup() {

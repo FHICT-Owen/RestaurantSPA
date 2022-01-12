@@ -10,6 +10,7 @@ import RestaurantDataService from '../services/RestaurantDataService'
 import { Session } from '../classes'
 import { VueCookieNext } from 'vue-cookie-next'
 import stringGen from 'crypto-random-string'
+import TableDataService from '@/services/TableDataService'
 
 export default {
   setup() {
@@ -20,7 +21,7 @@ export default {
       const cookie = VueCookieNext.getCookie('GenericRestaurantSesh')
       try { SessionDataService.getSessionByCookie(cookie) } catch { VueCookieNext.removeCookie('GenericRestaurantSesh')}
       let secret = stringGen({length: 25})
-      let tableObj = RestaurantDataService.getTable(tableId)
+      let tableObj = TableDataService.getTable(tableId)
       tableObj.then( async table => {
         if (table.isActive && !table.inUse) {
           if(!!cookie) {
@@ -39,7 +40,7 @@ export default {
                   } else {
                     SessionDataService.removeSession(tableId)
                   }
-                })            
+                })
               }
             })
           } catch { return router.push('/') }
