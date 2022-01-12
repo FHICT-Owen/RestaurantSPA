@@ -1,11 +1,18 @@
 <template>
   <div>
     <div v-if="costumerMenuIsOpen || !isAuthenticated">
-      <button class="flex" v-if="isAuthenticated && !loading" @click="toggleMenu">Switch to manager menu</button>
+      <button 
+        class="bg-gray-500 rounded-3xl" 
+        v-if="isAuthenticated && !loading && user.roles.includes('RestaurantOwner')" 
+        @click="toggleMenu">Switch to manager menu
+      </button>
       <CustomerMenu />
     </div>
-    <div v-else-if="isAuthenticated && !loading">
-      <button @click="toggleMenu">Switch to costumer menu</button>
+    <div v-else-if="isAuthenticated && !loading && user.roles.includes('RestaurantOwner')">
+      <button 
+        class="bg-gray-500 rounded-3xl" 
+        @click="toggleMenu">Switch to costumer menu
+      </button>
       <ManagerMenu class="flex justify-center" />
     </div>
   </div>
@@ -24,7 +31,7 @@ export default defineComponent({
   },
   setup() {
     const auth = inject<AuthPlugin>('Auth')
-    let costumerMenuIsOpen = ref(false)
+    let costumerMenuIsOpen = ref(true)
 
     const toggleMenu = () => costumerMenuIsOpen.value = !costumerMenuIsOpen.value
 
