@@ -48,16 +48,15 @@ export default defineComponent({
     let order = props.order
     let isFiltered = false
     const prepareOrder = () => {
-      if (props.order.isBeingPrepared) {
+      if (props.order.orderState == 2) {
         // If order is done being prepared, set isBeingPrepared false and isReady True
-        order.isBeingPrepared = false
-        order.isReady = true
+        order.orderState = 3
         store.commit('editOrder', order)     
         console.log('set order done')
       }
       else { 
         // If order is approved, set isBeingPrepared True
-        order.isBeingPrepared = true
+        order.orderState = 2
         store.commit('editOrder', order)     
       }
     }
@@ -70,7 +69,7 @@ export default defineComponent({
 
     const cancelOrder = () => {
       // Set isCanceled True
-      order.isCanceled = true
+      order.orderState = 5
       store.commit('editOrder', order) 
     }  
 

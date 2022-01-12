@@ -201,6 +201,7 @@
           <router-link
             to="/table_plan"
             v-slot="{ href, route, navigate, isActive, isExactActive }"
+            v-if="isAuthenticated && (user.roles.includes('RestaurantOwner') || user.roles.includes('Waiter'))"
             custom
           >
             <li
@@ -225,6 +226,7 @@
           <router-link
             to="/live_view"
             v-slot="{ href, route, navigate, isActive, isExactActive }"
+            v-if="isAuthenticated && (user.roles.includes('RestaurantOwner') || user.roles.includes('KitchenStaff'))"
             custom
           >
             <li
@@ -250,6 +252,7 @@
           <router-link
             to="/restaurant_detail"
             v-slot="{ href, route, navigate, isActive, isExactActive }"
+            v-if="isAuthenticated && user.roles.includes('RestaurantOwner')"
             custom
           >
             <li
@@ -289,36 +292,36 @@
 </template>
 
 <script lang="ts">
-import { inject, defineComponent, ref, computed } from "vue";
-import { UserCircleIcon, LogoutIcon } from "@heroicons/vue/outline";
-import { AuthPlugin } from "@/auth";
-import router from "@/router";
+import { inject, defineComponent, ref, computed } from 'vue'
+// import { UserCircleIcon, LogoutIcon } from '@heroicons/vue/outline'
+import { AuthPlugin } from '@/auth'
+import router from '@/router'
 
 export default defineComponent({
   components: {
-    UserCircleIcon,
-    LogoutIcon,
+    // UserCircleIcon,
+    // LogoutIcon,
   },
   methods: {},
   setup() {
-    const auth = inject<AuthPlugin>("Auth");
-    const lang = localStorage.getItem("lang") || "en";
-    let showNavOnMobile = ref(false);
-    let currentWidth = ref(window.innerWidth);
+    const auth = inject<AuthPlugin>('Auth')
+    const lang = localStorage.getItem('lang') || 'en'
+    let showNavOnMobile = ref(false)
+    let currentWidth = ref(window.innerWidth)
     let showNav = computed(() =>
       currentWidth.value >= 768 ? true : showNavOnMobile.value
-    );
+    )
 
     // screen size > 768 else-if (shownavonmobile
     // let showNav = computed(() => )
     function login() {
-      if (!!auth) auth.loginWithRedirect();
+      if (!!auth) auth.loginWithRedirect()
     }
 
     function logout() {
       if (!!auth) {
-        auth.logout();
-        router.push("/");
+        auth.logout()
+        router.push('/')
       }
     }
 
@@ -327,14 +330,14 @@ export default defineComponent({
     // }
 
     function toggleNav() {
-      showNavOnMobile.value = !showNavOnMobile.value;
+      showNavOnMobile.value = !showNavOnMobile.value
     }
 
     function reportWindowWidth() {
-      currentWidth.value = window.innerWidth;
+      currentWidth.value = window.innerWidth
     }
 
-    window.onresize = reportWindowWidth;
+    window.onresize = reportWindowWidth
     return {
       ...auth,
       showNavOnMobile,
@@ -342,10 +345,10 @@ export default defineComponent({
       logout,
       toggleNav,
       showNav,
-      currentWidth,
-    };
+      currentWidth
+    }
   },
-});
+})
 </script>
 
 <style scoped>

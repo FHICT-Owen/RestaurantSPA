@@ -61,7 +61,7 @@ export default createStore<State>({
 
     totalPrice: 0,
     orders: [],
-    currentOrder: new Order,
+    currentOrder: new Order(1, [], '', 0),
 
     tables: [] as Table[],
     selectedTableIds: [] as number[],

@@ -2,8 +2,9 @@
   <div>
     <div class="m-1 flex justify-between">
       <h3 v-if="!isEditMode" class="mr-3">{{category.name}}</h3>
-      <h3 v-if="!isEditMode" class="mr-3">{{category.name_NL}}</h3>
       <input v-model="name" class="border-2 h-8 w-32 rounded-lg p-1" v-else @keyup.enter="editCategory"/>
+      <h3 v-if="!isEditMode" class="mr-3">{{category.name_NL}}</h3>
+      <input v-model="name_NL" class="border-2 h-8 w-32 rounded-lg p-1" v-else @keyup.enter="editCategory"/>
       <div class="flex flex-row space-x-1 h-10">
         <CancelButton v-if="isEditMode" @click="isEditMode = false" class="my-1 ml-1 mr-0.5" />
         <EditButton v-else @click="openInput" class="my-1 ml-1 mr-0.5" />
@@ -36,16 +37,19 @@ export default defineComponent({
   setup(props) {
     let isEditMode = ref(false)
     let name = ref('')
+    let name_NL = ref('')
 
     const openInput = () => {
       isEditMode.value = !isEditMode.value
       name.value = props.category.name
+      name_NL.value = props.category.name_NL
     }
 
     const editCategory = () => {
       store.commit('editCategory', {
         id: props.category.id,
-        name: name.value
+        name: name.value,
+        name_NL: name_NL.value
       })
       isEditMode.value = !isEditMode.value
     }
@@ -60,7 +64,8 @@ export default defineComponent({
       isDeleteMode: computed(() => store.state.isConfirmDialogOpen),
       editCategory,
       openInput,
-      name
+      name,
+      name_NL
     }
   }
 })
