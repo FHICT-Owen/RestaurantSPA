@@ -123,6 +123,10 @@ export default createStore<State>({
           Object.assign(state.ingredients[elementIndex], ingredient)
         })
     },
+    addOrder: async (state, payload) => {
+      orderDataService.createOrder(payload)
+        .then(order => state.orders.push(order))
+    },
     editOrder: async (state, payload ) => {
       orderDataService.editOrder(payload)
         .then(order => {
@@ -186,11 +190,11 @@ export default createStore<State>({
     createNewDish: (state) => state.isDishDialogOpen = !state.isDishDialogOpen,
     setToken: (state, payload) => state.apiToken = payload,
     setSessionId: (state, payload) => state.sessionId = payload,
-    addOrder: (state, payload) => {
+    addDishToOrder: (state, payload) => {
       state.currentOrder.dishes.push(payload.name)
       state.totalPrice += payload.prize
     },
-    removeOrder: (state, payload) => { 
+    removeDishFromOrder: (state, payload) => { 
       const index = state.currentOrder.dishes.indexOf(payload.name)
       if (index != -1){
         state.currentOrder.dishes.splice(index, 1)

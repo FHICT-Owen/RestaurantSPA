@@ -59,10 +59,10 @@ export default defineComponent({
       dishes.value.reduce((a, v) => (v === props.dish.name ? a + 1 : a), 0)
 
     const addDishToCurrentOrder = () => 
-      store.commit('addOrder', props.dish)
+      store.commit('addDishToOrder', props.dish)
 
     const removeDishFromCurrentOrder = () => 
-      store.commit('removeOrder', props.dish)
+      store.commit('removeDishFromOrder', props.dish)
 
     let lang = ref('')
     onMounted(() => {
