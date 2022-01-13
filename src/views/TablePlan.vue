@@ -17,13 +17,12 @@
 </template>
 
 <script lang="ts">
-import { computed, onMounted, ref } from 'vue'
+import { computed, defineComponent, onMounted, ref } from 'vue'
 import TableCard from '../components/cards/TableCard.vue'
 import TableDialog from '../components/dialogs/TableDialog.vue'
 import store from '@/store'
 
-export default {
-  name: 'TablePlan',
+export default defineComponent({
   components: {
     TableCard,
     TableDialog
@@ -50,28 +49,6 @@ export default {
       addTable,
       isTableDialogOpen
     }
-  },
-}
+  }
+})
 </script>
-
-<style scoped>
-.buttons {
-  width: 130px;
-  height: 40px;
-
-  background: #ffa825;
-  border: 2.5px solid #ffffff;
-  box-sizing: border-box;
-  border-radius: 7px;
-
-  /* font-family: SF Pro Display; */
-  font-style: normal;
-  font-weight: bold;
-  font-size: 14px;
-  line-height: 17px;
-  display: flex;
-  align-items: center;
-
-  color: #ffffff;
-}
-</style>

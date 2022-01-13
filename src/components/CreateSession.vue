@@ -11,8 +11,9 @@ import { Session } from '../classes'
 import { VueCookieNext } from 'vue-cookie-next'
 import stringGen from 'crypto-random-string'
 import TableDataService from '@/services/TableDataService'
+import { defineComponent } from '@vue/runtime-core'
 
-export default {
+export default defineComponent({
   setup() {
     const tableQuery = <string>router.currentRoute.value.query.tableId
     if (tableQuery != null) {
@@ -48,5 +49,5 @@ export default {
       }).catch()
     } else { return router.push('/') }  
   }
-}
+})
 </script>

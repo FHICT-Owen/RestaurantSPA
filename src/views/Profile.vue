@@ -21,13 +21,11 @@
 </template>
 
 <script>
-import { inject } from 'vue'
+import { defineComponent, inject } from 'vue'
 
-export default {
-  name: 'Profile',
+export default defineComponent({
   setup () {
-    const auth = inject('Auth')
-    return { ...auth }
+    return { ...inject('Auth') }
   }
-}
+})
 </script>
