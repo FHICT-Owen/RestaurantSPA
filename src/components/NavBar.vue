@@ -128,9 +128,10 @@
     </nav>
   </div> -->
 
-  <nav class="flex items-center justify-between flex-wrap">
+  <nav class="flex items-center justify-between flex-wrap shadow-sm">
     <div
-      class="w-full block flex-grow md:flex sm:items-center  md:w-auto py-4 bg-yellow-500  z-50"
+      class="w-full block flex-grow md:flex sm:items-center md:w-auto py-4 z-50"
+      style="background-color: #FFA825"
     >
       <div class="block ml-3 md:hidden">
         <button
@@ -302,10 +303,8 @@ export default defineComponent({
     // UserCircleIcon,
     // LogoutIcon,
   },
-  methods: {},
   setup() {
     const auth = inject<AuthPlugin>('Auth')
-    const lang = localStorage.getItem('lang') || 'en'
     let showNavOnMobile = ref(false)
     let currentWidth = ref(window.innerWidth)
     let showNav = computed(() =>
@@ -324,10 +323,6 @@ export default defineComponent({
         router.push('/')
       }
     }
-
-    // function handleLogInLogOut(){
-    //   auth?.isAuthenticated.value ? logout() : login()
-    // }
 
     function toggleNav() {
       showNavOnMobile.value = !showNavOnMobile.value

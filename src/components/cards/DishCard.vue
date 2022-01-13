@@ -1,8 +1,7 @@
 <template>
   <div class="flex flex-col">
     <div
-      class="flex flex-row rounded-3xl h-24 mt-3"
-      style="box-shadow: 0px 1px 2px 2px rgba(0, 0, 0, 0.1)">
+      class="flex flex-row bg-white rounded-3xl h-24 mt-3 ring-1 ring-gray-200">
       <div
         class="flex rounded-3xl m-1 bg-blend-normal bg-cover bg-no-repeat"
         :style="{ background: dish.image, minHeight: imgSize, minWidth: imgSize }">

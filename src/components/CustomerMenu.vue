@@ -1,7 +1,10 @@
 <template>
   <div>
     <div id="navbar" class="flex flex-col overflow-hidden z-50" style="background-color: #FFA825">
-      <input v-model="keyword" class="justify-center shadow-sm rounded-3xl h-10 p-3 mt-1 w-11/12 m-auto mb-4" :placeholder="$t('search_bar')" />
+      <input 
+        v-model="keyword" 
+        :placeholder="$t('search_bar')"
+        class="justify-center shadow-sm rounded-3xl h-10 p-3 mt-1 w-11/12 m-auto mb-4"/>
       <div class="flex flex-row overflow-x-scroll bg-white">
         <div 
           id="all" 
@@ -15,14 +18,13 @@
           :key="category.id"
           @click="selectCategory"
           :tabindex="category.id"
-          class="no-underline capitalize py-2 px-4 mx-2 my-2.5 cursor-pointer select-none whitespace-nowrap"
-          >
+          class="no-underline capitalize py-2 px-4 mx-2 my-2.5 cursor-pointer select-none whitespace-nowrap">
           <div v-if="lang == 'en' ">{{ category.name }}</div>
           <div v-else-if="lang == 'nl'">{{ category.name_NL }}</div>
         </div>
       </div>
     </div>
-    <div class="capitalize container">
+    <div class="capitalize">
       <div>
         <div v-for="category in selectedCategory" :key="category.id">
           <h2 class="text-3xl mt-5">{{ category }}</h2>
