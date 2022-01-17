@@ -27,7 +27,5 @@ jobs:
           EOF
       - name: Add backend remote origin
         run: heroku git:remote -a ${{ secrets.HEROKU_APP_NAME }}
-      - name: Fetch unshallow clone
-        run: git fetch --all --unshallow 
       - name: Deploy backend to Heroku
-        run: git push heroku production:refs/heads/master --force
+        run: git push heroku `git subtree split production`:refs/heads/master --force
