@@ -30,20 +30,18 @@
     </div>
     <div class="flex flex-col px-3 pb-2 rounded-b-lg text-white capitalize font-semibold max-h-64">
       <p class="text-gray-200 italic" >{{order.comments}}</p>
-      <div v-for="(dish, index) in order.dishes" :key="index">{{dish}} ( 
-        {{
-          
-        }} )</div>
+      <div v-for="(index, dish) in countedDishes(order.dishes)" :key="index">{{dish + ' (' + index + ')'}}</div>
     </div>
   </div>
 </template>
 
 
 <script lang="ts">
-import { defineComponent, PropType} from 'vue'
 import store from '@/store'
+import { defineComponent, PropType} from 'vue'
 import { FlagIcon, CheckIcon, BanIcon, ReplyIcon } from '@heroicons/vue/solid'
 import { OrderState, Order, Table } from '@/types'
+import { countedDishes } from '@/utils'
 
 export default defineComponent({
   components: {
@@ -61,6 +59,7 @@ export default defineComponent({
   setup(props) {
     let order = props.order
     let isFiltered = false
+
     const prepareOrder = () => {
       const orderState = OrderState[props.order.orderState]
       if (OrderState.isApproved == orderState) {
@@ -105,7 +104,7 @@ export default defineComponent({
     }
 
     return {
-      prepareOrder, cancelOrder, archiveOrder, revertOrder,filterByTable
+      prepareOrder, cancelOrder, archiveOrder, revertOrder,filterByTable, countedDishes
     }
   }
 })
