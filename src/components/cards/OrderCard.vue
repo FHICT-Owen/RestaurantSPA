@@ -30,7 +30,10 @@
     </div>
     <div class="flex flex-col px-3 pb-2 rounded-b-lg text-white capitalize font-semibold max-h-64">
       <p class="text-gray-200 italic" >{{order.comments}}</p>
-      <div v-for="(dish, index) in order.dishes" :key="index">{{dish}}</div>
+      <div v-for="(dish, index) in order.dishes" :key="index">{{dish}} ( 
+        {{
+          
+        }} )</div>
     </div>
   </div>
 </template>

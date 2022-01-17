@@ -17,3 +17,12 @@ export const setAuthHeader = () => {
     headers: { authorization: `Bearer ${store.state.apiToken}` }
   }
 }
+
+export const countedDishes = (dishes:string[]) => {
+  dishes.reduce(function (allDishes:any, dish:string){
+    if (dish in allDishes) 
+      allDishes[dish]++
+    else allDishes[dish] = 1
+    return allDishes
+  }, {})
+}
