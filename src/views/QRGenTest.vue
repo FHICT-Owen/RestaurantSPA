@@ -7,19 +7,18 @@
 
 <script lang="ts">
 import QrcodeVue from 'qrcode.vue'
-import { inject, ref } from 'vue'
+import { defineComponent, inject, ref } from 'vue'
 
-export default {
-  name: 'QR',
+export default defineComponent({
+  components: {
+    QrcodeVue,
+  },
   setup(){
     const url = ref('')
     const size = ref(300)
     const auth = inject<any>('Auth')
   
     return { ...auth, url, size }
-  },
-  components: {
-    QrcodeVue,
-  },
-}
+  }
+})
 </script>

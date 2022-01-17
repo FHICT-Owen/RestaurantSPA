@@ -1,34 +1,41 @@
 <template>
   <div>
-    <div v-if="costumerMenuIsOpen || !isAuthenticated">
-      <button class="flex" v-if="isAuthenticated && !loading" @click="toggleMenu">Switch to manager menu</button>
-      <CustomerMenu />
-    </div>
-    <div v-else-if="isAuthenticated && !loading">
-      <button @click="toggleMenu">Switch to costumer menu</button>
-      <ManagerMenu class="flex justify-center" />
-    </div>
+    <button 
+      @click="toggleMenu"
+      class="absolute bg-gray-300 rounded-3xl top-52 right-0" 
+      v-if="isAuthenticated && !loading && user.roles.includes('RestaurantOwner')">
+      {{costumerMenuIsOpen ? 'Switch to manager menu' : 'Switch to costumer menu'}}
+    </button>
+      <CustomerMenu 
+        v-if="costumerMenuIsOpen || !isAuthenticated"/>
+      <ManagerMenu 
+        class="flex justify-center"
+        v-else-if="isAuthenticated && !loading && user.roles.includes('RestaurantOwner')"/>
   </div>
 </template>
 
 <script lang="ts">
-import { inject, ref } from 'vue'
+import { defineComponent, inject, ref } from 'vue'
 import CustomerMenu from '../components/CustomerMenu.vue'
 import ManagerMenu from '../components/ManagerMenu.vue'
 import { AuthPlugin } from '@/auth'
 
-export default {
+export default defineComponent({
   components: {
     CustomerMenu,
     ManagerMenu
   },
   setup() {
     const auth = inject<AuthPlugin>('Auth')
-    let costumerMenuIsOpen = ref(false)
+    let costumerMenuIsOpen = ref(true)
 
     const toggleMenu = () => costumerMenuIsOpen.value = !costumerMenuIsOpen.value
 
-    return { ...auth, costumerMenuIsOpen, toggleMenu }
+    return { 
+      ...auth, 
+      costumerMenuIsOpen, 
+      toggleMenu 
+    }
   }
-}
+})
 </script>

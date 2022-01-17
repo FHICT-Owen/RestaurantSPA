@@ -37,6 +37,8 @@ export default defineComponent({
 
     const order = () => {
       store.state.currentOrder.comments = comments.value
+      store.state.currentOrder.timeStamp = Date.now()
+      store.state.currentOrder.orderState = 0
       props.placeOrder(store.state.currentOrder)
     }
 

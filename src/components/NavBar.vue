@@ -128,9 +128,10 @@
     </nav>
   </div> -->
 
-  <nav class="flex items-center justify-between flex-wrap">
+  <nav class="flex items-center justify-between flex-wrap shadow-sm">
     <div
-      class="w-full block flex-grow md:flex sm:items-center  md:w-auto py-4 bg-yellow-500  z-50"
+      class="w-full block flex-grow md:flex sm:items-center md:w-auto py-4 z-50"
+      style="background-color: #FFA825"
     >
       <div class="block ml-3 md:hidden">
         <button
@@ -201,6 +202,7 @@
           <router-link
             to="/table_plan"
             v-slot="{ href, route, navigate, isActive, isExactActive }"
+            v-if="isAuthenticated && (user.roles.includes('RestaurantOwner') || user.roles.includes('Waiter'))"
             custom
           >
             <li
@@ -225,6 +227,7 @@
           <router-link
             to="/live_view"
             v-slot="{ href, route, navigate, isActive, isExactActive }"
+            v-if="isAuthenticated && (user.roles.includes('RestaurantOwner') || user.roles.includes('KitchenStaff'))"
             custom
           >
             <li
@@ -250,6 +253,7 @@
           <router-link
             to="/restaurant_detail"
             v-slot="{ href, route, navigate, isActive, isExactActive }"
+            v-if="isAuthenticated && user.roles.includes('RestaurantOwner')"
             custom
           >
             <li
@@ -265,6 +269,33 @@
                 class="text-decoration-line: no-underline hover:text-white"
               >
                 <div class="w-full">Restaurant Details</div></a
+              >
+            </li>
+          </router-link>
+        </div>
+        <div
+          class="block mt-4 md:inline-block md:mt-0 text-white text-2xl  rounded-lg bg-black bg-opacity-0 hover:bg-opacity-10 text-opacity-60 list-none px-2 mx-2"
+        >
+          <!-- <router-link to="/restaurant_detail" class="text-decoration-line: no-underline hover:text-white">Restaurant details</router-link> -->
+          <router-link
+            to="/inventory"
+            v-slot="{ href, route, navigate, isActive, isExactActive }"
+            v-if="isAuthenticated && user.roles.includes('RestaurantOwner')"
+            custom
+          >
+            <li
+              :class="[
+                isActive && 'router-link-active',
+                isExactActive && 'router-link-exact-active',
+                ,
+              ]"
+            >
+              <a
+                :href="href"
+                @click="navigate"
+                class="text-decoration-line: no-underline hover:text-white"
+              >
+                <div class="w-full">Inventory</div></a
               >
             </li>
           </router-link>
@@ -289,52 +320,46 @@
 </template>
 
 <script lang="ts">
-import { inject, defineComponent, ref, computed } from "vue";
-import { UserCircleIcon, LogoutIcon } from "@heroicons/vue/outline";
-import { AuthPlugin } from "@/auth";
-import router from "@/router";
+import { inject, defineComponent, ref, computed } from 'vue'
+// import { UserCircleIcon, LogoutIcon } from '@heroicons/vue/outline'
+import { AuthPlugin } from '@/auth'
+import router from '@/router'
 
 export default defineComponent({
   components: {
-    UserCircleIcon,
-    LogoutIcon,
+    // UserCircleIcon,
+    // LogoutIcon,
   },
-  methods: {},
   setup() {
-    const auth = inject<AuthPlugin>("Auth");
-    const lang = localStorage.getItem("lang") || "en";
-    let showNavOnMobile = ref(false);
-    let currentWidth = ref(window.innerWidth);
+    const auth = inject<AuthPlugin>('Auth')
+    let showNavOnMobile = ref(false)
+    let currentWidth = ref(window.innerWidth)
     let showNav = computed(() =>
       currentWidth.value >= 768 ? true : showNavOnMobile.value
-    );
+    )
 
     // screen size > 768 else-if (shownavonmobile
     // let showNav = computed(() => )
     function login() {
-      if (!!auth) auth.loginWithRedirect();
+      if (!!auth) auth.loginWithRedirect()
     }
 
     function logout() {
       if (!!auth) {
-        auth.logout();
-        router.push("/");
+        auth.logout()
+        router.push('/')
       }
     }
 
-    // function handleLogInLogOut(){
-    //   auth?.isAuthenticated.value ? logout() : login()
-    // }
-
     function toggleNav() {
-      showNavOnMobile.value = !showNavOnMobile.value;
+      showNavOnMobile.value = !showNavOnMobile.value
     }
 
     function reportWindowWidth() {
-      currentWidth.value = window.innerWidth;
+      currentWidth.value = window.innerWidth
     }
 
-    window.onresize = reportWindowWidth;
+    window.onresize = reportWindowWidth
     return {
       ...auth,
       showNavOnMobile,
@@ -342,10 +367,10 @@ export default defineComponent({
       logout,
       toggleNav,
       showNav,
-      currentWidth,
-    };
+      currentWidth
+    }
   },
-});
+})
 </script>
 
 <style scoped>

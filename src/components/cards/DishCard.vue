@@ -1,8 +1,7 @@
 <template>
   <div class="flex flex-col">
     <div
-      class="flex flex-row rounded-3xl h-24 mt-3"
-      style="box-shadow: 0px 1px 2px 2px rgba(0, 0, 0, 0.1)">
+      class="flex flex-row bg-white rounded-3xl h-24 mt-3 ring-1 ring-gray-200">
       <div
         class="flex rounded-3xl m-1 bg-blend-normal bg-cover bg-no-repeat"
         :style="{ background: dish.image, minHeight: imgSize, minWidth: imgSize }">
@@ -52,11 +51,6 @@ export default defineComponent({
       required: true,
     },
   },
-  methods: {
-    log(order:any) {
-      console.log(order)
-    }
-  },
   setup(props) {
     const dishes = computed(() => store.state.currentOrder.dishes)
     const inInSession = computed(() => store.state.sessionId.length > 0) //TODO: make a proper check for sessionId checking
@@ -65,10 +59,10 @@ export default defineComponent({
       dishes.value.reduce((a, v) => (v === props.dish.name ? a + 1 : a), 0)
 
     const addDishToCurrentOrder = () => 
-      store.commit('addOrder', props.dish)
+      store.commit('addDishToOrder', props.dish)
 
     const removeDishFromCurrentOrder = () => 
-      store.commit('removeOrder', props.dish)
+      store.commit('removeDishFromOrder', props.dish)
 
     let lang = ref('')
     onMounted(() => {

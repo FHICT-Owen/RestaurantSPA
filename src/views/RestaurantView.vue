@@ -2,7 +2,7 @@
   <div class="flex justify-center">
     <div class="justify-center w-full lg:w-3/5">
       <h1 class="text-5xl p-1">Restaurant</h1>
-      <div class="border-2 rounded-lg p-2">
+      <div class="ring-1 ring-gray-200 rounded-lg p-2 bg-white">
         <button class="bg-gray-200 rounded-lg p-1" @click="createRestaurant">
           New restaurant
         </button>

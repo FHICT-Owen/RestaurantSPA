@@ -11,7 +11,7 @@ export default class OrderDataService {
   }
 
   public static async createOrder (order: Order): Promise<Order> {
-    return await axios.post(`${this.API_URL}/Order/`, order, setAuthHeader())
+    return await axios.post(`${this.API_URL}/order/`, order, setAuthHeader())
       .then((response: AxiosResponse<Order>) => { 
         showPopUp(`Added ${order.id}`, false)
         return Object.setPrototypeOf(response.data, Order.prototype) 

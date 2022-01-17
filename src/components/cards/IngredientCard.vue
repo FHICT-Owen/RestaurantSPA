@@ -38,7 +38,7 @@ export default defineComponent({
     let name = ref('')
 
     const openConfirmDialog = () => {
-      store.dispatch('openConfirmDialog', {object: props.ingredient, function: () => store.dispatch('deleteIngredient', props.ingredient)})
+      store.commit('toggleConfirmDialog', {object: props.ingredient, function: () => store.dispatch('deleteIngredient', props.ingredient)})
     }
 
     return {

@@ -1,21 +1,20 @@
 <template>
-  <div class="h-20 flex flex-col text-white relative p-6" style="background-color: #FFA825">
-    <div class="relative">
-      <div class="absolute left-0">
-        <h1 class="text-3xl font-semibold">Menu</h1>
-      </div>
-      <div class="flex self-end absolute right-0">
-        <country-flag v-if="lang == 'en' " @click="handleChangeLanguage('nl')" country='nl' size='big' class="px-8 bg-no-repeat cursor-pointer"/>
-        <country-flag  v-if="lang == 'nl'" @click="handleChangeLanguage('en')" country='gb' size='big' class="px-8 bg-no-repeat cursor-pointer"/>
-        <ShoppingCartIcon class="w-12 cursor-pointer" style="margin-top:-4px"/>
+  <div>
+    <div class="h-20 flex flex-col text-white relative p-6" style="background-color: #FFA825">
+      <div class="relative">
+        <div class="absolute left-0">
+          <h1 class="text-3xl font-semibold">Menu</h1>
+        </div>
+        <div class="flex self-end absolute right-0">
+          <country-flag v-if="lang == 'en' " @click="handleChangeLanguage('nl')" country='nl' size='big' class="px-8 bg-no-repeat cursor-pointer"/>
+          <country-flag  v-if="lang == 'nl'" @click="handleChangeLanguage('en')" country='gb' size='big' class="px-8 bg-no-repeat cursor-pointer"/>
+          <ShoppingCartIcon class="w-12 cursor-pointer" style="margin-top:-4px"/>
+        </div>
       </div>
     </div>
-
-    <!-- <div class="flex-row text-2xl w-4/5">{{ $t('greeting') }}</div>
-    <div class="flex-row text-xl w-4/5">{{ $t('question') }}</div> -->
-  </div>
     <CustomerMenu/>
     <CustomerOrderDialog :placeOrder="placeOrder" class="flex justify-center" v-if="true /* if currentOrder > 1 dish */"/>
+  </div>
 </template>
 
 <script lang="ts">
@@ -29,7 +28,6 @@ import CustomerOrderDialog from '../components/dialogs/CustomerOrderDialog.vue'
 import { VueCookieNext } from 'vue-cookie-next'
 import store from '@/store'
 import { Order } from '../classes'
-import OrderDataService from '@/services/OrderDataService'
 
 export default defineComponent({
   components: { 
@@ -37,16 +35,15 @@ export default defineComponent({
     ShoppingCartIcon,
     CustomerOrderDialog
   },
-  methods: {
-    handleChangeLanguage(lang:string) {
-      localStorage.setItem('lang', lang)
-      window.location.reload()
-    }
-  },
   setup() {
     var client: Client
 
     let lang = ref('')
+
+    function handleChangeLanguage(lang:string) {
+      localStorage.setItem('lang', lang)
+      window.location.reload()
+    }
 
     onMounted(() => {
       lang.value = localStorage.getItem('lang') || 'en'
@@ -75,17 +72,18 @@ export default defineComponent({
     }
 
     const placeOrder = (order: Order) => { 
-      OrderDataService.createOrder(order)
-        .then(() => client.publish({destination: '/app/message', body: JSON.stringify(order)}))
-        .catch()
+      client.publish({
+        destination: '/app/message', 
+        body: JSON.stringify(order)
+      })
     }
-      
 
     return {
       lang,
       connect,
       disconnect,
-      placeOrder
+      placeOrder,
+      handleChangeLanguage
     }
   }
 })

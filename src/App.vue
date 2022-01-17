@@ -23,11 +23,10 @@ import Error from './components/Error.vue'
 import DeleteConfirmDialog from './components/dialogs/DeleteConfirmDialog.vue'
 import PopUp from './components/PopUp.vue'
 import store from '@/store'
-import { computed, onMounted, inject } from 'vue'
+import { computed, onMounted, inject, defineComponent } from 'vue'
 import { AuthPlugin } from '@/auth'
 
-export default {
-  name: 'App',
+export default defineComponent({
   components: {
     NavBar,
     DeleteConfirmDialog,
@@ -58,7 +57,7 @@ export default {
     
     return { popUps, isConfirmDialogOpen }
   }
-}
+})
 </script>
 
 <style>

@@ -34,16 +34,21 @@ interface Table {
   inUse: boolean
 }
 
+enum OrderState {
+  isUnapproved,
+  isApproved,
+  isBeingPrepared,
+  isReady,
+  isArchived,
+  isCanceled
+}
+
 interface Order {
   id: number
   sessionId: number
   dishes: string[]
   comments: string
-  isApproved: boolean
-  isCanceled: boolean
-  isBeingPrepared: boolean
-  isReady: boolean
-  isArchived: boolean
+  orderState: OrderState
   timeStamp: number
 }
 

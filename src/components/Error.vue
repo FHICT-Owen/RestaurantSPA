@@ -8,13 +8,14 @@
 </template>
 
 <script>
-export default {
-  name: 'Error',
+import { defineComponent } from '@vue/runtime-core'
+
+export default defineComponent({
   inject: ['Auth'],
   computed: {
     msg () {
       return this.Auth.error
     }
   }
-}
+})
 </script>
