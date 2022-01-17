@@ -22,7 +22,7 @@ import router from '../router/index'
 import SessionDataService from '../services/SessionDataService'
 import { defineComponent, onMounted, ref } from '@vue/runtime-core'
 import { ShoppingCartIcon } from '@heroicons/vue/outline'
-import { Client } from '@stomp/stompjs'
+import { Client, StompHeaders } from '@stomp/stompjs'
 import CustomerMenu from '../components/CustomerMenu.vue'
 import CustomerOrderDialog from '../components/dialogs/CustomerOrderDialog.vue'
 import { VueCookieNext } from 'vue-cookie-next'
@@ -51,6 +51,7 @@ export default defineComponent({
     }) 
 
     const connect = () => {
+      document.cookie = 'GenericRestaurantSesh=xD' //TODO: remove later
       // const cookie = VueCookieNext.getCookie('GenericRestaurantSesh')
       // let sessionPromise
       // try { sessionPromise = SessionDataService.getSessionByCookie(cookie) } catch { return router.push('menu')}
@@ -62,6 +63,9 @@ export default defineComponent({
         brokerURL: 'ws://localhost:6969/register',
         onConnect: () => {
           console.log('connected as costumer')
+          client.subscribe('/user/topic/update-order-status', function (message) {
+            console.log(message)
+          })
         }
       })
       client.activate()
@@ -73,7 +77,7 @@ export default defineComponent({
 
     const placeOrder = (order: Order) => { 
       client.publish({
-        destination: '/app/message', 
+        destination: '/ws/message', 
         body: JSON.stringify(order)
       })
     }

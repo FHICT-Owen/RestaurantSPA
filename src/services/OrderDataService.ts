@@ -21,11 +21,11 @@ export default class OrderDataService {
       })
   }
 
-  public static async editOrder(order: Order) : Promise<any>{
-    await axios.put(`${this.API_URL}/order/`, order, setAuthHeader())
+  public static async editOrder(order: Order): Promise<Order>{
+    return await axios.put(`${this.API_URL}/order/`, order, setAuthHeader())
       .then((response: AxiosResponse<Order>) => { 
         showPopUp(`Updated ${order.id}`, false) 
-        return order
+        return Object.setPrototypeOf(response.data, Order.prototype) 
       })      
       .catch((error: AxiosError) => {
         showPopUp(`Was unable to update ${order.id}`, true)

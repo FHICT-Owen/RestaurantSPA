@@ -24,6 +24,7 @@ export interface State {
   totalPrice: number
   orders: Order[]
   currentOrder: Order
+  sessionTableNumber: number
 
   tables: Table[]
   selectedTableIds: number[]
@@ -62,7 +63,8 @@ export default createStore<State>({
 
     totalPrice: 0,
     orders: [],
-    currentOrder: new Order(1, [], '', OrderState.isUnapproved),
+    currentOrder: new Order('', 0, [], '', OrderState.isUnapproved),
+    sessionTableNumber: 0,
 
     tables: [] as Table[],
     selectedTableIds: [] as number[],
@@ -108,9 +110,9 @@ export default createStore<State>({
     },
     editDish: async (state, payload) => {
       dishDataService.editDish(payload)
-        .then(dish => {
-          const elementIndex = state.dishes.findIndex(obj => obj.id == dish.id)
-          Object.assign(state.dishes[elementIndex], dish)
+        .then(() => {
+          const elementIndex = state.dishes.findIndex(obj => obj.id == payload.id)
+          Object.assign(state.dishes[elementIndex], payload)
         })
     },
     addIngredient: async (state, payload) => {
@@ -119,9 +121,9 @@ export default createStore<State>({
     },
     editIngredient: async (state, payload) => {
       ingredientDataService.editIngredient(payload)
-        .then(ingredient => {
-          const elementIndex = state.ingredients.findIndex(obj => obj.id == ingredient.id)
-          Object.assign(state.ingredients[elementIndex], ingredient)
+        .then(() => {
+          const elementIndex = state.ingredients.findIndex(obj => obj.id == payload.id)
+          Object.assign(state.ingredients[elementIndex], payload)
         })
     },
     addOrder: async (state, payload) => {
@@ -130,9 +132,9 @@ export default createStore<State>({
     },
     editOrder: async (state, payload ) => {
       orderDataService.editOrder(payload)
-        .then(order => {
-          const elementIndex = state.orders.findIndex(obj => obj.id == order.id)
-          Object.assign(state.orders[elementIndex], order)
+        .then(() => {
+          const elementIndex = state.orders.findIndex(obj => obj.id == payload.id)
+          Object.assign(state.orders[elementIndex], payload)
         })
     },
     addTable: async (state, payload) => {
@@ -141,9 +143,9 @@ export default createStore<State>({
     },
     editTable: async (state, payload) => {
       tableDataService.editTable(payload)
-        .then(table => {
-          const elementIndex = state.tables.findIndex(obj => obj.id == table.id)
-          Object.assign(state.tables[elementIndex], table)
+        .then(() => {
+          const elementIndex = state.tables.findIndex(obj => obj.id == payload.id)
+          Object.assign(state.tables[elementIndex], payload)
         })
     },
     addRestaurant: async (state, payload) => {
@@ -202,7 +204,11 @@ export default createStore<State>({
         state.totalPrice -= payload.prize
       }
     },
-    setFilter: (state, payload) => state.filter = payload
+    setFilter: (state, payload) => state.filter = payload,
+    setSessionTable: (state, payload) => {
+      const table = state.tables.find(table => table.id == payload)
+      if (!!table) state.sessionTableNumber = table.tableNumber
+    }
   },
   actions: {
     

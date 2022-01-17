@@ -1,20 +1,31 @@
 import { Session } from '../classes'
 import { setAuthHeader, showPopUp } from '@/utils'
-import axios from 'axios'
+import axios, { AxiosError, AxiosResponse } from 'axios'
 
 export default class SessionDataService {
   static API_URL = process.env.VUE_APP_PROXY_URL;
 
-  public static async createSession(session: Session): Promise<Boolean> {
-    return await axios.post(`${this.API_URL}/session/`, session, setAuthHeader()).then(() => {
-      showPopUp('Session created successfully!', false)
-      return true
-    }).catch(err => {
-      showPopUp('Was unable to create session!', true)
-      console.log(err)
-      return false
-    })
+  public static async createSession (session: Session): Promise<Session> {
+    return await axios.post(`${this.API_URL}/session/`, session)
+      .then((response: AxiosResponse<Session>) => { 
+        showPopUp('Added session', false)
+        return Object.setPrototypeOf(response.data, Session.prototype) 
+      })
+      .catch((error: AxiosError) => {
+        showPopUp('Was unable to add session', true)
+      })
   }
+
+  // public static async createSession(session: Session): Promise<Boolean> {
+  //   return await axios.post(`${this.API_URL}/session/`, session, setAuthHeader()).then(() => {
+  //     showPopUp('Session created successfully!', false)
+  //     return true
+  //   }).catch(err => {
+  //     showPopUp('Was unable to create session!', true)
+  //     console.log(err)
+  //     return false
+  //   })
+  // }
 
   public static async getSessionByCookie(secret: string): Promise<Session> {
     try{
@@ -22,7 +33,7 @@ export default class SessionDataService {
         return response.data
       })
     } catch {
-      return new Session(0,0,'')
+      return new Session('',0)
     }
   }
 

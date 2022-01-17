@@ -21,11 +21,11 @@ export default class DishDataService {
       })
   }
 
-  public static async editDish(dish: Dish): Promise<any> {
-    await axios.put(`${this.API_URL}/dish/`, dish, setAuthHeader())
-      .then((response) => { 
+  public static async editDish(dish: Dish): Promise<Dish> {
+    return await axios.put(`${this.API_URL}/dish/`, dish, setAuthHeader())
+      .then((response: AxiosResponse<Dish>) => { 
         showPopUp(`Updated ${dish.name}`, false)
-        return dish
+        return Object.setPrototypeOf(response.data, Dish.prototype) 
       })
       .catch((error: AxiosError) => {
         showPopUp(`Was unable to update ${dish.name}`, true)

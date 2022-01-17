@@ -46,6 +46,7 @@ enum OrderState {
 interface Order {
   id: number
   sessionId: number
+  tableNumber: number
   dishes: string[]
   comments: string
   orderState: OrderState
@@ -53,9 +54,8 @@ interface Order {
 }
 
 interface Session {
-  id: number
+  id: string
   tableId: number
-  secret: string
 }
 
 interface PopUp {
