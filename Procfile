@@ -1,0 +1,1 @@
+worked: vue-cli-service serve --port $PORT
