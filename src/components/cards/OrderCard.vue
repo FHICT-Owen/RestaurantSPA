@@ -59,7 +59,6 @@ export default defineComponent({
     let order = props.order
     let isFiltered = false
     const prepareOrder = () => {
-      console.log(props.order)
       const orderState = OrderState[props.order.orderState]
       if (OrderState.isApproved == orderState) {
         console.log(order.orderState)

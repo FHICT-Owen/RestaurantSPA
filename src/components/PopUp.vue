@@ -5,6 +5,7 @@
 </template>
 
 <script lang="ts">
+import { PopUp } from '@/types'
 import { defineComponent, onMounted, PropType, ref } from 'vue'
 
 export default defineComponent({

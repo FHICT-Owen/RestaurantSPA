@@ -31,7 +31,7 @@
           <!-- TODO: Translate selected category -->
           <!-- <h2 v-if="lang == 'en' " class="text-3xl mt-5">{{ category }}</h2> --> 
           <div v-for="(dish, index) in filteredDishes" :key="index">
-            <Dish v-if="dish.category == category && checkIfDishCanBeMade(dish)" :dish="dish" />
+            <DishCard v-if="dish.category == category && checkIfDishCanBeMade(dish)" :dish="dish" />
           </div>
         </div>
       </div>
@@ -43,11 +43,12 @@
 <script lang="ts">
 import { computed, defineComponent, onMounted, ref } from 'vue'
 import store from '@/store'
-import Dish from './cards/DishCard.vue'
+import DishCard from './cards/DishCard.vue'
+import { Dish } from '@/types'
 
 export default defineComponent({
   components: {
-    Dish
+    DishCard
   },
   setup() {
     const categories = computed(() => 

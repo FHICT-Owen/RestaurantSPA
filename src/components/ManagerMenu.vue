@@ -43,7 +43,7 @@ import { computed, defineComponent, ref } from 'vue'
 import DeleteButton from './buttons/DeleteButton.vue'
 import EditButton from './buttons/EditButton.vue'
 import IngredientCard from './cards/IngredientCard.vue'
-import { Ingredient, Category } from '../classes'
+import { Ingredient, Category, Dish } from '../classes'
 
 export default defineComponent({
   components: {

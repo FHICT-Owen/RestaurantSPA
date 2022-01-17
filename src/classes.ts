@@ -1,3 +1,5 @@
+import { OrderState } from '@/types'
+
 export class Session implements Session {
   id: number
   tableId: number

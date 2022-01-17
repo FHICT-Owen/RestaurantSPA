@@ -3,11 +3,12 @@ import categoryDataService from '@/services/CategoryDataService'
 import dishDataService from '@/services/DishDataService'
 import tableDataService from '@/services/TableDataService'
 import ingredientDataService from '@/services/IngredientDataService'
-import { Dish, Order, Restaurant } from '../classes'
+import { Category, Dish, Ingredient, Order, Restaurant, Session, Table } from '../classes'
 import { InjectionKey } from '@vue/runtime-dom'
 import orderDataService from '@/services/OrderDataService'
 import SessionDataService from '@/services/SessionDataService'
 import restaurantDataService from '@/services/RestaurantDataService'
+import { OrderState, PopUp } from '@/types'
 
 export interface State {
   categories: Category[]
@@ -61,7 +62,7 @@ export default createStore<State>({
 
     totalPrice: 0,
     orders: [],
-    currentOrder: new Order(1, [], '', 0),
+    currentOrder: new Order(1, [], '', OrderState.isUnapproved),
 
     tables: [] as Table[],
     selectedTableIds: [] as number[],

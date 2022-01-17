@@ -42,6 +42,7 @@
 
 <script lang="ts">
 import store from '@/store'
+import { Dish } from '@/types'
 import { computed, defineComponent, PropType, ref, onMounted } from 'vue'
 
 export default defineComponent({

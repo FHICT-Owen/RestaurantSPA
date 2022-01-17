@@ -68,4 +68,4 @@ interface Restaurant {
   name: string
 }
 
-export { OrderState, Order, Table }  
+export { OrderState, PopUp, Order, Table, Session, Restaurant, Ingredient, Category, Dish }  
