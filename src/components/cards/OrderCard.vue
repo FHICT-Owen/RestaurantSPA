@@ -61,40 +61,33 @@ export default defineComponent({
     const prepareOrder = () => {
       const orderState = OrderState[props.order.orderState]
       if (OrderState.isApproved == orderState) {
-        console.log(order.orderState)
         order.orderState = OrderState.isBeingPrepared
         store.commit('editOrder', order)
-        console.log(order.orderState)
-        console.log('set order prepared')
       }
       else if (props.order.orderState == OrderState.isBeingPrepared){ 
         order.orderState = OrderState.isReady
         store.commit('editOrder', order)
-        console.log('set order being done')
       }
     }
 
     const archiveOrder = () => {
       order.orderState = OrderState.isArchived
       store.commit('editOrder', order) 
-      console.log('set order archived')
     }
 
     const cancelOrder = () => {
       order.orderState = OrderState.isCanceled
       store.commit('editOrder', order) 
-      console.log('set order canceled')
     }  
 
     const revertOrder = () => {
       if (props.order.orderState == OrderState.isReady) {
         order.orderState = OrderState.isBeingPrepared
-        console.log('set order being prepared')
+        store.commit('editOrder', order)
       }
       else { 
         order.orderState = OrderState.isApproved
         store.commit('editOrder', order)
-        console.log('set order approved')
       }
     }
 
