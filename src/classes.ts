@@ -1,14 +1,12 @@
-import { OrderState } from '@/types'
+import { OrderState } from './types'
 
 export class Session implements Session {
-  id: number
+  id: string
   tableId: number
-  secret: string
 
-  constructor(id: number, tableId: number, secret: string) {
+  constructor(id: string, tableId: number) {
     this.id = id
     this.tableId = tableId
-    this.secret = secret
   }
 }
 
@@ -85,14 +83,16 @@ export class Ingredient {
 
 export class Order {
   id!: number
-  sessionId: number
+  sessionId: string
+  tableNumber: number
   dishes: string[]
   comments: string
   orderState: OrderState
   timeStamp: number
 
-  constructor(sessionId: number, dishes: string[], comments: string, orderState:OrderState) {
+  constructor(sessionId: string, tableNumber: number, dishes: string[], comments: string, orderState: OrderState) {
     this.sessionId = sessionId
+    this.tableNumber = tableNumber
     this.dishes = dishes
     this.comments = comments
     this.orderState = orderState

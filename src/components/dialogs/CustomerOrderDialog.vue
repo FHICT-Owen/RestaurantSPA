@@ -40,6 +40,7 @@ export default defineComponent({
       store.state.currentOrder.comments = comments.value
       store.state.currentOrder.timeStamp = Date.now()
       store.state.currentOrder.orderState = OrderState.isUnapproved
+      store.state.currentOrder.tableNumber = store.state.sessionTableNumber
       props.placeOrder(store.state.currentOrder)
     }
 
