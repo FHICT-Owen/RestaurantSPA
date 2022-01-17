@@ -273,6 +273,33 @@
             </li>
           </router-link>
         </div>
+        <div
+          class="block mt-4 md:inline-block md:mt-0 text-white text-2xl  rounded-lg bg-black bg-opacity-0 hover:bg-opacity-10 text-opacity-60 list-none px-2 mx-2"
+        >
+          <!-- <router-link to="/restaurant_detail" class="text-decoration-line: no-underline hover:text-white">Restaurant details</router-link> -->
+          <router-link
+            to="/inventory"
+            v-slot="{ href, route, navigate, isActive, isExactActive }"
+            v-if="isAuthenticated && user.roles.includes('RestaurantOwner')"
+            custom
+          >
+            <li
+              :class="[
+                isActive && 'router-link-active',
+                isExactActive && 'router-link-exact-active',
+                ,
+              ]"
+            >
+              <a
+                :href="href"
+                @click="navigate"
+                class="text-decoration-line: no-underline hover:text-white"
+              >
+                <div class="w-full">Inventory</div></a
+              >
+            </li>
+          </router-link>
+        </div>
         <div class="inline-block md:float-right">
           <button
             @click="

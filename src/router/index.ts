@@ -8,6 +8,7 @@ import QRGenTest from '../views/QRGenTest.vue'
 import CreateSession from '../components/CreateSession.vue'
 import LiveView from '../views/LiveView.vue'
 import RestaurantView from '../views/RestaurantView.vue'
+import Inventory from '../views/Inventory.vue'
 import { Auth0 } from '@/auth'
 
 const routes: Array<RouteRecordRaw> = [
@@ -56,12 +57,18 @@ const routes: Array<RouteRecordRaw> = [
     meta: {requiresNavBar: false},
     component: SessionPage,
   },
-  
   {
     path: '/profile',
     name: 'profile',
     meta: {requiresNavBar: true},
     component: Profile,
+    beforeEnter: Auth0.routeGuard
+  },
+  {
+    path: '/inventory',
+    name: 'inventory',
+    meta: {requiresNavBar: true},
+    component: Inventory,
     beforeEnter: Auth0.routeGuard
   },
   {
