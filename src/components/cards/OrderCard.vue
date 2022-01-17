@@ -16,6 +16,7 @@
       </div>
     <div class="flex flex-col justify-between">
       <div class="flex space-x-2">
+        <ReplyIcon @click="revertOrder" class="w-6 h-6 cursor-pointer rounded-md shadow"/>
         <BanIcon @click="cancelOrder" class="w-6 h-6 cursor-pointer rounded-md shadow"/>
         <CheckIcon @click="prepareOrder" class="h-6 w-6 cursor-pointer rounded-md shadow"/>
         <FlagIcon @click="archiveOrder" class="h-6 w-6 cursor-pointer rounded-md shadow"/>
@@ -38,13 +39,15 @@
 <script lang="ts">
 import { defineComponent, PropType} from 'vue'
 import store from '@/store'
-import { FlagIcon, CheckIcon, BanIcon } from '@heroicons/vue/solid'
+import { FlagIcon, CheckIcon, BanIcon, ReplyIcon } from '@heroicons/vue/solid'
+import { OrderState, Order, Table } from '@/types'
 
 export default defineComponent({
   components: {
     FlagIcon,
     CheckIcon,
-    BanIcon
+    BanIcon,
+    ReplyIcon
   },
   props: {
     order: {
@@ -56,25 +59,45 @@ export default defineComponent({
     let order = props.order
     let isFiltered = false
     const prepareOrder = () => {
-      if (props.order.orderState == 2) {
-        order.orderState = 3
+      console.log(props.order)
+      const orderState = OrderState[props.order.orderState]
+      if (OrderState.isApproved == orderState) {
+        console.log(order.orderState)
+        order.orderState = OrderState.isBeingPrepared
         store.commit('editOrder', order)
-        console.log('set order done')
+        console.log(order.orderState)
+        console.log('set order prepared')
       }
-      else { 
-        order.orderState = 2
+      else if (props.order.orderState == OrderState.isBeingPrepared){ 
+        order.orderState = OrderState.isReady
         store.commit('editOrder', order)
+        console.log('set order being done')
       }
     }
 
     const archiveOrder = () => {
+      order.orderState = OrderState.isArchived
       store.commit('editOrder', order) 
+      console.log('set order archived')
     }
 
     const cancelOrder = () => {
-      order.orderState = 5
+      order.orderState = OrderState.isCanceled
       store.commit('editOrder', order) 
+      console.log('set order canceled')
     }  
+
+    const revertOrder = () => {
+      if (props.order.orderState == OrderState.isReady) {
+        order.orderState = OrderState.isBeingPrepared
+        console.log('set order being prepared')
+      }
+      else { 
+        order.orderState = OrderState.isApproved
+        store.commit('editOrder', order)
+        console.log('set order approved')
+      }
+    }
 
     function filterByTable(tableNumber: Table) {
       if (isFiltered) {
@@ -87,7 +110,7 @@ export default defineComponent({
     }
 
     return {
-      prepareOrder, cancelOrder, archiveOrder, filterByTable
+      prepareOrder, cancelOrder, archiveOrder, revertOrder,filterByTable
     }
   }
 })
