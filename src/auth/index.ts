@@ -31,7 +31,6 @@ const state = reactive<Auth0PluginState>({
 
 async function handleRedirectCallback () {
   state.loading = true
-
   try {
     await client.handleRedirectCallback()
     state.user = await client.getUser()
