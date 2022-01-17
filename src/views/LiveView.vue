@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="mx-2">
     <div class="flex content-end">
       <ul class="flex my-5">
         <li class="mr-3">

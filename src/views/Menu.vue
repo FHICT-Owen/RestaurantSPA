@@ -1,11 +1,14 @@
 <template>
   <div>
-    <button 
-      @click="toggleMenu"
-      class="absolute bg-gray-300 rounded-3xl top-52 right-0" 
-      v-if="isAuthenticated && !loading && user.roles.includes('RestaurantOwner')">
-      {{costumerMenuIsOpen ? 'Switch to manager menu' : 'Switch to costumer menu'}}
-    </button>
+    <div class="flex flex-row justify-center bg-yellow-500 p-2 py-2">
+
+      <button 
+        @click="toggleMenu"
+        class="text-white top-52 py-2 px-4 right-0" 
+        v-if="isAuthenticated && !loading && user.roles.includes('RestaurantOwner')">
+        {{costumerMenuIsOpen ? 'Switch to Manager menu' : 'Switch to Customer Menu'}}
+      </button>
+    </div>
       <CustomerMenu 
         v-if="costumerMenuIsOpen || !isAuthenticated"/>
       <ManagerMenu 
