@@ -1,6 +1,6 @@
 <template>
   <div class="flex">
-    <div class="border-4 border-gray-300" style="width: 260px; height: 260px;">
+    <div class="z-50" style="width: 260px; height: 260px;">
       <qrcode-stream @decode='decode' :track='drawOutline'></qrcode-stream>
     </div>
   </div>

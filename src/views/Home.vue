@@ -7,7 +7,7 @@
 
 <div class="rounded-2xl bg-gray-100 p-4 text-center w-3/5">
   <p class="text-xl font-semibold">Scan QR Code</p>
-  <p>Please allow app to access camera.</p>
+  <p>Please allow app to access camera and center QR code.</p>
   <!-- Please center QR Code on screen -->
 </div>
 </div>

@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="mx-2">
     <div class="flex content-end">
       <ul class="flex my-5">
         <li class="mr-3">
@@ -25,23 +25,18 @@
           <OrderCard 
             class="mx-4"
             :order="order" 
-            :table="getTable(order.sessionId)" 
-            v-if="(getTable(order.sessionId)) ? 
-              filter == getTable(order.sessionId).tableNumber || filter == 0 : true && order.isArchived == false"/>
+            v-if="true"/>
         </div>
       </div>
     </div>
-    
   </div>
 </template>
 
 <script lang="ts">
-import { inject, computed, defineComponent, onMounted } from 'vue'
+import { computed, defineComponent, onMounted } from 'vue'
 import OrderCard from '../components/cards/OrderCard.vue'
 import store from '@/store'
-import { AuthPlugin } from '@/auth'
 import { Client } from '@stomp/stompjs'
-import IngredientInstockCard from '@/components/cards/IngredientInstockCard.vue'
 
 export default defineComponent({
   components: {
@@ -49,11 +44,8 @@ export default defineComponent({
   },
   setup() {
     var client: Client
-    const auth = inject<AuthPlugin>('Auth')
     const filter = computed(() => store.state.filter)
     const orders = computed(() => store.state.orders)
-    const tables = computed(() => store.state.tables)
-    const sessions = computed(() => store.state.sessions)
     const ingredients = computed(() => store.state.ingredients)
     
     onMounted(() => {
@@ -62,15 +54,6 @@ export default defineComponent({
       store.commit('setSessions')
       connectAsLiveView()
     })
-    
-    function getTable(sessionId: number) {
-      // console.log(`Session: ${sessionId}`)
-      const session = sessions.value.find(s => s.id == sessionId)
-      if (!session) return
-      const table = tables.value.find(t => t.id == session.tableId)
-      // console.log(table)
-      return table
-    }
 
     function connectAsLiveView() {
       client = new Client({
@@ -87,7 +70,7 @@ export default defineComponent({
     }
 
     return {
-      ...auth, orders, getTable, filter, ingredients
+      orders, filter, ingredients
     }
   }
 })

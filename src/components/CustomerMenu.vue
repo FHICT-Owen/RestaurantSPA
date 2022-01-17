@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div >
     <div id="navbar" class="flex flex-col overflow-hidden z-50" style="background-color: #FFA825">
       <input 
         v-model="keyword" 
@@ -18,14 +18,14 @@
           :key="category.id"
           @click="selectCategory"
           :tabindex="category.id"
-          class="no-underline capitalize py-2 px-4 mx-2 my-2.5 cursor-pointer select-none whitespace-nowrap">
+          class="no-underline capitalize py-2 px-4 my-2.5 cursor-pointer select-none whitespace-nowrap">
           <div v-if="lang == 'en' ">{{ category.name }}</div>
           <div v-else-if="lang == 'nl'">{{ category.name_NL }}</div>
         </div>
       </div>
     </div>
-    <div class="capitalize">
-      <div>
+    <div class="capitalize mx-2">
+      <div >
         <div v-for="category in selectedCategory" :key="category.id">
           <h2 class="text-3xl mt-5">{{ category }}</h2>
           <!-- TODO: Translate selected category -->

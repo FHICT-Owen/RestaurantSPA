@@ -35,12 +35,12 @@ interface Table {
 }
 
 enum OrderState {
-  isUnapproved,
-  isApproved,
-  isBeingPrepared,
-  isReady,
-  isArchived,
-  isCanceled
+  isUnapproved = 'isUnapproved', 
+  isApproved = 'isApproved',
+  isBeingPrepared = 'isBeingPrepared',
+  isReady = 'isReady',
+  isArchived = 'isArchived',
+  isCanceled = 'isCanceled'
 }
 
 interface Order {
@@ -67,3 +67,5 @@ interface Restaurant {
   id: number
   name: string
 }
+
+export { OrderState, Order, Table }  
