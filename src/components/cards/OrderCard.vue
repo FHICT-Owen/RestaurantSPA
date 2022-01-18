@@ -58,7 +58,6 @@ export default defineComponent({
   },
   setup(props) {
     let order = props.order
-    console.log(order.timeStamp)
     const prepareOrder = () => {
       const orderState = OrderState[props.order.orderState]
       if (OrderState.isApproved == orderState) {

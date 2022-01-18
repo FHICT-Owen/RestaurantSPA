@@ -14,7 +14,7 @@
             class="mx-4"
             :order="order"
             v-if="((!!tableNumberFilter) ?
-              tableNumberFilter == order.tableNumber : true) && ((!!orderStateFilter) ? orderStateFilter == order.orderState : true)"/>
+              tableNumberFilter == order.tableNumber : true) && ((!!orderStateFilter) ? orderStateFilter == order.orderState : order.orderState !== 'isArchived')"/>
         </div>
       </div>
     </div>
