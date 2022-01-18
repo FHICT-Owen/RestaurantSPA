@@ -16,23 +16,22 @@
           v-for="category in categories"
           :id="category.name"
           :key="category.id"
-          @click="setCategory(category.name || category.name_NL)"
+          @click="setCategory(category.name)"
           :tabindex="category.id"
           class="no-underline capitalize py-2 px-4 my-2.5 cursor-pointer select-none whitespace-nowrap">
-          <div v-if="lang == 'en' ">{{ category.name }}</div>
-          <div v-else-if="lang == 'nl'">{{ category.name_NL }}</div>
+          <div>{{lang == 'en' ? category.name : category.name_NL}}</div>
         </div>
       </div>
     </div>
     <div class="capitalize mx-2">
-      <div >
-        <!-- <div v-for="category in selectedCategory" :key="category.id"> -->
-          <h2 class="text-3xl mt-5" v-if="((!!categoryFilter) ? categoryFilter == category : true)">{{ category }}</h2>
+      <div v-for="category in categories" :key="category.id">
+        <div v-if="((!!categoryFilter) ? categoryFilter == category.name : true)">
+          <h2 class="text-3xl mt-5">{{lang == 'en' ? category.name : category.name_NL}}</h2>
           <div v-for="(dish, index) in filteredDishes" :key="index">
-            <DishCard v-if="((!!categoryFilter) ? categoryFilter == category : true)" :dish="dish" />
-            <!-- && checkIfDishCanBeMade(dish) -->
+            <DishCard v-if=" category.name == dish.category " :dish="dish" />
+            <!-- && checkIfDishCanBeMade(dish)  -->
           </div>
-        <!-- </div> -->
+        </div>
       </div>
       <div class="h-28"></div>
     </div>
@@ -50,27 +49,25 @@ export default defineComponent({
     DishCard
   },
   setup() {
+    const dishes = computed(() => store.state.dishes)
     const categoryFilter = computed(() => store.state.categoryFilter)
     const categories = computed(() => 
-      store.state.categories.filter(c => store.state.dishes.find(d => d.category == c.name))
-    )
-    const dishes = computed(() => store.state.dishes)
+      store.state.categories.filter(c => store.state.dishes.find(d => d.category == c.name)))
     let keyword = ref('')
+    let lang = ref('')
 
     const setCategoryAll = () =>
       store.commit('setCategoryFilter', null)
 
-    const setCategory = (selectedCategory:string) => {
-      console.log(selectedCategory)
+    const setCategory = (selectedCategory: string) =>
       store.commit('setCategoryFilter', selectedCategory)
-    }
 
     const filteredDishes = computed(() => lang.value === 'en' ?
       dishes.value.filter(({name}) => 
         name.toLowerCase().includes(keyword.value.toLowerCase())) : dishes.value.filter(({name_NL}) => 
         name_NL.toLowerCase().includes(keyword.value.toLowerCase())))
 
-    const selectedCategory = computed(() => store.state.selectedCategory)
+    // const selectedCategory = computed(() => store.state.selectedCategory)
 
     const checkIfDishCanBeMade = (dish: Dish) =>
       dish.ingredients.some((x) => 
@@ -83,7 +80,6 @@ export default defineComponent({
       }
     }
     
-    let lang = ref('')
 
     onMounted(() => {
       lang.value = localStorage.getItem('lang') || 'en'
@@ -101,7 +97,7 @@ export default defineComponent({
       dishes,
       filteredDishes,
       keyword,
-      selectedCategory,
+      // selectedCategory,
       lang,
       checkIfDishCanBeMade,
       categoryFilter,
