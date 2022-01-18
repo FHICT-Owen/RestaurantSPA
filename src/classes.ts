@@ -1,11 +1,10 @@
 import { OrderState } from './types'
 
 export class Session implements Session {
-  id: string
+  id!: string
   tableId: number
 
-  constructor(id: string, tableId: number) {
-    this.id = id
+  constructor(tableId: number) {
     this.tableId = tableId
   }
 }
