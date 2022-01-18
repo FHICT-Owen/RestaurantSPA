@@ -1,23 +1,11 @@
 <template>
   <div class="mx-2">
-    <div class="flex content-end">
-      <ul class="flex my-5">
-        <li class="mr-3">
-          <a class="inline-block border border-blue-500 rounded py-1 px-3 bg-blue-500 text-white no-underline" @click="setStateAll">All</a>
-        </li>
-        <li class="mr-3">
-          <a class="inline-block border border-blue-500 rounded py-1 px-3 bg-blue-500 text-white no-underline" @click="setStateReady" href="#">Done</a>
-        </li>
-        <li class="mr-3">
-          <a class="inline-block border border-blue-500 rounded py-1 px-3 bg-blue-500 text-white no-underline" @click="setStatePreparing" href="#">Preparing</a>
-        </li>
-        <li class="mr-3">
-          <a class="inline-block border border-blue-500 rounded py-1 px-3 bg-blue-500 text-white no-underline" @click="setStateApproved" href="#">New</a>
-        </li>
-        <li class="mr-3">
-          <a class="inline-block border border-blue-500 rounded py-1 px-3 bg-blue-500 text-white no-underline" @click="setStateArchived" href="#">Archive</a>
-        </li>
-      </ul>
+    <div class="flex">
+      <button class="rounded py-1 px-3 ml-4 mr-1 my-2 bg-blue-500 text-white" @click="setStateAll">All</button>
+      <button class="rounded py-1 px-3 mx-1 my-2 bg-blue-500 text-white" @click="setStateApproved">New</button>
+      <button class="rounded py-1 px-3 mx-1 my-2 bg-blue-500 text-white" @click="setStatePreparing">Preparing</button>
+      <button class="rounded py-1 px-3 mx-1 my-2 bg-blue-500 text-white" @click="setStateReady">Done</button>
+      <button class="rounded py-1 px-3 mx-1 my-2 bg-blue-500 text-white" @click="setStateArchived">Archive</button>
     </div>
     <div class="overflow-x-scroll">
       <div class="flex flex-wrap flex-col items-start" style="height: 60vh">
@@ -26,7 +14,7 @@
             class="mx-4"
             :order="order"
             v-if="((!!tableNumberFilter) ?
-              tableNumberFilter == order.tableNumber : true) && ((!!setOrderStateFilter) ? setOrderStateFilter == order.orderState : true)"/>
+              tableNumberFilter == order.tableNumber : true) && ((!!orderStateFilter) ? orderStateFilter == order.orderState : true)"/>
         </div>
       </div>
     </div>
@@ -49,8 +37,7 @@ export default defineComponent({
     const orders = computed(() => store.state.orders)
     const ingredients = computed(() => store.state.ingredients)
     const tableNumberFilter = computed(() => store.state.tableNumberFilter)
-    const filterOrderState = computed(() => store.state.filterOrderState)
-
+    const orderStateFilter = computed(() => store.state.orderStateFilter)
     
     onMounted(() => {
       store.commit('setOrders')
@@ -73,23 +60,27 @@ export default defineComponent({
       client.activate()
     }
 
-    const setStateAll = () => {
+    const setStateAll = () => 
       store.commit('setOrderStateFilter', null)
-    }
-    const setStateReady = () => {
+    const setStateReady = () => 
       store.commit('setOrderStateFilter', OrderState.isReady)
-    }
-    const setStatePreparing = () => {
+    const setStatePreparing = () => 
       store.commit('setOrderStateFilter', OrderState.isBeingPrepared)
-    }
-    const setStateApproved = () => {
+    const setStateApproved = () => 
       store.commit('setOrderStateFilter', OrderState.isApproved)
-    }
-    const setStateArchived = () => {
+    const setStateArchived = () => 
       store.commit('setOrderStateFilter', OrderState.isArchived)
-    }
+      
     return {
-      orders, tableNumberFilter, filterOrderState, ingredients, setStateAll, setStateReady, setStatePreparing, setStateApproved, setStateArchived
+      orders, 
+      tableNumberFilter, 
+      orderStateFilter, 
+      ingredients, 
+      setStateAll, 
+      setStateReady, 
+      setStatePreparing, 
+      setStateApproved, 
+      setStateArchived
     }
   }
 })
