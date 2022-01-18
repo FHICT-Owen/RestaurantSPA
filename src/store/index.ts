@@ -45,6 +45,7 @@ export interface State {
 
   apiToken: string
   tableNumberFilter: number | null
+  categoryFilter: string | null
   orderStateFilter: OrderState | null
 }
 
@@ -86,6 +87,7 @@ export default createStore<State>({
 
     apiToken: '',
     tableNumberFilter: null,
+    categoryFilter: null,
     orderStateFilter: null
   },
   mutations: {
@@ -175,16 +177,6 @@ export default createStore<State>({
       state.isTableDialogOpen = !state.isTableDialogOpen
     },
     closeDishDialog: (state) => state.isDishDialogOpen = false,
-    setSelectedCategory: (state, payload: string) => {
-      if (payload.trim().toLowerCase() === 'all')
-        state.selectedCategory = state.categories
-          .filter((c) => state.dishes.find((d) => d.category == c.name))
-          .map((c) => c.name)
-      else {
-        state.selectedCategory = []
-        state.selectedCategory.push(payload.trim())
-      }
-    },
     toggleConfirmDialog: (state, payload) => {
       state.isConfirmDialogOpen = !state.isConfirmDialogOpen
       state.currentConfirmDialogObject = payload.object
@@ -205,6 +197,20 @@ export default createStore<State>({
         state.currentOrder.dishes.splice(index, 1)
         state.totalPrice -= payload.prize
       }
+    },
+    setSelectedCategory: (state, payload: string) => {
+      if (payload.trim().toLowerCase() === 'all')
+        state.selectedCategory = state.categories
+          .filter((c) => state.dishes.find((d) => d.category == c.name))
+          .map((c) => c.name)
+      else {
+        state.selectedCategory = []
+        state.selectedCategory.push(payload.trim())
+      }
+    },
+    setCategoryFilter: (state, payload) => { 
+      (payload == state.categoryFilter) ?
+        state.categoryFilter = null : state.categoryFilter = payload
     },
     setTableNumberFilter: (state, payload) => { 
       (payload == state.tableNumberFilter) ?

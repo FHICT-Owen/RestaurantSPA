@@ -8,7 +8,7 @@
       <div class="flex flex-row overflow-x-scroll bg-white">
         <div 
           id="all" 
-          @click="selectCategory"
+          @click="setCategoryAll"
           class="no-underline capitalize py-2 px-4 mx-2 my-2.5 cursor-pointer select-none whitespace-nowrap">
           All
         </div>
@@ -16,7 +16,7 @@
           v-for="category in categories"
           :id="category.name"
           :key="category.id"
-          @click="selectCategory"
+          @click="setCategory(category.name || category.name_NL)"
           :tabindex="category.id"
           class="no-underline capitalize py-2 px-4 my-2.5 cursor-pointer select-none whitespace-nowrap">
           <div v-if="lang == 'en' ">{{ category.name }}</div>
@@ -26,14 +26,13 @@
     </div>
     <div class="capitalize mx-2">
       <div >
-        <div v-for="category in selectedCategory" :key="category.id">
-          <h2 class="text-3xl mt-5">{{ category }}</h2>
-          <!-- TODO: Translate selected category -->
-          <!-- <h2 v-if="lang == 'en' " class="text-3xl mt-5">{{ category }}</h2> --> 
+        <!-- <div v-for="category in selectedCategory" :key="category.id"> -->
+          <h2 class="text-3xl mt-5" v-if="((!!categoryFilter) ? categoryFilter == category : true)">{{ category }}</h2>
           <div v-for="(dish, index) in filteredDishes" :key="index">
-            <DishCard v-if="dish.category == category && checkIfDishCanBeMade(dish)" :dish="dish" />
+            <DishCard v-if="((!!categoryFilter) ? categoryFilter == category : true)" :dish="dish" />
+            <!-- && checkIfDishCanBeMade(dish) -->
           </div>
-        </div>
+        <!-- </div> -->
       </div>
       <div class="h-28"></div>
     </div>
@@ -51,11 +50,20 @@ export default defineComponent({
     DishCard
   },
   setup() {
+    const categoryFilter = computed(() => store.state.categoryFilter)
     const categories = computed(() => 
       store.state.categories.filter(c => store.state.dishes.find(d => d.category == c.name))
     )
     const dishes = computed(() => store.state.dishes)
     let keyword = ref('')
+
+    const setCategoryAll = () =>
+      store.commit('setCategoryFilter', null)
+
+    const setCategory = (selectedCategory:string) => {
+      console.log(selectedCategory)
+      store.commit('setCategoryFilter', selectedCategory)
+    }
 
     const filteredDishes = computed(() => lang.value === 'en' ?
       dishes.value.filter(({name}) => 
@@ -63,30 +71,11 @@ export default defineComponent({
         name_NL.toLowerCase().includes(keyword.value.toLowerCase())))
 
     const selectedCategory = computed(() => store.state.selectedCategory)
-    
-    const selectCategory = (e:any) => {
-      const newElement = document.getElementById(e.target.textContent)
-      const lastElement = document.getElementById(store.state.selectedCategory[0])
-      const all = document.getElementById('all')
-      if (!!all) {
-        all.classList.remove('select')
-      }
-      if (!!newElement && !!lastElement) {
-        lastElement.classList.remove('select')
-        newElement.classList.add('select')
-      }
-      store.commit('setSelectedCategory', e.target.textContent)
-    }
 
     const checkIfDishCanBeMade = (dish: Dish) =>
       dish.ingredients.some((x) => 
         store.state.ingredients.filter(d => d.isInStock && x == d.name))
 
-    // return true when all ingredients are available
-    // return false when atleast 1 ingredient is out of stock
-    // return false when dish does not have any ingredients
-    // return false when dish does have a ingredient that doesn't exist
-    
     const manageStickyNav = (navbar: HTMLElement | null) => {
       if(!!navbar) {
         window.pageYOffset >= navbar.offsetTop ? 
@@ -101,6 +90,8 @@ export default defineComponent({
       let navbar = document.getElementById('navbar')
       window.addEventListener('scroll', () => manageStickyNav(navbar))
       store.commit('setSelectedCategory', 'all')
+      store.commit('setCategoryFilter', null)
+
       const all = document.getElementById('all')
       if (!!all) all.classList.add('select')
     })
@@ -108,12 +99,14 @@ export default defineComponent({
     return {
       categories,
       dishes,
-      selectCategory,
       filteredDishes,
       keyword,
       selectedCategory,
       lang,
-      checkIfDishCanBeMade
+      checkIfDishCanBeMade,
+      categoryFilter,
+      setCategoryAll,
+      setCategory
     }
   }
 })
