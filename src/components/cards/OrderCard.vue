@@ -23,7 +23,7 @@
       </div>
       <h5 
         class="text-md cursor-pointer text-center px-2 py-1 rounded-md mt-2 shadow" 
-        @click="filterByTable(order.TableNumber)">
+        @click="filterByTable(order.tableNumber)">
         Table: {{order.tableNumber}}
       </h5>
     </div>
@@ -58,7 +58,6 @@ export default defineComponent({
   },
   setup(props) {
     let order = props.order
-    let isFiltered = false
 
     const prepareOrder = () => {
       const orderState = OrderState[props.order.orderState]
@@ -93,18 +92,17 @@ export default defineComponent({
       }
     }
 
-    function filterByTable(tableNumber: Table) {
-      if (isFiltered) {
-        store.commit('setFilter', 0)
-        isFiltered = false
-      } else {
-        store.commit('setFilter', tableNumber)
-        isFiltered = true
-      }
+    function filterByTable(tableNumber: number) {
+      store.commit('setFilter', tableNumber)
     }
 
     return {
-      prepareOrder, cancelOrder, archiveOrder, revertOrder,filterByTable, countedDishes
+      prepareOrder, 
+      cancelOrder, 
+      archiveOrder, 
+      revertOrder, 
+      filterByTable, 
+      countedDishes
     }
   }
 })

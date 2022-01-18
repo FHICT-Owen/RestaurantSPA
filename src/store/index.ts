@@ -44,7 +44,7 @@ export interface State {
   sessionId: string
 
   apiToken: string
-  filter: number
+  tableNumberFilter: number | null
 }
 
 export const key: InjectionKey<Store<State>> = Symbol()
@@ -84,7 +84,7 @@ export default createStore<State>({
     sessionId: 's',
 
     apiToken: '',
-    filter: 0
+    tableNumberFilter: null
   },
   mutations: {
     setCategories: async (state) => {
@@ -204,7 +204,10 @@ export default createStore<State>({
         state.totalPrice -= payload.prize
       }
     },
-    setFilter: (state, payload) => state.filter = payload,
+    setFilter: (state, payload) => { 
+      (payload == state.tableNumberFilter) ?
+        state.tableNumberFilter = null : state.tableNumberFilter = payload
+    },
     setSessionTable: (state, payload) => {
       const table = state.tables.find(table => table.id == payload)
       if (!!table) state.sessionTableNumber = table.tableNumber

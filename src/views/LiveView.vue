@@ -25,7 +25,8 @@
           <OrderCard 
             class="mx-4"
             :order="order" 
-            v-if="true"/>
+            v-if="(!!filter) ? 
+              filter == order.tableNumber : true"/>
         </div>
       </div>
     </div>
@@ -44,9 +45,9 @@ export default defineComponent({
   },
   setup() {
     var client: Client
-    const filter = computed(() => store.state.filter)
     const orders = computed(() => store.state.orders)
     const ingredients = computed(() => store.state.ingredients)
+    const filter = computed(() => store.state.tableNumberFilter)
     
     onMounted(() => {
       store.commit('setOrders')
