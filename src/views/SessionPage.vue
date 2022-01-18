@@ -51,7 +51,6 @@ export default defineComponent({
     }) 
 
     const connect = () => {
-      document.cookie = 'GenericRestaurantSesh=xD' //TODO: remove later
       // const cookie = VueCookieNext.getCookie('GenericRestaurantSesh')
       // let sessionPromise
       // try { sessionPromise = SessionDataService.getSessionByCookie(cookie) } catch { return router.push('menu')}
