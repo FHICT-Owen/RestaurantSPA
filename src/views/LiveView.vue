@@ -3,19 +3,19 @@
     <div class="flex content-end">
       <ul class="flex my-5">
         <li class="mr-3">
-          <a class="inline-block border border-blue-500 rounded py-1 px-3 bg-blue-500 text-white no-underline">All</a>
+          <a class="inline-block border border-blue-500 rounded py-1 px-3 bg-blue-500 text-white no-underline" @click="setStateAll">All</a>
         </li>
         <li class="mr-3">
-          <a class="inline-block border border-blue-500 rounded py-1 px-3 bg-blue-500 text-white no-underline" href="#">Done</a>
+          <a class="inline-block border border-blue-500 rounded py-1 px-3 bg-blue-500 text-white no-underline" @click="setStateReady" href="#">Done</a>
         </li>
         <li class="mr-3">
-          <a class="inline-block border border-blue-500 rounded py-1 px-3 bg-blue-500 text-white no-underline" href="#">Preparing</a>
+          <a class="inline-block border border-blue-500 rounded py-1 px-3 bg-blue-500 text-white no-underline" @click="setStatePreparing" href="#">Preparing</a>
         </li>
         <li class="mr-3">
-          <a class="inline-block border border-blue-500 rounded py-1 px-3 bg-blue-500 text-white no-underline" href="#">New</a>
+          <a class="inline-block border border-blue-500 rounded py-1 px-3 bg-blue-500 text-white no-underline" @click="setStateApproved" href="#">New</a>
         </li>
         <li class="mr-3">
-          <a class="inline-block border border-blue-500 rounded py-1 px-3 bg-blue-500 text-white no-underline " href="#">Archive</a>
+          <a class="inline-block border border-blue-500 rounded py-1 px-3 bg-blue-500 text-white no-underline" @click="setStateArchived" href="#">Archive</a>
         </li>
       </ul>
     </div>
@@ -24,9 +24,9 @@
         <div v-for="(order, index) in orders" :key="index">
           <OrderCard 
             class="mx-4"
-            :order="order" 
-            v-if="(!!filter) ? 
-              filter == order.tableNumber : true"/>
+            :order="order"
+            v-if="((!!tableNumberFilter) ?
+              tableNumberFilter == order.tableNumber : true) && ((!!setOrderStateFilter) ? setOrderStateFilter == order.orderState : true)"/>
         </div>
       </div>
     </div>
@@ -38,6 +38,7 @@ import { computed, defineComponent, onMounted } from 'vue'
 import OrderCard from '../components/cards/OrderCard.vue'
 import store from '@/store'
 import { Client } from '@stomp/stompjs'
+import { OrderState } from '@/types'
 
 export default defineComponent({
   components: {
@@ -47,7 +48,9 @@ export default defineComponent({
     var client: Client
     const orders = computed(() => store.state.orders)
     const ingredients = computed(() => store.state.ingredients)
-    const filter = computed(() => store.state.tableNumberFilter)
+    const tableNumberFilter = computed(() => store.state.tableNumberFilter)
+    const filterOrderState = computed(() => store.state.filterOrderState)
+
     
     onMounted(() => {
       store.commit('setOrders')
@@ -70,8 +73,23 @@ export default defineComponent({
       client.activate()
     }
 
+    const setStateAll = () => {
+      store.commit('setOrderStateFilter', null)
+    }
+    const setStateReady = () => {
+      store.commit('setOrderStateFilter', OrderState.isReady)
+    }
+    const setStatePreparing = () => {
+      store.commit('setOrderStateFilter', OrderState.isBeingPrepared)
+    }
+    const setStateApproved = () => {
+      store.commit('setOrderStateFilter', OrderState.isApproved)
+    }
+    const setStateArchived = () => {
+      store.commit('setOrderStateFilter', OrderState.isArchived)
+    }
     return {
-      orders, filter, ingredients
+      orders, tableNumberFilter, filterOrderState, ingredients, setStateAll, setStateReady, setStatePreparing, setStateApproved, setStateArchived
     }
   }
 })

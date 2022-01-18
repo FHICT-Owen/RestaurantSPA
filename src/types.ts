@@ -35,12 +35,12 @@ interface Table {
 }
 
 enum OrderState {
-  isUnapproved = 'isUnapproved', 
-  isApproved = 'isApproved',
-  isBeingPrepared = 'isBeingPrepared',
-  isReady = 'isReady',
-  isArchived = 'isArchived',
-  isCanceled = 'isCanceled'
+  isUnapproved='isUnapproved',
+  isApproved='isApproved',
+  isBeingPrepared='isBeingPrepared',
+  isReady='isReady',
+  isArchived='isArchived',
+  isCanceled='isCanceled'
 }
 
 interface Order {

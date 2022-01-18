@@ -30,7 +30,7 @@
     </div>
     <div class="flex flex-col px-3 pb-2 rounded-b-lg text-white capitalize font-semibold max-h-64">
       <p class="text-gray-200 italic" >{{order.comments}}</p>
-      <div v-for="(index, dish) in countedDishes(order.dishes)" :key="index">{{dish + ' (' + index + ')'}}</div>
+      <div v-for="(index, dish) in countedDishes(order.dishes)" :key="index">{{dish + ' ' + index + 'x'}}</div>
     </div>
   </div>
 </template>
@@ -93,7 +93,7 @@ export default defineComponent({
     }
 
     function filterByTable(tableNumber: number) {
-      store.commit('setFilter', tableNumber)
+      store.commit('setTableNumberFilter', tableNumber)
     }
 
     return {
