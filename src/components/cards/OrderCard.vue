@@ -30,7 +30,7 @@
     </div>
     <div class="flex flex-col px-3 pb-2 rounded-b-lg text-white capitalize font-semibold max-h-64">
       <p class="text-gray-200 italic" >{{order.comments}}</p>
-      <div v-for="(index, dish) in countedDishes(order.dishes)" :key="index">{{dish + ' ' + index + 'x'}}</div>
+      <div v-for="(count, dish) in countedDishes(order.dishes)" :key="count">{{dish + ' ' + count + 'x'}}</div>
     </div>
   </div>
 </template>
