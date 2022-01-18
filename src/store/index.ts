@@ -198,16 +198,6 @@ export default createStore<State>({
         state.totalPrice -= payload.prize
       }
     },
-    setSelectedCategory: (state, payload: string) => {
-      if (payload.trim().toLowerCase() === 'all')
-        state.selectedCategory = state.categories
-          .filter((c) => state.dishes.find((d) => d.category == c.name))
-          .map((c) => c.name)
-      else {
-        state.selectedCategory = []
-        state.selectedCategory.push(payload.trim())
-      }
-    },
     setCategoryFilter: (state, payload) => { 
       (payload == state.categoryFilter) ?
         state.categoryFilter = null : state.categoryFilter = payload

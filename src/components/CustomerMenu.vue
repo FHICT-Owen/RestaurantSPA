@@ -11,7 +11,8 @@
         <div class="flex flex-row overflow-x-scroll bg-white">
           <div 
             id="all" 
-            @click="setCategoryAll"
+            @click="setCategory(null)"
+            :class="{'select': !categoryFilter}"
             class="no-underline capitalize py-2 px-4 mx-2 my-2.5 cursor-pointer select-none whitespace-nowrap">
             All
           </div>
@@ -21,6 +22,7 @@
             :key="category.id"
             @click="setCategory(category.name)"
             :tabindex="category.id"
+            :class="{'select': categoryFilter == category.name}"
             class="no-underline capitalize py-2 px-4 my-2.5 cursor-pointer select-none whitespace-nowrap">
             <div>{{lang == 'en' ? category.name : category.name_NL}}</div>
           </div>
@@ -64,18 +66,13 @@ export default defineComponent({
     let keyword = ref('')
     let lang = ref('')
 
-    const setCategoryAll = () =>
-      store.commit('setCategoryFilter', null)
-
-    const setCategory = (selectedCategory: string) =>
+    const setCategory = (selectedCategory: string | null) =>
       store.commit('setCategoryFilter', selectedCategory)
 
     const filteredDishes = computed(() => lang.value === 'en' ?
       dishes.value.filter(({name}) => 
         name.toLowerCase().includes(keyword.value.toLowerCase())) : dishes.value.filter(({name_NL}) => 
         name_NL.toLowerCase().includes(keyword.value.toLowerCase())))
-
-    // const selectedCategory = computed(() => store.state.selectedCategory)
 
     const checkIfDishCanBeMade = (dish: Dish) =>
       dish.ingredients.some((x) => 
@@ -91,19 +88,12 @@ export default defineComponent({
     const toggleDishDetails = (dish: Dish) => {
       dishDetailsIsOpen.value = !dishDetailsIsOpen.value
       currentDishDetails.value = dish
-      console.log(dish)
     }
-
 
     onMounted(() => {
       lang.value = localStorage.getItem('lang') || 'en'
-      let navbar = document.getElementById('navbar')
-      window.addEventListener('scroll', () => manageStickyNav(navbar))
-      store.commit('setSelectedCategory', 'all')
-      store.commit('setCategoryFilter', null)
-
-      const all = document.getElementById('all')
-      if (!!all) all.classList.add('select')
+      window.addEventListener('scroll', () => 
+        manageStickyNav(document.getElementById('navbar')))
     })
 
     return {
@@ -111,13 +101,11 @@ export default defineComponent({
       dishes,
       filteredDishes,
       keyword,
-      // selectedCategory,
       lang,
       dishDetailsIsOpen,
       currentDishDetails,
       checkIfDishCanBeMade,
       categoryFilter,
-      setCategoryAll,
       setCategory,
       toggleDishDetails
     }
