@@ -9,7 +9,7 @@
     </div>
     <div class="overflow-x-scroll">
       <div class="flex flex-wrap flex-col items-start" style="height: 60vh">
-        <div v-for="(order, index) in orders" :key="index">
+        <div v-for="(order, index) in orders.sort((a, b) => b.timeStamp - a.timeStamp)" :key="index">
           <OrderCard 
             class="mx-4"
             :order="order"

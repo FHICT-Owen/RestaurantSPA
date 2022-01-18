@@ -11,7 +11,7 @@
     <!-- TODO: bg-color depends on order status -->
     <div class="px-3 py-2 flex justify-between rounded-t-lg">
       <div class="flex flex-col justify-between">
-        <p class="text-xl">{{new Date(order.timeStamp).toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit' })}}</p>
+        <p class="text-xl">{{new Date(order.timeStamp).toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit'})}}</p>
         <h5 class="text-xl">#{{order.id}}</h5>
       </div>
     <div class="flex flex-col justify-between">
@@ -58,7 +58,7 @@ export default defineComponent({
   },
   setup(props) {
     let order = props.order
-
+    console.log(order.timeStamp)
     const prepareOrder = () => {
       const orderState = OrderState[props.order.orderState]
       if (OrderState.isApproved == orderState) {
