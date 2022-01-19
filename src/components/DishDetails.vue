@@ -1,14 +1,15 @@
 <template>
-    <div class="flex flex-col sm:flex-row">
-      <img :src="dish.image.slice(5,dish.image.length-2)" style="aspect-ratio: '1 / 1'; max-width: 300px;">
+    <div class="flex flex-col sm:flex-row justify-center items-center">
+      <img class="rounded-md" :src="dish.image.slice(5,dish.image.length-2)" style="aspect-ratio: 1/1; max-width: 500px; max-height: 500px;">
       <div class="flex flex-col m-1">
-        <h1 class="flex font-bold text-lg justify-center items-center">{{dish.name}}</h1>
-           
-        <h2 class="center font-medium text-lg">{{dish.category}}</h2>
-        <h2 class="center font-light text-lg">{{dish.description}}</h2>
-        <h2 class="center font-medium text-lg">{{dish.dietaryRestrictions}}</h2>
-        <h2 class="center font-medium text-lg">{{dish.ingredients}}</h2>
-        <h2 class="center font-medium text-lg">€{{dish.prize}}.-</h2>   
+        <div class="rounded-2xl bg-gray-100 p-4  m-3 w-96">
+          <div class="flex flex-row justify-around">
+            <h1 class="flex font-semibold text-lg justify-center items-center">{{dish.name}}</h1>
+            <h2 class=" font-light text-lg"> €{{(dish.prize < 0 ? 0.00 : dish.prize).toFixed(2)}}</h2>
+          </div>
+          <blockquote class=" font-light text-lg">{{dish.description}}</blockquote>
+          <h2 class=" font-light text-lg"><h2 class="font-medium">Ingredients:</h2> {{dish.ingredients.toString()}}</h2>
+        </div>
       </div>
     </div>
 </template>
