@@ -9,7 +9,7 @@
           </div>
           <h2 class="font-light text-lg">{{dish.description}}</h2>
           <h2 class="font-medium text-lg">Ingredients:</h2>
-          <p class="font-light text-lg"> {{dish.ingredients.toString()}}</p>
+          <p class="font-light text-lg"> {{dish.ingredients.join(', ')}}</p>
         </div>
       </div>
     </div>
