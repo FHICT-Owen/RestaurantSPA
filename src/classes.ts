@@ -75,16 +75,16 @@ export class Order {
   comments: string
   orderState: OrderState
   timeStamp: number
-  totalNumber: number
+  totalPrice: number
 
-  constructor(sessionId: string, tableNumber: number, dishes: string[], comments: string, orderState: OrderState, totalNumber: number) {
+  constructor(sessionId: string, tableNumber: number, dishes: string[], comments: string, orderState: OrderState, totalPrice: number) {
     this.sessionId = sessionId
     this.tableNumber = tableNumber
     this.dishes = dishes
     this.comments = comments
     this.orderState = orderState
     this.timeStamp = Date.now()
-    this.totalNumber = totalNumber
+    this.totalPrice = totalPrice
   }
 }
 
