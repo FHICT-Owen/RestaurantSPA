@@ -47,19 +47,6 @@ export class Dish {
   ingredients!: string[]
   prize!: string
   image!: string
-
-  // constructor(name: string, name_NL: string, description: string, description_NL: string,  category: string,  dietaryRestrictions: string[],  ingredients: string[],  prize: number, image: string)
-  // {
-  //   this.name = name
-  //   this.name_NL = name_NL
-  //   this.description = description
-  //   this.description_NL = description_NL
-  //   this.category = category
-  //   this.dietaryRestrictions = dietaryRestrictions
-  //   this.ingredients = ingredients
-  //   this.prize = prize
-  //   this.image = image
-  // }
 }
 
 export class Ingredient {
@@ -88,14 +75,16 @@ export class Order {
   comments: string
   orderState: OrderState
   timeStamp: number
+  totalNumber: number
 
-  constructor(sessionId: string, tableNumber: number, dishes: string[], comments: string, orderState: OrderState) {
+  constructor(sessionId: string, tableNumber: number, dishes: string[], comments: string, orderState: OrderState, totalNumber: number) {
     this.sessionId = sessionId
     this.tableNumber = tableNumber
     this.dishes = dishes
     this.comments = comments
     this.orderState = orderState
     this.timeStamp = Date.now()
+    this.totalNumber = totalNumber
   }
 }
 

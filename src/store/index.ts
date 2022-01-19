@@ -69,7 +69,7 @@ export default createStore<State>({
     orders: [],
 
     totalPrice: 0,
-    currentOrder: new Order('', 0, [], '', OrderState.isUnapproved),
+    currentOrder: new Order('', 0, [], '', OrderState.isUnapproved, 0.0),
     sessionOrders: [],
     currentSession: null,
 
