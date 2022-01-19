@@ -14,11 +14,12 @@ import NotificationDataService from '@/services/NotificationDataService'
 export interface State {
   categories: Category[]
   selectedCategory: string[]
-
+  
   dishes: Dish[]
   currentDish: Dish
-
+  
   restaurants: Restaurant[]
+  currentRestaurant: number
   ingredients: Ingredient[]
   
   orders: Order[]
@@ -29,13 +30,10 @@ export interface State {
   currentSession: Session | null
 
   tables: Table[]
-  selectedTableIds: number[]
 
   isDishDialogOpen: boolean
   isEditDialog: boolean
-
   isTableDialogOpen: boolean
-
   isConfirmDialogOpen: boolean
   currentConfirmDialogObject: Object
   confirmDeleteFunction: Function
@@ -45,6 +43,7 @@ export interface State {
   sessions: Session[]
 
   apiToken: string
+
   tableNumberFilter: number | null
   categoryFilter: string | null
   orderStateFilter: OrderState | null
@@ -56,28 +55,25 @@ export default createStore<State>({
   state: {
     categories: [],
     selectedCategory: [],
-
+    
     dishes: [],
     currentDish: new Dish(),
-
-    restaurants: [],
-    ingredients: [],
-
-    orders: [],
     
+    restaurants: [],
+    currentRestaurant: 1,
+    tables: [] as Table[],
+
+    ingredients: [],
+    orders: [],
+
     totalPrice: 0,
     currentOrder: new Order('', 0, [], '', OrderState.isUnapproved),
     sessionOrders: [],
     currentSession: null,
 
-    tables: [] as Table[],
-    selectedTableIds: [] as number[],
-
     isDishDialogOpen: false,
     isEditDialog: false,
-
     isTableDialogOpen: false,
-
     isConfirmDialogOpen: false,
     currentConfirmDialogObject: {},
     confirmDeleteFunction: new Function(),
@@ -87,6 +83,7 @@ export default createStore<State>({
     sessions: [] as Session[],
 
     apiToken: '',
+
     tableNumberFilter: null,
     categoryFilter: null,
     orderStateFilter: null
@@ -174,7 +171,7 @@ export default createStore<State>({
       if(!!state.currentSession)
         state.sessionOrders = await orderDataService.getSessionOrders(state.currentSession.id)
     },
-    setTables: async (state) => state.tables = await tableDataService.getAllTables(),
+    setTables: async (state) => state.tables = await tableDataService.getAllTables(state.currentRestaurant),
     setSessions: async (state) => state.sessions = await SessionDataService.getAllSessions(),
     toggleDialog: (state, payload) => {
       state.isDishDialogOpen = !state.isDishDialogOpen
@@ -254,11 +251,6 @@ export default createStore<State>({
     removeIngredientFromCurrentDish: ({ state }, payload) =>
       state.currentDish.ingredients.splice(
         state.currentDish.ingredients.indexOf(payload),
-        1
-      ),
-    removeTableFromSelectedTableIds: ({ state }, payload) =>
-      state.selectedTableIds.splice(
-        state.selectedTableIds.indexOf(payload),
         1
       ),
   },
