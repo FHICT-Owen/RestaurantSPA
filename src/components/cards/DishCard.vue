@@ -29,12 +29,12 @@
       <button 
         @click="addDishToCurrentOrder"
         class="text-white font-medium text-sm w-2/5 rounded-3xl p-1 my-1 ml-1 mr-0.5" style="background-color: rgb(255, 168, 37)">
-        ADD
+        {{$t('add')}}
       </button>
       <button 
         @click="removeDishFromCurrentOrder"
         class="bg-red-500 text-white font-medium text-sm w-2/5 rounded-3xl p-1 my-1 ml-0.5 mr-1">
-        REMOVE
+        {{$t('remove')}}
       </button>
     </div>
   </div>
