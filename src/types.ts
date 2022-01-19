@@ -51,6 +51,7 @@ interface Order {
   comments: string
   orderState: OrderState
   timeStamp: number
+  totalPrice: number
 }
 
 interface Session {
