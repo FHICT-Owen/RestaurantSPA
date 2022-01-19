@@ -45,17 +45,19 @@ export default defineComponent({
     onMounted(() => {
       lang.value = localStorage.getItem('lang') || 'en'
       store.commit('setSessionOrders')
-      console.log(store.state.sessionOrders)
       connect()
     }) 
 
     const connect = () => {
       client = new Client({
-        brokerURL: 'ws://localhost:6969/register',
+        brokerURL: process.env.VUE_APP_WS_URL,
         onConnect: () => {
           console.log('connected as costumer')
           client.subscribe('/user/topic/update-order-status', function (message) {
-            console.log(JSON.parse(message.body))
+            const order = <Order>JSON.parse(message.body)
+            const elementIndex = store.state.sessionOrders.findIndex(obj => obj.id == order.id)
+            if (elementIndex == -1) store.state.sessionOrders.push(order)
+            else Object.assign(store.state.sessionOrders[elementIndex], order)
           })
         }
       })
