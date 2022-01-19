@@ -51,7 +51,7 @@ export default defineComponent({
         brokerURL: 'ws://localhost:6969/register',
         onConnect: () => {
           console.log('connected as live-view')
-          client.subscribe('/queue/live-view', message => {
+          client.subscribe('/topic/live-view', message => { //TODO: add filter to confirm an order that can be made
             store.commit('addOrder', JSON.parse(message.body))
             console.log(message.body)
           })
