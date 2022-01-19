@@ -57,7 +57,7 @@ export default defineComponent({
     const printContent = ref()
 
     function toggleTable() {
-      store.commit('editTable', new Table(props.table.id, props.table.tableNumber, props.table.restaurantId, !props.table.isActive, props.table.inUse))
+      store.commit('editTable', new Table(props.table.id, props.table.tableNumber, props.table.restaurantId, !props.table.isActive, false))
     }
 
     function printQRCode() {
