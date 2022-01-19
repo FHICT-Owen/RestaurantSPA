@@ -18,15 +18,11 @@
 </template>
 
 <script lang="ts">
-import router from '../router/index'
-import SessionDataService from '../services/SessionDataService'
 import { defineComponent, onMounted, ref } from '@vue/runtime-core'
 import { ShoppingCartIcon } from '@heroicons/vue/outline'
-import { Client, StompHeaders } from '@stomp/stompjs'
+import { Client } from '@stomp/stompjs'
 import CustomerMenu from '../components/CustomerMenu.vue'
 import CustomerOrderDialog from '../components/dialogs/CustomerOrderDialog.vue'
-import { VueCookieNext } from 'vue-cookie-next'
-import store from '@/store'
 import { Order } from '../classes'
 
 export default defineComponent({
@@ -76,7 +72,7 @@ export default defineComponent({
 
     const placeOrder = (order: Order) => { 
       client.publish({
-        destination: '/ws/message', 
+        destination: '/ws/place-order', 
         body: JSON.stringify(order)
       })
     }
