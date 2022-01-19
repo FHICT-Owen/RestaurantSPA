@@ -37,14 +37,4 @@ export default class RestaurantDataService {
       .then(() => showPopUp(`Deleted ${restaurant.name}`, false))
       .catch(() => showPopUp(`Was unable to delete ${restaurant.name}`, true))
   }
-
-  public static async setInUse(tableId: number, state:boolean): Promise<any> {
-    return await axios.put(`${this.API_URL}/table/${tableId}/use?state=${state}`, false, setAuthHeader()).then(() => {
-      showPopUp('Set table to active!', false)
-      return true
-    }).catch(()=>{
-      showPopUp('Was unable to set table to active!', true)
-      return false
-    })      
-  }
 }
