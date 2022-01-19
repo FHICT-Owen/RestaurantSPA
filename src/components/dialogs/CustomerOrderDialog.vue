@@ -8,8 +8,15 @@
         <p>{{$t('preparing')}}</p>
         <button class="rounded-lg px-1 text-sm w-16" style="color:#148F00; border: 2px solid;" @click="order"> ORDER </button>
       </div>
-      <div class="flex-row">
-        <textarea class="resize-none mt-1" style="height: 24px" v-model="comments" rows="1" :placeholder="$t('comments')" />
+      <div class="flex flex-row mt-2">
+        <div>
+          <textarea class="resize-none mt-1" style="height: 24px" v-model="comments" rows="1" :placeholder="$t('comments')" />
+        </div>
+        <div class="ml-auto"> 
+          <button class="rounded text-white bg-blue-500 p-1 px-2 ml-auto mx-1">Back</button>
+          <button class="rounded text-white bg-blue-500 p-1 px-2">Next</button>
+        </div>
+       
       </div>
     </div>
   </div>
