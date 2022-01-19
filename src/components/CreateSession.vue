@@ -33,7 +33,7 @@ export default defineComponent({
       if (!!cookie)
         return SessionDataService.getSessionByCookie(cookie)
           .then(() => {
-            store.commit('setSessionTable', 4)
+            store.commit('setSessionTableNumber', 4)
             console.log(store.state.sessionTableNumber)
             console.log('test')
             return router.push('session_page')

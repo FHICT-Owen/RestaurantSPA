@@ -209,13 +209,12 @@ export default createStore<State>({
     setOrderStateFilter: (state, payload) => { 
       state.orderStateFilter = payload
     },
-    setSessionTable: (state, payload) => {
+    setSessionTableNumber: (state, payload) => {
       const table = state.tables.find(table => table.id == payload)
       if (!!table) state.sessionTableNumber = table.tableNumber
     }
   },
   actions: {
-    
     deleteObject({ state }) {
       state.confirmDeleteFunction()
       state.isConfirmDialogOpen = false
@@ -243,7 +242,6 @@ export default createStore<State>({
         .deleteTable(table)
         .then(() => commit('setTables'))
     },
-
 
     toggleDialog: ({ commit }, payload) => commit('toggleDialog', payload),
 
