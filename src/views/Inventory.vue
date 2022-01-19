@@ -1,15 +1,13 @@
 <template>
-    <div class="flex flex-col justify-center" style="max-height: 10vh">
-        <div class="text-xl">Ingredients in stock</div>
-         <div class="flex flex-col w-full">
-            <div class="flex flex-wrap flex-row items-center gap-1 p-3 bg-white">
+    <div >
+        <div class="text-xl m-2 ">Ingredients in stock</div>
+         <div class="flex flex-col gap-1 p-3 rounded-2xl bg-white" style="box-shadow: rgba(0, 0, 0, 0.25) 0px 0px 4px 1px inset;">
                 <IngredientInstockCard v-for="ingredient in ingredients" :ingredient="ingredient" :key="ingredient.id" />
             </div>
-        </div>
     </div>
 </template>
 
-<script>
+<script lang="ts">
 import { inject, computed, defineComponent, onMounted } from 'vue'
 import IngredientInstockCard from '@/components/cards/IngredientInstockCard.vue'
 import { AuthPlugin } from '@/auth'
