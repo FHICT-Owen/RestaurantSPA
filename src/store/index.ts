@@ -19,13 +19,14 @@ export interface State {
   currentDish: Dish
 
   restaurants: Restaurant[]
-
   ingredients: Ingredient[]
+  
+  orders: Order[]
 
   totalPrice: number
-  orders: Order[]
   currentOrder: Order
-  sessionTableNumber: number
+  sessionOrders: Order[]
+  currentSession: Session | null
 
   tables: Table[]
   selectedTableIds: number[]
@@ -42,7 +43,6 @@ export interface State {
   popUps: PopUp[]
 
   sessions: Session[]
-  sessionId: string
 
   apiToken: string
   tableNumberFilter: number | null
@@ -61,13 +61,14 @@ export default createStore<State>({
     currentDish: new Dish(),
 
     restaurants: [],
-
     ingredients: [],
 
-    totalPrice: 0,
     orders: [],
+    
+    totalPrice: 0,
     currentOrder: new Order('', 0, [], '', OrderState.isUnapproved),
-    sessionTableNumber: 0,
+    sessionOrders: [],
+    currentSession: null,
 
     tables: [] as Table[],
     selectedTableIds: [] as number[],
@@ -84,7 +85,6 @@ export default createStore<State>({
     popUps: [],
 
     sessions: [] as Session[],
-    sessionId: 's',
 
     apiToken: '',
     tableNumberFilter: null,
@@ -170,6 +170,10 @@ export default createStore<State>({
     setIngredients: async (state) => state.ingredients = await ingredientDataService.getAllIngredients(),
     setRestaurants: async (state) => state.restaurants = await restaurantDataService.getAllRestaurants(),
     setOrders: async (state) => state.orders = await orderDataService.getAllOrders(),
+    setSessionOrders: async (state) => {
+      if(!!state.currentSession)
+        state.sessionOrders = await orderDataService.getSessionOrders(state.currentSession.id)
+    },
     setTables: async (state) => state.tables = await tableDataService.getAllTables(),
     setSessions: async (state) => state.sessions = await SessionDataService.getAllSessions(),
     toggleDialog: (state, payload) => {
@@ -189,7 +193,6 @@ export default createStore<State>({
     setCurrentDish: (state, payload) => state.currentDish = payload,
     createNewDish: (state) => state.isDishDialogOpen = !state.isDishDialogOpen,
     setToken: (state, payload) => state.apiToken = payload,
-    setSessionId: (state, payload) => state.sessionId = payload,
     addDishToOrder: (state, payload) => {
       state.currentOrder.dishes.push(payload.name)
       state.totalPrice += payload.prize
@@ -212,8 +215,8 @@ export default createStore<State>({
     setOrderStateFilter: (state, payload) => {
       state.orderStateFilter = payload
     },
-    setSessionTableId: (state, payload) => {
-      state.sessionTableNumber = payload
+    setCurrentSession: (state, payload) => {
+      state.currentSession = payload
     }
   },
   actions: {

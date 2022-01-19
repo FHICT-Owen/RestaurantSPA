@@ -33,7 +33,7 @@ export default defineComponent({
       if (!!cookie)
         return SessionDataService.getSessionByCookie(cookie)
           .then(response => {
-            store.commit('setSessionTableId', response.tableId)
+            store.commit('setCurrentSession', response)
             return router.push('session_page')
           })
           .catch(() => {
@@ -53,7 +53,7 @@ export default defineComponent({
                 SessionDataService.createSession(new Session(tableId))
                   .then(response => {
                     VueCookieNext.setCookie('sessionId', `${response.id}`)
-                    store.commit('setSessionTableId', tableId)
+                    store.commit('setCurrentSession', response)
                     router.push('session_page')
                   })
               })
