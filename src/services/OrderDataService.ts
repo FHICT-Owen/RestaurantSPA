@@ -26,7 +26,7 @@ export default class OrderDataService {
       .then((response: AxiosResponse<Order>) => { 
         showPopUp(`Updated ${order.id}`, false) 
         return Object.setPrototypeOf(response.data, Order.prototype) 
-      })      
+      })
       .catch((error: AxiosError) => {
         showPopUp(`Was unable to update ${order.id}`, true)
       })

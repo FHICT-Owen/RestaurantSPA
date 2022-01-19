@@ -59,7 +59,7 @@ export default defineComponent({
         onConnect: () => {
           console.log('connected as costumer')
           client.subscribe('/user/topic/update-order-status', function (message) {
-            console.log(message)
+            console.log(JSON.parse(message.body))
           })
         }
       })

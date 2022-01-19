@@ -9,6 +9,7 @@ import orderDataService from '@/services/OrderDataService'
 import SessionDataService from '@/services/SessionDataService'
 import restaurantDataService from '@/services/RestaurantDataService'
 import { OrderState, PopUp } from '@/types'
+import NotificationDataService from '@/services/NotificationDataService'
 
 export interface State {
   categories: Category[]
@@ -136,9 +137,10 @@ export default createStore<State>({
     },
     editOrder: async (state, payload) => {
       orderDataService.editOrder(payload)
-        .then(() => {
+        .then(async () => {
           const elementIndex = state.orders.findIndex(obj => obj.id == payload.id)
           Object.assign(state.orders[elementIndex], payload)
+          await NotificationDataService.notifyCustomer(payload)
         })
     },
     addTable: async (state, payload) => {
@@ -210,9 +212,8 @@ export default createStore<State>({
     setOrderStateFilter: (state, payload) => {
       state.orderStateFilter = payload
     },
-    setSessionTableNumber: (state, payload) => {
-      const table = state.tables.find(table => table.id == payload)
-      if (!!table) state.sessionTableNumber = table.tableNumber
+    setSessionTableId: (state, payload) => {
+      state.sessionTableNumber = payload
     }
   },
   actions: {
