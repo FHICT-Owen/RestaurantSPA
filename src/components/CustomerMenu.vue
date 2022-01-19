@@ -33,8 +33,7 @@
           <div v-if="((!!categoryFilter) ? categoryFilter == category.name : true)">
             <h2 class="text-3xl mt-5">{{lang == 'en' ? category.name : category.name_NL}}</h2>
             <div v-for="(dish, index) in filteredDishes" :key="index">
-              <DishCard v-if="category.name == dish.category " :dish="dish" />
-              <!-- && checkIfDishCanBeMade(dish)  -->
+              <DishCard v-if="category.name == dish.category && checkIfDishCanBeMade(dish)" :dish="dish" />
             </div>
           </div>
         </div>
@@ -48,7 +47,7 @@ import { computed, defineComponent, onMounted, ref } from 'vue'
 import store from '@/store'
 import DishDetails from './DishDetails.vue'
 import DishCard from './cards/DishCard.vue'
-import { Dish } from '@/types'
+import { Dish, Ingredient } from '@/types'
 import { ArrowCircleLeftIcon } from '@heroicons/vue/solid'
 import { Dish as DishClass } from '@/classes'
 
@@ -77,9 +76,13 @@ export default defineComponent({
         name.toLowerCase().includes(keyword.value.toLowerCase())) : dishes.value.filter(({name_NL}) => 
         name_NL.toLowerCase().includes(keyword.value.toLowerCase())))
 
-    const checkIfDishCanBeMade = (dish: Dish) =>
-      dish.ingredients.some((x) => 
-        store.state.ingredients.filter(d => d.isInStock && x == d.name))
+    const checkIfDishCanBeMade = (dish: Dish): boolean => {
+      return dish.ingredients.every((ingredient: string) => 
+        store.state.ingredients
+          .filter((i: Ingredient) => i.isInStock)
+          .map((i: Ingredient) => i.name)
+          .includes(ingredient))
+    }
 
     const manageStickyNav = (navbar: HTMLElement | null) => {
       if(!!navbar) {
