@@ -1,10 +1,16 @@
 <template>
-    <div >
-        <div class="text-xl m-2 ">Ingredients in stock</div>
-         <div class="flex flex-col gap-1 p-3 rounded-2xl bg-white" style="box-shadow: rgba(0, 0, 0, 0.25) 0px 0px 4px 1px inset;">
-                <IngredientInstockCard v-for="ingredient in ingredients" :ingredient="ingredient" :key="ingredient.id" />
-            </div>
+  <div>
+    <div
+      class="flex flex-col gap-1 p-3 rounded-2xl bg-white max-w-2xl m-auto"
+      style="box-shadow: rgba(0, 0, 0, 0.25) 0px 0px 4px 1px inset"
+    >
+      <IngredientInstockCard
+        v-for="ingredient in ingredients"
+        :ingredient="ingredient"
+        :key="ingredient.id"
+      />
     </div>
+  </div>
 </template>
 
 <script lang="ts">
@@ -14,13 +20,13 @@ import { AuthPlugin } from '@/auth'
 import store from '@/store'
 export default defineComponent({
   components: {
-    IngredientInstockCard
+    IngredientInstockCard,
   },
   setup() {
-    const ingredients = computed(() => store.state.ingredients)
+    const ingredients = computed(() => store.state.ingredients);
     return {
-      ingredients
+      ingredients,
     }
-  }
+  },
 })
 </script>

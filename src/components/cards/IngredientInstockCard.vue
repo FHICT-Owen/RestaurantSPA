@@ -1,10 +1,9 @@
 <template>
   <!-- :class="isInStock ? 'border-green-600' : 'border-red-600'" -->
   <div
-    
-    class="flex flex-row m-0.5 p-1.5 shadow rounded-2xl gap-2 cursor-pointer"
+    class="flex flex-row m-0.5 p-1.5 shadow rounded-2xl gap-2 cursor-pointer hover:bg-black hover:bg-opacity-5"
   >
-    <div class="my-auto">{{ ingredient.name }}</div>
+    <div class="my-auto ml-5">{{ ingredient.name }}</div>
     <div
       class="text-sm w-14 my-auto ml-auto"
       :class="!isInStock ? 'text-red-600' : 'text-green-600'"
@@ -25,10 +24,10 @@
 </template>
 
 <script lang="ts">
-import { Ingredient } from "@/classes";
-import store from "@/store";
-import { computed, defineComponent } from "@vue/runtime-core";
-import { PropType } from "vue";
+import { Ingredient } from '@/classes'
+import store from '@/store'
+import { computed, defineComponent } from '@vue/runtime-core'
+import { PropType } from 'vue'
 
 export default defineComponent({
   props: {
@@ -40,7 +39,7 @@ export default defineComponent({
   setup(props) {
     const toggleIsInStock = () => {
       store.commit(
-        "editIngredient",
+        'editIngredient',
         new Ingredient(
           props.ingredient.id,
           props.ingredient.restaurantId,
@@ -49,14 +48,14 @@ export default defineComponent({
           props.ingredient.isAllergen,
           !props.ingredient.isInStock
         )
-      );
-    };
+      )
+    }
     return {
       isInStock: computed(() => props.ingredient.isInStock),
       toggleIsInStock,
-    };
+    }
   },
-});
+})
 </script>
 
 <style scoped>

@@ -1,7 +1,6 @@
 <template>
 	<div class="mx-2">
     <div class="justify-center w-full lg:w-3/5">
-      <h1 class="text-5xl p-1 my-2">Menu</h1>      
       <h2 class="text-4xl p-1 my-2">Categories</h2>
       <div class=" rounded-lg p-2 bg-white" style="box-shadow: inset 0px 0px 4px 1px rgba(0, 0, 0, 0.25);">
         <button class="bg-gray-200 rounded-lg p-1" @click="createCategory">New category</button>
