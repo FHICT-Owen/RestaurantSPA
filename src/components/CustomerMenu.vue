@@ -1,8 +1,8 @@
 <template>
   <div>
-    <button class="rounded py-1 px-3 mx-1 my-2 bg-blue-500 text-white" v-if="dishDetailsIsOpen" @click="toggleDishDetails">Go back</button>
-    <DishDetails v-if="dishDetailsIsOpen" :dish="currentDishDetails"/>
-    <div v-else-if="!dishDetailsIsOpen">
+    <button class="rounded py-1 px-3 mx-1 my-2 bg-blue-500 text-white" v-if="isDishDetailsOpen" @click="toggleDishDetails">Go back</button>
+    <DishDetails v-if="isDishDetailsOpen" :dish="currentDishDetails"/>
+    <div v-else-if="!isDishDetailsOpen">
       <div id="navbar" class="flex flex-col overflow-hidden z-50" style="background-color: #FFA825">
         <input 
           v-model="keyword" 
@@ -33,7 +33,7 @@
           <div v-if="((!!categoryFilter) ? categoryFilter == category.name : true)">
             <h2 class="text-3xl mt-5">{{lang == 'en' ? category.name : category.name_NL}}</h2>
             <div v-for="(dish, index) in filteredDishes" :key="index">
-              <DishCard  @click="toggleDishDetails(dish)" v-if="category.name == dish.category " :dish="dish" />
+              <DishCard v-if="category.name == dish.category " :dish="dish" />
               <!-- && checkIfDishCanBeMade(dish)  -->
             </div>
           </div>
@@ -58,8 +58,9 @@ export default defineComponent({
   },
   setup() {
     const dishes = computed(() => store.state.dishes)
-    let dishDetailsIsOpen = ref(false)
-    let currentDishDetails = ref(new DishClass())
+    const isDishDetailsOpen = computed(() => store.state.isDishDetailsOpen)
+    const currentDishDetails = computed(() => store.state.currentDishDetails)
+
     const categoryFilter = computed(() => store.state.categoryFilter)
     const categories = computed(() => 
       store.state.categories.filter(c => store.state.dishes.find(d => d.category == c.name)))
@@ -84,10 +85,9 @@ export default defineComponent({
           navbar.classList.add('sticky') : navbar.classList.remove('sticky')
       }
     }
-  
-    const toggleDishDetails = (dish: Dish) => {
-      dishDetailsIsOpen.value = !dishDetailsIsOpen.value
-      currentDishDetails.value = dish
+    
+    const toggleDishDetails = () => {
+      store.state.isDishDetailsOpen = !isDishDetailsOpen.value
     }
 
     onMounted(() => {
@@ -102,7 +102,7 @@ export default defineComponent({
       filteredDishes,
       keyword,
       lang,
-      dishDetailsIsOpen,
+      isDishDetailsOpen,
       currentDishDetails,
       checkIfDishCanBeMade,
       categoryFilter,
