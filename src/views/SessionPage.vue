@@ -24,6 +24,7 @@ import { Client } from '@stomp/stompjs'
 import CustomerMenu from '../components/CustomerMenu.vue'
 import CustomerOrderDialog from '../components/dialogs/CustomerOrderDialog.vue'
 import { Order } from '../classes'
+import store from '@/store'
 
 export default defineComponent({
   components: { 
@@ -43,17 +44,12 @@ export default defineComponent({
 
     onMounted(() => {
       lang.value = localStorage.getItem('lang') || 'en'
+      store.commit('setSessionOrders')
+      console.log(store.state.sessionOrders)
       connect()
     }) 
 
     const connect = () => {
-      // const cookie = VueCookieNext.getCookie('GenericRestaurantSesh')
-      // let sessionPromise
-      // try { sessionPromise = SessionDataService.getSessionByCookie(cookie) } catch { return router.push('menu')}
-      // sessionPromise.then(session => {
-      //   store.commit('setSessionId', session.id)
-      //   console.log(session.id)
-      // })
       client = new Client({
         brokerURL: 'ws://localhost:6969/register',
         onConnect: () => {

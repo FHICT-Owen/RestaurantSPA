@@ -25,7 +25,7 @@
         </p>
       </div>
     </div>
-    <div v-if="inInSession" class="flex flex-row justify-around rounded-3xl mt-1.5 h-10">
+    <div v-if="isInSession" class="flex flex-row justify-around rounded-3xl mt-1.5 h-10">
       <button 
         @click="addDishToCurrentOrder"
         class="text-white font-medium text-sm w-2/5 rounded-3xl p-1 my-1 ml-1 mr-0.5" style="background-color: rgb(255, 168, 37)">
@@ -54,7 +54,7 @@ export default defineComponent({
   },
   setup(props) {
     const dishes = computed(() => store.state.currentOrder.dishes)
-    const inInSession = computed(() => store.state.sessionId.length > 0) //TODO: make a proper check for sessionId checking
+    const isInSession = computed(() => !!store.state.currentSession) //TODO: make a proper check for sessionId checking
     
     const countOccurrences = () => 
       dishes.value.reduce((a, v) => (v === props.dish.name ? a + 1 : a), 0)
@@ -73,7 +73,7 @@ export default defineComponent({
     return { 
       lang,
       imgSize: ref('88px'), 
-      inInSession,
+      isInSession,
       countOccurrences,
       addDishToCurrentOrder,
       removeDishFromCurrentOrder

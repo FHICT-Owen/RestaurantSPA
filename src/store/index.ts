@@ -14,27 +14,26 @@ import NotificationDataService from '@/services/NotificationDataService'
 export interface State {
   categories: Category[]
   selectedCategory: string[]
-  currentRestaurant: number
+  
   dishes: Dish[]
   currentDish: Dish
-
+  
   restaurants: Restaurant[]
-
+  currentRestaurant: number
   ingredients: Ingredient[]
+  
+  orders: Order[]
 
   totalPrice: number
-  orders: Order[]
   currentOrder: Order
-  sessionTableNumber: number
+  sessionOrders: Order[]
+  currentSession: Session | null
 
   tables: Table[]
-  selectedTableIds: number[]
 
   isDishDialogOpen: boolean
   isEditDialog: boolean
-
   isTableDialogOpen: boolean
-
   isConfirmDialogOpen: boolean
   currentConfirmDialogObject: Object
   confirmDeleteFunction: Function
@@ -42,9 +41,9 @@ export interface State {
   popUps: PopUp[]
 
   sessions: Session[]
-  sessionId: string
 
   apiToken: string
+
   tableNumberFilter: number | null
   categoryFilter: string | null
   orderStateFilter: OrderState | null
@@ -55,28 +54,36 @@ export const key: InjectionKey<Store<State>> = Symbol()
 export default createStore<State>({
   state: {
     categories: [],
-    selectedCategory: [],    
-    currentRestaurant: 1,
+    selectedCategory: [],
+    
     dishes: [],
     currentDish: new Dish(),
+    
     restaurants: [],
-    ingredients: [],
-    totalPrice: 0,
-    orders: [],
-    currentOrder: new Order('', 0, [], '', OrderState.isUnapproved),
-    sessionTableNumber: 0,
+    currentRestaurant: 1,
     tables: [] as Table[],
-    selectedTableIds: [] as number[],
+
+    ingredients: [],
+    orders: [],
+
+    totalPrice: 0,
+    currentOrder: new Order('', 0, [], '', OrderState.isUnapproved),
+    sessionOrders: [],
+    currentSession: null,
+
     isDishDialogOpen: false,
     isEditDialog: false,
     isTableDialogOpen: false,
     isConfirmDialogOpen: false,
     currentConfirmDialogObject: {},
     confirmDeleteFunction: new Function(),
+
     popUps: [],
+
     sessions: [] as Session[],
-    sessionId: '',
+
     apiToken: '',
+
     tableNumberFilter: null,
     categoryFilter: null,
     orderStateFilter: null
@@ -160,6 +167,10 @@ export default createStore<State>({
     setIngredients: async (state) => state.ingredients = await ingredientDataService.getAllIngredients(),
     setRestaurants: async (state) => state.restaurants = await restaurantDataService.getAllRestaurants(),
     setOrders: async (state) => state.orders = await orderDataService.getAllOrders(),
+    setSessionOrders: async (state) => {
+      if(!!state.currentSession)
+        state.sessionOrders = await orderDataService.getSessionOrders(state.currentSession.id)
+    },
     setTables: async (state) => state.tables = await tableDataService.getAllTables(state.currentRestaurant),
     setSessions: async (state) => state.sessions = await SessionDataService.getAllSessions(),
     toggleDialog: (state, payload) => {
@@ -179,7 +190,6 @@ export default createStore<State>({
     setCurrentDish: (state, payload) => state.currentDish = payload,
     createNewDish: (state) => state.isDishDialogOpen = !state.isDishDialogOpen,
     setToken: (state, payload) => state.apiToken = payload,
-    setSessionId: (state, payload) => state.sessionId = payload,
     addDishToOrder: (state, payload) => {
       state.currentOrder.dishes.push(payload.name)
       state.totalPrice += payload.prize
@@ -202,8 +212,8 @@ export default createStore<State>({
     setOrderStateFilter: (state, payload) => {
       state.orderStateFilter = payload
     },
-    setSessionTableId: (state, payload) => {
-      state.sessionTableNumber = payload
+    setCurrentSession: (state, payload) => {
+      state.currentSession = payload
     }
   },
   actions: {
@@ -241,11 +251,6 @@ export default createStore<State>({
     removeIngredientFromCurrentDish: ({ state }, payload) =>
       state.currentDish.ingredients.splice(
         state.currentDish.ingredients.indexOf(payload),
-        1
-      ),
-    removeTableFromSelectedTableIds: ({ state }, payload) =>
-      state.selectedTableIds.splice(
-        state.selectedTableIds.indexOf(payload),
         1
       ),
   },

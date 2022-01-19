@@ -45,12 +45,15 @@ export default defineComponent({
     }
 
     const order = () => {
-      store.state.currentOrder.comments = comments.value
-      store.state.currentOrder.timeStamp = Date.now()
-      store.state.currentOrder.orderState = OrderState.isApproved //TODO: switch back to unApproved after validation is added
-      store.state.currentOrder.tableNumber = store.state.sessionTableNumber
-      store.state.currentOrder.sessionId = VueCookieNext.getCookie('sessionId')
-      props.placeOrder(store.state.currentOrder)
+      const currentSession = store.state.currentSession
+      if (!!currentSession) {
+        store.state.currentOrder.comments = comments.value
+        store.state.currentOrder.timeStamp = Date.now()
+        store.state.currentOrder.orderState = OrderState.isApproved //TODO: switch back to unApproved after validation is added
+        store.state.currentOrder.tableNumber = currentSession.tableId
+        store.state.currentOrder.sessionId = VueCookieNext.getCookie('sessionId')
+        props.placeOrder(store.state.currentOrder)
+      }
     }
 
     onMounted(() => {

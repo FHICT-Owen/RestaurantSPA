@@ -10,6 +10,11 @@ export default class OrderDataService {
     return response.data
   }
 
+  public static async getSessionOrders(sessionId: string): Promise<Order[]> {
+    const response = await axios.get(`${this.API_URL}/order/${sessionId}`)
+    return response.data
+  }
+
   public static async createOrder (order: Order): Promise<Order> {
     return await axios.post(`${this.API_URL}/order/`, order, setAuthHeader())
       .then((response: AxiosResponse<Order>) => { 
