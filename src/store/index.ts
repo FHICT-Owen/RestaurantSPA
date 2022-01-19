@@ -27,6 +27,7 @@ export interface State {
   totalPrice: number
   currentOrder: Order
   sessionOrders: Order[]
+  selectedOrderIndex: number
   currentSession: Session | null
 
   tables: Table[]
@@ -71,6 +72,7 @@ export default createStore<State>({
     totalPrice: 0,
     currentOrder: new Order('', 0, [], '', OrderState.isUnapproved, 0.0),
     sessionOrders: [],
+    selectedOrderIndex: 0,
     currentSession: null,
 
     isDishDetailsOpen: false,
@@ -133,7 +135,10 @@ export default createStore<State>({
     },
     addOrder: async (state, payload) => {
       orderDataService.createOrder(payload)
-        .then(order => state.orders.push(order))
+        .then(async order => { 
+          state.orders.push(order) 
+          await NotificationDataService.notifyCustomer(payload)
+        })
     },
     editOrder: async (state, payload) => {
       orderDataService.editOrder(payload)
@@ -153,7 +158,6 @@ export default createStore<State>({
           const elementIndex = state.tables.findIndex(obj => obj.id == payload.id)
           Object.assign(state.tables[elementIndex], payload)
         })
-      console.log(payload)
     },
     addRestaurant: async (state, payload) => {
       restaurantDataService.createRestaurant(payload)
