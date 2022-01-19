@@ -5,7 +5,7 @@
   "scripts": {
     "serve": "vue-cli-service serve --port 3000",
     "build": "vue-cli-service build",
-    "start": "npm ci && npm run build && node server.js"
+    "start": "node server.js"
   },
   "dependencies": {
     "@auth0/auth0-spa-js": "^1.18.0",
