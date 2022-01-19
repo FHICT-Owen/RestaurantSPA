@@ -1,6 +1,6 @@
 <template>
   <div>
-    <button class="rounded py-1 px-3 mx-1 my-2 bg-blue-500 text-white" v-if="isDishDetailsOpen" @click="toggleDishDetails">Go back</button>
+    <ArrowCircleLeftIcon class="w-10 text-black   cursor-pointer" v-if="isDishDetailsOpen" @click="toggleDishDetails">Go back</ArrowCircleLeftIcon>
     <DishDetails v-if="isDishDetailsOpen" :dish="currentDishDetails"/>
     <div v-else-if="!isDishDetailsOpen">
       <div id="navbar" class="flex flex-col overflow-hidden z-50" style="background-color: #FFA825">
@@ -49,12 +49,14 @@ import store from '@/store'
 import DishDetails from './DishDetails.vue'
 import DishCard from './cards/DishCard.vue'
 import { Dish } from '@/types'
+import { ArrowCircleLeftIcon } from '@heroicons/vue/solid'
 import { Dish as DishClass } from '@/classes'
 
 export default defineComponent({
   components: {
     DishCard,
-    DishDetails
+    DishDetails,
+    ArrowCircleLeftIcon
   },
   setup() {
     const dishes = computed(() => store.state.dishes)
@@ -107,7 +109,8 @@ export default defineComponent({
       checkIfDishCanBeMade,
       categoryFilter,
       setCategory,
-      toggleDishDetails
+      toggleDishDetails,
+      ArrowCircleLeftIcon
     }
   }
 })
