@@ -16,40 +16,26 @@ export default class SessionDataService {
       })
   }
 
-  // public static async createSession(session: Session): Promise<Boolean> {
-  //   return await axios.post(`${this.API_URL}/session/`, session, setAuthHeader()).then(() => {
-  //     showPopUp('Session created successfully!', false)
-  //     return true
-  //   }).catch(err => {
-  //     showPopUp('Was unable to create session!', true)
-  //     console.log(err)
-  //     return false
-  //   })
-  // }
-
   public static async getSessionByCookie(secret: string): Promise<Session> {
-    try{
-      return await axios.get(`${this.API_URL}/session/sessionbycookie?cookie=${secret}`, setAuthHeader()).then(response => {
-        return response.data
+    return await axios.get(`${this.API_URL}/session/sessionbycookie?cookie=${secret}`)
+      .then((response: AxiosResponse<Session>) => { 
+        showPopUp('Added session', false)
+        return Object.setPrototypeOf(response.data, Session.prototype) 
       })
-    } catch {
-      return new Session('',0)
-    }
-  }
+      .catch((error: AxiosError) => {
+        showPopUp('Was unable to get session with cookie', true)
+        throw new Error()
+      })
+  } 
 
   public static async getAllSessions(): Promise<Session[]> {
     const response = await axios.get(`${this.API_URL}/session`, setAuthHeader())
     return response.data
   }
 
-  public static async removeSession(tableId: number): Promise<Boolean> {
-    return await axios.delete(`${this.API_URL}/session/sessionbytable/${tableId}`, setAuthHeader()).then(() => {
-      showPopUp('Session removed successfully!', false)
-      return true
-    }).catch(err => {
-      showPopUp('Was unable to remove session!', true)
-      console.log(err)
-      return false
-    })
+  public static async deleteSession(sessionId: string) {
+    await axios.delete(`${this.API_URL}/session/${sessionId}`)
+      .then(() => showPopUp('Session removed successfully', false))
+      .catch(() => showPopUp('Was unable to remove session', true))
   }
 }

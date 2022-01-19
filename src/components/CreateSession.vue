@@ -1,47 +1,70 @@
 <template>
-  <div></div>
+  <div class="flex items-center p-auto font-semibold justify-center text-4xl shadow text-white bg-indigo-500 h-screen">
+    <svg class="animate-spin -ml-1 mr-3 h-8 w-8 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+      <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+      <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+    </svg>
+    Loading session...
+  </div>
 </template>
 
 <script lang="ts">
 import router from '../router/index'
 import SessionDataService from '../services/SessionDataService'
-import RestaurantDataService from '../services/RestaurantDataService'
 import { Session } from '../classes'
 import { VueCookieNext } from 'vue-cookie-next'
-import stringGen from 'crypto-random-string'
 import TableDataService from '@/services/TableDataService'
-import { defineComponent } from '@vue/runtime-core'
+import { defineComponent, onMounted } from 'vue'
 import store from '@/store'
 
 export default defineComponent({
   setup() {
-    const tableQuery = <string>router.currentRoute.value.query.tableId
-    if (!!tableQuery) {
-      const tableId = Number.parseInt(tableQuery)
+    // has cookie -> get session (validate if exists and validate if table id is correct) -> set table id -> go to menu page
+
+    // has cookie -> get session (session or table id is not correct) -> clear cookie and push to home page
+
+    // does not have cookie -> validate table id -> validate if table is active and not in use -> correct create new session -> set cookie -> commit tableId -> push to session_page
+
+    // does not have cookie -> validate table -> incorrect push to home page
+
+    // document.cookie = 'sessionId=0cb59797-97ae-478f-a734-d278011fb90a'
+    onMounted(() => {
+      const cookie = VueCookieNext.getCookie('sessionId')
+      if (!!cookie)
+        return SessionDataService.getSessionByCookie(cookie)
+          .then(() => {
+            store.commit('setSessionTable', 4)
+            console.log(store.state.sessionTableNumber)
+            console.log('test')
+            return router.push('session_page')
+          })
+          .catch(() => {
+            VueCookieNext.removeCookie('sessionId')
+            return router.push('/')
+          })
+
+      const tableId = parseInt(<string>router.currentRoute.value.query.tableId)
+      if (!tableId) return router.push('/')
       console.log(`tableId: ${tableId}`)
-      const cookie = VueCookieNext.getCookie('GenericRestaurantSesh')
-      try { SessionDataService.getSessionByCookie(cookie) } catch { VueCookieNext.removeCookie('GenericRestaurantSesh')}
-      let secret = ''
-      let tableObj = TableDataService.getTable(tableId)
-      tableObj.then( async table => {
+
+      TableDataService.getTable(tableId).then(async table => {
         if (table.isActive && !table.inUse) {
-          if(!!cookie) secret = cookie
           try {
-            await SessionDataService.createSession(new Session('', tableId)).then(response => {
-              console.log(response)
-              RestaurantDataService.setInUse(tableId, true).then(val => {
-                console.log(val)
-                if(!!val) {
-                  VueCookieNext.setCookie('GenericRestaurantSesh', `${secret}`)
-                  store.commit('setSessionTable', tableId)
-                  router.push('session_page')
-                } else SessionDataService.removeSession(tableId)
+            TableDataService.setTableInUse(tableId)
+              .then(() => { 
+                SessionDataService.createSession(new Session(tableId))
+                  .then(response => {
+                    VueCookieNext.setCookie('sessionId', `${response.id}`)
+                    store.commit('setSessionTable', tableId)
+                    router.push('session_page')
+                  })
               })
-            })
           } catch { return router.push('/') }
-        }
+        } else { return router.push('/') }
       }).catch()
-    } else { return router.push('/') }  
+    
+    })
+    
   }
 })
 </script>
