@@ -1,7 +1,7 @@
 <template>
   <div class="flex flex-col">
     <div
-      class="flex flex-row bg-white rounded-3xl h-24 mt-3 ring-1 ring-gray-200">
+      class="flex flex-row bg-white rounded-3xl h-24 mt-3 ring-1 ring-gray-200 cursor-pointer" @click="toggleDishDetails">
       <div
         class="flex rounded-3xl m-1 bg-blend-normal bg-cover bg-no-repeat"
         :style="{ background: dish.image, minHeight: imgSize, minWidth: imgSize }">
@@ -43,6 +43,7 @@
 <script lang="ts">
 import store from '@/store'
 import { Dish } from '@/types'
+import { Dish as DishClass } from '@/classes'
 import { computed, defineComponent, PropType, ref, onMounted } from 'vue'
 
 export default defineComponent({
@@ -55,9 +56,15 @@ export default defineComponent({
   setup(props) {
     const dishes = computed(() => store.state.currentOrder.dishes)
     const isInSession = computed(() => !!store.state.currentSession) //TODO: make a proper check for sessionId checking
-    
+    let isDishDetailsOpen = ref(false)
+    let currentDishDetails = ref(new DishClass())
+
     const countOccurrences = () => 
       dishes.value.reduce((a, v) => (v === props.dish.name ? a + 1 : a), 0)
+
+    const toggleDishDetails = () => {
+      store.commit('toggleDishDetails', props.dish)
+    }
 
     const addDishToCurrentOrder = () => 
       store.commit('addDishToOrder', props.dish)
@@ -74,9 +81,12 @@ export default defineComponent({
       lang,
       imgSize: ref('88px'), 
       isInSession,
+      isDishDetailsOpen,
+      currentDishDetails,
       countOccurrences,
       addDishToCurrentOrder,
-      removeDishFromCurrentOrder
+      removeDishFromCurrentOrder,
+      toggleDishDetails
     }
   },
 })

@@ -17,7 +17,7 @@ export interface State {
   
   dishes: Dish[]
   currentDish: Dish
-  
+  currentDishDetails: Dish
   restaurants: Restaurant[]
   currentRestaurant: number
   ingredients: Ingredient[]
@@ -31,6 +31,7 @@ export interface State {
 
   tables: Table[]
 
+  isDishDetailsOpen: boolean
   isDishDialogOpen: boolean
   isEditDialog: boolean
   isTableDialogOpen: boolean
@@ -58,6 +59,7 @@ export default createStore<State>({
     
     dishes: [],
     currentDish: new Dish(),
+    currentDishDetails: new Dish(),
     
     restaurants: [],
     currentRestaurant: 1,
@@ -71,6 +73,7 @@ export default createStore<State>({
     sessionOrders: [],
     currentSession: null,
 
+    isDishDetailsOpen: false,
     isDishDialogOpen: false,
     isEditDialog: false,
     isTableDialogOpen: false,
@@ -173,6 +176,11 @@ export default createStore<State>({
     },
     setTables: async (state) => state.tables = await tableDataService.getAllTables(state.currentRestaurant),
     setSessions: async (state) => state.sessions = await SessionDataService.getAllSessions(),
+    
+    toggleDishDetails: (state, payload) => {
+      state.isDishDetailsOpen = !state.isDishDetailsOpen
+      state.currentDishDetails = payload
+    },
     toggleDialog: (state, payload) => {
       state.isDishDialogOpen = !state.isDishDialogOpen
       state.isEditDialog = payload
