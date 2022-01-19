@@ -1,8 +1,9 @@
 <template>
-    <div>
+    <div class="flex flex-col sm:flex-row">
+      <img :src="dish.image.slice(5,dish.image.length-2)" style="aspect-ratio: '1 / 1'; max-width: 300px;">
       <div class="flex flex-col m-1">
         <h1 class="flex font-bold text-lg justify-center items-center">{{dish.name}}</h1>
-        <div class="flex rounded-3xl bg-no-repeat bg-cover bg-blend-normal" :style="{background: dish.image, minHeight: '250px', minWidth: '260px'}"></div>   
+           
         <h2 class="center font-medium text-lg">{{dish.category}}</h2>
         <h2 class="center font-light text-lg">{{dish.description}}</h2>
         <h2 class="center font-medium text-lg">{{dish.dietaryRestrictions}}</h2>
