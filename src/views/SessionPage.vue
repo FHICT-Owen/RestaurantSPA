@@ -61,7 +61,6 @@ export default defineComponent({
           })
         }
       })
-      console.log(client.brokerURL)
       client.activate()
     }
 

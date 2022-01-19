@@ -51,7 +51,7 @@ export default defineComponent({
         brokerURL: process.env.VUE_APP_WS_URL,
         onConnect: () => {
           console.log('connected as live-view')
-          client.subscribe('/topic/live-view', message => { //TODO: add filter to confirm an order that can be made
+          client.subscribe('/topic/live-view', message => { //TODO: add filter to confirm an order that can be made.
             store.commit('addOrder', JSON.parse(message.body))
             console.log(message.body)
           })
