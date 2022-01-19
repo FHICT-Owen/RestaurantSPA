@@ -48,7 +48,7 @@ export default defineComponent({
 
     function connectAsLiveView() {
       client = new Client({
-        brokerURL: 'ws://localhost:6969/register',
+        brokerURL: process.env.VUE_APP_WS_URL,
         onConnect: () => {
           console.log('connected as live-view')
           client.subscribe('/topic/live-view', message => { //TODO: add filter to confirm an order that can be made
