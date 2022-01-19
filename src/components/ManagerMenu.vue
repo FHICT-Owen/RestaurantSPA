@@ -79,15 +79,15 @@
 </template>
 
 <script lang="ts">
-import CategoryCard from "./cards/CategoryCard.vue";
-import DishCard from "./cards/DishCard.vue";
-import Dialog from "./dialogs/DishDialog.vue";
-import store from "@/store";
-import { computed, defineComponent, ref } from "vue";
-import DeleteButton from "./buttons/DeleteButton.vue";
-import EditButton from "./buttons/EditButton.vue";
-import IngredientCard from "./cards/IngredientCard.vue";
-import { Ingredient, Category, Dish } from "../classes";
+import CategoryCard from './cards/CategoryCard.vue'
+import DishCard from './cards/DishCard.vue'
+import Dialog from './dialogs/DishDialog.vue'
+import store from '@/store'
+import { computed, defineComponent, ref } from 'vue'
+import DeleteButton from './buttons/DeleteButton.vue'
+import EditButton from './buttons/EditButton.vue'
+import IngredientCard from './cards/IngredientCard.vue'
+import { Ingredient, Category, Dish } from '../classes'
 
 export default defineComponent({
   components: {
@@ -99,45 +99,45 @@ export default defineComponent({
     IngredientCard,
   },
   setup() {
-    const categories = computed(() => store.state.categories);
-    const dishes = computed(() => store.state.dishes);
-    const ingredients = computed(() => store.state.ingredients);
-    const isDishDialogOpen = computed(() => store.state.isDishDialogOpen);
-    let isAllergen = ref(false);
+    const categories = computed(() => store.state.categories)
+    const dishes = computed(() => store.state.dishes)
+    const ingredients = computed(() => store.state.ingredients)
+    const isDishDialogOpen = computed(() => store.state.isDishDialogOpen)
+    let isAllergen = ref(false)
 
     const toggleDialog = () => {
-      store.dispatch("toggleDialog", false);
-      store.dispatch("setCurrentDish", {});
-    };
+      store.dispatch('toggleDialog', false)
+      store.dispatch('setCurrentDish', {})
+    }
 
     const openEditDialog = (dish: Dish) => {
-      store.dispatch("toggleDialog", true);
-      store.dispatch("setCurrentDish", dish);
-    };
+      store.dispatch('toggleDialog', true)
+      store.dispatch('setCurrentDish', dish)
+    }
 
     const openConfirmDialog = (dish: Dish) => {
-      store.commit("toggleConfirmDialog", {
+      store.commit('toggleConfirmDialog', {
         object: dish,
-        function: () => store.dispatch("deleteDish", dish),
-      });
-    };
+        function: () => store.dispatch('deleteDish', dish),
+      })
+    }
 
-    let category = ref("");
-    let categoryNL = ref("");
+    let category = ref('')
+    let categoryNL = ref('')
     const createCategory = () => {
       store.commit(
-        "addCategory",
+        'addCategory',
         new Category(category.value, categoryNL.value)
-      );
-      category.value = "";
-      categoryNL.value = "";
-    };
+      )
+      category.value = ''
+      categoryNL.value = ''
+    }
 
-    let ingredient = ref("");
-    let ingredientNL = ref("");
+    let ingredient = ref('')
+    let ingredientNL = ref('')
     const createIngredient = () => {
       store.commit(
-        "addIngredient",
+        'addIngredient',
         new Ingredient(
           0,
           0,
@@ -146,14 +146,14 @@ export default defineComponent({
           isAllergen.value,
           false
         )
-      );
-      ingredient.value = "";
-      ingredientNL.value = "";
-    };
+      )
+      ingredient.value = ''
+      ingredientNL.value = ''
+    }
 
     const setIsAllergen = (e: any) => {
-      isAllergen.value = e.target.checked;
-    };
+      isAllergen.value = e.target.checked
+    }
 
     return {
       categories,
@@ -170,9 +170,9 @@ export default defineComponent({
       ingredientNL,
       createIngredient,
       setIsAllergen,
-    };
+    }
   },
-});
+})
 </script>
 
 <style scoped>
