@@ -1,5 +1,5 @@
 <template>
-  <div :id="data.text" class="text-xl bg-opacity-20 bg-gray-200 rounded p-2">
+  <div :id="data.text" class="text-white opacity-90 text-xl font-medium rounded-md p-2 shadow">
     {{data.text}}
   </div>
 </template>
@@ -19,7 +19,7 @@ export default defineComponent({
     onMounted(() => {
       const popUp = document.getElementById(`${props.popUp.text}`)
       if (!!popUp) props.popUp.isError 
-        ? popUp.style.color = 'red' : popUp.style.color = 'green'
+        ? popUp.style.backgroundColor = 'red' : popUp.style.backgroundColor = 'green'
     })
     return { data: ref(props.popUp) }
   },

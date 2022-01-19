@@ -13,12 +13,12 @@ import { OrderState, PopUp } from '@/types'
 export interface State {
   categories: Category[]
   selectedCategory: string[]
-  
+
   dishes: Dish[]
   currentDish: Dish
 
   restaurants: Restaurant[]
-  
+
   ingredients: Ingredient[]
 
   totalPrice: number
@@ -28,11 +28,11 @@ export interface State {
 
   tables: Table[]
   selectedTableIds: number[]
-  
+
   isDishDialogOpen: boolean
   isEditDialog: boolean
 
-	isTableDialogOpen: boolean
+  isTableDialogOpen: boolean
 
   isConfirmDialogOpen: boolean
   currentConfirmDialogObject: Object
@@ -55,10 +55,10 @@ export default createStore<State>({
   state: {
     categories: [],
     selectedCategory: [],
-    
+
     dishes: [],
     currentDish: new Dish(),
-    
+
     restaurants: [],
 
     ingredients: [],
@@ -134,7 +134,7 @@ export default createStore<State>({
       orderDataService.createOrder(payload)
         .then(order => state.orders.push(order))
     },
-    editOrder: async (state, payload ) => {
+    editOrder: async (state, payload) => {
       orderDataService.editOrder(payload)
         .then(() => {
           const elementIndex = state.orders.findIndex(obj => obj.id == payload.id)
@@ -151,6 +151,7 @@ export default createStore<State>({
           const elementIndex = state.tables.findIndex(obj => obj.id == payload.id)
           Object.assign(state.tables[elementIndex], payload)
         })
+      console.log(payload)
     },
     addRestaurant: async (state, payload) => {
       restaurantDataService.createRestaurant(payload)
@@ -191,22 +192,22 @@ export default createStore<State>({
       state.currentOrder.dishes.push(payload.name)
       state.totalPrice += payload.prize
     },
-    removeDishFromOrder: (state, payload) => { 
+    removeDishFromOrder: (state, payload) => {
       const index = state.currentOrder.dishes.indexOf(payload.name)
-      if (index != -1){
+      if (index != -1) {
         state.currentOrder.dishes.splice(index, 1)
         state.totalPrice -= payload.prize
       }
     },
-    setCategoryFilter: (state, payload) => { 
+    setCategoryFilter: (state, payload) => {
       (payload == state.categoryFilter) ?
         state.categoryFilter = null : state.categoryFilter = payload
     },
-    setTableNumberFilter: (state, payload) => { 
+    setTableNumberFilter: (state, payload) => {
       (payload == state.tableNumberFilter) ?
         state.tableNumberFilter = null : state.tableNumberFilter = payload
     },
-    setOrderStateFilter: (state, payload) => { 
+    setOrderStateFilter: (state, payload) => {
       state.orderStateFilter = payload
     },
     setSessionTableNumber: (state, payload) => {
