@@ -38,7 +38,7 @@ export default class TableDataService {
   }
 
   public static async setTableInUse(tableId: number): Promise<Table> {
-    return await axios.put(`${this.API_URL}/table/${tableId}`)
+    return await axios.put(`${this.API_URL}/table/inuse/${tableId}`)
       .then((response: AxiosResponse<Table>) => { 
         showPopUp('Updated table', false) 
         return Object.setPrototypeOf(response.data, Table.prototype) 
