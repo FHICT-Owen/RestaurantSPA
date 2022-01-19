@@ -1,24 +1,24 @@
 <template>
-	<div>
+	<div class="mx-2">
     <div class="justify-center w-full lg:w-3/5">
-      <h1 class="text-5xl p-1">Menu</h1>      
-      <h2 class="text-4xl p-1">Categories</h2>
-      <div class="ring-1 ring-gray-200 rounded-lg p-2 bg-white">
+      <h1 class="text-5xl p-1 my-2">Menu</h1>      
+      <h2 class="text-4xl p-1 my-2">Categories</h2>
+      <div class=" rounded-lg p-2 bg-white" style="box-shadow: inset 0px 0px 4px 1px rgba(0, 0, 0, 0.25);">
         <button class="bg-gray-200 rounded-lg p-1" @click="createCategory">New category</button>
         <input class="border-2 rounded-lg p-1 mx-2" v-model="category" placeholder="Enter english category name ...">
         <input class="border-2 rounded-lg p-1 mx-2" v-model="categoryNL" placeholder="Enter dutch category name ...">
         <CategoryCard v-for="category of categories" :key="category.id" :category="category" />
       </div>
-      <h2 class="text-4xl p-1">Ingredients</h2>
-      <div class="ring-1 ring-gray-200 rounded-lg p-2 bg-white">
+      <h2 class="text-4xl p-1 my-2">Ingredients</h2>
+      <div class="rounded-lg p-2 bg-white" style="box-shadow: inset 0px 0px 4px 1px rgba(0, 0, 0, 0.25);">
         <button class="bg-gray-200 rounded-lg p-1" @click="createIngredient">New ingredient</button>
         <input class="border-2 rounded-lg p-1 mx-2" v-model="ingredient" placeholder="Enter english ingredient name ...">
         <input class="border-2 rounded-lg p-1 mx-2" v-model="ingredientNL" placeholder="Enter dutch ingredient name ...">
         <input type="checkbox" @change="setIsAllergen">
         <IngredientCard v-for="ingredient of ingredients" :key="ingredient.id" :ingredient="ingredient" />
       </div>
-      <h2 class="text-4xl p-1">Dishes</h2>
-      <div class="ring-1 ring-gray-200 rounded-lg p-2 bg-white">
+      <h2 class="text-4xl p-1 my-2">Dishes</h2>
+      <div class="rounded-lg p-2 bg-white" style="box-shadow: inset 0px 0px 4px 1px rgba(0, 0, 0, 0.25);">
         <button class="bg-gray-200 rounded-lg p-2" @click="toggleDialog">New dish</button>
         <div class="flex flex-col" v-for="dish of dishes" :key="dish.id"> 
           <DishCard class="w-full" :dish="dish" />
@@ -43,7 +43,7 @@ import { computed, defineComponent, ref } from 'vue'
 import DeleteButton from './buttons/DeleteButton.vue'
 import EditButton from './buttons/EditButton.vue'
 import IngredientCard from './cards/IngredientCard.vue'
-import { Ingredient, Category } from '../classes'
+import { Ingredient, Category, Dish } from '../classes'
 
 export default defineComponent({
   components: {

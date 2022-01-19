@@ -6,12 +6,12 @@ export default class TableDataService {
   static API_URL = process.env.VUE_APP_PROXY_URL;
 
   public static async getTable(tableId: number): Promise<Table> {
-    const response = await axios.get(`${this.API_URL}/table/${tableId}`, setAuthHeader())
+    const response = await axios.get(`${this.API_URL}/table/${tableId}`)
     return response.data
   }
 
-  public static async getAllTables(): Promise<Table[]> {
-    const response = await axios.get(`${this.API_URL}/table/tables/1`, setAuthHeader())
+  public static async getAllTables(currentRestaurant:number): Promise<Table[]> {
+    const response = await axios.get(`${this.API_URL}/table/tables/${currentRestaurant}`)
     return response.data
   }
 
@@ -37,15 +37,21 @@ export default class TableDataService {
       })
   }
 
-  public static async deleteTable(selectedTable: Table): Promise<Boolean>{
-    await axios.delete(`${this.API_URL}/table/${selectedTable.id}`, setAuthHeader())
-      .then(() => {
-        showPopUp('Selected table removed', false)
+  public static async setTableInUse(tableId: number): Promise<Table> {
+    return await axios.put(`${this.API_URL}/table/inuse/${tableId}`)
+      .then((response: AxiosResponse<Table>) => { 
+        showPopUp('Updated table', false) 
+        return Object.setPrototypeOf(response.data, Table.prototype) 
       })
-      .catch(() => {
-        showPopUp('Selected table not removed', true)
-        return false
+      .catch((error: AxiosError) => {
+        showPopUp('Was unable to update table', true)
+        throw new Error('')
       })
-    return true
+  }
+
+  public static async deleteTable(table: Table) {
+    await axios.delete(`${this.API_URL}/table/${table.id}`, setAuthHeader())
+      .then(() => showPopUp('Table removed successfully', false))
+      .catch(() => showPopUp('Was unable to remove table', true))
   }
 }

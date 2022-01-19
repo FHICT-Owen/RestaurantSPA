@@ -1,5 +1,9 @@
 {
     "greeting": "Welkom",
     "question": "Wat wilt u bestellen?",
-    "search_bar": "Zoek naar een gerecht..."
+    "search_bar": "Zoek naar een gerecht...",
+    "add":"Toevoegen",
+    "remove":"Verwijderen",
+    "preparing":"Voorbereiden...",
+    "comments":"Opmerkingen..."
 }

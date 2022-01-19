@@ -35,27 +35,28 @@ interface Table {
 }
 
 enum OrderState {
-  isUnapproved,
-  isApproved,
-  isBeingPrepared,
-  isReady,
-  isArchived,
-  isCanceled
+  isUnapproved='isUnapproved',
+  isApproved='isApproved',
+  isBeingPrepared='isBeingPrepared',
+  isReady='isReady',
+  isArchived='isArchived',
+  isCanceled='isCanceled'
 }
 
 interface Order {
   id: number
   sessionId: number
+  tableNumber: number
   dishes: string[]
   comments: string
   orderState: OrderState
   timeStamp: number
+  totalPrice: number
 }
 
 interface Session {
-  id: number
+  id: string
   tableId: number
-  secret: string
 }
 
 interface PopUp {
@@ -67,3 +68,5 @@ interface Restaurant {
   id: number
   name: string
 }
+
+export { OrderState, PopUp, Order, Table, Session, Restaurant, Ingredient, Category, Dish }  

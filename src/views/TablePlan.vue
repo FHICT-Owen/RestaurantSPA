@@ -17,7 +17,7 @@
 </template>
 
 <script lang="ts">
-import { computed, defineComponent, onMounted, ref } from 'vue'
+import { computed, defineComponent, onMounted } from 'vue'
 import TableCard from '../components/cards/TableCard.vue'
 import TableDialog from '../components/dialogs/TableDialog.vue'
 import store from '@/store'
@@ -30,22 +30,18 @@ export default defineComponent({
   setup() {
     const isTableDialogOpen = computed(() => store.state.isTableDialogOpen)
     const tables = computed(() => store.state.tables)
-    const selectedTableIds = computed(() => store.state.selectedTableIds)
 
     function addTable() {
+      console.log(store.state.currentRestaurant)
       store.commit('toggleTableDialog')
     }
-
-    function isSelected(id: number) {
-      return selectedTableIds.value.indexOf(id) != -1
-    }
+    
     onMounted(() => {
       store.commit('setTables')
     })
 
     return {
       tables,
-      isSelected,
       addTable,
       isTableDialogOpen
     }

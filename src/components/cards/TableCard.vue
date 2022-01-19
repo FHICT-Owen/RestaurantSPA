@@ -7,7 +7,6 @@
           class="text-sm w-14"
           :class="table.inUse ? 'text-red-600' : 'text-green-600'">
           {{ table.inUse ? "In Use" : "Available" }}
-
         </div>
       </div>
       <label class="relative inline-block w-14 h-8 my-auto">
@@ -17,7 +16,7 @@
     </div>
     <div class="flex flex-row gap-1">
       <PrinterButton @click="printQRCode" />
-      <DeleteButton @click="removeTable(table)" />
+      <DeleteButton @click="openConfirmDialog" />
     </div>
     <QrcodeVue
       :id="table.id"
@@ -37,7 +36,6 @@ import { Printd } from 'printd'
 import QrcodeVue from 'qrcode.vue'
 import DeleteButton from '../buttons/DeleteButton.vue'
 import PrinterButton from '../buttons/PrinterButton.vue'
-import TableDataService from '../../services/TableDataService'
 import { Table } from '@/classes'
 
 export default defineComponent({
@@ -59,7 +57,7 @@ export default defineComponent({
     const printContent = ref()
 
     function toggleTable() {
-      store.dispatch('updateTable', new Table(props.table.id, props.table.tableNumber, props.table.restaurantId, !props.table.isActive, props.table.inUse))
+      store.commit('editTable', new Table(props.table.id, props.table.tableNumber, props.table.restaurantId, !props.table.isActive, false))
     }
 
     function printQRCode() {
@@ -67,26 +65,16 @@ export default defineComponent({
       new Printd().print(cvs)
     }
 
-    function removeTable(table: Table) {
-      if (table.inUse) return
-
-      TableDataService.deleteTable(table).then( promise => {
-        if (promise) {
-          const currentTables = ref(store.state.tables)
-          const tableToRemove = currentTables.value.find(target => target.id == table.id) 
-          const filteredTables = currentTables.value.filter(function(value, index, arr){ 
-            return value != tableToRemove
-    	})
-          store.state.tables = filteredTables
-        }
-      })
+    const openConfirmDialog = () => {
+      store.commit('toggleConfirmDialog', {object: props.table, function: () => store.dispatch('deleteTable', props.table)})
     }
 
     return {
       toggleTable,
       printQRCode,
-      removeTable,
       printContent,
+      openConfirmDialog,
+      isDeleteMode: computed(() => store.state.isConfirmDialogOpen),
       isActive: ref(props.table.isActive),
       tableUrl
     }

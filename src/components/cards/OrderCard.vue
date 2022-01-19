@@ -11,40 +11,44 @@
     <!-- TODO: bg-color depends on order status -->
     <div class="px-3 py-2 flex justify-between rounded-t-lg">
       <div class="flex flex-col justify-between">
-        <p class="text-xl">{{new Date(order.timeStamp).toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit' })}}</p>
+        <p class="text-xl">{{new Date(order.timeStamp).toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit'})}}</p>
         <h5 class="text-xl">#{{order.id}}</h5>
       </div>
     <div class="flex flex-col justify-between">
       <div class="flex space-x-2">
+        <ReplyIcon @click="revertOrder" class="w-6 h-6 cursor-pointer rounded-md shadow"/>
         <BanIcon @click="cancelOrder" class="w-6 h-6 cursor-pointer rounded-md shadow"/>
         <CheckIcon @click="prepareOrder" class="h-6 w-6 cursor-pointer rounded-md shadow"/>
         <FlagIcon @click="archiveOrder" class="h-6 w-6 cursor-pointer rounded-md shadow"/>
       </div>
       <h5 
         class="text-md cursor-pointer text-center px-2 py-1 rounded-md mt-2 shadow" 
-        @click="filterByTable(order.TableNumber)">
+        @click="filterByTable(order.tableNumber)">
         Table: {{order.tableNumber}}
       </h5>
     </div>
     </div>
     <div class="flex flex-col px-3 pb-2 rounded-b-lg text-white capitalize font-semibold max-h-64">
       <p class="text-gray-200 italic" >{{order.comments}}</p>
-      <div v-for="(dish, index) in order.dishes" :key="index">{{dish}}</div>
+      <div v-for="(count, dish) in countedDishes(order.dishes)" :key="count">{{dish + ' ' + count + 'x'}}</div>
     </div>
   </div>
 </template>
 
 
 <script lang="ts">
-import { defineComponent, PropType} from 'vue'
 import store from '@/store'
-import { FlagIcon, CheckIcon, BanIcon } from '@heroicons/vue/solid'
+import { defineComponent, PropType} from 'vue'
+import { FlagIcon, CheckIcon, BanIcon, ReplyIcon } from '@heroicons/vue/solid'
+import { OrderState, Order, Table } from '@/types'
+import { countedDishes } from '@/utils'
 
 export default defineComponent({
   components: {
     FlagIcon,
     CheckIcon,
-    BanIcon
+    BanIcon,
+    ReplyIcon
   },
   props: {
     order: {
@@ -54,40 +58,50 @@ export default defineComponent({
   },
   setup(props) {
     let order = props.order
-    let isFiltered = false
     const prepareOrder = () => {
-      if (props.order.orderState == 2) {
-        order.orderState = 3
+      const orderState = OrderState[props.order.orderState]
+      if (OrderState.isApproved == orderState) {
+        order.orderState = OrderState.isBeingPrepared
         store.commit('editOrder', order)
-        console.log('set order done')
       }
-      else { 
-        order.orderState = 2
+      else if (props.order.orderState == OrderState.isBeingPrepared){ 
+        order.orderState = OrderState.isReady
         store.commit('editOrder', order)
       }
     }
 
     const archiveOrder = () => {
+      order.orderState = OrderState.isArchived
       store.commit('editOrder', order) 
     }
 
     const cancelOrder = () => {
-      order.orderState = 5
+      order.orderState = OrderState.isCanceled
       store.commit('editOrder', order) 
     }  
 
-    function filterByTable(tableNumber: Table) {
-      if (isFiltered) {
-        store.commit('setFilter', 0)
-        isFiltered = false
-      } else {
-        store.commit('setFilter', tableNumber)
-        isFiltered = true
+    const revertOrder = () => {
+      if (props.order.orderState == OrderState.isReady) {
+        order.orderState = OrderState.isBeingPrepared
+        store.commit('editOrder', order)
+      }
+      else { 
+        order.orderState = OrderState.isApproved
+        store.commit('editOrder', order)
       }
     }
 
+    function filterByTable(tableNumber: number) {
+      store.commit('setTableNumberFilter', tableNumber)
+    }
+
     return {
-      prepareOrder, cancelOrder, archiveOrder, filterByTable
+      prepareOrder, 
+      cancelOrder, 
+      archiveOrder, 
+      revertOrder, 
+      filterByTable, 
+      countedDishes
     }
   }
 })

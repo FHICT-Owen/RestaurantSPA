@@ -1,15 +1,15 @@
 <template>
   <div class="flex justify-center">
-    <div class="justify-center w-full lg:w-3/5">
-      <h1 class="text-5xl p-1">Restaurant</h1>
-      <div class="ring-1 ring-gray-200 rounded-lg p-2 bg-white">
-        <button class="bg-gray-200 rounded-lg p-1" @click="createRestaurant">
-          New restaurant
+    <div class="justify-center w-full mx-2 lg:w-3/5">
+      <h1 class="text-5xl p-1 my-4">My Restaurants</h1>
+      <div class="rounded-lg p-2 bg-white" style="box-shadow: inset 0px 0px 4px 1px rgba(0, 0, 0, 0.25);">
+        <button class="bg-gray-200 rounded-lg py-1.5 px-2 m-1" @click="createRestaurant">
+          Add Restaurant
         </button>
         <input
-          class="border-2 rounded-lg p-1 mx-2"
+          class="border-2 rounded-lg p-1 m-1"
           v-model="restaurant"
-          placeholder="Enter restaurant name ..."
+          placeholder="Restaurant name"
         />
         <RestaurantCard
           v-for="restaurant of restaurants"

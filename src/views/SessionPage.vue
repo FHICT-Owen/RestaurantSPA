@@ -18,16 +18,13 @@
 </template>
 
 <script lang="ts">
-import router from '../router/index'
-import SessionDataService from '../services/SessionDataService'
 import { defineComponent, onMounted, ref } from '@vue/runtime-core'
 import { ShoppingCartIcon } from '@heroicons/vue/outline'
 import { Client } from '@stomp/stompjs'
 import CustomerMenu from '../components/CustomerMenu.vue'
 import CustomerOrderDialog from '../components/dialogs/CustomerOrderDialog.vue'
-import { VueCookieNext } from 'vue-cookie-next'
-import store from '@/store'
 import { Order } from '../classes'
+import store from '@/store'
 
 export default defineComponent({
   components: { 
@@ -47,21 +44,19 @@ export default defineComponent({
 
     onMounted(() => {
       lang.value = localStorage.getItem('lang') || 'en'
+      store.commit('setSessionOrders')
+      console.log(store.state.sessionOrders)
       connect()
     }) 
 
     const connect = () => {
-      // const cookie = VueCookieNext.getCookie('GenericRestaurantSesh')
-      // let sessionPromise
-      // try { sessionPromise = SessionDataService.getSessionByCookie(cookie) } catch { return router.push('menu')}
-      // sessionPromise.then(session => {
-      //   store.commit('setSessionId', session.id)
-      //   console.log(session.id)
-      // })
       client = new Client({
         brokerURL: 'ws://localhost:6969/register',
         onConnect: () => {
           console.log('connected as costumer')
+          client.subscribe('/user/topic/update-order-status', function (message) {
+            console.log(JSON.parse(message.body))
+          })
         }
       })
       client.activate()
@@ -73,7 +68,7 @@ export default defineComponent({
 
     const placeOrder = (order: Order) => { 
       client.publish({
-        destination: '/app/message', 
+        destination: '/ws/place-order', 
         body: JSON.stringify(order)
       })
     }

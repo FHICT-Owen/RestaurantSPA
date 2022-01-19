@@ -21,14 +21,14 @@ export default class RestaurantDataService {
       })
   }
 
-  public static async editRestaurant(restaurant: Restaurant): Promise<any> {
+  public static async editRestaurant(restaurant: Restaurant) : Promise<Restaurant>{
     return await axios.put(`${this.API_URL}/restaurant/`, restaurant, setAuthHeader())
-      .then(() => { 
-        showPopUp(`Updated ${restaurant.name}`, false) 
-        return restaurant
-      })
+      .then((response: AxiosResponse<Restaurant>) => { 
+        showPopUp(`Updated ${restaurant.id}`, false) 
+        return Object.setPrototypeOf(response.data, Restaurant.prototype) 
+      })      
       .catch((error: AxiosError) => {
-        showPopUp(`Was unable to update ${restaurant.name}`, true)
+        showPopUp(`Was unable to update ${restaurant.id}`, true)
       })
   }
 
@@ -36,15 +36,5 @@ export default class RestaurantDataService {
     await axios.delete(`${this.API_URL}/restaurant/${restaurant.id}`, setAuthHeader())
       .then(() => showPopUp(`Deleted ${restaurant.name}`, false))
       .catch(() => showPopUp(`Was unable to delete ${restaurant.name}`, true))
-  }
-
-  public static async setInUse(tableId: number, state:boolean): Promise<any> {
-    return await axios.put(`${this.API_URL}/table/${tableId}/use?state=${state}`, false, setAuthHeader()).then(() => {
-      showPopUp('Set table to active!', false)
-      return true
-    }).catch(()=>{
-      showPopUp('Was unable to set table to active!', true)
-      return false
-    })      
   }
 }

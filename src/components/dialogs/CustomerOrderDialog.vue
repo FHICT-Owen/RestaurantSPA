@@ -4,12 +4,19 @@
       class="fixed flex flex-col rounded-3xl p-3 m-4 mt-6 z-50 bottom-0 bg-white" 
       style="transform: translate(0.1vw); width: 92%; box-shadow: 0px 1px 2px 2px rgba(0, 0, 0, 0.1);">
       <div class="flex flex-row justify-between h-7">
-          <p class="text-2xl" style="color:#148F00">€{{(total < 0 ? 0.00 : total).toFixed(2)}}</p>
-          <p>Preparing...</p>
-          <button class="rounded-lg px-1 text-sm w-16" style="color:#148F00; border: 2px solid;" @click="order"> ORDER </button>
+        <p class="text-2xl" style="color:#148F00">€{{(total < 0 ? 0.00 : total).toFixed(2)}}</p>
+        <p>{{$t('preparing')}}</p>
+        <button class="rounded-lg px-1 text-sm w-16" style="color:#148F00; border: 2px solid;" @click="order"> ORDER </button>
       </div>
-      <div class="flex-row">
-        <textarea class="resize-none mt-1" style="height: 24px" v-model="comments" rows="1" placeholder="Comments..." />
+      <div class="flex flex-row mt-2">
+        <div>
+          <textarea class="resize-none mt-1" style="height: 24px" v-model="comments" rows="1" :placeholder="$t('comments')" />
+        </div>
+        <div class="ml-auto"> 
+          <button class="rounded text-white bg-blue-500 p-1 px-2 ml-auto mx-1">Back</button>
+          <button class="rounded text-white bg-blue-500 p-1 px-2">Next</button>
+        </div>
+       
       </div>
     </div>
   </div>
@@ -17,7 +24,9 @@
 
 <script lang="ts">
 import store from '@/store'
+import { OrderState } from '@/types'
 import { computed, defineComponent, onMounted, ref } from 'vue'
+import { VueCookieNext } from 'vue-cookie-next'
 
 export default defineComponent({
   props: {
@@ -36,10 +45,15 @@ export default defineComponent({
     }
 
     const order = () => {
-      store.state.currentOrder.comments = comments.value
-      store.state.currentOrder.timeStamp = Date.now()
-      store.state.currentOrder.orderState = 0
-      props.placeOrder(store.state.currentOrder)
+      const currentSession = store.state.currentSession
+      if (!!currentSession) {
+        store.state.currentOrder.comments = comments.value
+        store.state.currentOrder.timeStamp = Date.now()
+        store.state.currentOrder.orderState = OrderState.isApproved //TODO: switch back to unApproved after validation is added
+        store.state.currentOrder.tableNumber = currentSession.tableId
+        store.state.currentOrder.sessionId = VueCookieNext.getCookie('sessionId')
+        props.placeOrder(store.state.currentOrder)
+      }
     }
 
     onMounted(() => {

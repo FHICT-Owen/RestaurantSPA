@@ -52,6 +52,7 @@ export default defineComponent({
       store.commit('setDishes')
       store.commit('setIngredients')
       store.commit('setRestaurants')
+      store.commit('setTables')
       getToken()
     })
     
@@ -63,8 +64,8 @@ export default defineComponent({
 <style>
 .pop-up-position {
   position: fixed;
-  top: 20%;
-  left: 50%;
+  bottom: 5%;
+  right: 2%;
   transform: translate(-50%, -50%);
 }
 
