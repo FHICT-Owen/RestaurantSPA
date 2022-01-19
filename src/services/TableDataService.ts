@@ -10,8 +10,8 @@ export default class TableDataService {
     return response.data
   }
 
-  public static async getAllTables(): Promise<Table[]> {
-    const response = await axios.get(`${this.API_URL}/table/tables/1`)
+  public static async getAllTables(currentRestaurant:number): Promise<Table[]> {
+    const response = await axios.get(`${this.API_URL}/table/tables/${currentRestaurant}`)
     return response.data
   }
 

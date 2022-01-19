@@ -17,7 +17,7 @@
 </template>
 
 <script lang="ts">
-import { computed, defineComponent } from 'vue'
+import { computed, defineComponent, onMounted } from 'vue'
 import TableCard from '../components/cards/TableCard.vue'
 import TableDialog from '../components/dialogs/TableDialog.vue'
 import store from '@/store'
@@ -32,8 +32,13 @@ export default defineComponent({
     const tables = computed(() => store.state.tables)
 
     function addTable() {
+      console.log(store.state.currentRestaurant)
       store.commit('toggleTableDialog')
     }
+    
+    onMounted(() => {
+      store.commit('setTables')
+    })
 
     return {
       tables,

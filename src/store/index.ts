@@ -14,7 +14,7 @@ import NotificationDataService from '@/services/NotificationDataService'
 export interface State {
   categories: Category[]
   selectedCategory: string[]
-
+  currentRestaurant: number
   dishes: Dish[]
   currentDish: Dish
 
@@ -55,37 +55,27 @@ export const key: InjectionKey<Store<State>> = Symbol()
 export default createStore<State>({
   state: {
     categories: [],
-    selectedCategory: [],
-
+    selectedCategory: [],    
+    currentRestaurant: 1,
     dishes: [],
     currentDish: new Dish(),
-
     restaurants: [],
-
     ingredients: [],
-
     totalPrice: 0,
     orders: [],
     currentOrder: new Order('', 0, [], '', OrderState.isUnapproved),
     sessionTableNumber: 0,
-
     tables: [] as Table[],
     selectedTableIds: [] as number[],
-
     isDishDialogOpen: false,
     isEditDialog: false,
-
     isTableDialogOpen: false,
-
     isConfirmDialogOpen: false,
     currentConfirmDialogObject: {},
     confirmDeleteFunction: new Function(),
-
     popUps: [],
-
     sessions: [] as Session[],
-    sessionId: 's',
-
+    sessionId: '',
     apiToken: '',
     tableNumberFilter: null,
     categoryFilter: null,
@@ -170,7 +160,7 @@ export default createStore<State>({
     setIngredients: async (state) => state.ingredients = await ingredientDataService.getAllIngredients(),
     setRestaurants: async (state) => state.restaurants = await restaurantDataService.getAllRestaurants(),
     setOrders: async (state) => state.orders = await orderDataService.getAllOrders(),
-    setTables: async (state) => state.tables = await tableDataService.getAllTables(),
+    setTables: async (state) => state.tables = await tableDataService.getAllTables(state.currentRestaurant),
     setSessions: async (state) => state.sessions = await SessionDataService.getAllSessions(),
     toggleDialog: (state, payload) => {
       state.isDishDialogOpen = !state.isDishDialogOpen
