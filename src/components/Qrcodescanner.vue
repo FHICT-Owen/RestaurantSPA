@@ -17,6 +17,7 @@ export default defineComponent({
   methods: {
     decode(decodeString){
       console.log(decodeString)
+      window.open(decodeString)
     },
     drawOutline(decodeData, context){
       var points = []

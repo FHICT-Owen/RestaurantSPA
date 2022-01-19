@@ -5,11 +5,11 @@
       style="transform: translate(0.1vw); width: 92%; box-shadow: 0px 1px 2px 2px rgba(0, 0, 0, 0.1);">
       <div class="flex flex-row justify-between h-7">
         <p class="text-2xl" style="color:#148F00">€{{(total < 0 ? 0.00 : total).toFixed(2)}}</p>
-        <p>Preparing...</p>
+        <p>{{$t('preparing')}}</p>
         <button class="rounded-lg px-1 text-sm w-16" style="color:#148F00; border: 2px solid;" @click="order"> ORDER </button>
       </div>
       <div class="flex-row">
-        <textarea class="resize-none mt-1" style="height: 24px" v-model="comments" rows="1" placeholder="Comments..." />
+        <textarea class="resize-none mt-1" style="height: 24px" v-model="comments" rows="1" :placeholder="$t('comments')" />
       </div>
     </div>
   </div>

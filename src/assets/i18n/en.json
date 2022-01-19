@@ -1,5 +1,9 @@
 {
     "greeting": "Welcome",
     "question": "What would you like to have?",
-    "search_bar": "Search for your dish..."
+    "search_bar": "Search for your dish...",
+    "add":"Add",
+    "remove":"Remove",
+    "preparing":"Preparing...",
+    "comments":"Comments..."
 }
