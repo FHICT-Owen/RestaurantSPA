@@ -238,6 +238,12 @@ export default createStore<State>({
         .deleteIngredient(ingredient)
         .then(() => commit('setIngredients'))
     },
+    deleteTable({ commit }, table: Table) {
+      tableDataService
+        .deleteTable(table)
+        .then(() => commit('setTables'))
+    },
+
 
     toggleDialog: ({ commit }, payload) => commit('toggleDialog', payload),
 

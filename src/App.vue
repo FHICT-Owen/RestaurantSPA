@@ -52,6 +52,7 @@ export default defineComponent({
       store.commit('setDishes')
       store.commit('setIngredients')
       store.commit('setRestaurants')
+      store.commit('setTables')
       getToken()
     })
     
