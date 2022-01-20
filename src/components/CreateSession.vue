@@ -33,7 +33,6 @@ export default defineComponent({
         SessionDataService.getSessionByCookie(cookie)
           .then(response => {
             TableDataService.getTable(tableId).then(table => {
-              console.log(table)
               if (table.isActive && table.inUse) {
                 store.commit('setCurrentSession', response)
                 return router.push('session_page')
@@ -50,7 +49,6 @@ export default defineComponent({
 
       const tableId = parseInt(<string>router.currentRoute.value.query.tableId)
       if (!tableId) return router.push('/')
-      console.log(`tableId: ${tableId}`)
 
       TableDataService.getTable(tableId).then(async table => {
         if (table.isActive && !table.inUse) {

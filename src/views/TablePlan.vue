@@ -32,7 +32,6 @@ export default defineComponent({
     const tables = computed(() => store.state.tables)
 
     function addTable() {
-      console.log(store.state.currentRestaurant)
       store.commit('toggleTableDialog')
     }
     

@@ -2,7 +2,7 @@
     <div class="flex flex-col justify-center items-center">
       <img class="rounded-md" :src="dish.image.slice(5,dish.image.length-2)" style="aspect-ratio: 1/1; max-width: 300px; max-height: 300px;">
       <div class="flex flex-col m-1">
-        <div class="rounded-2xl bg-gray-100 p-4 m-3 w-4/5 m-auto">
+        <div class="rounded-2xl bg-gray-100 p-4 w-4/5 m-auto">
           <div class="flex flex-row justify-around">
             <h1 class="flex font-semibold text-lg justify-center items-center">{{dish.name}}</h1>
             <h2 class=" font-light text-lg"> €{{(dish.prize < 0 ? 0.00 : dish.prize).toFixed(2)}}</h2>
@@ -17,19 +17,15 @@
 
 <script lang="ts">
 import { Dish } from '@/types'
-import { computed, defineComponent, PropType, ref, onMounted } from 'vue'
+import { defineComponent, PropType } from 'vue'
 
 export default defineComponent({
   props: {
     dish: {
       type: Object as PropType<Dish>,
       required: true
-    },
-  },
-  setup(props) {
-    console.log(props.dish)
-    return {
     }
   },
+  setup(props) {}
 })
 </script>

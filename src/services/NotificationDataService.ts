@@ -10,7 +10,6 @@ export default class NotificationDataService {
         showPopUp(`Updated ${order.id}`, false) 
       })
       .catch((error: AxiosError) => {
-        console.log('wdjiwaojdoiawjiodoijoi')
         showPopUp(`Was unable to update ${order.id}`, true)
       })
   }
