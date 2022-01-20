@@ -38,9 +38,9 @@
 
 <script lang="ts">
 import store from '@/store'
-import { defineComponent, PropType} from 'vue'
+import { defineComponent, onMounted, PropType} from 'vue'
 import { FlagIcon, CheckIcon, BanIcon, ReplyIcon } from '@heroicons/vue/solid'
-import { OrderState, Order, Table } from '@/types'
+import { OrderState, Order } from '@/types'
 import { countedDishes } from '@/utils'
 
 export default defineComponent({
