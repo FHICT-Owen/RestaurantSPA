@@ -51,7 +51,6 @@ export default defineComponent({
 
     const selectRestaurant = (id:number) => {
       store.state.currentRestaurant = id
-      console.log(id)
     }
 
     const openConfirmDialog = () => {

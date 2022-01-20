@@ -25,6 +25,7 @@ import PopUp from './components/PopUp.vue'
 import store from '@/store'
 import { computed, onMounted, inject, defineComponent } from 'vue'
 import { AuthPlugin } from '@/auth'
+import { Client } from '@stomp/stompjs'
 
 export default defineComponent({
   components: {
@@ -36,14 +37,28 @@ export default defineComponent({
   setup() {
     const popUps = computed(() => store.state.popUps)
     const isConfirmDialogOpen = computed(() => store.state.isConfirmDialogOpen)
-    const token = computed(() => store.state.apiToken)
     const auth = inject<AuthPlugin>('Auth')
+    var client: Client
 
     const getToken = () => {
       if (!!auth && auth.isAuthenticated.value)
         auth.getTokenSilently().then(res => {
           store.commit('setToken', res)
         })
+    }
+
+    function connectAsLiveView() {
+      client = new Client({
+        brokerURL: process.env.VUE_APP_WS_URL,
+        onConnect: () => {
+          console.log('connected as live-view')
+          client.subscribe('/topic/live-view', message => { //TODO: add filter to confirm an order that can be made
+            store.commit('addOrder', JSON.parse(message.body))
+            console.log(message.body)
+          })
+        }
+      })
+      client.activate()
     }
 
     onMounted(() => {
@@ -53,6 +68,8 @@ export default defineComponent({
       store.commit('setRestaurants')
       store.commit('setTables')
       getToken()
+      if (!!auth && auth.isAuthenticated.value && auth.user.value.roles.includes('RestaurantOwner')) //TODO: switch to KitchenStaff
+        connectAsLiveView()
     })
     
     return { popUps, isConfirmDialogOpen }

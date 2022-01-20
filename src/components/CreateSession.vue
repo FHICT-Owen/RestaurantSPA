@@ -27,14 +27,20 @@ export default defineComponent({
 
     // does not have cookie -> validate table -> incorrect push to home page
 
-    // document.cookie = 'sessionId=0cb59797-97ae-478f-a734-d278011fb90a'
     onMounted(() => {
       const cookie = VueCookieNext.getCookie('sessionId')
       if (!!cookie)
-        return SessionDataService.getSessionByCookie(cookie)
+        SessionDataService.getSessionByCookie(cookie)
           .then(response => {
-            store.commit('setCurrentSession', response)
-            return router.push('session_page')
+            TableDataService.getTable(tableId).then(table => {
+              if (table.isActive && table.inUse) {
+                store.commit('setCurrentSession', response)
+                return router.push('session_page')
+              } else { 
+                VueCookieNext.removeCookie('sessionId')
+                return router.push('/') 
+              }
+            })
           })
           .catch(() => {
             VueCookieNext.removeCookie('sessionId')
@@ -43,14 +49,13 @@ export default defineComponent({
 
       const tableId = parseInt(<string>router.currentRoute.value.query.tableId)
       if (!tableId) return router.push('/')
-      console.log(`tableId: ${tableId}`)
 
       TableDataService.getTable(tableId).then(async table => {
         if (table.isActive && !table.inUse) {
           try {
             TableDataService.setTableInUse(tableId)
               .then(() => { 
-                SessionDataService.createSession(new Session(tableId))
+                SessionDataService.createSession(new Session(tableId, table.tableNumber))
                   .then(response => {
                     VueCookieNext.setCookie('sessionId', `${response.id}`)
                     store.commit('setCurrentSession', response)
@@ -59,7 +64,7 @@ export default defineComponent({
               })
           } catch { return router.push('/') }
         } else { return router.push('/') }
-      }).catch()
+      })
     
     })
     

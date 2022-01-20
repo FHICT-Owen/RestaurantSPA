@@ -19,7 +19,6 @@ export default class SessionDataService {
   public static async getSessionByCookie(secret: string): Promise<Session> {
     return await axios.get(`${this.API_URL}/session/sessionbycookie?cookie=${secret}`)
       .then((response: AxiosResponse<Session>) => { 
-        showPopUp('Added session', false)
         return Object.setPrototypeOf(response.data, Session.prototype) 
       })
       .catch((error: AxiosError) => {
