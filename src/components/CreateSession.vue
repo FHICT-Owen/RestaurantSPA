@@ -55,7 +55,7 @@ export default defineComponent({
           try {
             TableDataService.setTableInUse(tableId)
               .then(() => { 
-                SessionDataService.createSession(new Session(tableId))
+                SessionDataService.createSession(new Session(tableId, table.tableNumber))
                   .then(response => {
                     VueCookieNext.setCookie('sessionId', `${response.id}`)
                     store.commit('setCurrentSession', response)

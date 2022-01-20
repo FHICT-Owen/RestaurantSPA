@@ -59,7 +59,7 @@ export default defineComponent({
   },
   setup(props) {
     const dishes = computed(() => store.state.currentOrder.dishes)
-    const isInSession = computed(() => !!store.state.currentSession) //TODO: make a proper check for sessionId checking
+    const isInSession = computed(() => !!store.state.currentSession)
     let isDishDetailsOpen = ref(false)
     let currentDishDetails = ref(new DishClass())
 

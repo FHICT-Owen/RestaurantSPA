@@ -41,8 +41,6 @@ export default defineComponent({
     
     onMounted(() => {
       store.commit('setOrders')
-      store.commit('setTables')
-      store.commit('setSessions')
       connectAsLiveView()
     })
 

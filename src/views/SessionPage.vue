@@ -13,7 +13,7 @@
       </div>
     </div>
     <CustomerMenu/>
-    <CustomerOrderDialog :placeOrder="placeOrder" class="flex justify-center" v-if="true /* if currentOrder > 1 dish */"/>
+    <CustomerOrderDialog :placeOrder="placeOrder" class="flex justify-center" v-if="isInSession"/>
   </div>
 </template>
 
@@ -25,6 +25,7 @@ import CustomerMenu from '../components/CustomerMenu.vue'
 import CustomerOrderDialog from '../components/dialogs/CustomerOrderDialog.vue'
 import { Order } from '../classes'
 import store from '@/store'
+import { computed } from 'vue'
 
 export default defineComponent({
   components: { 
@@ -36,6 +37,8 @@ export default defineComponent({
     var client: Client
 
     let lang = ref('')
+
+    const isInSession = computed(() => !!store.state.currentSession)
 
     function handleChangeLanguage(lang:string) {
       localStorage.setItem('lang', lang)
@@ -80,6 +83,7 @@ export default defineComponent({
       connect,
       disconnect,
       placeOrder,
+      isInSession,
       handleChangeLanguage
     }
   }

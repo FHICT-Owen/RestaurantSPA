@@ -57,6 +57,7 @@ interface Order {
 interface Session {
   id: string
   tableId: number
+  tableNumber: number
 }
 
 interface PopUp {
