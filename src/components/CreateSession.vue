@@ -27,14 +27,21 @@ export default defineComponent({
 
     // does not have cookie -> validate table -> incorrect push to home page
 
-    // document.cookie = 'sessionId=0cb59797-97ae-478f-a734-d278011fb90a'
     onMounted(() => {
       const cookie = VueCookieNext.getCookie('sessionId')
       if (!!cookie)
-        return SessionDataService.getSessionByCookie(cookie)
+        SessionDataService.getSessionByCookie(cookie)
           .then(response => {
-            store.commit('setCurrentSession', response)
-            return router.push('session_page')
+            TableDataService.getTable(tableId).then(table => {
+              console.log(table)
+              if (table.isActive && table.inUse) {
+                store.commit('setCurrentSession', response)
+                return router.push('session_page')
+              } else { 
+                VueCookieNext.removeCookie('sessionId')
+                return router.push('/') 
+              }
+            })
           })
           .catch(() => {
             VueCookieNext.removeCookie('sessionId')
@@ -59,7 +66,7 @@ export default defineComponent({
               })
           } catch { return router.push('/') }
         } else { return router.push('/') }
-      }).catch()
+      })
     
     })
     
