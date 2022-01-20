@@ -43,7 +43,7 @@ export default defineComponent({
 
     function handleChangeLanguage(lang:string) {
       localStorage.setItem('lang', lang)
-      window.location.reload()
+      window.location.reload() //TODO: FIX this
     }
 
     onMounted(() => {
