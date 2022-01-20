@@ -160,8 +160,11 @@ export default createStore<State>({
           const elementIndex = state.tables.findIndex(obj => obj.id == payload.id)
           Object.assign(state.tables[elementIndex], payload)
           const tableSession = state.tableSessions.find(t => t.tableId == payload.id)
-          if (!!tableSession)
+          if (!!tableSession) {
             await NotificationDataService.endUserSession(tableSession.id)
+            const tableSessionIndex = state.tableSessions.findIndex(t => t.tableId == payload.id)
+            state.tableSessions.splice(tableSessionIndex, 1)
+          }
         })
     },
     setTableInUse: async (state, payload) => {
