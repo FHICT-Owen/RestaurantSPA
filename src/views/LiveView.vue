@@ -36,7 +36,7 @@ export default defineComponent({
     const ingredients = computed(() => store.state.ingredients)
     const tableNumberFilter = computed(() => store.state.tableNumberFilter)
     const orderStateFilter = computed(() => store.state.orderStateFilter)
-    
+
     onMounted(() => store.commit('setOrders'))
 
     const setStateAll = () => 
