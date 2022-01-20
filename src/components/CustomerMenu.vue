@@ -53,7 +53,6 @@ import DishDetails from './DishDetails.vue'
 import DishCard from './cards/DishCard.vue'
 import { Dish, Ingredient } from '@/types'
 import { ArrowCircleLeftIcon } from '@heroicons/vue/solid'
-import { Dish as DishClass } from '@/classes'
 
 export default defineComponent({
   components: {
@@ -124,10 +123,8 @@ export default defineComponent({
 </script>
 
 <style scoped>
-/* The sticky class is added to the navbar with JS when it reaches its scroll position */
 .sticky {
-  position: -webkit-sticky;
-  position: sticky;
+  position: fixed;
   top: 0;
 }
 .select {
