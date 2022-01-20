@@ -12,7 +12,7 @@
 
       <div class="flex flex-row mt-2">
         <div>
-          <textarea class="resize-none mt-1" style="height: 24px" v-model="comments" rows="1" :placeholder="$t('comments')" />
+          <textarea class="resize-none mt-1 w-60" style="height: 36px" v-model="comments" rows="1" :placeholder="$t('comments')" />
         </div>
         <div class="ml-auto"> 
           <button :disabled="!showBackButton" :class="{'rounded opacity-50 cursor-not-allowed': !showBackButton}" @click="goToPreviousOrder" class="rounded text-white bg-blue-500 p-1 px-2 ml-auto mx-1">Back</button>
@@ -63,7 +63,7 @@ export default defineComponent({
         store.state.currentOrder.comments = comments.value
         store.state.currentOrder.timeStamp = Date.now()
         store.state.currentOrder.orderState = OrderState.isApproved //TODO: switch back to unApproved after validation is added
-        store.state.currentOrder.tableNumber = currentSession.tableId
+        store.state.currentOrder.tableNumber = currentSession.tableNumber
         store.state.currentOrder.sessionId = VueCookieNext.getCookie('sessionId')
         props.placeOrder(store.state.currentOrder)
       }
