@@ -27,6 +27,7 @@ import { Order } from '../classes'
 import store from '@/store'
 import { computed } from 'vue'
 import router from '@/router'
+import { VueCookieNext } from 'vue-cookie-next'
 
 export default defineComponent({
   components: { 
@@ -63,6 +64,10 @@ export default defineComponent({
             const elementIndex = store.state.sessionOrders.findIndex(obj => obj.id == order.id)
             if (elementIndex == -1) store.state.sessionOrders.push(order)
             else Object.assign(store.state.sessionOrders[elementIndex], order)
+          })
+          client.subscribe('/user/topic/end-session', function () {
+            VueCookieNext.removeCookie('sessionId')
+            return router.push('/') 
           })
         }
       })

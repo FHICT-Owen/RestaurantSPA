@@ -3,7 +3,7 @@
     <div class="flex flex-col w-full max-w-3xl">
       <button 
         class="inline-block border border-yellow-500 rounded-xl m-2 py-1 px-3 bg-yellow-500 text-white no-underline" 
-        v-on:click="addTable">Add Table
+        @click="addTable">Add Table
       </button>
       <div 
         class="flex flex-col items-center p-2 rounded-2xl bg-white" 

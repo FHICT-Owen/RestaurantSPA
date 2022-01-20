@@ -1,4 +1,4 @@
-import { createStore, useStore as baseUseStore, Store, Commit } from 'vuex'
+import { createStore, useStore as baseUseStore, Store } from 'vuex'
 import categoryDataService from '@/services/CategoryDataService'
 import dishDataService from '@/services/DishDataService'
 import tableDataService from '@/services/TableDataService'
@@ -31,6 +31,7 @@ export interface State {
   currentSession: Session | null
 
   tables: Table[]
+  tableSessions: Session[]
 
   isDishDetailsOpen: boolean
   isDishDialogOpen: boolean
@@ -64,7 +65,8 @@ export default createStore<State>({
     
     restaurants: [],
     currentRestaurant: 1,
-    tables: [] as Table[],
+    tables: [],
+    tableSessions: [],
 
     ingredients: [],
     orders: [],
@@ -154,10 +156,20 @@ export default createStore<State>({
     },
     editTable: async (state, payload) => {
       tableDataService.editTable(payload)
-        .then(() => {
+        .then(async () => {
           const elementIndex = state.tables.findIndex(obj => obj.id == payload.id)
           Object.assign(state.tables[elementIndex], payload)
+          const tableSession = state.tableSessions.find(t => t.tableId == payload.id)
+          if (!!tableSession)
+            await NotificationDataService.endUserSession(tableSession.id)
         })
+    },
+    setTableInUse: async (state, payload) => {
+      SessionDataService.getSessionByCookie(payload).then(response => {
+        state.tableSessions.push(response)
+        const elementIndex = state.tables.findIndex(obj => obj.id == response.tableId)
+        state.tables[elementIndex].inUse = true
+      })
     },
     addRestaurant: async (state, payload) => {
       restaurantDataService.createRestaurant(payload)

@@ -54,7 +54,19 @@ export default defineComponent({
           console.log('connected as live-view')
           client.subscribe('/topic/live-view', message => { //TODO: add filter to confirm an order that can be made
             store.commit('addOrder', JSON.parse(message.body))
-            console.log(message.body)
+          })
+        }
+      })
+      client.activate()
+    }
+
+    function connectAsWaiter() {
+      client = new Client({
+        brokerURL: process.env.VUE_APP_WS_URL,
+        onConnect: () => {
+          console.log('connected as waiter')
+          client.subscribe('/topic/update-table-status', message => {
+            store.commit('setTableInUse', message.body)
           })
         }
       })
@@ -70,6 +82,8 @@ export default defineComponent({
       getToken()
       if (!!auth && auth.isAuthenticated.value && auth.user.value.roles.includes('RestaurantOwner')) //TODO: switch to KitchenStaff
         connectAsLiveView()
+      if (!!auth && auth.isAuthenticated.value && auth.user.value.roles.includes('Waiter'))
+        connectAsWaiter()
     })
     
     return { popUps, isConfirmDialogOpen }

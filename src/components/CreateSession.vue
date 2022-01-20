@@ -16,6 +16,7 @@ import { VueCookieNext } from 'vue-cookie-next'
 import TableDataService from '@/services/TableDataService'
 import { defineComponent, onMounted } from 'vue'
 import store from '@/store'
+import NotificationDataService from '@/services/NotificationDataService'
 
 export default defineComponent({
   setup() {
@@ -59,6 +60,7 @@ export default defineComponent({
                   .then(response => {
                     VueCookieNext.setCookie('sessionId', `${response.id}`)
                     store.commit('setCurrentSession', response)
+                    NotificationDataService.notifyWaiter(response.id)
                     router.push('session_page')
                   })
               })
