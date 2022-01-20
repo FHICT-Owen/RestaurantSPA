@@ -57,6 +57,7 @@ export default defineComponent({
           })
         }
       })
+      console.log(client.brokerURL)
       client.activate()
     }
 
@@ -70,6 +71,7 @@ export default defineComponent({
           })
         }
       })
+      console.log(client.brokerURL)
       client.activate()
     }
 
