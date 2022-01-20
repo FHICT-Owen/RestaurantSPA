@@ -26,6 +26,7 @@ import CustomerOrderDialog from '../components/dialogs/CustomerOrderDialog.vue'
 import { Order } from '../classes'
 import store from '@/store'
 import { computed } from 'vue'
+import router from '@/router'
 
 export default defineComponent({
   components: { 
@@ -46,6 +47,7 @@ export default defineComponent({
     }
 
     onMounted(() => {
+      if (!isInSession.value) router.push('/')
       lang.value = localStorage.getItem('lang') || 'en'
       store.commit('setSessionOrders')
       connect()

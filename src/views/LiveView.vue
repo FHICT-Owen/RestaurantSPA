@@ -25,7 +25,6 @@
 import { computed, defineComponent, onMounted } from 'vue'
 import OrderCard from '../components/cards/OrderCard.vue'
 import store from '@/store'
-import { Client } from '@stomp/stompjs'
 import { OrderState } from '@/types'
 
 export default defineComponent({
@@ -33,30 +32,12 @@ export default defineComponent({
     OrderCard
   },
   setup() {
-    var client: Client
     const orders = computed(() => store.state.orders)
     const ingredients = computed(() => store.state.ingredients)
     const tableNumberFilter = computed(() => store.state.tableNumberFilter)
     const orderStateFilter = computed(() => store.state.orderStateFilter)
     
-    onMounted(() => {
-      store.commit('setOrders')
-      connectAsLiveView()
-    })
-
-    function connectAsLiveView() {
-      client = new Client({
-        brokerURL: process.env.VUE_APP_WS_URL,
-        onConnect: () => {
-          console.log('connected as live-view')
-          client.subscribe('/topic/live-view', message => { //TODO: add filter to confirm an order that can be made
-            store.commit('addOrder', JSON.parse(message.body))
-            console.log(message.body)
-          })
-        }
-      })
-      client.activate()
-    }
+    onMounted(() => store.commit('setOrders'))
 
     const setStateAll = () => 
       store.commit('setOrderStateFilter', null)
