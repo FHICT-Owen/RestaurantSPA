@@ -8,7 +8,7 @@
       <button class="rounded py-1 px-3 mx-1 my-2 bg-blue-500 text-white" @click="setStateArchived">Archive</button>
     </div>
     <div class="overflow-x-scroll">
-      <div class="flex flex-wrap flex-col items-start" style="height: 60vh">
+      <div class="flex flex-wrap flex-col items-start" style="height: 85vh">
         <div v-for="(order, index) in orders.sort((a, b) => a.timeStamp - b.timeStamp)" :key="index">
           <OrderCard 
             class="mx-4"

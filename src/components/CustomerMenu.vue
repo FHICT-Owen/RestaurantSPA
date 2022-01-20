@@ -28,12 +28,16 @@
           </div>
         </div>
       </div>
-      <div class="capitalize mx-2">
-        <div v-for="category in categories" :key="category.id">
-          <div v-if="((!!categoryFilter) ? categoryFilter == category.name : true)">
-            <h2 class="text-3xl mt-5">{{lang == 'en' ? category.name : category.name_NL}}</h2>
-            <div v-for="(dish, index) in filteredDishes" :key="index">
-              <DishCard v-if="category.name == dish.category && checkIfDishCanBeMade(dish)" :dish="dish" />
+      <div class="capitalize max-w-3xl mx-auto mb-32">
+        <div 
+          class="p-2 rounded-2xl bg-white mt-5" 
+          style="box-shadow: inset 0px 0px 4px 1px rgba(0, 0, 0, 0.25);">
+          <div v-for="category in categories" :key="category.id">
+            <div v-if="((!!categoryFilter) ? categoryFilter == category.name : true)">
+              <h2 class="text-3xl mt-5">{{lang == 'en' ? category.name : category.name_NL}}</h2>
+              <div v-for="(dish, index) in filteredDishes" :key="index">
+                <DishCard v-if="category.name == dish.category && checkIfDishCanBeMade(dish)" :dish="dish" />
+              </div>
             </div>
           </div>
         </div>

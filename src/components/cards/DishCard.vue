@@ -3,12 +3,16 @@
     <div
       class="flex flex-row bg-white rounded-3xl h-24 mt-3 ring-1 ring-gray-200 cursor-pointer" @click="toggleDishDetails">
       <div
-        class="flex rounded-3xl m-1 bg-blend-normal bg-cover bg-no-repeat"
+        class="relative rounded-3xl m-1 bg-blend-normal bg-cover bg-no-repeat"
         :style="{ background: dish.image, minHeight: imgSize, minWidth: imgSize }">
-          <div v-if="countOccurrences() > 0"
-            class="z-10 px-9 py-7 rounded-3xl text-2xl bg-opacity-60 text-white align-self-center">
-            {{countOccurrences()}}
-          </div>
+        <div v-if="countOccurrences() > 0"
+          class="z-10 px-9 py-7 rounded-3xl text-2xl bg-opacity-60 text-white align-self-center">
+          {{countOccurrences()}}
+        </div>
+        <div 
+        class="absolute bottom-0 right-0 shadow-lg pr-2 pl-1 rounded-full text-green-500 capitalize italic bg-white text-sm">
+          €{{(dish.prize < 0 ? 0.00 : dish.prize).toFixed(2)}}
+        </div>
       </div>
       <div class="relative flex-1 m-1">
         <div class="absolute right-0 -top-4 shadow-lg py-1 px-4 rounded-full text-green-500 capitalize italic bg-white text-sm font-semibold">

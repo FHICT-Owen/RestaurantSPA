@@ -1,7 +1,7 @@
 <template>
   <div>
     <div
-      class="flex flex-col gap-1 p-3 rounded-2xl bg-white max-w-2xl m-auto"
+      class="flex flex-col gap-1 p-3 rounded-2xl bg-white max-w-2xl mt-5 m-auto"
       style="box-shadow: rgba(0, 0, 0, 0.25) 0px 0px 4px 1px inset"
     >
       <IngredientInstockCard
@@ -23,7 +23,7 @@ export default defineComponent({
     IngredientInstockCard,
   },
   setup() {
-    const ingredients = computed(() => store.state.ingredients);
+    const ingredients = computed(() => store.state.ingredients)
     return {
       ingredients,
     }
