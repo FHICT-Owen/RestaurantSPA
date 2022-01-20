@@ -15,10 +15,9 @@
         </div>
       </div>
       <div class="relative flex-1 m-1">
-        <div class="absolute right-0 -top-4 shadow-lg py-1 px-4 rounded-full text-green-500 capitalize italic bg-white text-sm font-semibold">
+        <!-- <div class="absolute right-0 -top-4 shadow-lg py-1 px-4 rounded-full text-green-500 capitalize italic bg-white text-sm font-semibold">
           Vegan
-          <!-- {{ log(dish) }} -->
-        </div>
+        </div> -->
         <h5 v-if="lang == 'en' " class="font-medium text-lg">{{ dish.name }}</h5>
         <h5 v-else-if="lang == 'nl' " class="font-medium text-lg">{{ dish.name_NL }}</h5>
         <p v-if="lang == 'en' " class="text-gray-400" style="font-size: 0.85rem; line-height: 1rem">

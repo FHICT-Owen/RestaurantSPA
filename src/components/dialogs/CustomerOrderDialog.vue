@@ -12,9 +12,9 @@
 
       <div class="flex flex-row mt-2">
         <div>
-          <textarea class="resize-none mt-1 w-60" style="height: 36px" v-model="comments" rows="1" :placeholder="$t('comments')" />
+          <textarea class="resize-none mt-1 w-48" style="height: 24px" v-model="comments" rows="1" :placeholder="$t('comments')" />
         </div>
-        <div class="ml-auto"> 
+        <div class="ml-auto place-self-end"> 
           <button :disabled="!showBackButton" :class="{'rounded opacity-50 cursor-not-allowed': !showBackButton}" @click="goToPreviousOrder" class="rounded text-white bg-blue-500 p-1 px-2 ml-auto mx-1">Back</button>
           <button :disabled="!showNextButton" :class="{'rounded opacity-50 cursor-not-allowed': !showNextButton}" @click="goToNextOrder"  class="rounded text-white bg-blue-500 p-1 px-2">Next</button>
         </div>
